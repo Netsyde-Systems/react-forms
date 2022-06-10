@@ -1,0 +1,17 @@
+.text.input {
+	padding: 0.5rem;
+	background-color: white;
+
+	input {
+		// box sizing is necessary to have the input respect the parent's padding 
+		box-sizing: border-box;
+		width:100%;
+
+		// make input behave like div and fill its parent
+		display: block;
+	}
+
+	.input-error {
+		color: red;
+	}
+}
