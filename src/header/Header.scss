@@ -1,0 +1,20 @@
+header {
+	padding: 10px;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	background-color: white;
+
+	img.header-logo {
+		margin: 0 50px;
+	}
+
+	.header-page-name {
+		font-size: 1.2em;
+	}
+
+	.header-app-name {
+		font-size: 2em;
+	}
+
+}

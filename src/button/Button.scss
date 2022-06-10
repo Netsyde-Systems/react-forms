@@ -1,0 +1,18 @@
+@use '../constants';
+
+button {
+	border: 1px;
+	border-radius: 5px;
+	padding: 0.5rem 2rem;
+	font-size: 1.2rem;
+	font-weight: bold;
+
+	&.primary {
+		background-color: constants.$primary-button-yellow;
+		color: constants.$primary-green-solid;
+	}
+
+	&.secondary {
+		background-color: constants.$secondary-button-white;
+	}
+}
