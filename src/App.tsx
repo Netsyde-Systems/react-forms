@@ -24,7 +24,7 @@ function App() {
 				This is a well, and here are its contents.  Add some more via the input below.
 				<p>{text}</p>
 			</Well>
-			<TextInput id='test-message' label='Test Input' value={text} onChange={setText} errorMessage={hasError ? 'There is an error!' : ''}  />
+			<TextInput id='test-input' label='A Test Input' value={text} onChange={setText} errorMessage={hasError ? 'There is an error!' : ''}  />
 		</div>
 	)
 }

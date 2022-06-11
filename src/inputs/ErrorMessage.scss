@@ -1,0 +1,12 @@
+@use '../constants';
+
+.error-message {
+	color: constants.$error-color;
+
+	// this specifies that the label should not collapse if there is only white space (prevents form jitter)
+	white-space: pre;
+
+	&.none {
+		visibility: hidden;
+	}
+}

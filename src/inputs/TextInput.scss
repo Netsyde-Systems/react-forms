@@ -1,3 +1,5 @@
+@use '../constants';
+
 .text.input {
 	padding: 0.5rem;
 	background-color: white;
@@ -6,12 +8,18 @@
 		// box sizing is necessary to have the input respect the parent's padding 
 		box-sizing: border-box;
 		width:100%;
+		margin: 0.5rem 0;
+		border-radius: 5px;
+		padding: 0.5rem;
 
 		// make input behave like div and fill its parent
 		display: block;
 	}
 
-	.input-error {
-		color: red;
+	&.has-errors {
+		input {
+			border-color: constants.$error-color;
+			background-color: constants.$error-background-color;
+		}
 	}
 }

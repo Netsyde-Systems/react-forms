@@ -1,4 +1,7 @@
 import React from 'react'
+import classNames from 'classnames'
+
+import './InputLabel.scss'
 
 interface InputLabelProps {
 	id: string
@@ -6,9 +9,13 @@ interface InputLabelProps {
 }
 
 export function InputLabel(props: InputLabelProps) {
-	if (!props.label) return null
-	else return (
-		<label htmlFor={props.id}>{props.label}</label>
+
+	// we add a 'none' class to indicate that there is no label (to allow css to hide the element)
+	const className = classNames('input-label', {none: !props.label})
+
+	// we render a space if there is no error so that the span doesn't collapse (prevents form jitter)
+	return (
+		<label className={className} htmlFor={props.id}>{props.label || ' '}</label>
 	)
 }
 
