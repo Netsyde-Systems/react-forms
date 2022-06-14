@@ -6,6 +6,7 @@ import Header from './header/Header'
 import { Button, ButtonProps } from './button/Button'
 import Well from './well/Well'
 import { TextInput } from './inputs/TextInput'
+import { TextArea } from './inputs/TextArea'
 
 function App() {
 
@@ -24,7 +25,10 @@ function App() {
 				This is a well, and here are its contents.  Add some more via the input below.
 				<p>{text}</p>
 			</Well>
-			<TextInput id='test-input' label='A Test Input' value={text} onChange={setText} errorMessage={hasError ? 'There is an error!' : ''}  />
+			<TextInput id='test-input' label='A Test Input' value={text} onChange={setText} errorMessage={hasError ? 'There is an error!' : ''} placeholder="Type your Input."  />
+			<TextArea  rows={ 20 } placeholder="Enter your descrption." id="description" label='Descrption' value={undefined} onChange={function (val: string): void {
+				throw new Error('Function not implemented.')
+			} } errorMessage={hasError ? 'There is an error!' : ''}/>
 		</div>
 	)
 }

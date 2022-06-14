@@ -5,22 +5,23 @@ import { InputProps } from './inputs'
 import { InputLabel} from './InputLabel'
 import { ErrorMessage } from './ErrorMessage'
 
-import './TextInput.scss'
+import './TextArea.scss'
 
-export interface TextInputProps extends InputProps<string> {
+export interface TextAreaProps extends InputProps<string> {
+	rows?: number
 	placeholder?: string
  }
 
-export function TextInput(props: TextInputProps) {
+export function TextArea(props: TextAreaProps) {
 	const handleChange: ChangeEventHandler<HTMLInputElement> = 
 		(e) => props.onChange(e.target.value)
 
-	const className = classNames('text', 'input', { 'has-errors': !!props.errorMessage })
+	const className = classNames('text', 'textarea', { 'has-errors': !!props.errorMessage })
 
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
-			<input id={props.id} value={props.value} onChange={handleChange} disabled={props.isDisabled} readOnly={props.isReadonly} placeholder={props.placeholder} />
+			<textarea id={props.id} value={props.value} disabled={props.isDisabled} readOnly={props.isReadonly} placeholder={props.placeholder} rows={props.rows} />
 			<ErrorMessage {...props} />
 		</div>
 	)
