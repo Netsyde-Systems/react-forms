@@ -11,6 +11,7 @@ export interface TextAreaProps extends InputProps<string> {
 	rows?: number
 	cols?: number
 	placeholder?: string
+	readOnly?: boolean
 }
 
 export function TextArea(props: TextAreaProps) {

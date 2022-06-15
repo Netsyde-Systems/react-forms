@@ -6,7 +6,6 @@ export interface InputProps<T> extends Activatable {
 	onChange: (val: T) => void
 	label?: string
 	errorMessage?: string
-	readOnly?: boolean
 }
 
 export interface SelectOption<T extends string | number> {

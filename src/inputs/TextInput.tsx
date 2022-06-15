@@ -9,6 +9,7 @@ import './Inputs.scss'
 
 export interface TextInputProps extends InputProps<string> {
 	placeholder?: string
+	readOnly?: boolean
  }
 
 export function TextInput(props: TextInputProps) {

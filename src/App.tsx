@@ -25,7 +25,7 @@ function App() {
 
 	const toggleButtonText = {
 		error: `${controlsHaveErrors ? 'Clear' : 'Set'} Errors`, 
-		readonly: `Make Controls ${controlsAreReadonly ? 'Editable' : 'Readonly'}`, 
+		readonly: `Make Text Controls ${controlsAreReadonly ? 'Editable' : 'Readonly'}`, 
 		disable: `${controlsAreDisabled ? 'Enable' : 'Disable'} Controls`, 
 		primary: `Primary ${controlsAreDisabled ? '(Disabled)' : '(Enabled)'}`
 	}

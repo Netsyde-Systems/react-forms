@@ -24,7 +24,7 @@ export function SelectNumber(props: SelectNumberProps) {
 
 	// Shorthand for common properties with same name, and not requiring processing.  
 	// enables more concise notation below
-	const { id, disabled, readOnly } = props
+	const { id, disabled } = props
 
 	const options = props.selectOptions.map((option, optionIndex) => {
 		return (
@@ -39,7 +39,7 @@ export function SelectNumber(props: SelectNumberProps) {
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
-			<select value={props.value ?? ''} onChange={handleChange} {...{ id, disabled, readOnly }} >
+			<select value={props.value ?? ''} onChange={handleChange} {...{ id, disabled }} >
 				{options}
 			</select>
 			<ErrorMessage {...props} />
