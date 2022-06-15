@@ -5,7 +5,7 @@ import { InputProps } from './inputs'
 import { InputLabel } from './InputLabel'
 import { ErrorMessage } from './ErrorMessage'
 
-import './Text.scss'
+import './Inputs.scss'
 
 export interface TextAreaProps extends InputProps<string> {
 	rows?: number
@@ -17,7 +17,7 @@ export function TextArea(props: TextAreaProps) {
 	const handleChange: ChangeEventHandler<HTMLTextAreaElement> =
 		(e) => props.onChange(e.target.value)
 
-	const className = classNames('text', 'textarea', { 'has-errors': !!props.errorMessage })
+	const className = classNames('text', 'area', { 'has-errors': !!props.errorMessage })
 
 	// Shorthand for common properties with same name, and not requiring processing.  
 	// enables more concise notation below

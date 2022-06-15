@@ -8,3 +8,8 @@ export interface InputProps<T> extends Activatable {
 	errorMessage?: string
 	readOnly?: boolean
 }
+
+export interface SelectOption<T extends string | number> {
+	value: T
+	text: string
+}

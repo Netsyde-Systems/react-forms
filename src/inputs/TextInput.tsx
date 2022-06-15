@@ -5,7 +5,7 @@ import { InputProps } from './inputs'
 import { InputLabel} from './InputLabel'
 import { ErrorMessage } from './ErrorMessage'
 
-import './Text.scss'
+import './Inputs.scss'
 
 export interface TextInputProps extends InputProps<string> {
 	placeholder?: string

@@ -1,12 +1,13 @@
 @use '../constants';
 
-.text {
+.text, .select {
 
 	&.input,
-	&.textarea {
+	&.area {
 
 		input,
-		textarea {
+		textarea,
+		select {
 			// box sizing is necessary to have the input respect the parent's padding 
 			box-sizing: border-box;
 			width: 100%;
@@ -27,7 +28,8 @@
 		&.has-errors {
 
 			input,
-			textarea {
+			textarea,
+			select {
 				border-color: constants.$error-color;
 				background-color: constants.$error-background-color;
 			}
