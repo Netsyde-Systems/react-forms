@@ -1,12 +1,10 @@
 header {
-	padding: 10px;
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	background-color: white;
 
 	img.header-logo {
-		margin: 0 50px;
+		margin: 0 50px 0 0;
 	}
 
 	.header-page-name {
@@ -16,5 +14,4 @@ header {
 	.header-app-name {
 		font-size: 2em;
 	}
-
 }
