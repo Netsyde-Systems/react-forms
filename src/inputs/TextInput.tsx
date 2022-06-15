@@ -5,7 +5,7 @@ import { InputProps } from './inputs'
 import { InputLabel} from './InputLabel'
 import { ErrorMessage } from './ErrorMessage'
 
-import './TextInput.scss'
+import './Text.scss'
 
 export interface TextInputProps extends InputProps<string> {
 	placeholder?: string
@@ -17,10 +17,14 @@ export function TextInput(props: TextInputProps) {
 
 	const className = classNames('text', 'input', { 'has-errors': !!props.errorMessage })
 
+	// Shorthand for common properties with same name, and not requiring processing.  
+	// enables more concise notation below
+	const { id, disabled, readOnly, placeholder } = props
+
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
-			<input id={props.id} value={props.value} onChange={handleChange} disabled={props.isDisabled} readOnly={props.isReadonly} placeholder={props.placeholder} />
+			<input value={props.value ?? ''} onChange={handleChange} {...{ id, disabled, readOnly, placeholder }} />
 			<ErrorMessage {...props} />
 		</div>
 	)

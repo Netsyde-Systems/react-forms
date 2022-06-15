@@ -1,34 +1,52 @@
 import React from 'react'
-import logo from './logo.svg'
 import './App.scss'
 
 import Header from './header/Header'
-import { Button, ButtonProps } from './button/Button'
+import { ButtonProps } from './button/Button'
 import Well from './well/Well'
 import { TextInput } from './inputs/TextInput'
 import { TextArea } from './inputs/TextArea'
 
 function App() {
 
-	const [text, setText] = React.useState('')
-	const [hasError, setError] = React.useState(false)
+	const [textInputValue, setTextInputValue] = React.useState('')
+	const [textAreaValue, setTextAreaValue] = React.useState('')
+
+	const [controlsHaveErrors, setControlErrors] = React.useState(false)
+	const [controlsAreDisabled, disableControls] = React.useState(false)
+	const [controlsAreReadonly, makeControlsReadonly] = React.useState(false)
+
+	const toggleButtonText = {
+		error: `${controlsHaveErrors ? 'Clear' : 'Set'} Errors`, 
+		readonly: `Make Controls ${controlsAreReadonly ? 'Editable' : 'Readonly'}`, 
+		disable: `${controlsAreDisabled ? 'Enable' : 'Disable'} Controls`, 
+		primary: `Primary ${controlsAreDisabled ? '(Disabled)' : '(Enabled)'}`
+	}
 
 	const buttonDefs: Array<ButtonProps> = [
-		{ type: 'secondary', text: `${hasError ? 'Clear' : 'Set'} Error `, onClick: () => setError(!hasError) }, 
-		{ type: 'primary', text: 'Go', onClick: () => alert('Go Button Pressed!') }, 
+		{ type: 'secondary', text: 'Clear Inputs', onClick: () => { setTextAreaValue(''); setTextInputValue(''); } }, 
+		{ type: 'secondary', text: toggleButtonText.error, onClick: () => setControlErrors(!controlsHaveErrors) }, 
+		{ type: 'secondary', text: toggleButtonText.readonly, onClick: () => makeControlsReadonly(!controlsAreReadonly) }, 
+		{ type: 'secondary', text: toggleButtonText.disable, onClick: () => disableControls(!controlsAreDisabled) }, 
+		{ type: 'primary', text: toggleButtonText.primary, onClick: () => alert('Primary Button Pressed!'), disabled: controlsAreDisabled }, 
 	]
+
+	const sharedProperties = {
+		errorMessage: controlsHaveErrors ? 'There is an Error of some sort' : undefined, 
+		readOnly: controlsAreReadonly, 
+		disabled: controlsAreDisabled
+	}
 
 	return (
 		<div className="app">
 			<Header pageName='Test Page' />
-			<Well title={"This is the Well's Title"} buttonDefs={buttonDefs} >
-				This is a well, and here are its contents.  Add some more via the input below.
-				<p>{text}</p>
+			<Well title={"Well Title"} buttonDefs={buttonDefs} >
+				<p>Well content</p>
+				<TextInput id='txtInput1' label='Text Input Label' value={textInputValue} onChange={setTextInputValue} placeholder="Text Input Placeholder" {...sharedProperties}  />
+				<TextArea id='txtArea1' label='Text Area Label' value={textAreaValue} onChange={setTextAreaValue} placeholder="Text Area Placeholder" rows={5} {...sharedProperties} />
+				<p>TextInputValue: {textInputValue}</p>
+				<p>TextAreaValue: <pre>{textAreaValue}</pre></p>
 			</Well>
-			<TextInput id='test-input' label='A Test Input' value={text} onChange={setText} errorMessage={hasError ? 'There is an error!' : ''} placeholder="Type your Input."  />
-			<TextArea  rows={ 20 } placeholder="Enter your descrption." id="description" label='Descrption' value={undefined} onChange={function (val: string): void {
-				throw new Error('Function not implemented.')
-			} } errorMessage={hasError ? 'There is an error!' : ''}/>
 		</div>
 	)
 }

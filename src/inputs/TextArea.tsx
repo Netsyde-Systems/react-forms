@@ -2,26 +2,31 @@ import React, { ChangeEventHandler } from 'react'
 import classNames from 'classnames'
 
 import { InputProps } from './inputs'
-import { InputLabel} from './InputLabel'
+import { InputLabel } from './InputLabel'
 import { ErrorMessage } from './ErrorMessage'
 
-import './TextArea.scss'
+import './Text.scss'
 
 export interface TextAreaProps extends InputProps<string> {
 	rows?: number
+	cols?: number
 	placeholder?: string
- }
+}
 
 export function TextArea(props: TextAreaProps) {
-	const handleChange: ChangeEventHandler<HTMLInputElement> = 
+	const handleChange: ChangeEventHandler<HTMLTextAreaElement> =
 		(e) => props.onChange(e.target.value)
 
 	const className = classNames('text', 'textarea', { 'has-errors': !!props.errorMessage })
 
+	// Shorthand for common properties with same name, and not requiring processing.  
+	// enables more concise notation below
+	const { id, disabled, readOnly, placeholder, rows, cols } = props
+
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
-			<textarea id={props.id} value={props.value} disabled={props.isDisabled} readOnly={props.isReadonly} placeholder={props.placeholder} rows={props.rows} />
+			<textarea value={props.value ?? ''} onChange={handleChange} {...{ id, disabled, readOnly, placeholder, rows, cols }} />
 			<ErrorMessage {...props} />
 		</div>
 	)

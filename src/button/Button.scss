@@ -2,8 +2,8 @@
 
 button {
 	border: 1px;
-	border-radius: 5px;
-	padding: 0.5rem 2rem;
+	border-radius: constants.$border-radius;
+	padding: 0.5rem 0.7rem;
 	font-size: 1.2rem;
 	font-weight: bold;
 
@@ -14,5 +14,9 @@ button {
 
 	&.secondary {
 		background-color: constants.$secondary-button-white;
+	}
+
+	&:disabled {
+		cursor:not-allowed;
 	}
 }
