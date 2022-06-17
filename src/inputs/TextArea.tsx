@@ -22,12 +22,12 @@ export function TextArea(props: TextAreaProps) {
 
 	// Shorthand for common properties with same name, and not requiring processing.  
 	// enables more concise notation below
-	const { id, disabled, readOnly, placeholder, rows, cols } = props
+	const { id, disabled, readOnly, required, placeholder, rows, cols } = props
 
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
-			<textarea value={props.value ?? ''} onChange={handleChange} {...{ id, disabled, readOnly, placeholder, rows, cols }} />
+			<textarea value={props.value ?? ''} onChange={handleChange} {...{ id, disabled, required, readOnly, placeholder, rows, cols }} />
 			<ErrorMessage {...props} />
 		</div>
 	)

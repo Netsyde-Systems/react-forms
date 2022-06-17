@@ -18,12 +18,14 @@ function ControlTests() {
 	const [controlsHaveErrors, setControlErrors] = React.useState(false)
 	const [controlsAreDisabled, disableControls] = React.useState(false)
 	const [controlsAreReadonly, makeControlsReadonly] = React.useState(false)
+	const [inputsAreRequired, makeInputsRequired] = React.useState(false)
 
 	const clearInputs = () => {setTextAreaValue(''); setTextInputValue(''); setSelectTextValue(null); setSelectNumberValue(null) }
 
 	const toggleButtonText = {
 		error: `${controlsHaveErrors ? 'Clear' : 'Set'} Errors`, 
 		readonly: `Make Text Controls ${controlsAreReadonly ? 'Editable' : 'Readonly'}`, 
+		required: `Make Inputs ${inputsAreRequired ? 'Optional' : 'Required'}`, 
 		disable: `${controlsAreDisabled ? 'Enable' : 'Disable'} Controls`, 
 		primary: `Primary ${controlsAreDisabled ? '(Disabled)' : '(Enabled)'}`
 	}
@@ -33,13 +35,15 @@ function ControlTests() {
 		{ type: 'secondary', text: toggleButtonText.error, onClick: () => setControlErrors(!controlsHaveErrors) }, 
 		{ type: 'secondary', text: toggleButtonText.readonly, onClick: () => makeControlsReadonly(!controlsAreReadonly) }, 
 		{ type: 'secondary', text: toggleButtonText.disable, onClick: () => disableControls(!controlsAreDisabled) }, 
+		{ type: 'secondary', text: toggleButtonText.required, onClick: () => makeInputsRequired(!inputsAreRequired) }, 
 		{ type: 'primary', text: toggleButtonText.primary, onClick: () => alert('Primary Button Pressed!'), disabled: controlsAreDisabled }, 
 	]
 
 	const sharedProperties = {
 		errorMessage: controlsHaveErrors ? 'There is an Error of some sort' : undefined, 
 		readOnly: controlsAreReadonly, 
-		disabled: controlsAreDisabled
+		disabled: controlsAreDisabled, 
+		required: inputsAreRequired
 	}
 
 	const textSelectOptions: Array<SelectOption<string>> = [
