@@ -6,6 +6,7 @@ export interface FieldDefinition<FormT, FieldT> {
 	id?: string
 	label?: string
 	onChange?: (field: FieldT, form: FormT) => FormT
+	isRequired?: (field: FieldT, form: FormT) => boolean
 	errorMessage?: (field: FieldT, form: FormT) => string
 	isDisabled?: (field: FieldT, form: FormT) => string
 	selectOptions?: (field: FieldT, form: FormT) => FieldT extends string | number ? Array<SelectOption<FieldT>> : never
@@ -18,9 +19,19 @@ export type FormDefinition<FormT> = {
 export type FormState<FormT> = {
 	[Property in keyof FormT]: {
 		value: FormT[Property]
-		isTouchedOrValidated: boolean
+		isTouched: boolean
 	}
+} & { isValidated: boolean }
+
+/*
+function createFormState<FormT>(formData: FormT): FormState<FormT> {
+	let formState: FormState<FormT> = (Object.keys(formData) as Array<keyof FormT>).reduce((formState, formProp) => {
+		formState[formProp] = {isTouched: false, value: formData[formProp]}
+		return formState
+	}, { isValidated: false } as FormState<FormT>)
+
 }
+*/
 
 export class FormBuilder<FormT> {
 	constructor(

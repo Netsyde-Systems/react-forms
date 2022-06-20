@@ -24,7 +24,7 @@ export function SelectText(props: SelectTextProps) {
 
 	// Shorthand for common properties with same name, and not requiring processing.  
 	// enables more concise notation below
-	const { id, disabled } = props
+	const { id, disabled, required } = props
 
 	const options = props.selectOptions.map((option, optionIndex) => {
 		return (
@@ -39,7 +39,7 @@ export function SelectText(props: SelectTextProps) {
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
-			<select value={props.value ?? ''} onChange={handleChange} {...{ id, disabled }} >
+			<select value={props.value ?? ''} onChange={handleChange} {...{ id, disabled, required }} >
 				{options}
 			</select>
 			<ErrorMessage {...props} />

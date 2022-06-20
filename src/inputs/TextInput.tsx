@@ -20,12 +20,12 @@ export function TextInput(props: TextInputProps) {
 
 	// Shorthand for common properties with same name, and not requiring processing.  
 	// enables more concise notation below
-	const { id, disabled, readOnly, placeholder } = props
+	const { id, disabled, required, readOnly, placeholder } = props
 
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
-			<input value={props.value ?? ''} onChange={handleChange} {...{ id, disabled, readOnly, placeholder }} />
+			<input value={props.value ?? ''} onChange={handleChange} {...{ id, disabled, required, readOnly, placeholder }} />
 			<ErrorMessage {...props} />
 		</div>
 	)
