@@ -7,14 +7,14 @@ import { ErrorMessage } from './ErrorMessage'
 
 import './Inputs.scss'
 
-export interface NumberInputProps extends InputProps<string> {
+export interface NumberInputProps extends InputProps<number> {
 	placeholder?: string
 	readOnly?: boolean
  }
 
 export function NumberInput(props: NumberInputProps) {
 	const handleChange: ChangeEventHandler<HTMLInputElement> = 
-		(e) => props.onChange(e.target.value)
+		(e) => props.onChange(e.target.value === '' ? null : Number(e.target.value))
 
 	const className = classNames('text', 'input', { 'has-errors': !!props.errorMessage })
 
@@ -33,7 +33,7 @@ export function NumberInput(props: NumberInputProps) {
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
-			<input value={props.value ?? ''} onChange={handleChange} {...{ id, disabled, readOnly, placeholder }} />
+			<input type='number' value={props.value ?? ''} onChange={handleChange} {...{ id, disabled, readOnly, placeholder }} />
 			<ErrorMessage {...props} />
 		</div>
 	)

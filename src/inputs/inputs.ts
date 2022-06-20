@@ -3,7 +3,7 @@ import { Activatable } from "../common"
 export interface InputProps<T> extends Activatable {
 	id: string
 	value: T | undefined | null
-	onChange: (val: T) => void
+	onChange: (val: T | null) => void
 	label?: string
 	errorMessage?: string
 

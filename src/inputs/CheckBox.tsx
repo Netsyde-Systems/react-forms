@@ -25,7 +25,7 @@ export function CheckBox(props: CheckBoxProps) {
     <div className={className}>
             <input type="checkbox" checked={!!props.value} onChange={handleChange} {...{ id, disabled }} />
             <ErrorMessage {...props} />
-            Check Me!
+            <InputLabel {...props} />
     </div>
   )
 }

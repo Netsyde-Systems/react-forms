@@ -13,12 +13,12 @@ import { NumberInput } from '../inputs/NumberInput'
 
 function ControlTests() {
 
-	const [textInputValue, setTextInputValue] = React.useState('')
-	const [textAreaValue, setTextAreaValue] = React.useState('')
+	const [textInputValue, setTextInputValue] = React.useState<string | null>(null)
+	const [textAreaValue, setTextAreaValue] = React.useState<string | null>(null)
 	const [selectTextValue, setSelectTextValue] = React.useState<string | null>(null)
 	const [selectNumberValue, setSelectNumberValue] = React.useState<number | null>(null)
-	const [checkboxValue, setcheckboxValue] = React.useState(false)
-	const [NumberInputValue, setNumberInputValue] = React.useState('')
+	const [checkboxValue, setcheckboxValue] = React.useState<boolean | null>(null)
+	const [NumberInputValue, setNumberInputValue] = React.useState<number | null>(null)
 
 	const [controlsHaveErrors, setControlErrors] = React.useState(false)
 	const [controlsAreDisabled, disableControls] = React.useState(false)
@@ -69,7 +69,7 @@ function ControlTests() {
 				<SelectNumber id='selNumInput' label='Select Number' value={selectNumberValue} onChange={setSelectNumberValue} placeholder="Select Number Placeholder" selectOptions={numberSelectOptions} {...sharedProperties} />
 				<TextArea id='txtArea1' label='Text Area' value={textAreaValue} onChange={setTextAreaValue} placeholder="Text Area Placeholder" rows={5} {...sharedProperties} />
 				<NumberInput id='txtInput1' label='Number Input' value={NumberInputValue} onChange={setNumberInputValue} placeholder="Type only Number here!" {...sharedProperties}  />
-				<CheckBox id='txtArea1' label='Text Area' value={checkboxValue} onChange={setcheckboxValue} {...sharedProperties} />
+				<CheckBox id='txtArea1' label='Check Here!' value={checkboxValue} onChange={setcheckboxValue} {...sharedProperties}  />
 				<p>TextInputValue: {textInputValue}</p>
 				<p>SelectTextValue: {selectTextValue}; Text value is of type: {typeof selectTextValue}; Text value is null? {selectTextValue === null && 'true' ? 'true' : 'false'}</p>
 				<p>SelectNumberValue: {selectNumberValue}; Number value is of type: {typeof selectNumberValue}; Number value is null? {selectNumberValue === null ? 'true' : 'false'}</p>
