@@ -10,6 +10,7 @@ import SelectNumber from '../inputs/SelectNumber'
 import { CheckBox } from '../inputs/CheckBox'
 import { NumberInput } from '../inputs/NumberInput'
 
+import './ControlTests.scss'
 
 function ControlTests() {
 
@@ -18,7 +19,7 @@ function ControlTests() {
 	const [selectTextValue, setSelectTextValue] = React.useState<string | null>(null)
 	const [selectNumberValue, setSelectNumberValue] = React.useState<number | null>(null)
 	const [checkboxValue, setcheckboxValue] = React.useState<boolean | null>(null)
-	const [NumberInputValue, setNumberInputValue] = React.useState<number | null>(null)
+	const [numberInputValue, setNumberInputValue] = React.useState<number | null>(null)
 
 	const [controlsHaveErrors, setControlErrors] = React.useState(false)
 	const [controlsAreDisabled, disableControls] = React.useState(false)
@@ -68,20 +69,74 @@ function ControlTests() {
 			<h1>Control Tests</h1>
 			<Well title={"Well Title"} buttonDefs={buttonDefs} >
 				<p>Well content</p>
-				<TextInput id='txtInput1' label='Text Input' value={textInputValue} onChange={setTextInputValue} placeholder="Text Input Placeholder" {...sharedProperties}  />
-				<SelectText id='selTextInput' label='Select Text' value={selectTextValue} onChange={setSelectTextValue} placeholder="Select Text Placeholder" selectOptions={textSelectOptions} {...sharedProperties} />
-				<SelectNumber id='selNumInput' label='Select Number' value={selectNumberValue} onChange={setSelectNumberValue} placeholder="Select Number Placeholder" selectOptions={numberSelectOptions} {...sharedProperties} />
-				<TextArea id='txtArea1' label='Text Area' value={textAreaValue} onChange={setTextAreaValue} placeholder="Text Area Placeholder" rows={5} {...sharedProperties} />
-				<NumberInput id='txtInput1' label='Number Input' value={NumberInputValue} onChange={setNumberInputValue} placeholder="Type only Number here!" {...sharedProperties}  />
-				<CheckBox id='txtArea1' label='Check Here!' value={checkboxValue} onChange={setcheckboxValue} {...sharedProperties}  />
-				<p>TextInputValue: {textInputValue}</p>
-				<p>SelectTextValue: {selectTextValue}; Text value is of type: {typeof selectTextValue}; Text value is null? {selectTextValue === null && 'true' ? 'true' : 'false'}</p>
-				<p>SelectNumberValue: {selectNumberValue}; Number value is of type: {typeof selectNumberValue}; Number value is null? {selectNumberValue === null ? 'true' : 'false'}</p>
-				<p>TextAreaValue: </p><pre>{textAreaValue}</pre>
-				<p>checkboxValue: </p><pre>{String(checkboxValue)}</pre>
+
+				<div className='control-grid'>
+
+					<div className='control-row'>
+						<div className='control-cell'>
+							<TextInput id='txtInput1' label='Text Input' value={textInputValue} onChange={setTextInputValue} placeholder="Text Input Placeholder" {...sharedProperties}  />
+						</div>
+						<div className='control-cell'>
+							{nullableValueMessage(textInputValue)}
+						</div>
+					</div>
+
+					<div className='control-row'>
+						<div className='control-cell'>
+							<NumberInput id='numInput1' label='Number Input' value={numberInputValue} onChange={setNumberInputValue} placeholder="Number Input Placeholder" {...sharedProperties}  />
+						</div>
+						<div className='control-cell'>
+							{nullableValueMessage(numberInputValue)}
+						</div>
+					</div>
+
+					<div className='control-row'>
+						<div className='control-cell'>
+							<SelectText id='selTextInput' label='Select Text' value={selectTextValue} onChange={setSelectTextValue} placeholder="Select Text Placeholder" selectOptions={textSelectOptions} {...sharedProperties} />
+						</div>
+						<div className='control-cell'>
+							{nullableValueMessage(selectTextValue)}
+						</div>
+					</div>
+
+					<div className='control-row'>
+						<div className='control-cell'>
+							<SelectNumber id='selNumInput' label='Select Number' value={selectNumberValue} onChange={setSelectNumberValue} placeholder="Select Number Placeholder" selectOptions={numberSelectOptions} {...sharedProperties} />
+						</div>
+						<div className='control-cell'>
+							{nullableValueMessage(selectNumberValue)}
+						</div>
+					</div>
+
+					<div className='control-row'>
+						<div className='control-cell'>
+							<CheckBox id='chkInput1' label='Checkbox Input' value={checkboxValue} onChange={setcheckboxValue} {...sharedProperties}  />
+						</div>
+						<div className='control-cell'>
+							{nullableValueMessage(checkboxValue)}
+						</div>
+					</div>
+
+					<div className='control-row'>
+						<div className='control-cell'>
+							<TextArea id='txtArea1' label='Text Area' value={textAreaValue} onChange={setTextAreaValue} placeholder="Text Area Placeholder" rows={5} {...sharedProperties} />
+						</div>
+						<div className='control-cell'>
+							{nullableValueMessage(textAreaValue)}
+						</div>
+					</div>
+				</div>
 			</Well>
 		</div>
 	)
+}
+
+function nullableValueMessage(val: any) {
+	let output = `Value: '${val}' is of type: '${typeof val}.' `
+
+	if (val === null) output += ' Value is null'
+
+	return output
 }
 
 export default ControlTests

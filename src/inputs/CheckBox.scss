@@ -1,6 +1,15 @@
-.check-box {
-    color: white;
-    float: left;
-    padding: 10px;
-    font-weight: bold;
+.checkbox.input {
+
+    input[type=checkbox] {
+
+        // undo block display from Inputs.scss
+        display: unset;
+
+        // add some margin so that the label isn't too close
+        margin-right: 0.5rem;
+
+        // we like our checkboxes a bit bigger
+        width: 1rem;
+        height: 1rem;
+    }
 }

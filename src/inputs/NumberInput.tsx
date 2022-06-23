@@ -22,14 +22,6 @@ export function NumberInput(props: NumberInputProps) {
 	// enables more concise notation below
 	const { id, disabled, readOnly, placeholder } = props
 
-    // const { value, setValue } = useState('');
-
-    // setValue(result);
-
-    // if (value !== '') {
-    //     const num = Number(value)
-    // }
-
 	return (
 		<div className={className}>
 			<InputLabel {...props} />

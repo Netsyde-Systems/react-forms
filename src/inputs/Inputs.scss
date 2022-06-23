@@ -1,6 +1,8 @@
 @use '../constants';
 
-.text, .select {
+.text,
+.select,
+.checkbox {
 
 	&.input,
 	&.area {
@@ -15,7 +17,6 @@
 			border-radius: constants.$border-radius;
 			padding: 0.5rem;
 			font-size: 1.2rem;
-
 
 			// make input behave like div and fill its parent
 			display: block;
