@@ -122,7 +122,9 @@ function ControlTests() {
 							<TextArea id='txtArea1' label='Text Area' value={textAreaValue} onChange={setTextAreaValue} placeholder="Text Area Placeholder" rows={5} {...sharedProperties} />
 						</div>
 						<div className='control-cell'>
-							{nullableValueMessage(textAreaValue)}
+							<pre>
+								{nullableValueMessage(textAreaValue)}
+							</pre>
 						</div>
 					</div>
 				</div>
