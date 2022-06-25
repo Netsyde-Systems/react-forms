@@ -1,11 +1,21 @@
 @use '../constants';
 
 button {
-	border: 1px;
+	border: constants.$input-border;
 	border-radius: constants.$border-radius;
 	padding: 0.5rem 0.7rem;
 	font-size: 1.2rem;
 	font-weight: bold;
+	cursor: pointer;
+
+	&:hover {
+		border: constants.$input-border-hover;
+	}
+
+	&:focus {
+		border: constants.$input-border-focus;
+		outline: none;
+	}
 
 	&.primary {
 		background-color: constants.$primary-button-yellow;
@@ -17,6 +27,7 @@ button {
 	}
 
 	&:disabled {
-		cursor:not-allowed;
+		cursor: not-allowed;
+		color: #00000055;
 	}
 }

@@ -2,7 +2,8 @@
 
 .text,
 .select,
-.checkbox {
+.checkbox, 
+.date {
 
 	&.input,
 	&.area {
@@ -17,9 +18,19 @@
 			border-radius: constants.$border-radius;
 			padding: 0.5rem;
 			font-size: 1.2rem;
+			border: constants.$input-border;
 
 			// make input behave like div and fill its parent
 			display: block;
+
+			&:hover {
+				border: constants.$input-border-hover;
+			}
+
+			&:focus {
+				border: constants.$input-border-focus;
+				outline:none;
+			}
 
 			&:disabled {
 				cursor: not-allowed;
