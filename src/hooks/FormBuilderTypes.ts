@@ -2,7 +2,7 @@ import { SelectOption } from '../inputs/inputs'
 
 // Field specifier functions take as arguments the form data, the field value and name, and returns a value
 export interface FieldSpecifierFunction<FormT, FieldT, OutputT> {
-	(formData: FormT, fieldValue: FieldT, fieldName: string ): OutputT
+	(formData: FormT, fieldValue: FieldT, fieldName: keyof FormT): OutputT
 }
 
 // Select Options Specifier can be static list of select options, or can depend on state of form
@@ -26,6 +26,9 @@ export interface FieldDefinition<FormT, FieldT> {
 
 	// select options can only be specified for fields that are strings or numbers
 	selectOptions?: FieldT extends string | number ? SelectOptionsSpecifier<FormT, FieldT> : never
+
+	// can specify that field should show errors as soon as a user begins typing
+	validateImmediately?: boolean
 }
 
 // A form definition maps the form's fields into their definitions
@@ -40,6 +43,7 @@ export type FormFieldState<FormT> = {
 	[key in keyof FormT]: {
 		value: FormT[key]
 		isTouched: boolean
+		errorMessage?: string
 	}
 } 
 
@@ -47,4 +51,5 @@ export type FormFieldState<FormT> = {
 // We separate it from FormFieldState because adding fields to the mapped FormFieldState makes later type logic tricky
 export interface FormState {
 	hasBeenValidated: boolean
+	isValid?: boolean
 }
