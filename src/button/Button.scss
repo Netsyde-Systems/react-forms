@@ -26,6 +26,10 @@ button {
 		background-color: constants.$secondary-button-white;
 	}
 
+	&.is-hidden {
+		visibility: hidden;
+	}
+
 	&:disabled {
 		cursor: not-allowed;
 		color: #00000055;

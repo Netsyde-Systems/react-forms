@@ -1,7 +1,7 @@
 import React, { ChangeEventHandler } from 'react'
-import classNames from 'classnames'
+// import classNames from 'classnames'
 
-import { InputProps, SelectOption } from './inputs'
+import { InputProps, SelectOption, getInputEnvelopeClass } from './inputs'
 import { InputLabel} from './InputLabel'
 import { ErrorMessage } from './ErrorMessage'
 
@@ -20,7 +20,8 @@ export function SelectText(props: SelectTextProps) {
 	const handleChange: ChangeEventHandler<HTMLSelectElement> = 
 		(e) => props.onChange(e.target.value === NULL_STRING_VALUE ? null : e.target.value)
 
-	const className = classNames('select', 'input', { 'has-errors': !!props.errorMessage })
+	// const className = classNames('select', 'input', { 'has-errors': !!props.errorMessage })
+	const className = getInputEnvelopeClass(props, 'select', 'input')
 
 	// Shorthand for common properties with same name, and not requiring processing.  
 	// enables more concise notation below

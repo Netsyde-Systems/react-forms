@@ -1,7 +1,6 @@
 import React, { ChangeEventHandler } from 'react'
-import classNames from 'classnames'
 
-import { InputProps } from './inputs'
+import { InputProps, getInputEnvelopeClass } from './inputs'
 import { InputLabel} from './InputLabel'
 import { ErrorMessage } from './ErrorMessage'
 
@@ -17,7 +16,8 @@ export function CheckBox(props: CheckBoxProps) {
 	// Shorthand for common properties with same name, and not requiring processing.  
 	// enables more concise notation below
 
-  const className = classNames('checkbox', 'input', { 'has-errors': !!props.errorMessage })
+  // const className = classNames('checkbox', 'input', { 'has-errors': !!props.errorMessage }, { 'is-hidden': props.isHidden })
+  const className = getInputEnvelopeClass(props, 'checkbox', 'input')
 
 	const { id, disabled } = props
 

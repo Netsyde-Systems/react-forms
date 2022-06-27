@@ -28,7 +28,7 @@ function ControlTests() {
 
 	const [controlsHaveErrors, setControlErrors] = React.useState(false)
 	const [controlsAreDisabled, disableControls] = React.useState(false)
-	const [controlsAreReadonly, makeControlsReadonly] = React.useState(false)
+	const [controlsAreHidden, hideControls] = React.useState(false)
 	const [inputsAreRequired, makeInputsRequired] = React.useState(false)
 
 	const clearInputs = () => { 
@@ -42,10 +42,10 @@ function ControlTests() {
 	}
 
 	const toggleButtonText = {
-		clear: `Clear Inpouts`, 
+		clear: `Clear Inputs`, 
 		locale: `Toggle Locale (${locale})`, 
 		error: `Toggle Errors`, 
-		readonly: `Toggle Readonly`, 
+		hidden: `Toggle Hidden`, 
 		required: `Toggle Required`, 
 		disable: `Toggle Disabled`, 
 	}
@@ -54,16 +54,16 @@ function ControlTests() {
 		{ type: 'secondary', text: toggleButtonText.clear, onClick: clearInputs }, 
 		{ type: 'secondary', text: toggleButtonText.locale, onClick: () => setLocale(locale == 'en-CA' ? 'fr-CA' : 'en-CA') }, 
 		{ type: 'secondary', text: toggleButtonText.error, onClick: () => setControlErrors(!controlsHaveErrors) }, 
-		{ type: 'secondary', text: toggleButtonText.readonly, onClick: () => makeControlsReadonly(!controlsAreReadonly) }, 
+		{ type: 'secondary', text: toggleButtonText.hidden, onClick: () => hideControls(!controlsAreHidden) }, 
 		{ type: 'secondary', text: toggleButtonText.disable, onClick: () => disableControls(!controlsAreDisabled) }, 
 		{ type: 'secondary', text: toggleButtonText.required, onClick: () => makeInputsRequired(!inputsAreRequired) }, 
 	]
 
 	const sharedProperties = {
 		errorMessage: controlsHaveErrors ? 'There is an Error of some sort' : undefined, 
-		readOnly: controlsAreReadonly, 
 		disabled: controlsAreDisabled, 
-		required: inputsAreRequired
+		required: inputsAreRequired, 
+		hidden: controlsAreHidden
 	}
 
 	const textSelectOptions: Array<SelectOption<string>> = [
@@ -154,10 +154,10 @@ function ControlTests() {
 
 					<div className='control-row'>
 						<div className='control-cell'>
-							<Button type='secondary' text='Secondary Button' onClick={() => alert('Secondary Button Clicked')} disabled={controlsAreDisabled} />
+							<Button type='secondary' text='Secondary Button' onClick={() => alert('Secondary Button Clicked')} disabled={controlsAreDisabled} hidden={controlsAreHidden} />
 						</div>
 						<div className='control-cell'>
-							<Button type='primary' text='Primary Button' onClick={() => alert('Primary Button Clicked')} disabled={controlsAreDisabled} />
+							<Button type='primary' text='Primary Button' onClick={() => alert('Primary Button Clicked')} disabled={controlsAreDisabled} hidden={controlsAreHidden} />
 						</div>
 					</div>
 				</div>

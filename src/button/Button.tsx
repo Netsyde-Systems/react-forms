@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 import { Activatable } from '../common'
 
 import './Button.scss'
@@ -9,13 +10,16 @@ export interface ButtonProps extends Activatable {
 	text: string
 	onClick: () => void
 	type?: ButtonType
+	hidden?: boolean
 }
 
 export function Button(props: ButtonProps) {
 	const buttonType = props.type ?? 'primary'
 
+	const className = classNames(buttonType, { 'is-hidden': props.hidden })
+
 	return (
-		<button className={buttonType} onClick={props.onClick} disabled={props.disabled}>{props.text}</button>
+		<button className={className} onClick={props.onClick} disabled={props.disabled}>{props.text}</button>
 	)
 }
 

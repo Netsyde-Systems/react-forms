@@ -23,6 +23,7 @@ export interface FieldDefinition<FormT, FieldT> {
 	onChange?: FieldSpecifierFunction<FormT, FieldT, FormT>
 	errorMessage?: FieldSpecifierFunction<FormT, FieldT, string>
 	isDisabled?: FieldSpecifierFunction<FormT, FieldT, boolean>
+	isHidden?: FieldSpecifierFunction<FormT, FieldT, boolean>
 
 	// select options can only be specified for fields that are strings or numbers
 	selectOptions?: FieldT extends string | number ? SelectOptionsSpecifier<FormT, FieldT> : never

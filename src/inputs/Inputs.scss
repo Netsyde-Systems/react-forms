@@ -8,6 +8,10 @@
 	&.input,
 	&.area {
 
+		&.is-hidden {
+			visibility: hidden;
+		}
+
 		input,
 		textarea,
 		select {
@@ -34,7 +38,7 @@
 
 			&:disabled {
 				cursor: not-allowed;
-				background-color: #007067;
+				background-color: lightgray; 
 				opacity: 1.0;
 			}
 		}

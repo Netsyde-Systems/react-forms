@@ -10,10 +10,10 @@
 	// display red asterisk for required inputs
 	// TODO: get better utf-8 asterisk
 	&.required:before {
-		content: '*';
+		content: '✷';
 		color: red;
 		margin-right: 0.2em;
-		font-size: 1.2em;
+		// font-size: 1.2em;
 		font-weight: bold;
 	}
 }
