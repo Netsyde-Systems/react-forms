@@ -31,7 +31,7 @@ function validateFormFieldState<FormT>(formDefinition: FormDefinition<FormT>, fo
 
 	iterateObject(formDefinition, (fieldName, fieldDefinition) => {
 		if (fieldDefinition?.errorMessage) {
-			let errorMessage = fieldDefinition.errorMessage(formData, formData[fieldName], fieldName)
+			let errorMessage = fieldDefinition.errorMessage(formData[fieldName], fieldName, formData)
 			formIsValid = formIsValid && !errorMessage
 
 			// we only update error message if we want to update the field immediately, or if the form has already been validated
