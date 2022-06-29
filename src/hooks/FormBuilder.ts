@@ -1,76 +1,50 @@
-import { iterateObject } from "../utilities"
-import { FormDefinition, FormFieldState, FormState } from "./FormBuilderTypes"
-
-// initFormFieldState takes form data and maps it to an untouched FormFieldState
-export function initFormFieldState<FormT>(formData: FormT): FormFieldState<FormT> {
-	let formFieldState: FormFieldState<FormT> = (Object.keys(formData) as Array<keyof FormT>).reduce((formFieldState, key) => {
-		formFieldState[key] = { isTouched: false, value: formData[key] } 
-
-		return formFieldState
-	}, {} as FormFieldState<FormT>)
-
-	return formFieldState
-}
-
-// getFormData essentially inverts the above:  pulls current form field values from the form field state and returns the form data object
-function getFormData<FormT>(formFieldState: FormFieldState<FormT>): FormT {
-	let formData: FormT = (Object.keys(formFieldState) as Array<keyof FormT>).reduce((formData, key) => {
-		formData[key] = formFieldState[key].value
-
-		return formData
-	}, {} as FormT)
-
-	return formData
-}
-
-function validateFormFieldState<FormT>(formDefinition: FormDefinition<FormT>, formState: FormState, formFieldState: FormFieldState<FormT>): [boolean, FormFieldState<FormT>] {
-	let newFormFieldState = Object.assign({}, formFieldState)
-	let formIsValid = true
-
-	let formData = getFormData(formFieldState)
-
-	iterateObject(formDefinition, (fieldName, fieldDefinition) => {
-		if (fieldDefinition?.errorMessage) {
-			let errorMessage = fieldDefinition.errorMessage(formData[fieldName], fieldName, formData)
-			formIsValid = formIsValid && !errorMessage
-
-			// we only update error message if we want to update the field immediately, or if the form has already been validated
-			if (fieldDefinition.validateImmediately || formState.hasBeenValidated) {
-				newFormFieldState[fieldName] = Object.assign({}, newFormFieldState[fieldName])
-				newFormFieldState[fieldName].errorMessage = errorMessage
-			}
-		}
-	})
-
-	return [formIsValid, newFormFieldState]
-}
+import { createTextInput } from "./FormBuilderInputs"
+import { FormDefinition, FormState, OnlyKeysOfType } from "./FormBuilderTypes"
 
 // The FormBuilder class links form data to actual form fields that we can render in react.
 export class FormBuilder<FormT> {
 
+	private _isValid: boolean | undefined 
+
 	constructor(
 		private formDefinition: FormDefinition<FormT>,
-		private formState: FormState,
-		public formFieldState: FormFieldState<FormT>,
-		private setFormState: React.Dispatch<React.SetStateAction<FormState>>, 
-		private setFormFieldState: React.Dispatch<React.SetStateAction<FormFieldState<FormT>>>, 
+		public formData: FormT,
+		private formState: FormState<FormT>,
+		private setFormData: React.Dispatch<React.SetStateAction<FormT>>, 
+		private setFormState: React.Dispatch<React.SetStateAction<FormState<FormT>>>, 
 	) {
+		this._isValid = undefined
 	}
 
-	get formData(): FormT {
-		return getFormData(this.formFieldState)
+	public textInput(fieldName: string & OnlyKeysOfType<FormT, string>) {
+
+		let newFormState = Object.assign({}, this.formState)
+		let newFormData = Object.assign({}, this.formData)
+
+		const handleChange = (formData: FormT) => {
+			newFormState.fieldsTouched[fieldName] = true
+			this.setFormData(formData)
+			this.setFormState(newFormState)
+		}
+
+		const [textInput, isValid] = createTextInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange)
+
+		// form is set to field validity if this is the first control rendered
+		if (this._isValid === undefined) this._isValid = isValid
+		// otherwise we or it with the validity of all other fields rendered to see if form as a whole is valid
+		else this._isValid = this._isValid && isValid
+
+		return textInput
 	}
 
-	get isValid(): boolean | undefined {
-		return this.formState.isValid
+	public validate() {
+		if (!this.formState.hasBeenValidated) {
+			let newFormState = Object.assign({}, this.formState)
+			newFormState.hasBeenValidated = true
+		}
 	}
 
-	validate(): boolean {
-		const [isValid, newFormFieldState] = validateFormFieldState(this.formDefinition, this.formState, this.formFieldState)
-		this.setFormState({hasBeenValidated: true, isValid})
-		this.setFormFieldState(newFormFieldState)
-		return isValid
-	}
+	public get isValid() { return this._isValid }
 }
 
 export default FormBuilder

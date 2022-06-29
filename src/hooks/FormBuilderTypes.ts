@@ -60,19 +60,17 @@ export type FormDefinition<FormT> = {
 	[Property in keyof FormT]?: FieldDefinition<FormT, FormT[Property]>
 }
 
-// FormFieldState is used by the form builder to determine the current state of the form's fields
-// it maps each form field to it's value and a flag to determine if the user has interacted with it yet
-export type FormFieldState<FormT> = {
-	[key in keyof FormT]: {
-		value: FormT[key]
-		isTouched: boolean
-		errorMessage?: string
-	}
+export type FormFieldTouchState<FormT> = {
+	[key in keyof FormT]?: boolean
 } 
 
 // FormState is used by the form builder to determine state of the form overall
 // We separate it from FormFieldState because adding fields to the mapped FormFieldState makes later type logic tricky
-export interface FormState {
+export interface FormState<FormT> {
+	fieldsTouched: FormFieldTouchState<FormT>
 	hasBeenValidated: boolean
-	isValid?: boolean
+}
+
+export function initFormState<FormT>(formData: FormT): FormState<FormT> {
+	return {hasBeenValidated: false, fieldsTouched: {}}
 }
