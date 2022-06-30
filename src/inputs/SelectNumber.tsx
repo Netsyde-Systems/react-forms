@@ -1,9 +1,7 @@
-import React, { ChangeEventHandler } from 'react'
-// import classNames from 'classnames'
+import React from 'react'
 
-import { getInputEnvelopeClass, InputProps, SelectOption } from './inputs'
-import { InputLabel} from './InputLabel'
-import { ErrorMessage } from './ErrorMessage'
+import { InputProps, SelectOption } from './inputs'
+import SelectText, { SelectTextProps } from './SelectText'
 
 import './Inputs.scss'
 
@@ -13,39 +11,21 @@ export interface SelectNumberProps extends InputProps<number | null> {
  }
 
 export function SelectNumber(props: SelectNumberProps) {
-	const handleChange: ChangeEventHandler<HTMLSelectElement> = 
-		(e) => {
-			const numVal = Number(e.target.value)
-			if (isNaN(numVal)) props.onChange(null)
-			else props.onChange(numVal)
-		}
+	let { id, value, onChange, label, errorMessage, required, hidden, placeholder, selectOptions } = props
 
-	// const className = classNames('select', 'input', { 'has-errors': !!props.errorMessage })
-	const className = getInputEnvelopeClass(props, 'select', 'input')
+	let textValue: string | undefined = value?.toString()
+	let textOnChange = (textValue: string | null) => {
+			const numVal = Number(textValue)
+			if (textValue === null || isNaN(numVal)) props.onChange(null)
+			else onChange(numVal)
+	}
+	let textSelectOptions: Array<SelectOption<string>> = selectOptions.map(({ text, value }) => { return { text, value: value.toString() } })
 
-	// Shorthand for common properties with same name, and not requiring processing.  
-	// enables more concise notation below
-	const { id, disabled, required } = props
-
-	const options = props.selectOptions.map((option, optionIndex) => {
-		return (
-			<option key={optionIndex} value={option.value}>{option.text}</option>
-		)
-	})
-
-	if (props.placeholder) {
-		options.unshift(<option key=''>{props.placeholder}</option>)
+	let textProps: SelectTextProps = {
+		id, value: textValue, onChange: textOnChange, label, errorMessage, required, hidden, placeholder, selectOptions: textSelectOptions
 	}
 
-	return (
-		<div className={className}>
-			<InputLabel {...props} />
-			<select value={props.value ?? ''} onChange={handleChange} {...{ id, disabled, required }} >
-				{options}
-			</select>
-			<ErrorMessage {...props} />
-		</div>
-	)
+	return <SelectText {...textProps} />
 }
 
 export default SelectNumber

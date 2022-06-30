@@ -1,5 +1,4 @@
 import React, { ChangeEventHandler } from 'react'
-// import classNames from 'classnames'
 
 import { InputProps, getInputEnvelopeClass } from './inputs'
 import { InputLabel } from './InputLabel'
@@ -17,7 +16,6 @@ export function TextArea(props: TextAreaProps) {
 	const handleChange: ChangeEventHandler<HTMLTextAreaElement> =
 		(e) => props.onChange(e.target.value)
 
-	// const className = classNames('text', 'area', { 'has-errors': !!props.errorMessage })
 	const className = getInputEnvelopeClass(props, 'text', 'area')
 
 	// Shorthand for common properties with same name, and not requiring processing.  

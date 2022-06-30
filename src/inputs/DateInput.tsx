@@ -1,5 +1,4 @@
 import React, { ChangeEventHandler } from 'react'
-// import classNames from 'classnames'
 
 import { InputProps, getInputEnvelopeClass } from './inputs'
 import { InputLabel} from './InputLabel'
@@ -19,7 +18,6 @@ export function DateInput(props: DateInputProps) {
 		props.onChange(e.target.valueAsDate)
 	} 
 
-	// const className = classNames('date', 'input', { 'has-errors': !!props.errorMessage })
 	const className = getInputEnvelopeClass(props, 'date', 'input')
 
 	// Shorthand for common properties with same name, and not requiring processing.  
