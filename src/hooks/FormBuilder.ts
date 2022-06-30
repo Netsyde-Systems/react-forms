@@ -1,4 +1,4 @@
-import { createTextInput } from "./FormBuilderInputs"
+import { createNumberInput, createTextInput } from "./FormBuilderInputs"
 import { FormDefinition, FormState, OnlyKeysOfType } from "./FormBuilderTypes"
 
 // The FormBuilder class links form data to actual form fields that we can render in react.
@@ -27,15 +27,37 @@ export class FormBuilder<FormT> {
 			this.setFormState(newFormState)
 		}
 
-		const [textInput, isValid] = createTextInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange)
+		const [inputControl, isValid] = createTextInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange)
 
 		// form is set to field validity if this is the first control rendered
 		if (this._isValid === undefined) this._isValid = isValid
 		// otherwise we or it with the validity of all other fields rendered to see if form as a whole is valid
 		else this._isValid = this._isValid && isValid
 
-		return textInput
+		return inputControl
 	}
+
+	public numberInput(fieldName: string & OnlyKeysOfType<FormT, number>) {
+
+		let newFormState = Object.assign({}, this.formState)
+		let newFormData = Object.assign({}, this.formData)
+
+		const handleChange = (formData: FormT) => {
+			newFormState.fieldsTouched[fieldName] = true
+			this.setFormData(formData)
+			this.setFormState(newFormState)
+		}
+
+		const [inputControl, isValid] = createNumberInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange)
+
+		// form is set to field validity if this is the first control rendered
+		if (this._isValid === undefined) this._isValid = isValid
+		// otherwise we or it with the validity of all other fields rendered to see if form as a whole is valid
+		else this._isValid = this._isValid && isValid
+
+		return inputControl
+	}
+
 
 	public validate() {
 		if (!this.formState.hasBeenValidated) {
