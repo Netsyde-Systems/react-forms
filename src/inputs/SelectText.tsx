@@ -31,9 +31,7 @@ export function SelectText(props: SelectTextProps) {
 		)
 	})
 
-	if (props.placeholder) {
-		options.unshift(<option key='' value={NULL_STRING_VALUE}>{props.placeholder}</option>)
-	}
+	options.unshift(<option key='' value={NULL_STRING_VALUE}>{props.placeholder || ''}</option>)
 
 	return (
 		<div className={className}>
