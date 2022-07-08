@@ -13,7 +13,7 @@ export function Header(props: HeaderProps) {
         	<img src={logo} className="header-logo" alt="OSIA Logo" />
 			<div className='header-banner'>
 				<div className='header-page-name'>{props.pageName ?? ''}</div>
-				<div className='header-app-name'>A Simple, Small, Strongly Typed Forms Library</div>
+				<div className='header-app-name'>A Small, Simple, Strongly Typed Forms Library</div>
 			</div>
 		</header>
 	)
