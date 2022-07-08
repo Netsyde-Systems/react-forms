@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.2c829faf.css",
+    "main.js": "/static/js/main.65c6d976.js",
+    "static/js/787.191280d9.chunk.js": "/static/js/787.191280d9.chunk.js",
+    "static/media/logo-oscia.svg": "/static/media/logo-oscia.38d7df18ea7c0f4039dd0517a6fe1d6a.svg",
+    "index.html": "/index.html",
+    "main.2c829faf.css.map": "/static/css/main.2c829faf.css.map",
+    "main.65c6d976.js.map": "/static/js/main.65c6d976.js.map",
+    "787.191280d9.chunk.js.map": "/static/js/787.191280d9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2c829faf.css",
+    "static/js/main.65c6d976.js"
+  ]
+}
