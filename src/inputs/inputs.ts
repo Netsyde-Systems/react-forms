@@ -18,5 +18,5 @@ export interface SelectOption<T extends string | number> {
 }
 
 export function getInputEnvelopeClass(props: InputProps<any>, ...args: Array<string>) {
-	return classNames(...args, { 'has-errors': !!props.errorMessage }, { 'is-hidden': props.hidden })
+	return classNames(...args, { 'has-errors': !!props.errorMessage }, { 'hidden': props.hidden })
 }

@@ -16,7 +16,7 @@ export interface ButtonProps extends Activatable {
 export function Button(props: ButtonProps) {
 	const buttonType = props.type ?? 'primary'
 
-	const className = classNames(buttonType, { 'is-hidden': props.hidden })
+	const className = classNames(buttonType, { 'hidden': props.hidden })
 
 	return (
 		<button className={className} onClick={props.onClick} disabled={props.disabled}>{props.text}</button>
