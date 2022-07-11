@@ -29,7 +29,7 @@
     "react-dom": "^18.1.0",
     "sass": "^1.52.3"
   },
-  "exports": [],
+  "main": "indexExports",
   "eslintConfig": {
     "extends": [
       "react-app",
