@@ -6,7 +6,7 @@ import { ErrorMessage } from './ErrorMessage'
 
 import './Inputs.scss'
 
-export interface SelectTextProps extends InputProps<string | null> {
+export interface TextSelectProps extends InputProps<string | null> {
 	placeholder?: string
 	selectOptions: Array<SelectOption<string>>
  }
@@ -15,7 +15,7 @@ export interface SelectTextProps extends InputProps<string | null> {
  // bit of a hack fix to allow returning null value.
 const NULL_STRING_VALUE = Number.MIN_SAFE_INTEGER.toString()
 
-export function SelectText(props: SelectTextProps) {
+export function TextSelect(props: TextSelectProps) {
 	const handleChange: ChangeEventHandler<HTMLSelectElement> = 
 		(e) => props.onChange(e.target.value === NULL_STRING_VALUE ? null : e.target.value)
 
@@ -44,4 +44,4 @@ export function SelectText(props: SelectTextProps) {
 	)
 }
 
-export default SelectText
+export default TextSelect

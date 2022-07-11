@@ -7,8 +7,8 @@ import { Well } from '../well/Well'
 import { TextInput } from '../inputs/TextInput'
 import { TextArea } from '../inputs/TextArea'
 import { SelectOption } from '../inputs/inputs'
-import { SelectText } from '../inputs/SelectText'
-import { SelectNumber } from '../inputs/SelectNumber'
+import { TextSelect } from '../inputs/TextSelect'
+import { NumberSelect } from '../inputs/NumberSelect'
 import { CheckBox } from '../inputs/CheckBox'
 import { NumberInput } from '../inputs/NumberInput'
 import { DateInput } from '../inputs/DateInput'
@@ -106,7 +106,7 @@ function ControlTests() {
 
 					<div className='control-row'>
 						<div className='control-cell'>
-							<DateInput id='datInput' label='Date Input' value={dateInputValue} onChange={setDateInputValue} locale={locale} {...sharedProperties}  />
+							<DateInput id='datInput' label='Date Input' value={dateInputValue} onChange={setDateInputValue} {...sharedProperties}  />
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(dateInputValue)}<br/>
@@ -116,7 +116,7 @@ function ControlTests() {
 
 					<div className='control-row'>
 						<div className='control-cell'>
-							<SelectText id='selTextInput' label='Select Text' value={selectTextValue} onChange={setSelectTextValue} placeholder="Select Text Placeholder" selectOptions={textSelectOptions} {...sharedProperties} />
+							<TextSelect id='selTextInput' label='Select Text' value={selectTextValue} onChange={setSelectTextValue} placeholder="Select Text Placeholder" selectOptions={textSelectOptions} {...sharedProperties} />
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(selectTextValue)}
@@ -125,7 +125,7 @@ function ControlTests() {
 
 					<div className='control-row'>
 						<div className='control-cell'>
-							<SelectNumber id='selNumInput' label='Select Number' value={selectNumberValue} onChange={setSelectNumberValue} placeholder="Select Number Placeholder" selectOptions={numberSelectOptions} {...sharedProperties} />
+							<NumberSelect id='selNumInput' label='Select Number' value={selectNumberValue} onChange={setSelectNumberValue} placeholder="Select Number Placeholder" selectOptions={numberSelectOptions} {...sharedProperties} />
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(selectNumberValue)}

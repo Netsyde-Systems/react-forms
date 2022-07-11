@@ -7,8 +7,8 @@ import { TextInput } from '../inputs/TextInput'
 import { NumberInput } from '../inputs/NumberInput'
 import { InputProps } from '../inputs/inputs'
 import { DateInput } from '../inputs/DateInput'
-import { SelectNumber } from '../inputs/SelectNumber'
-import { SelectText } from '../inputs/SelectText'
+import { NumberSelect } from '../inputs/NumberSelect'
+import { TextSelect } from '../inputs/TextSelect'
 import { CheckBox } from '../inputs/CheckBox'
 
 export function createTextInput<FormT extends { [key: string]: any }>(
@@ -72,7 +72,7 @@ export function createSelectTextInput<FormT extends { [key: string]: any }>(
 	const selectOptions = getSelectOptions<FormT, string>(formDefinition, formData, fieldName)
 
 	return [
-		<SelectText {...props} selectOptions={selectOptions} />, 
+		<TextSelect {...props} selectOptions={selectOptions} />, 
 		isValid
 	]
 }
@@ -90,7 +90,7 @@ export function createSelectNumberInput<FormT extends { [key: string]: any }>(
 	const selectOptions = getSelectOptions<FormT, number>(formDefinition, formData, fieldName)
 
 	return [
-		<SelectNumber {...props} selectOptions={selectOptions} />, 
+		<NumberSelect {...props} selectOptions={selectOptions} />, 
 		isValid
 	]
 }

@@ -1,16 +1,16 @@
 import React from 'react'
 
 import { InputProps, SelectOption } from './inputs'
-import SelectText, { SelectTextProps } from './SelectText'
+import TextSelect, { TextSelectProps } from './TextSelect'
 
 import './Inputs.scss'
 
-export interface SelectNumberProps extends InputProps<number | null> {
+export interface NumberSelectProps extends InputProps<number | null> {
 	placeholder?: string
 	selectOptions: Array<SelectOption<number>>
  }
 
-export function SelectNumber(props: SelectNumberProps) {
+export function NumberSelect(props: NumberSelectProps) {
 	let { id, value, onChange, label, errorMessage, required, hidden, placeholder, selectOptions, disabled } = props
 
 	let textValue: string | undefined = value?.toString()
@@ -21,11 +21,11 @@ export function SelectNumber(props: SelectNumberProps) {
 	}
 	let textSelectOptions: Array<SelectOption<string>> = selectOptions.map(({ text, value }) => { return { text, value: value.toString() } })
 
-	let textProps: SelectTextProps = {
+	let textProps: TextSelectProps = {
 		id, value: textValue, onChange: textOnChange, label, errorMessage, required, hidden, placeholder, selectOptions: textSelectOptions, disabled
 	}
 
-	return <SelectText {...textProps} />
+	return <TextSelect {...textProps} />
 }
 
-export default SelectNumber
+export default NumberSelect

@@ -10,7 +10,7 @@ export interface HeaderProps {
 export function Header(props: HeaderProps) {
 	return (
 		<header>
-        	<img src={logo} className="header-logo" alt="OSIA Logo" />
+        	<img src={logo} className="header-logo" alt="React Forms Logo" />
 			<div className='header-banner'>
 				<div className='header-page-name'>{props.pageName ?? ''}</div>
 				<div className='header-app-name'>A Small, Simple, Strongly Typed Forms Library</div>

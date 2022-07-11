@@ -5,20 +5,10 @@ type ExcludeKeysWithTypeOf<T, V> = {
   [K in keyof T]: Exclude<T[K], undefined> extends V ? never : K 
 }[keyof T]
 
-type Without<T, V> = Pick<T, ExcludeKeysWithTypeOf<T, V>>;
-
 // inspired by the above
 export type OnlyKeysOfType<T, V> = {
   [K in keyof T]: Exclude<T[K], undefined> extends V ? K : never
 }[keyof T]
-
-interface MixedType {
-	aString1: string
-	aNumber: number
-	aString2: string
-}
-
-type StringKeys = OnlyKeysOfType<MixedType, string>
 
 // Field specifier functions take as arguments the form data, the field value and name, and returns a value
 export interface FieldSpecifierFunction<FormT, OutputT> {

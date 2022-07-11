@@ -7,9 +7,8 @@ import { ErrorMessage } from './ErrorMessage'
 import './Inputs.scss'
 
 import { toIsoGmtDateString } from '../utilities'
-import { Localizable } from '../common'
 
-export interface DateInputProps extends InputProps<Date>, Localizable { }
+export interface DateInputProps extends InputProps<Date> { }
 
 export function DateInput(props: DateInputProps) {
 	const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -27,7 +26,7 @@ export function DateInput(props: DateInputProps) {
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
-			<input type='date' lang={props.locale} value={toIsoGmtDateString(props.value)} onChange={handleChange} {...{ id, disabled }} />
+			<input type='date' value={toIsoGmtDateString(props.value)} onChange={handleChange} {...{ id, disabled }} />
 			<ErrorMessage {...props} />
 		</div>
 	)
