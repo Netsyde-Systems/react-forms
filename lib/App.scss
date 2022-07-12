@@ -1,0 +1,25 @@
+@use './constants';
+
+.app {
+	margin: 0.5rem 2rem;
+
+	nav {
+		margin: 2rem 0;
+		a {
+			margin: .2rem;
+			padding: .5rem .8rem;
+			text-decoration: none;
+			border-radius: .2rem .2rem 0 0;
+			border: 1px solid;
+			border-bottom: none;
+
+			&.active {
+				background-color: constants.$primary-green-solid;
+				color: white;
+			}
+
+		}
+
+	}
+
+}

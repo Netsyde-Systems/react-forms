@@ -1,0 +1,19 @@
+.input-label {
+	// this specifies that the label should not collapse if there is only white space (prevents form jitter)
+	white-space: pre;
+	font-weight: bold;
+
+	&.hidden {
+		visibility: hidden;
+	}
+
+	// display red asterisk for required inputs
+	// TODO: get better utf-8 asterisk
+	&.required:before {
+		content: '✷';
+		color: red;
+		margin-right: 0.2em;
+		// font-size: 1.2em;
+		font-weight: bold;
+	}
+}

@@ -1,0 +1,29 @@
+@use '../constants';
+
+.well {
+	margin: 1rem auto;
+	width: 80%;
+	max-width: 70rem;
+	padding: 1rem;
+	border: solid 1px constants.$text-color;
+	border-radius: constants.$border-radius;
+
+	color: white;
+	background-color: constants.$primary-green-clear;
+
+	.well-header {
+		font-size: 1.5rem;
+		margin-bottom: 1rem;
+		font-weight: bold;
+	}
+
+	.well-contents {
+
+	}
+
+	.well-buttons {
+		margin-top: 1rem;
+		display: flex;
+		justify-content: space-evenly;
+	}
+}

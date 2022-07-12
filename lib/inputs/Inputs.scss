@@ -1,0 +1,56 @@
+@use '../constants';
+
+.text,
+.select,
+.checkbox, 
+.date {
+
+	&.input,
+	&.area {
+
+		&.hidden {
+			visibility: hidden;
+		}
+
+		input,
+		textarea,
+		select {
+			// box sizing is necessary to have the input respect the parent's padding 
+			box-sizing: border-box;
+			width: 100%;
+			margin: 0.5rem 0;
+			border-radius: constants.$border-radius;
+			padding: 0.5rem;
+			font-size: 1.2rem;
+			border: constants.$input-border;
+
+			// make input behave like div and fill its parent
+			display: block;
+
+			&:hover {
+				border: constants.$input-border-hover;
+			}
+
+			&:focus {
+				border: constants.$input-border-focus;
+				outline:none;
+			}
+
+			&:disabled {
+				cursor: not-allowed;
+				background-color: lightgray; 
+				opacity: 1.0;
+			}
+		}
+
+		&.has-errors {
+
+			input,
+			textarea,
+			select {
+				border-color: constants.$error-color;
+				background-color: constants.$error-background-color;
+			}
+		}
+	}
+}

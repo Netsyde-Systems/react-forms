@@ -1,0 +1,17 @@
+header {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+
+	img.header-logo {
+		margin: 0 50px 0 0;
+	}
+
+	.header-page-name {
+		font-size: 1.2em;
+	}
+
+	.header-app-name {
+		font-size: 2em;
+	}
+}
