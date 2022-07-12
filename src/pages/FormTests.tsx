@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormDefinition } from '../hooks/FormBuilderTypes'
-import useFormBuilder from '../hooks/useFormBuilder'
+import useReactForms from '../hooks/useReactForms'
 
 import './FormTests.scss'
 
@@ -40,7 +40,9 @@ let getTypeMap = (obj: any) => {
 }
 
 export function FormTests() {
-	const formBuilder = useFormBuilder(testFormDefinition, testFormData)
+	const rf = useReactForms(testFormDefinition, testFormData)
+
+	const TextInput  = rf.TextInput
 
 	return (
 		<div className='form-tests page'>
@@ -50,25 +52,39 @@ export function FormTests() {
 
 				<div className='control-row'>
 					<div className='control-cell'>
-						{formBuilder.textInput('stringProperty')}
+						{rf.textInput('stringProperty')}
 					</div>
 					<div className='control-cell'>
-						{formBuilder.numberInput('numberProperty')}
+						{rf.numberInput('numberProperty')}
 					</div>
 					<div className='control-cell'>
-						{formBuilder.dateInput('dateProperty')}
+						{rf.dateInput('dateProperty')}
 					</div>
 				</div>
 
 				<div className='control-row'>
 					<div className='control-cell'>
-						{formBuilder.selectTextInput('selectStringProperty')}
+						{rf.textSelect('selectStringProperty')}
 					</div>
 					<div className='control-cell'>
-						{formBuilder.selectNumberInput('selectNumberProperty')}
+						{rf.numberSelect('selectNumberProperty')}
 					</div>
 					<div className='control-cell'>
-						{formBuilder.checkboxInput('checkboxProperty')}
+						{rf.checkbox('checkboxProperty')}
+					</div>
+				</div>
+
+				<h2>JSX Tests</h2>
+
+				<div className='control-row'>
+					<div className='control-cell'>
+						<rf.TextInput field='stringProperty' />
+					</div>
+					<div className='control-cell'>
+						{rf.numberInput('numberProperty')}
+					</div>
+					<div className='control-cell'>
+						{rf.dateInput('dateProperty')}
 					</div>
 				</div>
 
@@ -76,11 +92,11 @@ export function FormTests() {
 
 			<h2>Test Form Data</h2>
 			<pre>
-				{JSON.stringify(formBuilder.formData, null, 2)}
+				{JSON.stringify(rf.formData, null, 2)}
 			</pre>
 			<h2>Test Form Types</h2>
 			<pre>
-				{JSON.stringify(getTypeMap(formBuilder.formData), null, 2)}
+				{JSON.stringify(getTypeMap(rf.formData), null, 2)}
 			</pre>
 		</div>
 	)

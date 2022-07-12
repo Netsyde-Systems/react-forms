@@ -1,7 +1,7 @@
 export { Button, type ButtonProps, type ButtonType } from './button/Button'
 
 export { FormBuilder } from './hooks/FormBuilder'
-export { useFormBuilder } from './hooks/useFormBuilder'
+export { useReactForms as useFormBuilder } from './hooks/useReactForms'
 
 export type { 
 	OnlyKeysOfType, 

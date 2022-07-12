@@ -1,5 +1,9 @@
-import { createCheckboxInput, createDateInput, createNumberInput, createSelectNumberInput, createSelectTextInput, createTextInput } from "./FormBuilderInputs"
+import { createCheckbox, createDateInput, createNumberInput, createNumberSelect, createTextSelect, createTextInput, InputCreationFunction, InputCreationFunction2, createTextInput2 } from "./FormBuilderInputs"
 import { FormDefinition, FormState, OnlyKeysOfType } from "./FormBuilderTypes"
+
+export type FieldNameProps<FormT, FieldT> = {
+	field: string & OnlyKeysOfType<FormT, FieldT>
+}
 
 // The FormBuilder class links form data to actual form fields that we can render in react.
 export class FormBuilder<FormT> {
@@ -23,7 +27,8 @@ export class FormBuilder<FormT> {
 		else this._isValid = this._isValid && isValid
 	}
 
-	public textInput(fieldName: string & OnlyKeysOfType<FormT, string>) {
+	// We've factored out what needs to be done for every control type here
+	private linkControl<FieldT>(fieldName: string & OnlyKeysOfType<FormT, FieldT>, inputCreationFnc: InputCreationFunction<FormT, FieldT>) {
 		let newFormState = Object.assign({}, this.formState)
 		let newFormData = Object.assign({}, this.formData)
 
@@ -33,98 +38,27 @@ export class FormBuilder<FormT> {
 			this.setFormState(newFormState)
 		}
 
-		const [inputControl, isValid] = createTextInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange)
+		const [inputControl, isValid] = inputCreationFnc(this.formDefinition, newFormData, newFormState, fieldName, handleChange)
 
 		this.updateValidity(isValid)
 
 		return inputControl
 	}
 
-	public numberInput(fieldName: string & OnlyKeysOfType<FormT, number>) {
-		let newFormState = Object.assign({}, this.formState)
-		let newFormData = Object.assign({}, this.formData)
+	public textInput = (fieldName: string & OnlyKeysOfType<FormT, string>) => this.linkControl<string>(fieldName, createTextInput)
 
-		const handleChange = (formData: FormT) => {
-			newFormState.fieldsTouched[fieldName] = true
-			this.setFormData(formData)
-			this.setFormState(newFormState)
-		}
+	// TODO: Find out how to get around input losing focus issue
+	public TextInput = (props: FieldNameProps<FormT, string>) => this.linkControl<string>(props.field, createTextInput)
 
-		const [inputControl, isValid] = createNumberInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange)
+	public numberInput = (fieldName: string & OnlyKeysOfType<FormT, number>) => this.linkControl<number>(fieldName, createNumberInput)
+	
+	public dateInput = (fieldName: string & OnlyKeysOfType<FormT, Date>) => this.linkControl<Date>(fieldName, createDateInput)
 
-		this.updateValidity(isValid)
+	public textSelect = (fieldName: string & OnlyKeysOfType<FormT, string>) => this.linkControl<string>(fieldName, createTextSelect)
 
-		return inputControl
-	}
+	public numberSelect = (fieldName: string & OnlyKeysOfType<FormT, number>) => this.linkControl<number>(fieldName, createNumberSelect)
 
-	public dateInput(fieldName: string & OnlyKeysOfType<FormT, Date>) {
-		let newFormState = Object.assign({}, this.formState)
-		let newFormData = Object.assign({}, this.formData)
-
-		const handleChange = (formData: FormT) => {
-			newFormState.fieldsTouched[fieldName] = true
-			this.setFormData(formData)
-			this.setFormState(newFormState)
-		}
-
-		const [inputControl, isValid] = createDateInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange)
-
-		this.updateValidity(isValid)
-
-		return inputControl
-	}
-
-	public selectTextInput(fieldName: string & OnlyKeysOfType<FormT, string>) {
-		let newFormState = Object.assign({}, this.formState)
-		let newFormData = Object.assign({}, this.formData)
-
-		const handleChange = (formData: FormT) => {
-			newFormState.fieldsTouched[fieldName] = true
-			this.setFormData(formData)
-			this.setFormState(newFormState)
-		}
-
-		const [inputControl, isValid] = createSelectTextInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange)
-
-		this.updateValidity(isValid)
-
-		return inputControl
-	}
-
-	public selectNumberInput(fieldName: string & OnlyKeysOfType<FormT, number>) {
-		let newFormState = Object.assign({}, this.formState)
-		let newFormData = Object.assign({}, this.formData)
-
-		const handleChange = (formData: FormT) => {
-			newFormState.fieldsTouched[fieldName] = true
-			this.setFormData(formData)
-			this.setFormState(newFormState)
-		}
-
-		const [inputControl, isValid] = createSelectNumberInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange)
-
-		this.updateValidity(isValid)
-
-		return inputControl
-	}
-
-	public checkboxInput(fieldName: string & OnlyKeysOfType<FormT, boolean>) {
-		let newFormState = Object.assign({}, this.formState)
-		let newFormData = Object.assign({}, this.formData)
-
-		const handleChange = (formData: FormT) => {
-			newFormState.fieldsTouched[fieldName] = true
-			this.setFormData(formData)
-			this.setFormState(newFormState)
-		}
-
-		const [inputControl, isValid] = createCheckboxInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange)
-
-		this.updateValidity(isValid)
-
-		return inputControl
-	}
-
+	public checkbox = (fieldName: string & OnlyKeysOfType<FormT, boolean>) => this.linkControl<boolean>(fieldName, createCheckbox)
 
 	public validate() {
 		if (!this.formState.hasBeenValidated) {
