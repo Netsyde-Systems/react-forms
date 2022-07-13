@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "https://netsyde-systems.github.io/react-forms/static/css/main.db99aa68.css",
-    "main.js": "https://netsyde-systems.github.io/react-forms/static/js/main.41ad6809.js",
+    "main.css": "https://netsyde-systems.github.io/react-forms/static/css/main.83551e45.css",
+    "main.js": "https://netsyde-systems.github.io/react-forms/static/js/main.19a902f8.js",
     "static/js/787.b02cee40.chunk.js": "https://netsyde-systems.github.io/react-forms/static/js/787.b02cee40.chunk.js",
     "static/media/react-forms-logo.png": "https://netsyde-systems.github.io/react-forms/static/media/react-forms-logo.97886083cc2799a3d559.png",
     "index.html": "https://netsyde-systems.github.io/react-forms/index.html",
-    "main.db99aa68.css.map": "https://netsyde-systems.github.io/react-forms/static/css/main.db99aa68.css.map",
-    "main.41ad6809.js.map": "https://netsyde-systems.github.io/react-forms/static/js/main.41ad6809.js.map",
+    "main.83551e45.css.map": "https://netsyde-systems.github.io/react-forms/static/css/main.83551e45.css.map",
+    "main.19a902f8.js.map": "https://netsyde-systems.github.io/react-forms/static/js/main.19a902f8.js.map",
     "787.b02cee40.chunk.js.map": "https://netsyde-systems.github.io/react-forms/static/js/787.b02cee40.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.db99aa68.css",
-    "static/js/main.41ad6809.js"
+    "static/css/main.83551e45.css",
+    "static/js/main.19a902f8.js"
   ]
 }
