@@ -10,7 +10,7 @@ import { SelectOption } from '../inputs/inputs'
 import { TextSelect } from '../inputs/TextSelect'
 import { NumberSelect } from '../inputs/NumberSelect'
 import { CheckBox } from '../inputs/CheckBox'
-import { Radio } from '../inputs/Radio'
+import { Radio } from '../inputs/TextRadio'
 import { NumberInput } from '../inputs/NumberInput'
 import { DateInput } from '../inputs/DateInput'
 
@@ -28,7 +28,7 @@ function ControlTests() {
 	const [selectTextValue, setSelectTextValue] = React.useState<string | null>(null)
 	const [selectNumberValue, setSelectNumberValue] = React.useState<number | null>(null)
 	const [checkboxValue, setCheckboxValue] = React.useState<boolean | null>(null)
-	const [RadioValue, setRadioValue] = React.useState<boolean | null>(null)
+	const [RadioValue, setRadioValue] = React.useState<string | null>(null)
 	const [textAreaValue, setTextAreaValue] = React.useState<string | null>(null)
 	const [textMaskedValue, setMaskedValue] = React.useState<string | null>(null)
 	const [phoneValue, setPhoneValue] = React.useState<number | null>(null)
@@ -152,8 +152,7 @@ function ControlTests() {
 
 					<div className='control-row'>
 						<div className='control-cell'>
-							<Radio id='rdInput' label='Radio Input' value={RadioValue} onChange={setRadioValue} {...sharedProperties}  />
-							<Radio id='rdInput' label='Radio Input 2' value={RadioValue} onChange={setRadioValue} {...sharedProperties}  />
+							<Radio id='rdInput' label='Radio Input' value={RadioValue} onChange={setRadioValue} {...sharedProperties} selectOptions={textSelectOptions}  />
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(RadioValue)}
