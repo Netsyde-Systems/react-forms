@@ -43,3 +43,5 @@ export function MaskedInput(props: MaskedInputProps) {
 		</div>
 	)
 }
+
+export default MaskedInput

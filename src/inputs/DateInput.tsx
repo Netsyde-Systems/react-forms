@@ -31,3 +31,5 @@ export function DateInput(props: DateInputProps) {
 		</div>
 	)
 }
+
+export default DateInput
