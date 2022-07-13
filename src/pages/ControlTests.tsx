@@ -10,6 +10,7 @@ import { SelectOption } from '../inputs/inputs'
 import { TextSelect } from '../inputs/TextSelect'
 import { NumberSelect } from '../inputs/NumberSelect'
 import { CheckBox } from '../inputs/CheckBox'
+import { Radio } from '../inputs/Radio'
 import { NumberInput } from '../inputs/NumberInput'
 import { DateInput } from '../inputs/DateInput'
 
@@ -24,6 +25,7 @@ function ControlTests() {
 	const [selectTextValue, setSelectTextValue] = React.useState<string | null>(null)
 	const [selectNumberValue, setSelectNumberValue] = React.useState<number | null>(null)
 	const [checkboxValue, setCheckboxValue] = React.useState<boolean | null>(null)
+	const [RadioValue, setRadioValue] = React.useState<boolean | null>(null)
 	const [textAreaValue, setTextAreaValue] = React.useState<string | null>(null)
 
 	const [controlsHaveErrors, setControlErrors] = React.useState(false)
@@ -38,6 +40,7 @@ function ControlTests() {
 		setSelectNumberValue(null)
 		setDateInputValue(null)
 		setCheckboxValue(null)
+		setRadioValue(null)
 		setTextAreaValue('')
 	}
 
@@ -52,7 +55,7 @@ function ControlTests() {
 
 	const buttonDefs: Array<ButtonProps> = [
 		{ type: 'secondary', text: toggleButtonText.clear, onClick: clearInputs }, 
-		{ type: 'secondary', text: toggleButtonText.locale, onClick: () => setLocale(locale == 'en-CA' ? 'fr-CA' : 'en-CA') }, 
+		{ type: 'secondary', text: toggleButtonText.locale, onClick: () => setLocale(locale === 'en-CA' ? 'fr-CA' : 'en-CA') }, 
 		{ type: 'secondary', text: toggleButtonText.error, onClick: () => setControlErrors(!controlsHaveErrors) }, 
 		{ type: 'secondary', text: toggleButtonText.hidden, onClick: () => hideControls(!controlsAreHidden) }, 
 		{ type: 'secondary', text: toggleButtonText.disable, onClick: () => disableControls(!controlsAreDisabled) }, 
@@ -138,6 +141,16 @@ function ControlTests() {
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(checkboxValue)}
+						</div>
+					</div>
+
+					<div className='control-row'>
+						<div className='control-cell'>
+							<Radio id='rdInput' label='Radio Input' value={RadioValue} onChange={setRadioValue} {...sharedProperties}  />
+							<Radio id='rdInput' label='Radio Input 2' value={RadioValue} onChange={setRadioValue} {...sharedProperties}  />
+						</div>
+						<div className='control-cell'>
+							{nullableValueMessage(RadioValue)}
 						</div>
 					</div>
 
