@@ -18,12 +18,12 @@ export function NumberInput(props: NumberInputProps) {
 
 	// Shorthand for common properties with same name, and not requiring processing.  
 	// enables more concise notation below
-	const { id, disabled, placeholder } = props
+	const { id, disabled, placeholder, required } = props
 
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
-			<input type='number' value={props.value ?? ''} onChange={handleChange} {...{ id, disabled, placeholder }} />
+			<input type='number' value={props.value ?? ''} onChange={handleChange} {...{ id, disabled, required, placeholder }} />
 			<ErrorMessage {...props} />
 		</div>
 	)

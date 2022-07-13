@@ -14,6 +14,9 @@ import { NumberInput } from '../inputs/NumberInput'
 import { DateInput } from '../inputs/DateInput'
 
 import './ControlTests.scss'
+import { MaskedInput } from '../inputs/MaskedInput'
+import { PhoneNumber } from '../inputs/PhoneNumber'
+import { PostalCode } from '../inputs/PostalCode'
 
 function ControlTests() {
 
@@ -25,6 +28,9 @@ function ControlTests() {
 	const [selectNumberValue, setSelectNumberValue] = React.useState<number | null>(null)
 	const [checkboxValue, setCheckboxValue] = React.useState<boolean | null>(null)
 	const [textAreaValue, setTextAreaValue] = React.useState<string | null>(null)
+	const [textMaskedValue, setMaskedValue] = React.useState<string | null>(null)
+	const [phoneValue, setPhoneValue] = React.useState<number | null>(null)
+	const [postalCodeValue, setPostalCodeValue] = React.useState<string | null>(null)
 
 	const [controlsHaveErrors, setControlErrors] = React.useState(false)
 	const [controlsAreDisabled, disableControls] = React.useState(false)
@@ -116,7 +122,7 @@ function ControlTests() {
 
 					<div className='control-row'>
 						<div className='control-cell'>
-							<TextSelect id='selTextInput' label='Select Text' value={selectTextValue} onChange={setSelectTextValue} placeholder="Select Text Placeholder" selectOptions={textSelectOptions} {...sharedProperties} />
+							<TextSelect id='selTextInput' label='Text Select' value={selectTextValue} onChange={setSelectTextValue} placeholder="Select Text Placeholder" selectOptions={textSelectOptions} {...sharedProperties} />
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(selectTextValue)}
@@ -125,7 +131,7 @@ function ControlTests() {
 
 					<div className='control-row'>
 						<div className='control-cell'>
-							<NumberSelect id='selNumInput' label='Select Number' value={selectNumberValue} onChange={setSelectNumberValue} placeholder="Select Number Placeholder" selectOptions={numberSelectOptions} {...sharedProperties} />
+							<NumberSelect id='selNumInput' label='Number Select' value={selectNumberValue} onChange={setSelectNumberValue} placeholder="Select Number Placeholder" selectOptions={numberSelectOptions} {...sharedProperties} />
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(selectNumberValue)}
@@ -148,6 +154,39 @@ function ControlTests() {
 						<div className='control-cell'>
 							<pre>
 								{nullableValueMessage(textAreaValue)}
+							</pre>
+						</div>
+					</div>
+
+					<div className='control-row'>
+						<div className='control-cell'>
+							<MaskedInput id='txtMaskedInput' label='Masked Input (X12)' value={textMaskedValue} onChange={setMaskedValue} mask='a00' {...sharedProperties} />
+						</div>
+						<div className='control-cell'>
+							<pre>
+								{nullableValueMessage(textMaskedValue)}
+							</pre>
+						</div>
+					</div>
+
+					<div className='control-row'>
+						<div className='control-cell'>
+							<PhoneNumber id='txtPhoneNumber' label='Phone Number' value={phoneValue} onChange={setPhoneValue} {...sharedProperties} />
+						</div>
+						<div className='control-cell'>
+							<pre>
+								{nullableValueMessage(phoneValue)}
+							</pre>
+						</div>
+					</div>
+
+					<div className='control-row'>
+						<div className='control-cell'>
+							<PostalCode id='txtPostalCode' label='Postal Code' value={postalCodeValue} onChange={setPostalCodeValue} {...sharedProperties} />
+						</div>
+						<div className='control-cell'>
+							<pre>
+								{nullableValueMessage(postalCodeValue)}
 							</pre>
 						</div>
 					</div>
