@@ -21,16 +21,6 @@ export interface InputCreationFunction<FormT extends { [key: string]: any }, Fie
 	): [JSX.Element, boolean]
 }
 
-export interface InputCreationFunction2<FormT extends { [key: string]: any }, FieldT> {
-	(
-		formDefinition: FormDefinition<FormT>,
-		formData: FormT,
-		formState: FormState<FormT>,
-		fieldName: string & OnlyKeysOfType<FormT, FieldT>,
-		onChange: (formData: FormT) => void
-	): [() => JSX.Element, boolean]
-}
-
 // TODO: Refactor the below to avoid repetition
 
 export function createTextInput<FormT extends { [key: string]: any }>(
@@ -45,22 +35,6 @@ export function createTextInput<FormT extends { [key: string]: any }>(
 
 	return [
 		<TextInput {...props} />,
-		isValid
-	]
-}
-
-export function createTextInput2<FormT extends { [key: string]: any }>(
-	formDefinition: FormDefinition<FormT>,
-	formData: FormT,
-	formState: FormState<FormT>,
-	fieldName: string & OnlyKeysOfType<FormT, string>,
-	onChange: (formData: FormT) => void
-): [() => JSX.Element, boolean] { // returns the react input, as well as whether or not the field is valid
-
-	let [props, isValid] = getInputProps<FormT, string>(formDefinition, formData, formState, fieldName, onChange)
-
-	return [
-		() => TextInput(props),
 		isValid
 	]
 }

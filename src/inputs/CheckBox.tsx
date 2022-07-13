@@ -13,12 +13,10 @@ export function CheckBox(props: CheckBoxProps) {
 	const handleChange: ChangeEventHandler<HTMLInputElement> = 
 		(e) => props.onChange(e.target.checked)
 
-	// Shorthand for common properties with same name, and not requiring processing.  
-	// enables more concise notation below
-
-  // const className = classNames('checkbox', 'input', { 'has-errors': !!props.errorMessage }, { 'is-hidden': props.isHidden })
   const className = getInputEnvelopeClass(props, 'checkbox', 'input')
 
+	// Shorthand for common properties with same name, and not requiring processing.  
+	// enables more concise notation below
 	const { id, disabled } = props
 
   return (

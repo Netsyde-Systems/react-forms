@@ -42,8 +42,6 @@ let getTypeMap = (obj: any) => {
 export function FormTests() {
 	const rf = useReactForms(testFormDefinition, testFormData)
 
-	const TextInput  = rf.TextInput
-
 	return (
 		<div className='form-tests page'>
 			<h1>Form Tests</h1>
@@ -75,16 +73,13 @@ export function FormTests() {
 				</div>
 
 				<h2>JSX Tests</h2>
+				<p>
+					TODO: Fix 'input losing focus' issue when calling property via JSX
+				</p>
 
 				<div className='control-row'>
 					<div className='control-cell'>
 						<rf.TextInput field='stringProperty' />
-					</div>
-					<div className='control-cell'>
-						{rf.numberInput('numberProperty')}
-					</div>
-					<div className='control-cell'>
-						{rf.dateInput('dateProperty')}
 					</div>
 				</div>
 
