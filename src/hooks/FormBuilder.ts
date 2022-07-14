@@ -1,4 +1,4 @@
-import { createCheckbox, createDateInput, createNumberInput, createNumberSelect, createTextSelect, createTextInput, InputCreationFunction, InputCreationFunction2, createTextInput2 } from "./FormBuilderInputs"
+import { createCheckbox, createDateInput, createNumberInput, createNumberSelect, createTextSelect, createTextInput, InputCreationFunction } from "./FormBuilderInputs"
 import { FormDefinition, FormState, OnlyKeysOfType } from "./FormBuilderTypes"
 
 export type FieldNameProps<FormT, FieldT> = {
@@ -46,7 +46,6 @@ export class FormBuilder<FormT> {
 	}
 
 	public textInput = (fieldName: string & OnlyKeysOfType<FormT, string>) => this.linkControl<string>(fieldName, createTextInput)
-
 	// TODO: Find out how to get around input losing focus issue
 	public TextInput = (props: FieldNameProps<FormT, string>) => this.linkControl<string>(props.field, createTextInput)
 

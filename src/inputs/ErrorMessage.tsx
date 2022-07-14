@@ -17,3 +17,5 @@ export function ErrorMessage(props: ErrorMessageProps) {
 		<span className={className}>{props.errorMessage || ' '}</span>
 	)
 }
+
+export default ErrorMessage

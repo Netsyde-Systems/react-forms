@@ -30,3 +30,5 @@ export function TextArea(props: TextAreaProps) {
 		</div>
 	)
 }
+
+export default TextArea

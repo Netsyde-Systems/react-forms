@@ -9,3 +9,4 @@ export interface MaskedInputProps extends InputProps<string> {
     mask: string | RegExp | MaskTestFunction;
 }
 export declare function MaskedInput(props: MaskedInputProps): JSX.Element;
+export default MaskedInput;

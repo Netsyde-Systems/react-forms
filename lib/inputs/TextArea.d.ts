@@ -7,3 +7,4 @@ export interface TextAreaProps extends InputProps<string> {
     placeholder?: string;
 }
 export declare function TextArea(props: TextAreaProps): JSX.Element;
+export default TextArea;

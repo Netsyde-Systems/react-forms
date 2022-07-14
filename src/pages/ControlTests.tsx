@@ -10,8 +10,7 @@ import { SelectOption } from '../inputs/inputs'
 import { TextSelect } from '../inputs/TextSelect'
 import { NumberSelect } from '../inputs/NumberSelect'
 import { CheckBox } from '../inputs/CheckBox'
-import { Radio } from '../inputs/TextRadio'
-import { NumberRadio } from '../inputs/NumberRadio'
+import { TextRadio } from '../inputs/TextRadio'
 import { NumberInput } from '../inputs/NumberInput'
 import { DateInput } from '../inputs/DateInput'
 
@@ -155,7 +154,7 @@ function ControlTests() {
 
 					<div className='control-row'>
 						<div className='control-cell'>
-							<Radio id='rdInput' label='Radio Input' value={RadioValue} onChange={setRadioValue} {...sharedProperties} selectOptions={textSelectOptions}  />
+							<TextRadio id='rdInput' label='Radio Input' value={RadioValue} onChange={setRadioValue} {...sharedProperties} selectOptions={textSelectOptions}  />
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(RadioValue)}

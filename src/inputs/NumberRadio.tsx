@@ -3,7 +3,7 @@ import React, { ChangeEventHandler } from 'react'
 import { InputProps, getInputEnvelopeClass, SelectOption } from './inputs'
 import { InputLabel } from './InputLabel'
 import { ErrorMessage } from './ErrorMessage'
-import Radio, { RadioProps } from './TextRadio'
+import TextRadio, { TextRadioProps } from './TextRadio'
 
 import './Inputs.scss'
 import './Radio.scss'
@@ -23,11 +23,11 @@ export function NumberRadio(props: NumberRadioProps) {
 	}
 	let textSelectOptions: Array<SelectOption<string>> = selectOptions.map(({ text, value }) => { return { text, value: value.toString() } })
 
-	let textProps: RadioProps = {
+	let textProps: TextRadioProps = {
 		id, value: textValue, onChange: textOnChange, label, errorMessage, required, hidden, selectOptions: textSelectOptions, disabled
 	}
 
-	return <Radio {...textProps} />
+	return <TextRadio {...textProps} />
 }
 
 export default NumberRadio

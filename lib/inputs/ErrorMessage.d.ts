@@ -4,4 +4,4 @@ interface ErrorMessageProps {
     errorMessage?: string;
 }
 export declare function ErrorMessage(props: ErrorMessageProps): JSX.Element;
-export {};
+export default ErrorMessage;

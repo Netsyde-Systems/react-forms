@@ -28,3 +28,5 @@ export function NumberInput(props: NumberInputProps) {
 		</div>
 	)
 }
+
+export default NumberInput

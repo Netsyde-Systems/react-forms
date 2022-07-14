@@ -14,3 +14,5 @@ export function PhoneNumber(props: PhoneNumberProps) {
 		<MaskedInput {...props}  value={props.value?.toString() || ''} placeholder='(555)123-4567x12345' onChange={handleChange} mask='(000)000-0000x[00000]' />
 	)
 } 
+
+export default PhoneNumber

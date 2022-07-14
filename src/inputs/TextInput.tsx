@@ -28,3 +28,5 @@ export function TextInput(props: TextInputProps) {
 		</div>
 	)
 }
+
+export default TextInput
