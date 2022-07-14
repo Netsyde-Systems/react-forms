@@ -43,3 +43,5 @@ export function Radio(props: RadioProps) {
 		</div>
 	)
 }
+
+export default Radio

@@ -11,6 +11,7 @@ import { TextSelect } from '../inputs/TextSelect'
 import { NumberSelect } from '../inputs/NumberSelect'
 import { CheckBox } from '../inputs/CheckBox'
 import { Radio } from '../inputs/TextRadio'
+import { NumberRadio } from '../inputs/NumberRadio'
 import { NumberInput } from '../inputs/NumberInput'
 import { DateInput } from '../inputs/DateInput'
 
@@ -29,6 +30,7 @@ function ControlTests() {
 	const [selectNumberValue, setSelectNumberValue] = React.useState<number | null>(null)
 	const [checkboxValue, setCheckboxValue] = React.useState<boolean | null>(null)
 	const [RadioValue, setRadioValue] = React.useState<string | null>(null)
+	const [NumberRadioValue, setNumberRadioValue] = React.useState<number | null>(null)
 	const [textAreaValue, setTextAreaValue] = React.useState<string | null>(null)
 	const [textMaskedValue, setMaskedValue] = React.useState<string | null>(null)
 	const [phoneValue, setPhoneValue] = React.useState<number | null>(null)
@@ -47,6 +49,7 @@ function ControlTests() {
 		setDateInputValue(null)
 		setCheckboxValue(null)
 		setRadioValue(null)
+		setNumberRadioValue(null)
 		setTextAreaValue('')
 	}
 
@@ -158,6 +161,16 @@ function ControlTests() {
 							{nullableValueMessage(RadioValue)}
 						</div>
 					</div>
+
+					<div className='control-row'>
+						<div className='control-cell'>
+							<NumberSelect id='selNumRadioInput' label='NumberRadio Select' value={NumberRadioValue} onChange={setNumberRadioValue} selectOptions={numberSelectOptions} {...sharedProperties} />
+						</div>
+						<div className='control-cell'>
+							{nullableValueMessage(NumberRadioValue)}
+						</div>
+					</div>
+
 
 					<div className='control-row'>
 						<div className='control-cell'>
