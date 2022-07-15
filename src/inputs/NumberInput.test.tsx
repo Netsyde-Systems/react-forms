@@ -19,5 +19,5 @@ it('has no label when not provided', () => {
 	const label = numberInput.container.querySelector('label')
 	// label inner content is actually ' ', to keep it from collapsing
 	// the below regex matches any number of whitespace characters
-	expect(label?.innerHTML).toMatch(/\s*/)
+	expect(label?.innerHTML).toMatch(/^\s*$/)
 })

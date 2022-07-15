@@ -17,11 +17,11 @@ export function CheckBox(props: CheckBoxProps) {
 
 	// Shorthand for common properties with same name, and not requiring processing.  
 	// enables more concise notation below
-	const { id, disabled } = props
+	const { id, disabled, required } = props
 
 	return (
 		<div className={className}>
-			<input type="checkbox" checked={!!props.value} onChange={handleChange} {...{ id, disabled }} />
+			<input type="checkbox" checked={!!props.value} onChange={handleChange} {...{ id, disabled, required }} />
 			<InputLabel {...props} /><br />
 			<ErrorMessage {...props} />
 		</div>
