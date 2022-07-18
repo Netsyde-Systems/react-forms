@@ -16,6 +16,7 @@ export interface MaskTestFunction {
 export interface MaskedInputProps extends InputProps<string> {
 	placeholder?: string
 	mask: string | RegExp | MaskTestFunction
+	type?: string
 }
 
 export function MaskedInput(props: MaskedInputProps) {
@@ -38,7 +39,7 @@ export function MaskedInput(props: MaskedInputProps) {
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
-			<input value={maskedValue} onChange={handleChange} {...{ id, disabled, required, placeholder }} />
+			<input type={props.type} value={maskedValue} onChange={handleChange} {...{ id, disabled, required, placeholder }} />
 			<ErrorMessage {...props} />
 		</div>
 	)

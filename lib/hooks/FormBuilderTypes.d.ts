@@ -3,7 +3,7 @@ export declare type OnlyKeysOfType<T, V> = {
     [K in keyof T]: Exclude<T[K], undefined> extends V ? K : never;
 }[keyof T];
 export interface FieldSpecifierFunction<FormT, OutputT> {
-    (fieldValue: FormT[typeof fieldName], fieldName: keyof FormT, formData: FormT): OutputT;
+    (fieldValue: FormT[typeof fieldName], fieldName: keyof FormT & string, formData: FormT): OutputT;
 }
 export declare type SelectOptionsSpecifier<FormT, FieldT extends string | number> = Array<SelectOption<FieldT>> | FieldSpecifierFunction<FormT, Array<FieldT>>;
 export interface FieldDefinition<FormT, FieldT> {
@@ -11,7 +11,7 @@ export interface FieldDefinition<FormT, FieldT> {
     label?: string | FieldSpecifierFunction<FormT, string>;
     isRequired?: boolean | FieldSpecifierFunction<FormT, boolean>;
     onChange?: FieldSpecifierFunction<FormT, FormT>;
-    errorMessage?: FieldSpecifierFunction<FormT, string>;
+    errorMessage?: FieldSpecifierFunction<FormT, string | undefined>;
     isDisabled?: FieldSpecifierFunction<FormT, boolean>;
     isHidden?: FieldSpecifierFunction<FormT, boolean>;
     disallowChange?: FieldSpecifierFunction<FormT, boolean>;
