@@ -12,7 +12,7 @@ export type OnlyKeysOfType<T, V> = {
 
 // Field specifier functions take as arguments the form data, the field value and name, and returns a value
 export interface FieldSpecifierFunction<FormT, OutputT> {
-	(fieldValue: FormT[typeof fieldName], fieldName: keyof FormT, formData: FormT, ): OutputT
+	(fieldValue: FormT[typeof fieldName], fieldName: keyof FormT & string, formData: FormT): OutputT
 }
 
 // Select Options Specifier can be static list of select options, or can depend on state of form
@@ -31,7 +31,7 @@ export interface FieldDefinition<FormT, FieldT> {
 	// having onChange, errorMessage, or disabled state as static would make no sense... 
 	// they always depend on current form state
 	onChange?: FieldSpecifierFunction<FormT, FormT>
-	errorMessage?: FieldSpecifierFunction<FormT, string>
+	errorMessage?: FieldSpecifierFunction<FormT, string | undefined>
 	isDisabled?: FieldSpecifierFunction<FormT, boolean>
 	isHidden?: FieldSpecifierFunction<FormT, boolean>
 
