@@ -27,6 +27,49 @@ it('has correct id', () => {
 	expect(input).toHaveAttribute('id', 'rdInput0')
 })
 
+//it('calls onChange function', () => {
+//	const textSelectOptions: Array<SelectOption<string>> = [
+//		{ value: 'Value One', text: 'Option One' }, 
+//		{ value: 'Value Two', text: 'Option Two' }, 
+//		{ value: 'Value Three', text: 'Option Three' }, 
+//	]
+
+//	const handleChange = jest.fn()
+
+//	const numberSelect = render(<TextRadio id='rdInput' value='Value Three' onChange={handleChange} selectOptions={textSelectOptions} />)
+//	const input = numberSelect.getByDisplayValue('Value Three')
+
+//	fireEvent.change(input, { target: { value: 'New Value' } })
+
+//	expect(handleChange).toHaveBeenCalledWith('Expected Label Value')
+//})
+
+it('has no label when not provided', () => {
+	const textSelectOptions: Array<SelectOption<string>> = [
+		{ value: 'Value One', text: 'Option One' }, 
+		{ value: 'Value Two', text: 'Option Two' }, 
+		{ value: 'Value Three', text: 'Option Three' }, 
+	]
+
+	const numberSelect = render(<TextRadio id='rdInput' value='Value Two' onChange={() => null} selectOptions={textSelectOptions} />)
+	const label = numberSelect.container.querySelector('label')
+	// label inner content is actually ' ', to keep it from collapsing
+	// the below regex matches any number of whitespace characters
+	expect(label?.innerHTML).toMatch(/^\s*$/)
+})
+
+it('has the correct label when provided', () => {
+	const textSelectOptions: Array<SelectOption<string>> = [
+		{ value: 'Value One', text: 'Option One' }, 
+		{ value: 'Value Two', text: 'Option Two' }, 
+		{ value: 'Value Three', text: 'Option Three' }, 
+	]
+
+	const numberSelect = render(<TextRadio id='rdInput' value='Value Three' onChange={() => null} label='Expected Label Value' selectOptions={textSelectOptions} />)
+	const label = numberSelect.container.querySelector('label')
+	expect(label).toHaveTextContent('Expected Label Value')
+})
+
 it('label has asterisk when required', () => {
 	const textSelectOptions: Array<SelectOption<string>> = [
 		{ value: 'Value One', text: 'Option One' }, 

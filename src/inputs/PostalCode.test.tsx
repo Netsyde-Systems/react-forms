@@ -14,6 +14,17 @@ it('has correct id', () => {
 	expect(input).toHaveAttribute('id', 'txtPostalCode')
 })
 
+it('calls onChange function', () => {
+	const handleChange = jest.fn()
+
+	const postalCode = render(<PostalCode id='txtPostalCode' value={undefined} onChange={handleChange} />)
+	const input = postalCode.getByDisplayValue('')
+
+	fireEvent.change(input, { target: { value: 'A1A1A1' } })
+
+	expect(handleChange).toHaveBeenCalledWith('A1A1A1')
+})
+
 it('has no label when not provided', () => {
 	const postalCode = render(<PostalCode id='txtPostalCode' onChange={() => null} value={undefined} />)
 	const label = postalCode.container.querySelector('label')

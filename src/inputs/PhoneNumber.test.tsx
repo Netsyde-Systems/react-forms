@@ -14,6 +14,17 @@ it('has correct id', () => {
 	expect(input).toHaveAttribute('id', 'txtPhoneNumber')
 })
 
+//it('calls onChange function', () => {
+//	const handleChange = jest.fn()
+
+//	const phoneNumber = render(<PhoneNumber id='txtPhoneNumber' value={undefined} onChange={handleChange} />)
+//	const input = phoneNumber.getByDisplayValue('')
+
+//	fireEvent.change(input, { target: { value: 'null' } })
+
+//	expect(handleChange).toHaveBeenCalledWith('null')
+//})
+
 it('has no label when not provided', () => {
 	const phoneNumber = render(<PhoneNumber id='txtPhoneNumber' onChange={() => null} value={undefined} />)
 	const label = phoneNumber.container.querySelector('label')
