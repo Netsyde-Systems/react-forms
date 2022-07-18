@@ -1,12 +1,13 @@
 import TextInput from "../inputs/TextInput"
 import NumberInput from "../inputs/NumberInput"
+import TextArea from "../inputs/TextArea"
 import DateInput from "../inputs/DateInput"
 import CheckBox from "../inputs/CheckBox"
 import TextSelect from "../inputs/TextSelect"
 import NumberSelect from "../inputs/NumberSelect"
 import PostalCode from "../inputs/PostalCode"
 import PhoneNumber from "../inputs/PhoneNumber"
-import { createOptionInput, createStandardInput, InputCreationFunction, ReactFormsInputControl, ReactFormsOptionControl } from "./FormBuilderInputs"
+import { createOptionInput, createStandardInput, ReactFormsInputControl, ReactFormsOptionControl } from "./FormBuilderInputs"
 import { FormDefinition, FormState, OnlyKeysOfType } from "./FormBuilderTypes"
 
 export type FieldNameProps<FormT, FieldT> = {
@@ -73,6 +74,8 @@ export class FormBuilder<FormT> {
 	public textInput = (fieldName: string & OnlyKeysOfType<FormT, string>) => this.linkStandardControl(fieldName, TextInput)
 	// TODO: Find out how to get around input losing focus issue
 	public TextInput = (props: FieldNameProps<FormT, string>) => this.linkStandardControl(props.field, TextInput)
+
+	public textArea = (fieldName: string & OnlyKeysOfType<FormT, string>) => this.linkStandardControl(fieldName, TextArea)
 
 	public numberInput = (fieldName: string & OnlyKeysOfType<FormT, number>) => this.linkStandardControl<number>(fieldName, NumberInput)
 	

@@ -13,6 +13,7 @@ interface TestForm {
 	selectNumberProperty: number
 	checkboxProperty: boolean
 
+	longStringProperty: string
 	phoneNumber: number
 	postalCode: string
 }
@@ -77,6 +78,9 @@ export function FormTests() {
 				</div>
 
 				<div className='control-row'>
+					<div className='control-cell'>
+						{rf.textArea('longStringProperty')}
+					</div>
 					<div className='control-cell'>
 						{rf.phoneNumber('phoneNumber')}
 					</div>

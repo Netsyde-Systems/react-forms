@@ -2,11 +2,6 @@
 import { SelectProps } from '../inputs/inputs';
 import { FormDefinition, FormState, OnlyKeysOfType } from "./FormBuilderTypes";
 import { InputProps } from '../inputs/inputs';
-export interface InputCreationFunction<FormT extends {
-    [key: string]: any;
-}, FieldT> {
-    (formDefinition: FormDefinition<FormT>, formData: FormT, formState: FormState<FormT>, fieldName: string & OnlyKeysOfType<FormT, FieldT>, onChange: (formData: FormT) => void): [JSX.Element, boolean];
-}
 export interface ReactFormsInputControl<FieldType> {
     (inputProps: InputProps<FieldType>): JSX.Element;
 }

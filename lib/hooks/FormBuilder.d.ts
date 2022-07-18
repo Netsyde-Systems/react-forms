@@ -16,6 +16,7 @@ export declare class FormBuilder<FormT> {
     private linkOptionControl;
     textInput: (fieldName: string & OnlyKeysOfType<FormT, string>) => JSX.Element;
     TextInput: (props: FieldNameProps<FormT, string>) => JSX.Element;
+    textArea: (fieldName: string & OnlyKeysOfType<FormT, string>) => JSX.Element;
     numberInput: (fieldName: string & OnlyKeysOfType<FormT, number>) => JSX.Element;
     dateInput: (fieldName: string & OnlyKeysOfType<FormT, Date>) => JSX.Element;
     postalCode: (fieldName: string & OnlyKeysOfType<FormT, string>) => JSX.Element;
