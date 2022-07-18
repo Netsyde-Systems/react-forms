@@ -1,13 +1,12 @@
 import React from 'react'
 
-import { InputProps, SelectOption } from './inputs'
+import { SelectProps, SelectOption } from './inputs'
 import TextSelect, { TextSelectProps } from './TextSelect'
 
 import './Inputs.scss'
 
-export interface NumberSelectProps extends InputProps<number | null> {
+export interface NumberSelectProps extends SelectProps<number> {
 	placeholder?: string
-	selectOptions: Array<SelectOption<number>>
  }
 
 export function NumberSelect(props: NumberSelectProps) {

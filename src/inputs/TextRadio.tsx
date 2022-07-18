@@ -1,14 +1,13 @@
 import React, { ChangeEventHandler } from 'react'
 
-import { InputProps, getInputEnvelopeClass, SelectOption } from './inputs'
+import { SelectProps, getInputEnvelopeClass } from './inputs'
 import { InputLabel } from './InputLabel'
 import { ErrorMessage } from './ErrorMessage'
 
 import './Inputs.scss'
 import './Radio.scss'
 
-export interface TextRadioProps extends InputProps<string> {
-	selectOptions: Array<SelectOption<string>>
+export interface TextRadioProps extends SelectProps<string> {
 }
 
 export function TextRadio(props: TextRadioProps) {

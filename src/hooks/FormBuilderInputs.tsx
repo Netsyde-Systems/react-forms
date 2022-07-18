@@ -1,15 +1,11 @@
 import React from 'react'
 
-import { SelectOption } from '../inputs/inputs'
+import { SelectOption, SelectProps } from '../inputs/inputs'
 import { FormDefinition, FormState, OnlyKeysOfType } from "./FormBuilderTypes"
 
-import { TextInput } from '../inputs/TextInput'
-import { NumberInput } from '../inputs/NumberInput'
 import { InputProps } from '../inputs/inputs'
-import { DateInput } from '../inputs/DateInput'
 import { NumberSelect } from '../inputs/NumberSelect'
 import { TextSelect } from '../inputs/TextSelect'
-import { CheckBox } from '../inputs/CheckBox'
 
 export interface InputCreationFunction<FormT extends { [key: string]: any }, FieldT> {
 	(
@@ -21,52 +17,46 @@ export interface InputCreationFunction<FormT extends { [key: string]: any }, Fie
 	): [JSX.Element, boolean]
 }
 
-// TODO: Refactor the below to avoid repetition
+export interface ReactFormsInputControl<FieldType> {
+	(inputProps: InputProps<FieldType>): JSX.Element
+}
 
-export function createTextInput<FormT extends { [key: string]: any }>(
+export interface ReactFormsOptionControl<FieldType extends string | number> {
+	(selectProps: SelectProps<FieldType>): JSX.Element
+}
+
+export function createStandardInput<FormT extends { [key: string]: any }, FieldType>(
 	formDefinition: FormDefinition<FormT>,
 	formData: FormT,
 	formState: FormState<FormT>,
-	fieldName: string & OnlyKeysOfType<FormT, string>,
-	onChange: (formData: FormT) => void
+	fieldName: string & OnlyKeysOfType<FormT, FieldType>,
+	onChange: (formData: FormT) => void, 
+	InputControl: ReactFormsInputControl<FieldType>
 ): [JSX.Element, boolean] { // returns the react input, as well as whether or not the field is valid
 
-	let [props, isValid] = getInputProps<FormT, string>(formDefinition, formData, formState, fieldName, onChange)
+	let [props, isValid] = getInputProps<FormT, FieldType>(formDefinition, formData, formState, fieldName, onChange)
 
 	return [
-		<TextInput {...props} />,
+		InputControl(props),
 		isValid
 	]
 }
 
-export function createNumberInput<FormT extends { [key: string]: any }>(
+export function createOptionInput<FormT extends { [key: string]: any }, FieldType extends string | number>(
 	formDefinition: FormDefinition<FormT>,
 	formData: FormT,
 	formState: FormState<FormT>,
-	fieldName: string & OnlyKeysOfType<FormT, number>,
-	onChange: (formData: FormT) => void
+	fieldName: string & OnlyKeysOfType<FormT, FieldType>,
+	onChange: (formData: FormT) => void, 
+	OptionControl: ReactFormsOptionControl<FieldType>
 ): [JSX.Element, boolean] { // returns the react input, as well as whether or not the field is valid
 
-	let [props, isValid] = getInputProps<FormT, number>(formDefinition, formData, formState, fieldName, onChange)
+	const [props, isValid] = getInputProps<FormT, FieldType>(formDefinition, formData, formState, fieldName, onChange)
+
+	const selectOptions = getSelectOptions<FormT, FieldType>(formDefinition, formData, fieldName)
 
 	return [
-		<NumberInput {...props} />, 
-		isValid
-	]
-}
-
-export function createDateInput<FormT extends { [key: string]: any }>(
-	formDefinition: FormDefinition<FormT>,
-	formData: FormT,
-	formState: FormState<FormT>,
-	fieldName: string & OnlyKeysOfType<FormT, Date>,
-	onChange: (formData: FormT) => void
-): [JSX.Element, boolean] { // returns the react input, as well as whether or not the field is valid
-
-	let [props, isValid] = getInputProps<FormT, Date>(formDefinition, formData, formState, fieldName, onChange)
-
-	return [
-		<DateInput {...props} />, 
+		<OptionControl {...props} selectOptions={selectOptions} />, 
 		isValid
 	]
 }
@@ -106,23 +96,6 @@ export function createNumberSelect<FormT extends { [key: string]: any }>(
 		isValid
 	]
 }
-
-export function createCheckbox<FormT extends { [key: string]: any }>(
-	formDefinition: FormDefinition<FormT>,
-	formData: FormT,
-	formState: FormState<FormT>,
-	fieldName: string & OnlyKeysOfType<FormT, boolean>,
-	onChange: (formData: FormT) => void
-): [JSX.Element, boolean] { // returns the react input, as well as whether or not the field is valid
-
-	const [props, isValid] = getInputProps<FormT, boolean>(formDefinition, formData, formState, fieldName, onChange)
-
-	return [
-		<CheckBox {...props} />, 
-		isValid
-	]
-}
-
 
 function getInputProps<FormT extends { [key: string]: any }, FieldT>(
 	formDefinition: FormDefinition<FormT>,

@@ -1,16 +1,12 @@
-import React, { ChangeEventHandler } from 'react'
+import React from 'react'
 
-import { InputProps, getInputEnvelopeClass, SelectOption } from './inputs'
-import { InputLabel } from './InputLabel'
-import { ErrorMessage } from './ErrorMessage'
+import { SelectProps, SelectOption } from './inputs'
 import TextRadio, { TextRadioProps } from './TextRadio'
 
 import './Inputs.scss'
 import './Radio.scss'
 
-export interface NumberRadioProps extends InputProps<number> {
-	selectOptions: Array<SelectOption<number>>
-}
+export interface NumberRadioProps extends SelectProps<number> { }
 
 export function NumberRadio(props: NumberRadioProps) {
 	let { id, value, onChange, label, errorMessage, required, hidden, selectOptions, disabled } = props

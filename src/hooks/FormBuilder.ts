@@ -1,4 +1,12 @@
-import { createCheckbox, createDateInput, createNumberInput, createNumberSelect, createTextSelect, createTextInput, InputCreationFunction } from "./FormBuilderInputs"
+import TextInput from "../inputs/TextInput"
+import NumberInput from "../inputs/NumberInput"
+import DateInput from "../inputs/DateInput"
+import CheckBox from "../inputs/CheckBox"
+import TextSelect from "../inputs/TextSelect"
+import NumberSelect from "../inputs/NumberSelect"
+import PostalCode from "../inputs/PostalCode"
+import PhoneNumber from "../inputs/PhoneNumber"
+import { createOptionInput, createStandardInput, InputCreationFunction, ReactFormsInputControl, ReactFormsOptionControl } from "./FormBuilderInputs"
 import { FormDefinition, FormState, OnlyKeysOfType } from "./FormBuilderTypes"
 
 export type FieldNameProps<FormT, FieldT> = {
@@ -28,7 +36,7 @@ export class FormBuilder<FormT> {
 	}
 
 	// We've factored out what needs to be done for every control type here
-	private linkControl<FieldT>(fieldName: string & OnlyKeysOfType<FormT, FieldT>, inputCreationFnc: InputCreationFunction<FormT, FieldT>) {
+	private linkStandardControl<FieldT>(fieldName: string & OnlyKeysOfType<FormT, FieldT>, InputControl: ReactFormsInputControl<FieldT>) {
 		let newFormState = Object.assign({}, this.formState)
 		let newFormData = Object.assign({}, this.formData)
 
@@ -38,26 +46,47 @@ export class FormBuilder<FormT> {
 			this.setFormState(newFormState)
 		}
 
-		const [inputControl, isValid] = inputCreationFnc(this.formDefinition, newFormData, newFormState, fieldName, handleChange)
+		const [inputControl, isValid] = createStandardInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange, InputControl)
 
 		this.updateValidity(isValid)
 
 		return inputControl
 	}
 
-	public textInput = (fieldName: string & OnlyKeysOfType<FormT, string>) => this.linkControl<string>(fieldName, createTextInput)
+	private linkOptionControl<FieldT extends string | number>(fieldName: string & OnlyKeysOfType<FormT, FieldT>, OptionControl: ReactFormsOptionControl<FieldT>) {
+		let newFormState = Object.assign({}, this.formState)
+		let newFormData = Object.assign({}, this.formData)
+
+		const handleChange = (formData: FormT) => {
+			newFormState.fieldsTouched[fieldName] = true
+			this.setFormData(formData)
+			this.setFormState(newFormState)
+		}
+
+		const [inputControl, isValid] = createOptionInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange, OptionControl)
+
+		this.updateValidity(isValid)
+
+		return inputControl
+	}
+
+	public textInput = (fieldName: string & OnlyKeysOfType<FormT, string>) => this.linkStandardControl(fieldName, TextInput)
 	// TODO: Find out how to get around input losing focus issue
-	public TextInput = (props: FieldNameProps<FormT, string>) => this.linkControl<string>(props.field, createTextInput)
+	public TextInput = (props: FieldNameProps<FormT, string>) => this.linkStandardControl(props.field, TextInput)
 
-	public numberInput = (fieldName: string & OnlyKeysOfType<FormT, number>) => this.linkControl<number>(fieldName, createNumberInput)
+	public numberInput = (fieldName: string & OnlyKeysOfType<FormT, number>) => this.linkStandardControl<number>(fieldName, NumberInput)
 	
-	public dateInput = (fieldName: string & OnlyKeysOfType<FormT, Date>) => this.linkControl<Date>(fieldName, createDateInput)
+	public dateInput = (fieldName: string & OnlyKeysOfType<FormT, Date>) => this.linkStandardControl(fieldName, DateInput)
 
-	public textSelect = (fieldName: string & OnlyKeysOfType<FormT, string>) => this.linkControl<string>(fieldName, createTextSelect)
+	public postalCode = (fieldName: string & OnlyKeysOfType<FormT, string>) => this.linkStandardControl(fieldName, PostalCode)
 
-	public numberSelect = (fieldName: string & OnlyKeysOfType<FormT, number>) => this.linkControl<number>(fieldName, createNumberSelect)
+	public phoneNumber = (fieldName: string & OnlyKeysOfType<FormT, number>) => this.linkStandardControl(fieldName, PhoneNumber)
 
-	public checkbox = (fieldName: string & OnlyKeysOfType<FormT, boolean>) => this.linkControl<boolean>(fieldName, createCheckbox)
+	public textSelect = (fieldName: string & OnlyKeysOfType<FormT, string>) => this.linkOptionControl<string>(fieldName, TextSelect)
+
+	public numberSelect = (fieldName: string & OnlyKeysOfType<FormT, number>) => this.linkOptionControl<number>(fieldName, NumberSelect)
+
+	public checkbox = (fieldName: string & OnlyKeysOfType<FormT, boolean>) => this.linkStandardControl(fieldName, CheckBox)
 
 	public validate() {
 		if (!this.formState.hasBeenValidated) {

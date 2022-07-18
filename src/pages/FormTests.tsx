@@ -5,13 +5,16 @@ import useReactForms from '../hooks/useReactForms'
 import './FormTests.scss'
 
 interface TestForm {
-	stringProperty?: string
-	numberProperty?: number
-	dateProperty?: Date
+	stringProperty: string
+	numberProperty: number
+	dateProperty: Date
 
-	selectStringProperty?: string
-	selectNumberProperty?: number
-	checkboxProperty?: boolean
+	selectStringProperty: string
+	selectNumberProperty: number
+	checkboxProperty: boolean
+
+	phoneNumber: number
+	postalCode: string
 }
 
 const testFormDefinition: FormDefinition<TestForm> = {
@@ -29,7 +32,8 @@ const testFormDefinition: FormDefinition<TestForm> = {
 	}
 }
 
-let testFormData: TestForm = {}
+// TODO: GH#20 make form init capable of taking a Partial<FormT>
+let testFormData: TestForm = ({} as TestForm)
 
 let getTypeMap = (obj: any) => {
 	let typeMap = Object.keys(obj).reduce((typeMap, key) => {
@@ -69,6 +73,15 @@ export function FormTests() {
 					</div>
 					<div className='control-cell'>
 						{rf.checkbox('checkboxProperty')}
+					</div>
+				</div>
+
+				<div className='control-row'>
+					<div className='control-cell'>
+						{rf.phoneNumber('phoneNumber')}
+					</div>
+					<div className='control-cell'>
+						{rf.postalCode('postalCode')}
 					</div>
 				</div>
 

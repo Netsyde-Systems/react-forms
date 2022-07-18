@@ -5,13 +5,14 @@ import { Locale, toIsoGmtDateString } from '../utilities'
 import Button, { ButtonProps } from '../button/Button'
 import { Well } from '../well/Well'
 import { TextInput } from '../inputs/TextInput'
+import { NumberInput } from '../inputs/NumberInput'
 import { TextArea } from '../inputs/TextArea'
 import { SelectOption } from '../inputs/inputs'
 import { TextSelect } from '../inputs/TextSelect'
 import { NumberSelect } from '../inputs/NumberSelect'
 import { CheckBox } from '../inputs/CheckBox'
 import { TextRadio } from '../inputs/TextRadio'
-import { NumberInput } from '../inputs/NumberInput'
+import { NumberRadio } from '../inputs/NumberRadio'
 import { DateInput } from '../inputs/DateInput'
 
 import './ControlTests.scss'
@@ -154,7 +155,7 @@ function ControlTests() {
 
 					<div className='control-row'>
 						<div className='control-cell'>
-							<TextRadio id='rdInput' label='Radio Input' value={RadioValue} onChange={setRadioValue} {...sharedProperties} selectOptions={textSelectOptions}  />
+							<TextRadio id='rdInput' label='Text Radio' value={RadioValue} onChange={setRadioValue} {...sharedProperties} selectOptions={textSelectOptions}  />
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(RadioValue)}
@@ -163,7 +164,7 @@ function ControlTests() {
 
 					<div className='control-row'>
 						<div className='control-cell'>
-							<NumberSelect id='selNumRadioInput' label='NumberRadio Select' value={NumberRadioValue} onChange={setNumberRadioValue} selectOptions={numberSelectOptions} {...sharedProperties} />
+							<NumberRadio id='selNumRadioInput' label='Number Radio' value={NumberRadioValue} onChange={setNumberRadioValue} selectOptions={numberSelectOptions} {...sharedProperties} />
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(NumberRadioValue)}

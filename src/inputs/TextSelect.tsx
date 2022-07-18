@@ -1,14 +1,13 @@
 import React, { ChangeEventHandler } from 'react'
 
-import { InputProps, SelectOption, getInputEnvelopeClass } from './inputs'
+import { getInputEnvelopeClass, SelectProps } from './inputs'
 import { InputLabel} from './InputLabel'
 import { ErrorMessage } from './ErrorMessage'
 
 import './Inputs.scss'
 
-export interface TextSelectProps extends InputProps<string | null> {
+export interface TextSelectProps extends SelectProps<string> {
 	placeholder?: string
-	selectOptions: Array<SelectOption<string>>
  }
 
  // html options in react can't take a null values

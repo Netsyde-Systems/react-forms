@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import { Activatable } from '../common'
+import { Activatable } from '../inputs/inputs'
 
 import './Button.scss'
 
