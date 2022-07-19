@@ -14,6 +14,17 @@ it('has correct id', () => {
 	expect(input).toHaveAttribute('id', 'txtMaskedInput')
 })
 
+it('calls onChange function', () => {
+	const handleChange = jest.fn()
+
+	const maskedInput = render(<MaskedInput id='txtMaskedInput' onChange={handleChange} value={'null'} mask={''} />)
+	const input = maskedInput.getByDisplayValue('')
+
+	fireEvent.change(input, { target: { value: 'a00' } })
+
+	expect(handleChange).toHaveBeenCalledWith('')
+})
+
 it('has no label when not provided', () => {
 	const maskedInput = render(<MaskedInput id='txtMaskedInput' onChange={() => null} value={'null'} mask={''} />)
 	const label = maskedInput.container.querySelector('label')

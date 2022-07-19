@@ -14,6 +14,17 @@ it('has correct id', () => {
 	expect(input).toHaveAttribute('id', 'datInput')
 })
 
+//it('calls onChange function', () => {
+//	const handleChange = jest.fn()
+
+//	const postalCode = render(<DateInput id='datInput' onChange={handleChange} value={undefined} />)
+//	const input = postalCode.getByDisplayValue('')
+
+//	fireEvent.change(input, { target: { value: '11111111' } })
+
+//	expect(handleChange).toHaveBeenCalledWith('11111111')
+//})
+
 it('has no label when not provided', () => {
 	const dateInput = render(<DateInput id='datInput' onChange={() => null} value={undefined} />)
 	const label = dateInput.container.querySelector('label')

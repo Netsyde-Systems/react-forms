@@ -14,6 +14,32 @@ it('has correct id', () => {
 	expect(input).toHaveAttribute('id', 'numInput')
 })
 
+//it('calls onChange function', () => {
+//	const handleChange = jest.fn()
+
+//	const numberInput = render(<NumberInput id='txtPostalCode' onChange={handleChange} value={undefined} />)
+//	const input = numberInput.getByDisplayValue('')
+
+//	fireEvent.change(input, { target: { value: "1" } })
+
+//	expect(handleChange).toHaveBeenCalledWith("1")
+//})
+
+it('has no label when not provided', () => {
+	const maskedInput = render(<NumberInput id='numInput' onChange={() => null} value={undefined} />)
+	const label = maskedInput.container.querySelector('label')
+	// label inner content is actually ' ', to keep it from collapsing
+	// the below regex matches any number of whitespace characters
+	expect(label?.innerHTML).toMatch(/^\s*$/)
+})
+
+it('has the correct label when provided', () => {
+	const maskedInput = render(<NumberInput id='numInput' onChange={() => null} label='Expected Number Input' value={undefined} />)
+	const label = maskedInput.container.querySelector('label')
+	expect(label).toHaveTextContent('Expected Number Input')
+})
+
+
 it('label has asterisk when required', () => {
 	let control = render(<NumberInput id='numInput' label='A Label' value={undefined} onChange={() => null} />)
 	let label = control.container.querySelector('label')

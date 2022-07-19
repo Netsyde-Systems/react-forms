@@ -20,9 +20,9 @@ it('has correct id', () => {
 //	const phoneNumber = render(<PhoneNumber id='txtPhoneNumber' value={undefined} onChange={handleChange} />)
 //	const input = phoneNumber.getByDisplayValue('')
 
-//	fireEvent.change(input, { target: { value: 'null' } })
+//	fireEvent.change(input, { target: { value: '' } })
 
-//	expect(handleChange).toHaveBeenCalledWith('null')
+//	expect(handleChange).toHaveBeenCalledWith('')
 //})
 
 it('has no label when not provided', () => {
