@@ -58,17 +58,17 @@ it('has no label when not provided', () => {
 	expect(label?.innerHTML).toMatch(/^\s*$/)
 })
 
-//it('has the correct label when provided', () => {
-//	const numberSelectOptions: Array<SelectOption<number>> = [
-//		{ value: 1, text: 'Option One' }, 
-//		{ value: 2, text: 'Option Two' }, 
-//		{ value: 3, text: 'Option Three' }, 
-//	]
+it('has the correct label when provided', () => {
+	const numberSelectOptions: Array<SelectOption<number>> = [
+		{ value: 1, text: 'Option One' }, 
+		{ value: 2, text: 'Option Two' }, 
+		{ value: 3, text: 'Option Three' }, 
+	]
 
-//	const textInput = render(<NumberSelect id='selNumInput' value={2} onChange={() => null} selectOptions={numberSelectOptions} />)
-//	const label = textInput.container.querySelector('label')
-//	expect(label).toHaveTextContent('value')
-//})
+	const textInput = render(<NumberSelect id='selNumInput' value={2} label='Number Select' onChange={() => null} selectOptions={numberSelectOptions} />)
+	const label = textInput.container.querySelector('label')
+	expect(label).toHaveTextContent('Number Select')
+})
 
 it('label has asterisk when required', () => {
 	const numberSelectOptions: Array<SelectOption<number>> = [

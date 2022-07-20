@@ -10,8 +10,8 @@ it('displays supplied value', () => {
 		{ value: 3, text: 'Option Three' }, 
 	]
 
-	const numberInput = render(<NumberRadio id='selNumRadioInput' onChange={() => null} value={undefined} selectOptions={numberSelectOptions} />)
-	const input = numberInput.getByDisplayValue('1')
+	const numberRadio = render(<NumberRadio id='selNumRadioInput' onChange={() => null} value={undefined} selectOptions={numberSelectOptions} />)
+	const input = numberRadio.getByDisplayValue('1')
 	expect(input).toBeInTheDocument()
 })
 
@@ -22,21 +22,49 @@ it('has correct id', () => {
 		{ value: 3, text: 'Option Three' }, 
 	]
 
-	const numberInput = render(<NumberRadio id='selNumRadioInput' onChange={() => null} value={undefined} selectOptions={numberSelectOptions} />)
-	const input = numberInput.getByDisplayValue('1')
+	const numberRadio = render(<NumberRadio id='selNumRadioInput' onChange={() => null} value={2} selectOptions={numberSelectOptions} />)
+	const input = numberRadio.getByDisplayValue(2)
 	expect(input).toHaveAttribute('id')
 })
 
-//it('calls onChange function', () => {
-//	const handleChange = jest.fn()
+// it('calls onChange as expected', () => {
+// 	const numberSelectOptions: Array<SelectOption<number>> = [
+// 		{ value: 1, text: 'Option One' }, 
+// 		{ value: 2, text: 'Option Two' }, 
+// 		{ value: 3, text: 'Option Three' }, 
+// 	]
 
-//	const numberInput = render(<NumberInput id='txtPostalCode' onChange={handleChange} value={undefined} />)
-//	const input = numberInput.getByDisplayValue('')
+// 	// initialize with null 
+// 	let handleChange = jest.fn()
+// 	let control = render(<NumberRadio id='selNumRadioInput' value={3} onChange={handleChange} selectOptions={numberSelectOptions} />)
+// 	let input = control.getByDisplayValue(3)
 
-//	fireEvent.change(input, { target: { value: "1" } })
+// 	// when clicked we expect true
+// 	fireEvent.click(input) 
+// 	expect(handleChange).toHaveTextContent("Option Three")
 
-//	expect(handleChange).toHaveBeenCalledWith("1")
-//})
+// 	cleanup()
+
+// 	// initialize with false 
+// 	handleChange = jest.fn()
+// 	control = render(<NumberRadio id='selNumRadioInput' label='Expected Number Radio' value={3} onChange={handleChange} selectOptions={numberSelectOptions} />)
+// 	input = control.getByDisplayValue(3)
+
+// 	// when clicked we expect true
+// 	fireEvent.click(input) 
+// 	expect(handleChange).toHaveTextContent("Option Three")
+
+// 	cleanup()
+
+// 	// initialize with true
+// 	handleChange = jest.fn()
+// 	control = render(<NumberRadio id='selNumRadioInput' label='Expected Number Radio' value={3} onChange={handleChange} selectOptions={numberSelectOptions} />)
+// 	input = control.getByDisplayValue(3)
+
+// 	// when clicked we expect false
+// 	fireEvent.click(input) 
+// 	expect(handleChange).toHaveTextContent("Option Three")
+// })
 
 it('has no label when not provided', () => {
 	const numberSelectOptions: Array<SelectOption<number>> = [
@@ -45,8 +73,8 @@ it('has no label when not provided', () => {
 		{ value: 3, text: 'Option Three' }, 
 	]
 
-	const numberInput = render(<NumberRadio id='selNumRadioInput' onChange={() => null} value={undefined} selectOptions={numberSelectOptions} />)
-	const label = numberInput.container.querySelector('label')
+	const numberRadio = render(<NumberRadio id='selNumRadioInput' onChange={() => null} value={undefined} selectOptions={numberSelectOptions} />)
+	const label = numberRadio.container.querySelector('label')
 	// label inner content is actually ' ', to keep it from collapsing
 	// the below regex matches any number of whitespace characters
 	expect(label?.innerHTML).toMatch(/^\s*$/)
@@ -59,8 +87,8 @@ it('has the correct label when provided', () => {
 		{ value: 3, text: 'Option Three' }, 
 	]
 
-	const numberInput = render(<NumberRadio id='selNumRadioInput' onChange={() => null} label='Expected Number Radio' value={undefined} selectOptions={numberSelectOptions} />)
-	const label = numberInput.container.querySelector('label')
+	const numberRadio = render(<NumberRadio id='selNumRadioInput' onChange={() => null} label='Expected Number Radio' value={undefined} selectOptions={numberSelectOptions} />)
+	const label = numberRadio.container.querySelector('label')
 	expect(label).toHaveTextContent('Expected Number Radio')
 })
 

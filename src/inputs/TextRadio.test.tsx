@@ -27,22 +27,44 @@ it('has correct id', () => {
 	expect(input).toHaveAttribute('id', 'rdInput0')
 })
 
-//it('calls onChange function', () => {
-//	const textSelectOptions: Array<SelectOption<string>> = [
-//		{ value: 'Value One', text: 'Option One' }, 
-//		{ value: 'Value Two', text: 'Option Two' }, 
-//		{ value: 'Value Three', text: 'Option Three' }, 
-//	]
+it('calls onChange as expected', () => {
+	const textSelectOptions: Array<SelectOption<string>> = [
+		{ value: 'Value One', text: 'Option One' }, 
+		{ value: 'Value Two', text: 'Option Two' }, 
+		{ value: 'Value Three', text: 'Option Three' }, 
+	]
 
-//	const handleChange = jest.fn()
+	// initialize with null 
+	let handleChange = jest.fn()
+	let control = render(<TextRadio id='rdInput' value={null} onChange={handleChange} selectOptions={textSelectOptions} />)
+	let input = control.getByDisplayValue('Value One')
 
-//	const numberSelect = render(<TextRadio id='rdInput' value='Value Three' onChange={handleChange} selectOptions={textSelectOptions} />)
-//	const input = numberSelect.getByDisplayValue('Value Three')
+	// when clicked we expect true
+	fireEvent.click(input) 
+	expect(handleChange).toHaveBeenCalledWith('Value One')
 
-//	fireEvent.change(input, { target: { value: 'New Value' } })
+	cleanup()
 
-//	expect(handleChange).toHaveBeenCalledWith('Expected Label Value')
-//})
+	// initialize with false 
+	handleChange = jest.fn()
+	control = render(<TextRadio id='rdInput' label='Expected Label Value' value={null} onChange={handleChange} selectOptions={textSelectOptions} />)
+	input = control.getByDisplayValue('Value One')
+
+	// when clicked we expect true
+	fireEvent.click(input) 
+	expect(handleChange).toHaveBeenCalledWith('Value One')
+
+	cleanup()
+
+	// initialize with true
+	handleChange = jest.fn()
+	control = render(<TextRadio id='rdInput' label='Expected Label Value' value={null} onChange={handleChange} selectOptions={textSelectOptions} />)
+	input = control.getByDisplayValue('Value One')
+
+	// when clicked we expect false
+	fireEvent.click(input) 
+	expect(handleChange).toHaveBeenCalledWith('Value One')
+})
 
 it('has no label when not provided', () => {
 	const textSelectOptions: Array<SelectOption<string>> = [
