@@ -108,7 +108,7 @@ it('label has asterisk when required', () => {
 	control = render(<TextRadio id='rdInput' value={null} label='A Label' onChange={() => null} required={true} selectOptions={textSelectOptions} />)
 	label = control.container.querySelector('label')
 	// TODO: Figure out how to check for label's css '::before' content
-	// expect(control).toHaveTextContent(/\*/)
+	// expect(label).toHaveTextContent(/\*/)
 })
 
 it('is hidden when specified', () => {
