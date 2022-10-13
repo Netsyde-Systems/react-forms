@@ -12,8 +12,8 @@ export interface Localizable {
 
 export interface InputProps<T> extends Activatable {
 	id: string
-	value: T | undefined | null
-	onChange: (val: T | null) => void
+	value: T | undefined
+	onChange: (val?: T) => void
 	label?: string
 	errorMessage?: string
 	required?: boolean
@@ -25,7 +25,7 @@ export interface SelectOption<T extends string | number> {
 	text: string
 }
 
-export interface SelectProps<T extends string | number> extends InputProps<T | null> {
+export interface SelectProps<T extends string | number> extends InputProps<T> {
 	selectOptions: Array<SelectOption<T>>
 }
 

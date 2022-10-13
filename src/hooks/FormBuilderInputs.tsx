@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { SelectOption, SelectProps } from '../inputs/inputs'
-import { FormDefinition, FormState, OnlyKeysOfType } from "./FormBuilderTypes"
+import { FormDefinition, FormState, OnlyKeysOfType, FormShape, FormData } from "./FormBuilderTypes"
 
 import { InputProps } from '../inputs/inputs'
 import { NumberSelect } from '../inputs/NumberSelect'
@@ -15,12 +15,12 @@ export interface ReactFormsOptionControl<FieldType extends string | number> {
 	(selectProps: SelectProps<FieldType>): JSX.Element
 }
 
-export function createStandardInput<FormT extends { [key: string]: any }, FieldType>(
+export function createStandardInput<FormT extends FormShape, FieldType>(
 	formDefinition: FormDefinition<FormT>,
-	formData: FormT,
+	formData: FormData<FormT>,
 	formState: FormState<FormT>,
-	fieldName: string & OnlyKeysOfType<FormT, FieldType>,
-	onChange: (formData: FormT) => void, 
+	fieldName: OnlyKeysOfType<FormT, FieldType>,
+	onChange: (data: FormData<FormT>) => void, 
 	InputControl: ReactFormsInputControl<FieldType>
 ): [JSX.Element, boolean] { // returns the react input, as well as whether or not the field is valid
 
@@ -32,12 +32,12 @@ export function createStandardInput<FormT extends { [key: string]: any }, FieldT
 	]
 }
 
-export function createOptionInput<FormT extends { [key: string]: any }, FieldType extends string | number>(
+export function createOptionInput<FormT extends FormShape, FieldType extends string | number>(
 	formDefinition: FormDefinition<FormT>,
-	formData: FormT,
+	formData: FormData<FormT>,
 	formState: FormState<FormT>,
-	fieldName: string & OnlyKeysOfType<FormT, FieldType>,
-	onChange: (formData: FormT) => void, 
+	fieldName: OnlyKeysOfType<FormT, FieldType>,
+	onChange: (formData: FormData<FormT>) => void, 
 	OptionControl: ReactFormsOptionControl<FieldType>
 ): [JSX.Element, boolean] { // returns the react input, as well as whether or not the field is valid
 
@@ -51,12 +51,12 @@ export function createOptionInput<FormT extends { [key: string]: any }, FieldTyp
 	]
 }
 
-export function createTextSelect<FormT extends { [key: string]: any }>(
+export function createTextSelect<FormT extends FormShape>(
 	formDefinition: FormDefinition<FormT>,
-	formData: FormT,
+	formData: FormData<FormT>,
 	formState: FormState<FormT>,
-	fieldName: string & OnlyKeysOfType<FormT, string>,
-	onChange: (formData: FormT) => void
+	fieldName: OnlyKeysOfType<FormT, string>,
+	onChange: (formData: FormData<FormT>) => void
 ): [JSX.Element, boolean] { // returns the react input, as well as whether or not the field is valid
 
 	const [props, isValid] = getInputProps<FormT, string>(formDefinition, formData, formState, fieldName, onChange)
@@ -69,12 +69,12 @@ export function createTextSelect<FormT extends { [key: string]: any }>(
 	]
 }
 
-export function createNumberSelect<FormT extends { [key: string]: any }>(
+export function createNumberSelect<FormT extends FormShape>(
 	formDefinition: FormDefinition<FormT>,
-	formData: FormT,
+	formData: FormData<FormT>,
 	formState: FormState<FormT>,
-	fieldName: string & OnlyKeysOfType<FormT, number>,
-	onChange: (formData: FormT) => void
+	fieldName: OnlyKeysOfType<FormT, number>,
+	onChange: (formData: FormData<FormT>) => void
 ): [JSX.Element, boolean] { // returns the react input, as well as whether or not the field is valid
 
 	const [props, isValid] = getInputProps<FormT, number>(formDefinition, formData, formState, fieldName, onChange)
@@ -87,22 +87,22 @@ export function createNumberSelect<FormT extends { [key: string]: any }>(
 	]
 }
 
-function getInputProps<FormT extends { [key: string]: any }, FieldT>(
+function getInputProps<FormT extends FormShape, FieldT>(
 	formDefinition: FormDefinition<FormT>,
-	formData: FormT,
+	formData: FormData<FormT>,
 	formState: FormState<FormT>,
-	fieldName: string & OnlyKeysOfType<FormT, FieldT>,
-	onFormChange: (formData: FormT) => void
+	fieldName: OnlyKeysOfType<FormT, FieldT>,
+	onFormChange: (formData: FormData<FormT>) => void
 ): [InputProps<FieldT>, boolean] { // returns the input props, as well as whether or not the field is valid
 
 	const fieldDef = formDefinition[fieldName]
 	const fieldValue = formData[fieldName]
 
 	// id defaults to fieldname if not provided
-	const id = fieldDef?.id || fieldName
+	const id = fieldDef?.id || fieldName.toString()
 
 	// label is titleized fieldName if not provided
-	let label: string = fieldName
+	let label: string = fieldName.toString()
 	if (typeof fieldDef?.label == 'string') label = fieldDef.label
 	else if (typeof fieldDef?.label == 'function') label = fieldDef.label(fieldValue, fieldName, formData)
 
@@ -125,7 +125,7 @@ function getInputProps<FormT extends { [key: string]: any }, FieldT>(
 		errorMessage = ''
 	}
 
-	const onChange = (newFieldValue: FieldT | null) => {
+	const onChange = (newFieldValue?: FieldT) => {
 		// some type hacks here... TODO: look into how to do this properly
 		const coercedFieldValue = newFieldValue as any
 
@@ -144,20 +144,20 @@ function getInputProps<FormT extends { [key: string]: any }, FieldT>(
 		}
 	}
 
-	const props: InputProps<FieldT> = { id, value: formData[fieldName], label, onChange, errorMessage, hidden, disabled, required }
+	const props: InputProps<FieldT> = { id, value: formData[fieldName] as FieldT, label, onChange, errorMessage, hidden, disabled, required }
 
 	return [props, isValid]
 }
 
 
-function getSelectOptions<FormT extends { [key: string]: any }, FieldT extends string | number>(
+function getSelectOptions<FormT extends FormShape, FieldT extends string | number>(
 	formDefinition: FormDefinition<FormT>,
-	formData: FormT,
-	fieldName: string & OnlyKeysOfType<FormT, FieldT>,
+	formData: FormData<FormT>,
+	fieldName: OnlyKeysOfType<FormT, FieldT>,
 ): Array<SelectOption<FieldT>> { // returns the input props, as well as whether or not the field is valid
 
 	const fieldDef = formDefinition[fieldName]
-	const fieldValue = formData[fieldName]
+	const fieldValue = formData[fieldName] 
 
 	let selectOptions: Array<SelectOption<FieldT>> = []
 

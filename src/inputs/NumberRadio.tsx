@@ -12,9 +12,9 @@ export function NumberRadio(props: NumberRadioProps) {
 	let { id, value, onChange, label, errorMessage, required, hidden, selectOptions, disabled } = props
 
 	let textValue: string | undefined = value?.toString()
-	let textOnChange = (textValue: string | null) => {
+	let textOnChange = (textValue?: string) => {
 			const numVal = Number(textValue)
-			if (textValue === null || isNaN(numVal)) props.onChange(null)
+			if (isNaN(numVal)) props.onChange(undefined)
 			else onChange(numVal)
 	}
 	let textSelectOptions: Array<SelectOption<string>> = selectOptions.map(({ text, value }) => { return { text, value: value.toString() } })

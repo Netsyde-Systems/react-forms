@@ -1,10 +1,10 @@
 import React from 'react'
-import { FormDefinition } from '../hooks/FormBuilderTypes'
+import { FormDefinition, FormData } from '../hooks/FormBuilderTypes'
 import useReactForms from '../hooks/useReactForms'
 
 import './FormTests.scss'
 
-interface TestForm {
+interface TestFormShape {
 	stringProperty: string
 	numberProperty: number
 	dateProperty: Date
@@ -18,7 +18,7 @@ interface TestForm {
 	postalCode: string
 }
 
-const testFormDefinition: FormDefinition<TestForm> = {
+const testFormDefinition: FormDefinition<TestFormShape> = {
 	selectStringProperty: {
 		selectOptions: [
 			{ value: 'First', text: 'First Option' },
@@ -33,8 +33,7 @@ const testFormDefinition: FormDefinition<TestForm> = {
 	}
 }
 
-// TODO: GH#20 make form init capable of taking a Partial<FormT>
-let testFormData: TestForm = ({} as TestForm)
+let testFormData: FormData<TestFormShape> = {} 
 
 let getTypeMap = (obj: any) => {
 	let typeMap = Object.keys(obj).reduce((typeMap, key) => {

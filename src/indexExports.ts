@@ -7,6 +7,8 @@ export type {
 	OnlyKeysOfType, 
 	FieldSpecifierFunction, 
 	SelectOptionsSpecifier, 
+	FormShape, 
+	FormData,
 	FieldDefinition, 
 	FormDefinition
 } from './hooks/FormBuilderTypes'

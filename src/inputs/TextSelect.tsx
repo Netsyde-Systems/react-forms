@@ -16,7 +16,7 @@ const NULL_STRING_VALUE = Number.MIN_SAFE_INTEGER.toString()
 
 export function TextSelect(props: TextSelectProps) {
 	const handleChange: ChangeEventHandler<HTMLSelectElement> = 
-		(e) => props.onChange(e.target.value === NULL_STRING_VALUE ? null : e.target.value)
+		(e) => props.onChange(e.target.value === NULL_STRING_VALUE ? undefined : e.target.value)
 
 	const className = getInputEnvelopeClass(props, 'select', 'input')
 

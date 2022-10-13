@@ -3,22 +3,22 @@ import { render, cleanup, screen, fireEvent } from '@testing-library/react'
 import CheckBox from './CheckBox'
 
 it('displays supplied value', () => {
-	const control = render(<CheckBox id='chkInput' value={null} onChange={() => null} />)
+	const control = render(<CheckBox id='chkInput' value={undefined} onChange={() => null} />)
 	const input = control.getByRole('checkbox')
 	expect(input).toBeInTheDocument()
 })
 
 it('has correct id', () => {
-	const control = render(<CheckBox id='chkInput' value={null} onChange={() => null} />)
+	const control = render(<CheckBox id='chkInput' value={undefined} onChange={() => null} />)
 	const input = control.getByRole('checkbox')
 	expect(input).toHaveAttribute('id', 'chkInput')
 })
 
 
 it('calls onChange as expected', () => {
-	// initialize with null 
+	// initialize with undefined
 	let handleChange = jest.fn()
-	let control = render(<CheckBox id='chkInput' value={null} onChange={handleChange} />)
+	let control = render(<CheckBox id='chkInput' value={undefined} onChange={handleChange} />)
 	let input = control.getByRole('checkbox')
 
 	// when clicked we expect true
@@ -50,7 +50,7 @@ it('calls onChange as expected', () => {
 
 
 it('has the correct label when provided', () => {
-	let control = render(<CheckBox id='chkInput' value={null} onChange={() => null} />)
+	let control = render(<CheckBox id='chkInput' value={undefined} onChange={() => null} />)
 	let label = control.container.querySelector('label')
 	// label inner content is actually ' ', to keep it from collapsing
 	// the below regex matches any number of whitespace characters

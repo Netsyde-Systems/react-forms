@@ -1,8 +1,8 @@
 import React from 'react'
-import { FormDefinition, FormState, initFormState } from './FormBuilderTypes'
+import { FormShape, FormData, FormDefinition, FormState, initFormState } from './FormBuilderTypes'
 import { FormBuilder } from './FormBuilder'
 
-export function useReactForms<FormT>(formDefinition: FormDefinition<FormT>, initialFormData: FormT): FormBuilder<FormT> {
+export function useReactForms<FormT extends FormShape>(formDefinition: FormDefinition<FormT>, initialFormData: FormData<FormT>): FormBuilder<FormT> {
 	const [formData, setFormData] = React.useState(initialFormData)
 	const [formState, setFormState] = React.useState<FormState<FormT>>(initFormState(initialFormData))
 

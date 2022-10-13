@@ -12,7 +12,7 @@ export interface NumberInputProps extends InputProps<number> {
 
 export function NumberInput(props: NumberInputProps) {
 	const handleChange: ChangeEventHandler<HTMLInputElement> = 
-		(e) => props.onChange(e.target.value === '' ? null : Number(e.target.value))
+		(e) => props.onChange(e.target.value === '' ? undefined : Number(e.target.value))
 
 	const className = getInputEnvelopeClass(props, 'text', 'input')
 
