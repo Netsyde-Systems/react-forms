@@ -5,7 +5,8 @@ export interface ValidatorFunction<FormT extends FormShape> extends FieldSpecifi
 
 export interface ErrorMessageFunction<FormT extends FormShape> extends FieldSpecifierFunction<FormT, string | undefined> { }
 
-export const isValidEmail: ValidatorFunction<any> = function (fieldValue, fieldName, formData) {
+// export const isValidEmail: ValidatorFunction<any> = function (fieldValue, fieldName, formData) {
+export const isValidEmail = function (fieldValue?: string) {
 	if (!fieldValue) return true // empty string is a valid email (required check is separate)
 	else return EmailValidator.validate(fieldValue)
 }
@@ -23,6 +24,8 @@ export const requiredFieldError: ErrorMessageFunction<any> = function (fieldValu
 	if (!isValueProvided(fieldValue, fieldName, formData)) return `${fieldName.toString()} is required.`
 }
 
-export const invalidEmailError: ErrorMessageFunction<any> = function (fieldValue, fieldName, formData) {
-	if (!isValidEmail(fieldValue, fieldName, formData)) return `Invalid email.`
+// export const invalidEmailError: ErrorMessageFunction<any> = function (fieldValue, fieldName, formData) {
+export const invalidEmailError = function (fieldValue?: string) {
+	// if (!isValidEmail(fieldValue, fieldName, formData)) return `Invalid email.`
+	if (!isValidEmail(fieldValue)) return `Invalid email.`
 }

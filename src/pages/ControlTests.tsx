@@ -19,6 +19,7 @@ import './ControlTests.scss'
 import { MaskedInput } from '../inputs/MaskedInput'
 import { PhoneNumber } from '../inputs/PhoneNumber'
 import { PostalCode } from '../inputs/PostalCode'
+import { EmailInput } from '../inputs/EmailInput'
 
 function ControlTests() {
 
@@ -35,6 +36,7 @@ function ControlTests() {
 	const [textMaskedValue, setMaskedValue] = React.useState<string>()
 	const [phoneValue, setPhoneValue] = React.useState<number>()
 	const [postalCodeValue, setPostalCodeValue] = React.useState<string>()
+	const [emailValue, setEmailValue] = React.useState<string>()
 
 	const [controlsHaveErrors, setControlErrors] = React.useState(false)
 	const [controlsAreDisabled, disableControls] = React.useState(false)
@@ -108,9 +110,6 @@ function ControlTests() {
 						<div className='control-cell'>
 							{nullableValueMessage(textInputValue)}
 						</div>
-					</div>
-
-					<div className='control-row'>
 						<div className='control-cell'>
 							<NumberInput id='numInput' label='Number Input' value={numberInputValue} onChange={setNumberInputValue} placeholder="Number Input Placeholder" {...sharedProperties}  />
 						</div>
@@ -121,24 +120,11 @@ function ControlTests() {
 
 					<div className='control-row'>
 						<div className='control-cell'>
-							<DateInput id='datInput' label='Date Input' value={dateInputValue} onChange={setDateInputValue} {...sharedProperties}  />
-						</div>
-						<div className='control-cell'>
-							{nullableValueMessage(dateInputValue)}<br/>
-							ISO GMT DATE: {toIsoGmtDateString(dateInputValue)}
-						</div>
-					</div>
-
-					<div className='control-row'>
-						<div className='control-cell'>
 							<TextSelect id='selTextInput' label='Text Select' value={selectTextValue} onChange={setSelectTextValue} placeholder="Select Text Placeholder" selectOptions={textSelectOptions} {...sharedProperties} />
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(selectTextValue)}
 						</div>
-					</div>
-
-					<div className='control-row'>
 						<div className='control-cell'>
 							<NumberSelect id='selNumInput' label='Number Select' value={selectNumberValue} onChange={setSelectNumberValue} placeholder="Select Number Placeholder" selectOptions={numberSelectOptions} {...sharedProperties} />
 						</div>
@@ -149,6 +135,36 @@ function ControlTests() {
 
 					<div className='control-row'>
 						<div className='control-cell'>
+							<TextRadio id='rdInput' label='Text Radio' value={RadioValue} onChange={setRadioValue} {...sharedProperties} selectOptions={textSelectOptions}  />
+						</div>
+						<div className='control-cell'>
+							{nullableValueMessage(RadioValue)}
+						</div>
+						<div className='control-cell'>
+							<NumberRadio id='selNumRadioInput' label='Number Radio' value={NumberRadioValue} onChange={setNumberRadioValue} selectOptions={numberSelectOptions} {...sharedProperties} />
+						</div>
+						<div className='control-cell'>
+							{nullableValueMessage(NumberRadioValue)}
+						</div>
+					</div>
+
+					<div className='control-row'>
+						<div className='control-cell'>
+							<TextArea id='txtAreaInput' label='Text Area' value={textAreaValue} onChange={setTextAreaValue} placeholder="Text Area Placeholder" rows={5} {...sharedProperties} />
+						</div>
+						<div className='control-cell'>
+							{nullableValueMessage(textAreaValue)}
+						</div>
+					</div>
+
+					<div className='control-row'>
+						<div className='control-cell'>
+							<MaskedInput id='txtMaskedInput' label='Masked Input (X12)' value={textMaskedValue} onChange={setMaskedValue} mask='a00' {...sharedProperties} />
+						</div>
+						<div className='control-cell'>
+							{nullableValueMessage(textMaskedValue)}
+						</div>
+						<div className='control-cell'>
 							<CheckBox id='chkInput' label='Checkbox Input' value={checkboxValue} onChange={setCheckboxValue} {...sharedProperties}  />
 						</div>
 						<div className='control-cell'>
@@ -158,64 +174,31 @@ function ControlTests() {
 
 					<div className='control-row'>
 						<div className='control-cell'>
-							<TextRadio id='rdInput' label='Text Radio' value={RadioValue} onChange={setRadioValue} {...sharedProperties} selectOptions={textSelectOptions}  />
+							<DateInput id='datInput' label='Date' value={dateInputValue} onChange={setDateInputValue} {...sharedProperties}  />
 						</div>
 						<div className='control-cell'>
-							{nullableValueMessage(RadioValue)}
+							{nullableValueMessage(dateInputValue)}<br/>
+							ISO GMT DATE: {toIsoGmtDateString(dateInputValue)}
 						</div>
-					</div>
-
-					<div className='control-row'>
-						<div className='control-cell'>
-							<NumberRadio id='selNumRadioInput' label='Number Radio' value={NumberRadioValue} onChange={setNumberRadioValue} selectOptions={numberSelectOptions} {...sharedProperties} />
-						</div>
-						<div className='control-cell'>
-							{nullableValueMessage(NumberRadioValue)}
-						</div>
-					</div>
-
-
-					<div className='control-row'>
-						<div className='control-cell'>
-							<TextArea id='txtAreaInput' label='Text Area' value={textAreaValue} onChange={setTextAreaValue} placeholder="Text Area Placeholder" rows={5} {...sharedProperties} />
-						</div>
-						<div className='control-cell'>
-							<pre>
-								{nullableValueMessage(textAreaValue)}
-							</pre>
-						</div>
-					</div>
-
-					<div className='control-row'>
-						<div className='control-cell'>
-							<MaskedInput id='txtMaskedInput' label='Masked Input (X12)' value={textMaskedValue} onChange={setMaskedValue} mask='a00' {...sharedProperties} />
-						</div>
-						<div className='control-cell'>
-							<pre>
-								{nullableValueMessage(textMaskedValue)}
-							</pre>
-						</div>
-					</div>
-
-					<div className='control-row'>
 						<div className='control-cell'>
 							<PhoneNumber id='txtPhoneNumber' label='Phone Number' value={phoneValue} onChange={setPhoneValue} {...sharedProperties} />
 						</div>
 						<div className='control-cell'>
-							<pre>
-								{nullableValueMessage(phoneValue)}
-							</pre>
+							{nullableValueMessage(phoneValue)}
 						</div>
 					</div>
-
 					<div className='control-row'>
 						<div className='control-cell'>
 							<PostalCode id='txtPostalCode' label='Postal Code' value={postalCodeValue} onChange={setPostalCodeValue} {...sharedProperties} />
 						</div>
 						<div className='control-cell'>
-							<pre>
-								{nullableValueMessage(postalCodeValue)}
-							</pre>
+							{nullableValueMessage(postalCodeValue)}
+						</div>
+						<div className='control-cell'>
+							<EmailInput id='txtEmail' label='Email' value={emailValue} onChange={setEmailValue} {...sharedProperties} />
+						</div>
+						<div className='control-cell'>
+							{nullableValueMessage(emailValue)}
 						</div>
 					</div>
 
