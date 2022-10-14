@@ -122,7 +122,7 @@ function getInputProps<FormT extends FormShape, FieldT>(
 	// 2. Form has been validated (give user feedback only after submit attempt)
 	if (fieldDef?.validateImmediately && formState.fieldsTouched[fieldName] || formState.hasBeenValidated) { /* errorMessage already initiated */ }
 	else {
-		errorMessage = ''
+		errorMessage = undefined
 	}
 
 	const onChange = (newFieldValue?: FieldT) => {

@@ -7,15 +7,18 @@ import './FormTests.scss'
 interface TestFormShape {
 	stringProperty: string
 	numberProperty: number
-	dateProperty: Date
-
 	selectStringProperty: string
 	selectNumberProperty: number
+	radioStringProperty: string
+	radioNumberProperty: number
+
 	checkboxProperty: boolean
+	dateProperty: Date
 
 	longStringProperty: string
 	phoneNumber: number
 	postalCode: string
+	email: string
 }
 
 const testFormDefinition: FormDefinition<TestFormShape> = {
@@ -30,7 +33,19 @@ const testFormDefinition: FormDefinition<TestFormShape> = {
 			{ value: 1, text: 'First Option' },
 			{ value: 2, text: 'Second Option' }, 
 		]
-	}
+	}, 
+	radioStringProperty: {
+		selectOptions: [
+			{ value: 'First', text: 'First Option' },
+			{ value: 'Second', text: 'Second Option' }, 
+		]
+	}, 
+	radioNumberProperty: {
+		selectOptions: [
+			{ value: 1, text: 'First Option' },
+			{ value: 2, text: 'Second Option' }, 
+		]
+	}, 
 }
 
 let testFormData: FormData<TestFormShape> = {} 
@@ -78,13 +93,25 @@ export function FormTests() {
 
 				<div className='control-row'>
 					<div className='control-cell'>
+						{rf.textRadio('radioStringProperty')}
+					</div>
+					<div className='control-cell'>
+						{rf.numberRadio('radioNumberProperty')}
+					</div>
+					<div className='control-cell'>
 						{rf.textArea('longStringProperty')}
 					</div>
+				</div>
+
+				<div className='control-row'>
 					<div className='control-cell'>
 						{rf.phoneNumber('phoneNumber')}
 					</div>
 					<div className='control-cell'>
 						{rf.postalCode('postalCode')}
+					</div>
+					<div className='control-cell'>
+						{rf.email('email')}
 					</div>
 				</div>
 
@@ -95,7 +122,7 @@ export function FormTests() {
 
 				<div className='control-row'>
 					<div className='control-cell'>
-						<rf.TextInput field='stringProperty' />
+						<rf.TextInputElementTest field='stringProperty' />
 					</div>
 				</div>
 

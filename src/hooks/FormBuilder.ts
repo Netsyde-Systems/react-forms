@@ -5,8 +5,12 @@ import DateInput from "../inputs/DateInput"
 import CheckBox from "../inputs/CheckBox"
 import TextSelect from "../inputs/TextSelect"
 import NumberSelect from "../inputs/NumberSelect"
+import TextRadio from "../inputs/TextRadio"
+import NumberRadio from "../inputs/NumberRadio"
 import PostalCode from "../inputs/PostalCode"
 import PhoneNumber from "../inputs/PhoneNumber"
+import EmailInput from "../inputs/EmailInput"
+
 import { createOptionInput, createStandardInput, ReactFormsInputControl, ReactFormsOptionControl } from "./FormBuilderInputs"
 import { FormShape, FormData, FormDefinition, FormState, OnlyKeysOfType } from "./FormBuilderTypes"
 
@@ -73,7 +77,7 @@ export class FormBuilder<FormT extends FormShape> {
 
 	public textInput = (fieldName: OnlyKeysOfType<FormT, string>) => this.linkStandardControl(fieldName, TextInput)
 	// TODO: Find out how to get around input losing focus issue
-	public TextInput = (props: FieldNameProps<FormT, string>) => this.linkStandardControl(props.field, TextInput)
+	public TextInputElementTest = (props: FieldNameProps<FormT, string>) => this.linkStandardControl(props.field, TextInput)
 
 	public textArea = (fieldName: OnlyKeysOfType<FormT, string>) => this.linkStandardControl(fieldName, TextArea)
 
@@ -85,9 +89,15 @@ export class FormBuilder<FormT extends FormShape> {
 
 	public phoneNumber = (fieldName: OnlyKeysOfType<FormT, number>) => this.linkStandardControl(fieldName, PhoneNumber)
 
+	public email = (fieldName: OnlyKeysOfType<FormT, string>) => this.linkStandardControl(fieldName, EmailInput)
+
 	public textSelect = (fieldName: OnlyKeysOfType<FormT, string>) => this.linkOptionControl<string>(fieldName, TextSelect)
 
 	public numberSelect = (fieldName: OnlyKeysOfType<FormT, number>) => this.linkOptionControl<number>(fieldName, NumberSelect)
+
+	public textRadio = (fieldName: OnlyKeysOfType<FormT, string>) => this.linkOptionControl<string>(fieldName, TextRadio)
+
+	public numberRadio = (fieldName: OnlyKeysOfType<FormT, number>) => this.linkOptionControl<number>(fieldName, NumberRadio)
 
 	public checkbox = (fieldName: OnlyKeysOfType<FormT, boolean>) => this.linkStandardControl(fieldName, CheckBox)
 

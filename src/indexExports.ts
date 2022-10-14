@@ -15,10 +15,16 @@ export type {
 
 export { CheckBox, type CheckBoxProps } from './inputs/CheckBox'
 export { DateInput, type DateInputProps } from './inputs/DateInput'
+export { EmailInput, type EmailInputProps } from './inputs/EmailInput'
+export { MaskedInput, type MaskedInputProps } from './inputs/MaskedInput'
 export { NumberInput, type NumberInputProps } from './inputs/NumberInput'
+export { NumberRadio, type NumberRadioProps } from './inputs/NumberRadio'
 export { NumberSelect, type NumberSelectProps } from './inputs/NumberSelect'
+export { PhoneNumber, type PhoneNumberProps } from './inputs/PhoneNumber'
+export { PostalCode, type PostalCodeProps } from './inputs/PostalCode'
 export { TextArea, type TextAreaProps } from './inputs/TextArea'
 export { TextInput, type TextInputProps } from './inputs/TextInput'
+export { TextRadio, type TextRadioProps } from './inputs/TextRadio'
 export { TextSelect, type TextSelectProps } from './inputs/TextSelect'
 
 export { Well, type WellProps } from './well/Well'
