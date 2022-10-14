@@ -1,9 +1,9 @@
-import { FieldSpecifierFunction } from '../hooks/FormBuilderTypes';
-export interface ValidatorFunction<FormT> extends FieldSpecifierFunction<FormT, boolean> {
+import { FormShape, FieldSpecifierFunction } from '../hooks/FormBuilderTypes';
+export interface ValidatorFunction<FormT extends FormShape> extends FieldSpecifierFunction<FormT, boolean> {
 }
-export interface ErrorMessageFunction<FormT> extends FieldSpecifierFunction<FormT, string | undefined> {
+export interface ErrorMessageFunction<FormT extends FormShape> extends FieldSpecifierFunction<FormT, string | undefined> {
 }
-export declare const isValidEmail: ValidatorFunction<any>;
+export declare const isValidEmail: (fieldValue?: string) => boolean;
 export declare const isValueProvided: ValidatorFunction<any>;
 export declare const requiredFieldError: ErrorMessageFunction<any>;
-export declare const invalidEmailError: ErrorMessageFunction<any>;
+export declare const invalidEmailError: (fieldValue?: string) => "Invalid email." | undefined;
