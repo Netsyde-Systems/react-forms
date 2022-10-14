@@ -11,7 +11,7 @@ export function PhoneNumber(props: PhoneNumberProps) {
 
 	const handleChange = (textValue?: string) => {
 			const numVal = Number(textValue)
-			if (isNaN(numVal)) props.onChange(undefined)
+			if (textValue === '' || isNaN(numVal)) props.onChange(undefined)
 			else props.onChange(numVal)
 	}
 
