@@ -19,7 +19,7 @@ import './ControlTests.scss'
 import { MaskedInput } from '../inputs/MaskedInput'
 import { PhoneNumber } from '../inputs/PhoneNumber'
 import { PostalCode } from '../inputs/PostalCode'
-import { EmailInput } from '../inputs/EmailInput'
+import { EmailAddress } from '../inputs/EmailAddress'
 
 function ControlTests() {
 
@@ -195,7 +195,7 @@ function ControlTests() {
 							{nullableValueMessage(postalCodeValue)}
 						</div>
 						<div className='control-cell'>
-							<EmailInput id='txtEmail' label='Email' value={emailValue} onChange={setEmailValue} {...sharedProperties} />
+							<EmailAddress id='txtEmail' label='Email' value={emailValue} onChange={setEmailValue} {...sharedProperties} />
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(emailValue)}

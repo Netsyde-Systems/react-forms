@@ -111,7 +111,7 @@ export function FormTests() {
 						{rf.postalCode('postalCode')}
 					</div>
 					<div className='control-cell'>
-						{rf.email('email')}
+						{rf.emailAddress('email')}
 					</div>
 				</div>
 

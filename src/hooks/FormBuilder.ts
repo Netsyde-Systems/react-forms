@@ -9,7 +9,7 @@ import TextRadio from "../inputs/TextRadio"
 import NumberRadio from "../inputs/NumberRadio"
 import PostalCode from "../inputs/PostalCode"
 import PhoneNumber from "../inputs/PhoneNumber"
-import EmailInput from "../inputs/EmailInput"
+import EmailAddress from "../inputs/EmailAddress"
 
 import { createOptionInput, createStandardInput, ReactFormsInputControl, ReactFormsOptionControl } from "./FormBuilderInputs"
 import { FormShape, FormData, FormDefinition, FormState, OnlyKeysOfType } from "./FormBuilderTypes"
@@ -89,7 +89,7 @@ export class FormBuilder<FormT extends FormShape> {
 
 	public phoneNumber = (fieldName: OnlyKeysOfType<FormT, number>) => this.linkStandardControl(fieldName, PhoneNumber)
 
-	public email = (fieldName: OnlyKeysOfType<FormT, string>) => this.linkStandardControl(fieldName, EmailInput)
+	public emailAddress = (fieldName: OnlyKeysOfType<FormT, string>) => this.linkStandardControl(fieldName, EmailAddress)
 
 	public textSelect = (fieldName: OnlyKeysOfType<FormT, string>) => this.linkOptionControl<string>(fieldName, TextSelect)
 
