@@ -21,7 +21,7 @@ export declare class FormBuilder<FormT extends FormShape> {
     dateInput: (fieldName: OnlyKeysOfType<FormT, Date>) => JSX.Element;
     postalCode: (fieldName: OnlyKeysOfType<FormT, string>) => JSX.Element;
     phoneNumber: (fieldName: OnlyKeysOfType<FormT, number>) => JSX.Element;
-    email: (fieldName: OnlyKeysOfType<FormT, string>) => JSX.Element;
+    emailAddress: (fieldName: OnlyKeysOfType<FormT, string>) => JSX.Element;
     textSelect: (fieldName: OnlyKeysOfType<FormT, string>) => JSX.Element;
     numberSelect: (fieldName: OnlyKeysOfType<FormT, number>) => JSX.Element;
     textRadio: (fieldName: OnlyKeysOfType<FormT, string>) => JSX.Element;

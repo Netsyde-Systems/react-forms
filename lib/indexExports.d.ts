@@ -4,7 +4,7 @@ export { useReactForms as useFormBuilder } from './hooks/useReactForms';
 export type { OnlyKeysOfType, FieldSpecifierFunction, SelectOptionsSpecifier, FormShape, FormData, FieldDefinition, FormDefinition } from './hooks/FormBuilderTypes';
 export { CheckBox, type CheckBoxProps } from './inputs/CheckBox';
 export { DateInput, type DateInputProps } from './inputs/DateInput';
-export { EmailInput, type EmailInputProps } from './inputs/EmailInput';
+export { EmailAddress, type EmailAddressProps } from './inputs/EmailAddress';
 export { MaskedInput, type MaskedInputProps } from './inputs/MaskedInput';
 export { NumberInput, type NumberInputProps } from './inputs/NumberInput';
 export { NumberRadio, type NumberRadioProps } from './inputs/NumberRadio';
