@@ -47,6 +47,7 @@ export class FormBuilder<FormT extends FormShape> {
 
 		const handleChange = (formData: FormData<FormT>) => {
 			newFormState.fieldsTouched[fieldName] = true
+			this.formData = Object.assign({}, formData)
 			this.setFormData(formData)
 			this.setFormState(newFormState)
 		}
@@ -64,6 +65,7 @@ export class FormBuilder<FormT extends FormShape> {
 
 		const handleChange = (formData: FormData<FormT>) => {
 			newFormState.fieldsTouched[fieldName] = true
+			this.formData = Object.assign({}, formData)
 			this.setFormData(formData)
 			this.setFormState(newFormState)
 		}
