@@ -6,11 +6,12 @@ export declare type FieldNameProps<FormT, FieldT> = {
 export declare class FormBuilder<FormT extends FormShape> {
     private formDefinition;
     formData: FormData<FormT>;
-    private formState;
+    formState: FormState<FormT>;
     private setFormData;
     private setFormState;
     private _isValid;
     constructor(formDefinition: FormDefinition<FormT>, formData: FormData<FormT>, formState: FormState<FormT>, setFormData: React.Dispatch<React.SetStateAction<FormData<FormT>>>, setFormState: React.Dispatch<React.SetStateAction<FormState<FormT>>>);
+    updateDataAndState(formData: FormData<FormT>, formState: FormState<FormT>): void;
     private updateValidity;
     private linkStandardControl;
     private linkOptionControl;
