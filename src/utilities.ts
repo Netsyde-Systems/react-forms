@@ -9,7 +9,7 @@ export const toIsoGmtDateString = (date?: Date | null) => date?.toISOString().su
 
 // Support typed object iteration.  Hack fix to address: https://effectivetypescript.com/2020/05/26/iterate-objects/
 export function iterateObject<T>(obj: T, iteratorFunction: (fieldName: keyof T, fieldValue: T[keyof T], obj: T) => void ) {
-	Object.entries(obj).forEach(([key, val]) => {
-		iteratorFunction(key as keyof T, val, obj)
+	Object.entries(obj as any).forEach(([key, val]) => {
+		iteratorFunction(key as keyof T, val as T[keyof T], obj)
 	})
 }

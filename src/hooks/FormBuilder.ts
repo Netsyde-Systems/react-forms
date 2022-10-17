@@ -26,11 +26,16 @@ export class FormBuilder<FormT extends FormShape> {
 	constructor(
 		private formDefinition: FormDefinition<FormT>,
 		public formData: FormData<FormT>,
-		private formState: FormState<FormT>,
+		public formState: FormState<FormT>,
 		private setFormData: React.Dispatch<React.SetStateAction<FormData<FormT>>>, 
 		private setFormState: React.Dispatch<React.SetStateAction<FormState<FormT>>>, 
 	) {
 		this._isValid = undefined
+	}
+
+	public updateDataAndState(formData: FormData<FormT>, formState: FormState<FormT>) {
+		this.formData = formData
+		this.formState = formState
 	}
 
 	private updateValidity(isValid: boolean) {

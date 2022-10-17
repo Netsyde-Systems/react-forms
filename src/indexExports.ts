@@ -13,6 +13,8 @@ export type {
 	FormDefinition
 } from './hooks/FormBuilderTypes'
 
+export { type SelectOption } from './inputs/inputs'
+
 export { CheckBox, type CheckBoxProps } from './inputs/CheckBox'
 export { DateInput, type DateInputProps } from './inputs/DateInput'
 export { EmailAddress, type EmailAddressProps } from './inputs/EmailAddress'
