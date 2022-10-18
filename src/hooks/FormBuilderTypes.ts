@@ -26,7 +26,7 @@ export interface FieldSpecifierFunction<FormT extends FormShape, OutputT> {
 // Select Options Specifier can be static list of select options, or can depend on state of form
 export type SelectOptionsSpecifier<FormT extends FormShape, FieldT extends string | number> =
  	Array<SelectOption<FieldT>> | 
-	FieldSpecifierFunction<FormT, Array<FieldT>>
+	FieldSpecifierFunction<FormT, Array<SelectOption<FieldT>>>
 
 // FieldDefinition is an object where we can define the field's behaviour
 export interface FieldDefinition<FormT extends FormShape, FieldT> {

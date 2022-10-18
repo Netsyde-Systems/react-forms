@@ -9,7 +9,7 @@ export declare type FormData<T extends FormShape> = Partial<T>;
 export interface FieldSpecifierFunction<FormT extends FormShape, OutputT> {
     (fieldValue: FormT[typeof fieldName] | undefined, fieldName: keyof FormT, formData: FormData<FormT>): OutputT;
 }
-export declare type SelectOptionsSpecifier<FormT extends FormShape, FieldT extends string | number> = Array<SelectOption<FieldT>> | FieldSpecifierFunction<FormT, Array<FieldT>>;
+export declare type SelectOptionsSpecifier<FormT extends FormShape, FieldT extends string | number> = Array<SelectOption<FieldT>> | FieldSpecifierFunction<FormT, Array<SelectOption<FieldT>>>;
 export interface FieldDefinition<FormT extends FormShape, FieldT> {
     id?: string;
     label?: string | FieldSpecifierFunction<FormT, string>;
