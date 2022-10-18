@@ -38,7 +38,7 @@ export interface FieldDefinition<FormT extends FormShape, FieldT> {
 
 	// having onChange, errorMessage, or disabled state as static would make no sense... 
 	// they always depend on current form state
-	onChange?: FieldSpecifierFunction<FormT, FormT>
+	onChange?: FieldSpecifierFunction<FormT, FormData<FormT>>
 	errorMessage?: FieldSpecifierFunction<FormT, string | undefined>
 	isDisabled?: FieldSpecifierFunction<FormT, boolean>
 	isHidden?: FieldSpecifierFunction<FormT, boolean>

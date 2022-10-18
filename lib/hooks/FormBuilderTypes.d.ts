@@ -14,7 +14,7 @@ export interface FieldDefinition<FormT extends FormShape, FieldT> {
     id?: string;
     label?: string | FieldSpecifierFunction<FormT, string>;
     isRequired?: boolean | FieldSpecifierFunction<FormT, boolean>;
-    onChange?: FieldSpecifierFunction<FormT, FormT>;
+    onChange?: FieldSpecifierFunction<FormT, FormData<FormT>>;
     errorMessage?: FieldSpecifierFunction<FormT, string | undefined>;
     isDisabled?: FieldSpecifierFunction<FormT, boolean>;
     isHidden?: FieldSpecifierFunction<FormT, boolean>;
