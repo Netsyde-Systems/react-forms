@@ -18,7 +18,7 @@ export type FormData<T extends FormShape> = Partial<T>
 
 // Field specifier functions take as arguments the form data, the field value and name, and returns a value
 export interface FieldSpecifierFunction<FormT extends FormShape, OutputT> {
-	(fieldValue: FormT[typeof fieldName] | undefined, fieldName: keyof FormT, formData?: FormData<FormT>): OutputT
+	(fieldValue: FormT[typeof fieldName] | undefined, fieldName: keyof FormT, formData: FormData<FormT>): OutputT
 }
 
 export type ValidatorFunction<FormT extends FormShape> = FieldSpecifierFunction<FormT, Array<string>>
