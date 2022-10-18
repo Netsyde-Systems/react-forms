@@ -18,10 +18,10 @@ export type FormData<T extends FormShape> = Partial<T>
 
 // Field specifier functions take as arguments the form data, the field value and name, and returns a value
 export interface FieldSpecifierFunction<FormT extends FormShape, OutputT> {
-	// (fieldValue: FormT[typeof fieldName] | undefined, fieldName: keyof FormT & string, formData: FormT): OutputT
-	// (fieldValue: FormT[typeof fieldName] | undefined, fieldName: OnlyKeysOfType<FormT, OutputT>, formData: FormData<FormT>): OutputT
-	(fieldValue: FormT[typeof fieldName] | undefined, fieldName: keyof FormT, formData: FormData<FormT>): OutputT
+	(fieldValue: FormT[typeof fieldName] | undefined, fieldName: keyof FormT, formData?: FormData<FormT>): OutputT
 }
+
+export type ValidatorFunction<FormT extends FormShape> = FieldSpecifierFunction<FormT, Array<string>>
 
 // Select Options Specifier can be static list of select options, or can depend on state of form
 export type SelectOptionsSpecifier<FormT extends FormShape, FieldT extends string | number> =
@@ -39,7 +39,7 @@ export interface FieldDefinition<FormT extends FormShape, FieldT> {
 	// having onChange, errorMessage, or disabled state as static would make no sense... 
 	// they always depend on current form state
 	onChange?: FieldSpecifierFunction<FormT, FormData<FormT>>
-	errorMessage?: FieldSpecifierFunction<FormT, string | undefined>
+	validators?: ValidatorFunction<FormT> | Array<ValidatorFunction<FormT>>
 	isDisabled?: FieldSpecifierFunction<FormT, boolean>
 	isHidden?: FieldSpecifierFunction<FormT, boolean>
 

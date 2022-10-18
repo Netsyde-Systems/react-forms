@@ -1,17 +1,11 @@
 import EmailValidator from 'email-validator'
-import { FormShape, FieldSpecifierFunction } from '../hooks/FormBuilderTypes'
+import { FieldSpecifierFunction, ValidatorFunction } from '../hooks/FormBuilderTypes'
 
-export interface ValidatorFunction<FormT extends FormShape> extends FieldSpecifierFunction<FormT, boolean> { }
-
-export interface ErrorMessageFunction<FormT extends FormShape> extends FieldSpecifierFunction<FormT, string | undefined> { }
-
-// export const isValidEmail: ValidatorFunction<any> = function (fieldValue, fieldName, formData) {
 export const isValidEmail = function (fieldValue?: string) {
-	if (!fieldValue) return true // empty string is a valid email (required check is separate)
-	else return EmailValidator.validate(fieldValue)
+	return !!fieldValue && EmailValidator.validate(fieldValue)
 }
 
-export const isValueProvided: ValidatorFunction<any> = function (fieldValue, fieldName, formData) {
+export const isValueProvided: FieldSpecifierFunction<any, boolean> = function (fieldValue?) {
 	switch (typeof fieldValue) {
 		case 'boolean': return true // booleans are present whether true of false
 		case 'number': return true // numbers are present whether 0 (falsy) or numeric (truthy)
@@ -20,12 +14,12 @@ export const isValueProvided: ValidatorFunction<any> = function (fieldValue, fie
 	}
 }
 
-export const requiredFieldError: ErrorMessageFunction<any> = function (fieldValue, fieldName, formData) {
-	if (!isValueProvided(fieldValue, fieldName, formData)) return `${fieldName.toString()} is required.`
+export const requiredFieldValidator: ValidatorFunction<any> = function (fieldValue, fieldName) {
+	return isValueProvided(fieldValue, fieldName) ? 
+		[] : 
+		[`${fieldName.toString()} is required`]
 }
 
-// export const invalidEmailError: ErrorMessageFunction<any> = function (fieldValue, fieldName, formData) {
-export const invalidEmailError = function (fieldValue?: string) {
-	// if (!isValidEmail(fieldValue, fieldName, formData)) return `Invalid email.`
-	if (!isValidEmail(fieldValue)) return `Invalid email.`
+export const emailValidator: ValidatorFunction<any> = function (fieldValue) {
+	return isValidEmail(fieldValue) ? [] : ['Invalid email']
 }

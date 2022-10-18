@@ -14,14 +14,14 @@ import { CheckBox } from '../inputs/CheckBox'
 import { TextRadio } from '../inputs/TextRadio'
 import { NumberRadio } from '../inputs/NumberRadio'
 import { DateInput } from '../inputs/DateInput'
-
-import './ControlTests.scss'
 import { MaskedInput } from '../inputs/MaskedInput'
 import { PhoneNumber } from '../inputs/PhoneNumber'
 import { PostalCode } from '../inputs/PostalCode'
 import { EmailAddress } from '../inputs/EmailAddress'
 
-function ControlTests() {
+import './Controls.scss'
+
+function Controls() {
 
 	const [locale, setLocale] = React.useState<Locale>()
 	const [textInputValue, setTextInputValue] = React.useState<string>()
@@ -224,4 +224,4 @@ function nullableValueMessage(val: any) {
 	return output
 }
 
-export default ControlTests
+export default Controls

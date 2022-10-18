@@ -7,7 +7,6 @@ export function useReactForms<FormT extends FormShape>(formDefinition: FormDefin
 	const [formState, setFormState] = React.useState<FormState<FormT>>(initFormState(initialFormData))
 
 	const formBuilderRef = useRef(new FormBuilder(formDefinition, formData, formState, setFormData, setFormState))
-	formBuilderRef.current.updateDataAndState(formData, formState)
 
 	return formBuilderRef.current
 }

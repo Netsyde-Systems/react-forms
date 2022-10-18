@@ -7,11 +7,10 @@ export declare class FormBuilder<FormT extends FormShape> {
     private formDefinition;
     formData: FormData<FormT>;
     formState: FormState<FormT>;
-    private setFormData;
-    private setFormState;
+    private onFormDataUpdate?;
+    private onFormStateUpdate?;
     private _isValid;
-    constructor(formDefinition: FormDefinition<FormT>, formData: FormData<FormT>, formState: FormState<FormT>, setFormData: React.Dispatch<React.SetStateAction<FormData<FormT>>>, setFormState: React.Dispatch<React.SetStateAction<FormState<FormT>>>);
-    updateDataAndState(formData: FormData<FormT>, formState: FormState<FormT>): void;
+    constructor(formDefinition: FormDefinition<FormT>, formData: FormData<FormT>, formState: FormState<FormT>, onFormDataUpdate?: import("react").Dispatch<import("react").SetStateAction<Partial<FormT>>> | undefined, onFormStateUpdate?: import("react").Dispatch<import("react").SetStateAction<FormState<FormT>>> | undefined);
     private updateValidity;
     private linkStandardControl;
     private linkOptionControl;

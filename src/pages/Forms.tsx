@@ -2,7 +2,7 @@ import React from 'react'
 import { FormDefinition, FormData } from '../hooks/FormBuilderTypes'
 import useReactForms from '../hooks/useReactForms'
 
-import './FormTests.scss'
+import './Forms.scss'
 
 interface TestFormShape {
 	stringProperty: string
@@ -58,7 +58,7 @@ let getTypeMap = (obj: any) => {
 	return typeMap
 }
 
-export function FormTests() {
+export function Forms() {
 	const rf = useReactForms(testFormDefinition, testFormData)
 
 	return (
@@ -140,5 +140,5 @@ export function FormTests() {
 	)
 }
 
-export default FormTests
+export default Forms
 

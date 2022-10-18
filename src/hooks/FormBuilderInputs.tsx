@@ -111,7 +111,20 @@ function getInputProps<FormT extends FormShape, FieldT>(
 	if (typeof fieldDef?.isRequired == 'boolean') required = fieldDef.isRequired
 	else if (typeof fieldDef?.isRequired == 'function') required = fieldDef.isRequired(fieldValue, fieldName, formData)
 
-	let errorMessage = fieldDef?.errorMessage?.(fieldValue, fieldName, formData)
+	let errors: Array<string>
+	let errorMessage: string | undefined = undefined
+
+	if (fieldDef?.validators) {
+		if (typeof fieldDef.validators === 'function') {
+			errors = fieldDef.validators?.(fieldValue, fieldName, formData)
+		}
+		else {
+			errors = fieldDef.validators.flatMap(err => err(fieldValue, fieldName, formData))
+		}
+
+		if (errors.length > 0) errorMessage = errors.join(" | ")
+	}
+
 	const disabled = fieldDef?.isDisabled?.(fieldValue, fieldName, formData)
 	const hidden = fieldDef?.isHidden?.(fieldValue, fieldName, formData)
 

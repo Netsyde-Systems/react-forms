@@ -27,15 +27,10 @@ export class FormBuilder<FormT extends FormShape> {
 		private formDefinition: FormDefinition<FormT>,
 		public formData: FormData<FormT>,
 		public formState: FormState<FormT>,
-		private setFormData: React.Dispatch<React.SetStateAction<FormData<FormT>>>, 
-		private setFormState: React.Dispatch<React.SetStateAction<FormState<FormT>>>, 
+		private onFormDataUpdate?: React.Dispatch<React.SetStateAction<FormData<FormT>>>, 
+		private onFormStateUpdate?: React.Dispatch<React.SetStateAction<FormState<FormT>>>, 
 	) {
 		this._isValid = undefined
-	}
-
-	public updateDataAndState(formData: FormData<FormT>, formState: FormState<FormT>) {
-		this.formData = formData
-		this.formState = formState
 	}
 
 	private updateValidity(isValid: boolean) {
@@ -52,9 +47,10 @@ export class FormBuilder<FormT extends FormShape> {
 
 		const handleChange = (formData: FormData<FormT>) => {
 			newFormState.fieldsTouched[fieldName] = true
+			this.formState = newFormState
 			this.formData = Object.assign({}, formData)
-			this.setFormData(formData)
-			this.setFormState(newFormState)
+			this.onFormDataUpdate?.(formData)
+			this.onFormStateUpdate?.(newFormState)
 		}
 
 		const [inputControl, isValid] = createStandardInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange, InputControl)
@@ -70,9 +66,10 @@ export class FormBuilder<FormT extends FormShape> {
 
 		const handleChange = (formData: FormData<FormT>) => {
 			newFormState.fieldsTouched[fieldName] = true
+			this.formState = newFormState
 			this.formData = Object.assign({}, formData)
-			this.setFormData(formData)
-			this.setFormState(newFormState)
+			this.onFormDataUpdate?.(formData)
+			this.onFormStateUpdate?.(newFormState)
 		}
 
 		const [inputControl, isValid] = createOptionInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange, OptionControl)
