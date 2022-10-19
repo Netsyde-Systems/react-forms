@@ -13,3 +13,11 @@ export function iterateObject<T>(obj: T, iteratorFunction: (fieldName: keyof T, 
 		iteratorFunction(key as keyof T, val as T[keyof T], obj)
 	})
 }
+
+export const getTypeMap = (obj: any) => {
+	let typeMap = Object.keys(obj).reduce((typeMap, key) => {
+		typeMap[key] = typeof obj[key]
+		return typeMap
+	}, {} as any)
+	return typeMap
+}

@@ -1,4 +1,5 @@
 import { SelectOption } from '../inputs/inputs'
+import { ValidatorFunction, ValidatorSpecification } from '../validation/validation'
 
 // From https://stackoverflow.com/questions/63447660/typescript-remove-all-properties-with-particular-type
 type ExcludeKeysWithTypeOf<T, V> = {
@@ -21,8 +22,6 @@ export interface FieldSpecifierFunction<FormT extends FormShape, OutputT> {
 	(fieldValue: FormT[typeof fieldName] | undefined, fieldName: keyof FormT, formData: FormData<FormT>): OutputT
 }
 
-export type ValidatorFunction<FormT extends FormShape> = FieldSpecifierFunction<FormT, Array<string>>
-
 // Select Options Specifier can be static list of select options, or can depend on state of form
 export type SelectOptionsSpecifier<FormT extends FormShape, FieldT extends string | number> =
  	Array<SelectOption<FieldT>> | 
@@ -32,14 +31,16 @@ export type SelectOptionsSpecifier<FormT extends FormShape, FieldT extends strin
 export interface FieldDefinition<FormT extends FormShape, FieldT> {
 	id?: string
 
-	// labels and required state can be defined as static, or can depend on form and field values
+	// labels, placeholders, and required state can be defined as static, or can depend on form and field values
 	label?: string | FieldSpecifierFunction<FormT, string>
 	isRequired?: boolean | FieldSpecifierFunction<FormT, boolean>
+	// TODO: add placeholder support in form builder
+	// placeholder?: string | FieldSpecifierFunction<FormT, string>
 
 	// having onChange, errorMessage, or disabled state as static would make no sense... 
 	// they always depend on current form state
 	onChange?: FieldSpecifierFunction<FormT, FormData<FormT>>
-	validators?: ValidatorFunction<FormT> | Array<ValidatorFunction<FormT>>
+	validators?: ValidatorFunction<FormT> | Array<ValidatorFunction<FormT>> | ValidatorSpecification<FieldT>
 	isDisabled?: FieldSpecifierFunction<FormT, boolean>
 	isHidden?: FieldSpecifierFunction<FormT, boolean>
 

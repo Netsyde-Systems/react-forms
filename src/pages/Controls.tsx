@@ -96,7 +96,7 @@ function Controls() {
 	]
 
 	return (
-		<div className='control-tests page'>
+		<div className='controls page'>
 			<h1>Control Tests</h1>
 			<Well title={"Well Title"} buttonDefs={buttonDefs} >
 				<p>Well content</p>

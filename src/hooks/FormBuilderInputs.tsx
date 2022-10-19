@@ -6,6 +6,7 @@ import { FormDefinition, FormState, OnlyKeysOfType, FormShape, FormData } from "
 import { InputProps } from '../inputs/inputs'
 import { NumberSelect } from '../inputs/NumberSelect'
 import { TextSelect } from '../inputs/TextSelect'
+import { getMaxLengthValidator, getMaxValidator, getMinLengthValidator, getMinValidator } from '../validation/validation'
 
 export interface ReactFormsInputControl<FieldType> {
 	(inputProps: InputProps<FieldType>): JSX.Element
@@ -111,15 +112,27 @@ function getInputProps<FormT extends FormShape, FieldT>(
 	if (typeof fieldDef?.isRequired == 'boolean') required = fieldDef.isRequired
 	else if (typeof fieldDef?.isRequired == 'function') required = fieldDef.isRequired(fieldValue, fieldName, formData)
 
-	let errors: Array<string>
+	let errors: Array<string> = []
 	let errorMessage: string | undefined = undefined
 
 	if (fieldDef?.validators) {
 		if (typeof fieldDef.validators === 'function') {
 			errors = fieldDef.validators?.(fieldValue, fieldName, formData)
 		}
-		else {
+		else if (Array.isArray(fieldDef.validators)) {
 			errors = fieldDef.validators.flatMap(err => err(fieldValue, fieldName, formData))
+		}
+		else {
+			switch (typeof fieldValue) {
+				case 'string': 
+					if (fieldDef.validators.max) errors.concat(getMaxLengthValidator(fieldDef.validators.max)(fieldValue, fieldName, formData))
+					if (fieldDef.validators.min) errors.concat(getMinLengthValidator(fieldDef.validators.min)(fieldValue, fieldName, formData))
+					break
+				case 'number': 
+					if (fieldDef.validators.max) errors.concat(getMaxValidator(fieldDef.validators.max)(fieldValue, fieldName, formData))
+					if (fieldDef.validators.min) errors.concat(getMinValidator(fieldDef.validators.min)(fieldValue, fieldName, formData))
+					break
+			}
 		}
 
 		if (errors.length > 0) errorMessage = errors.join(" | ")

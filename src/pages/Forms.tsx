@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormDefinition, FormData } from '../hooks/FormBuilderTypes'
 import useReactForms from '../hooks/useReactForms'
+import { getTypeMap } from '../utilities'
 
 import './Forms.scss'
 
@@ -50,19 +51,11 @@ const testFormDefinition: FormDefinition<TestFormShape> = {
 
 let testFormData: FormData<TestFormShape> = {} 
 
-let getTypeMap = (obj: any) => {
-	let typeMap = Object.keys(obj).reduce((typeMap, key) => {
-		typeMap[key] = typeof obj[key]
-		return typeMap
-	}, {} as any)
-	return typeMap
-}
-
 export function Forms() {
 	const rf = useReactForms(testFormDefinition, testFormData)
 
 	return (
-		<div className='form-tests page'>
+		<div className='forms page'>
 			<h1>Form Tests</h1>
 
 			<div className='control-grid'>
