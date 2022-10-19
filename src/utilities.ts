@@ -21,3 +21,7 @@ export const getTypeMap = (obj: any) => {
 	}, {} as any)
 	return typeMap
 }
+
+export function getUnique<T>(items: Array<T>): Array<T> {
+	return Array.from(new Set(items))
+}

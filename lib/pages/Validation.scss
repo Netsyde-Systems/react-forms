@@ -1,24 +1,27 @@
-.control-row {
+.validation.page {
 
-	display: flex;
-	flex-grow: 1;
-	// justify-content: space-evenly;
+	.control-row {
 
-	// so that cells are aligned vertically center within rows
-	align-items: center;
+		display: flex;
+		flex-grow: 1;
+		// justify-content: space-evenly;
+
+		// so that cells are aligned vertically center within rows
+		align-items: center;
 
 
 
-	/*
+		/*
 	margin: 1rem 0;
 	*/
 
-	.control-cell {
-		// little bit of horizontal margin
-		margin: 0 5%;
+		.control-cell {
+			// little bit of horizontal margin
+			margin: 0 1%;
 
-		// so that cells align side by side
-		// display: inline-block;
-		width: 20%;
+			// so that cells align side by side
+			// display: inline-block;
+			width: 33%;
+		}
 	}
 }

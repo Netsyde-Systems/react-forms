@@ -15,6 +15,7 @@ interface StringValidationShape {
 	multiFnString: string
 }
 
+// this form definition is validated only after the validate button is pressed
 const stringDefinitionDeferred: FormDefinition<StringValidationShape> = {
 	reqString: { label: 'Required String', isRequired: true }, 
 	minString: { label: 'Min String (2)', validators: { min: 2 } }, 
@@ -36,6 +37,7 @@ const stringDefinitionDeferred: FormDefinition<StringValidationShape> = {
 	]}
 }
 
+// this form definition validated as soon as the user begins typing into an input 
 const stringDefinitionImmediate: FormDefinition<StringValidationShape> = Object.entries(stringDefinitionDeferred).reduce((formDef, [key, fieldDef]) => {
 	let typedKey = key as keyof FormData<StringValidationShape>
 	formDef[typedKey] = Object.assign({}, fieldDef) 

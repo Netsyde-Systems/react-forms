@@ -6,7 +6,8 @@ import { FormDefinition, FormState, OnlyKeysOfType, FormShape, FormData } from "
 import { InputProps } from '../inputs/inputs'
 import { NumberSelect } from '../inputs/NumberSelect'
 import { TextSelect } from '../inputs/TextSelect'
-import { getMaxLengthValidator, getMaxValidator, getMinLengthValidator, getMinValidator } from '../validation/validation'
+import { getMaxLengthValidator, getMaxValidator, getMinLengthValidator, getMinValidator, requiredFieldValidator } from '../validation/validation'
+import { getUnique } from '../utilities'
 
 export interface ReactFormsInputControl<FieldType> {
 	(inputProps: InputProps<FieldType>): JSX.Element
@@ -108,35 +109,39 @@ function getInputProps<FormT extends FormShape, FieldT>(
 	else if (typeof fieldDef?.label == 'function') label = fieldDef.label(fieldValue, fieldName, formData)
 
 	// fields aren't required unless they're specified as such with a boolean or a function
-	let required = false
-	if (typeof fieldDef?.isRequired == 'boolean') required = fieldDef.isRequired
-	else if (typeof fieldDef?.isRequired == 'function') required = fieldDef.isRequired(fieldValue, fieldName, formData)
+	let fieldRequired = false
+	if (typeof fieldDef?.isRequired == 'boolean') fieldRequired = fieldDef.isRequired
+	else if (typeof fieldDef?.isRequired == 'function') fieldRequired = fieldDef.isRequired(fieldValue, fieldName, formData)
 
 	let errors: Array<string> = []
 	let errorMessage: string | undefined = undefined
 
+	if (fieldRequired) {
+		errors.push(...requiredFieldValidator(fieldValue, fieldName, formData))
+	}
+
 	if (fieldDef?.validators) {
 		if (typeof fieldDef.validators === 'function') {
-			errors = fieldDef.validators?.(fieldValue, fieldName, formData)
+			errors.push(...fieldDef.validators?.(fieldValue, fieldName, formData))
 		}
 		else if (Array.isArray(fieldDef.validators)) {
-			errors = fieldDef.validators.flatMap(err => err(fieldValue, fieldName, formData))
+			errors.push(...fieldDef.validators.flatMap(err => err(fieldValue, fieldName, formData)))
 		}
 		else {
 			switch (typeof fieldValue) {
 				case 'string': 
-					if (fieldDef.validators.max) errors.concat(getMaxLengthValidator(fieldDef.validators.max)(fieldValue, fieldName, formData))
-					if (fieldDef.validators.min) errors.concat(getMinLengthValidator(fieldDef.validators.min)(fieldValue, fieldName, formData))
+					if (fieldDef.validators.max) errors.push(...getMaxLengthValidator(fieldDef.validators.max)(fieldValue, fieldName, formData))
+					if (fieldDef.validators.min) errors.push(...getMinLengthValidator(fieldDef.validators.min)(fieldValue, fieldName, formData))
 					break
 				case 'number': 
-					if (fieldDef.validators.max) errors.concat(getMaxValidator(fieldDef.validators.max)(fieldValue, fieldName, formData))
-					if (fieldDef.validators.min) errors.concat(getMinValidator(fieldDef.validators.min)(fieldValue, fieldName, formData))
+					if (fieldDef.validators.max) errors.push(...getMaxValidator(fieldDef.validators.max)(fieldValue, fieldName, formData))
+					if (fieldDef.validators.min) errors.push(...getMinValidator(fieldDef.validators.min)(fieldValue, fieldName, formData))
 					break
 			}
 		}
-
-		if (errors.length > 0) errorMessage = errors.join(" | ")
 	}
+
+	if (errors.length > 0) errorMessage = getUnique(errors).join(" | ")
 
 	const disabled = fieldDef?.isDisabled?.(fieldValue, fieldName, formData)
 	const hidden = fieldDef?.isHidden?.(fieldValue, fieldName, formData)
@@ -146,7 +151,7 @@ function getInputProps<FormT extends FormShape, FieldT>(
 	// error message is only shown if 
 	// 1. We want it to be shown immediately and the field has been touched (we give user immediate input as they're typing)
 	// 2. Form has been validated (give user feedback only after submit attempt)
-	if (fieldDef?.validateImmediately && formState.fieldsTouched[fieldName] || formState.hasBeenValidated) { /* errorMessage already initiated */ }
+	if ((fieldDef?.validateImmediately && formState.fieldsTouched[fieldName]) || formState.hasBeenValidated) { /* errorMessage already initiated */ }
 	else {
 		errorMessage = undefined
 	}
@@ -170,7 +175,7 @@ function getInputProps<FormT extends FormShape, FieldT>(
 		}
 	}
 
-	const props: InputProps<FieldT> = { id, value: formData[fieldName] as FieldT, label, onChange, errorMessage, hidden, disabled, required }
+	const props: InputProps<FieldT> = { id, value: formData[fieldName] as FieldT, label, onChange, errorMessage, hidden, disabled, required: fieldRequired }
 
 	return [props, isValid]
 }

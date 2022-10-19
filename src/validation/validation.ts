@@ -47,12 +47,12 @@ export function getMaxValidator<T>(maxValue: T): ValidatorFunction<any> {
 
 export function getMinLengthValidator(minLength: number): ValidatorFunction<any> {
 	return function (fieldValue: string, fieldName, formData) {
-		return !!fieldValue && fieldValue.length >= minLength ? [] : [`${fieldName.toString()} must be at least ${minLength} characters`]
+		return (!fieldValue || fieldValue.length >= minLength) ? [] : [`${fieldName.toString()} must be at least ${minLength} characters`]
 	}
 }
 
 export function getMaxLengthValidator(maxLength: number): ValidatorFunction<any> {
 	return function (fieldValue: string, fieldName, formData) {
-		return !!fieldValue && fieldValue.length <= maxLength ? [] : [`${fieldName.toString()} must be at most ${maxLength} characters`]
+		return (!fieldValue || fieldValue.length <= maxLength) ? [] : [`${fieldName.toString()} must be at most ${maxLength} characters`]
 	}
 }

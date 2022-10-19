@@ -109,6 +109,8 @@ export class FormBuilder<FormT extends FormShape> {
 		if (!this.formState.hasBeenValidated) {
 			let newFormState = Object.assign({}, this.formState)
 			newFormState.hasBeenValidated = true
+			this.formState = newFormState
+			this.onFormStateUpdate?.(newFormState)
 		}
 	}
 
