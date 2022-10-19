@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { SelectOption, SelectProps } from '../inputs/inputs'
-import { FormDefinition, FormState, OnlyKeysOfType, FormShape, FormData } from "./FormBuilderTypes"
+import { FormDefinition, FormState, OnlyStringKeysOfType, FormShape, FormData } from "./FormBuilderTypes"
 
 import { InputProps } from '../inputs/inputs'
 import { NumberSelect } from '../inputs/NumberSelect'
@@ -21,7 +21,7 @@ export function createStandardInput<FormT extends FormShape, FieldType>(
 	formDefinition: FormDefinition<FormT>,
 	formData: FormData<FormT>,
 	formState: FormState<FormT>,
-	fieldName: OnlyKeysOfType<FormT, FieldType>,
+	fieldName: OnlyStringKeysOfType<FormT, FieldType>,
 	onChange: (data: FormData<FormT>) => void, 
 	InputControl: ReactFormsInputControl<FieldType>
 ): [JSX.Element, boolean] { // returns the react input, as well as whether or not the field is valid
@@ -38,7 +38,7 @@ export function createOptionInput<FormT extends FormShape, FieldType extends str
 	formDefinition: FormDefinition<FormT>,
 	formData: FormData<FormT>,
 	formState: FormState<FormT>,
-	fieldName: OnlyKeysOfType<FormT, FieldType>,
+	fieldName: OnlyStringKeysOfType<FormT, FieldType>,
 	onChange: (formData: FormData<FormT>) => void, 
 	OptionControl: ReactFormsOptionControl<FieldType>
 ): [JSX.Element, boolean] { // returns the react input, as well as whether or not the field is valid
@@ -57,7 +57,7 @@ export function createTextSelect<FormT extends FormShape>(
 	formDefinition: FormDefinition<FormT>,
 	formData: FormData<FormT>,
 	formState: FormState<FormT>,
-	fieldName: OnlyKeysOfType<FormT, string>,
+	fieldName: OnlyStringKeysOfType<FormT, string>,
 	onChange: (formData: FormData<FormT>) => void
 ): [JSX.Element, boolean] { // returns the react input, as well as whether or not the field is valid
 
@@ -75,7 +75,7 @@ export function createNumberSelect<FormT extends FormShape>(
 	formDefinition: FormDefinition<FormT>,
 	formData: FormData<FormT>,
 	formState: FormState<FormT>,
-	fieldName: OnlyKeysOfType<FormT, number>,
+	fieldName: OnlyStringKeysOfType<FormT, number>,
 	onChange: (formData: FormData<FormT>) => void
 ): [JSX.Element, boolean] { // returns the react input, as well as whether or not the field is valid
 
@@ -93,7 +93,7 @@ function getInputProps<FormT extends FormShape, FieldT>(
 	formDefinition: FormDefinition<FormT>,
 	formData: FormData<FormT>,
 	formState: FormState<FormT>,
-	fieldName: OnlyKeysOfType<FormT, FieldT>,
+	fieldName: OnlyStringKeysOfType<FormT, FieldT>,
 	onFormChange: (formData: FormData<FormT>) => void
 ): [InputProps<FieldT>, boolean] { // returns the input props, as well as whether or not the field is valid
 
@@ -106,36 +106,36 @@ function getInputProps<FormT extends FormShape, FieldT>(
 	// label is titleized fieldName if not provided
 	let label: string = fieldName.toString()
 	if (typeof fieldDef?.label == 'string') label = fieldDef.label
-	else if (typeof fieldDef?.label == 'function') label = fieldDef.label(fieldValue, fieldName, formData)
+	else if (typeof fieldDef?.label == 'function') label = fieldDef.label(fieldValue, fieldName, formData, formDefinition)
 
 	// fields aren't required unless they're specified as such with a boolean or a function
 	let fieldRequired = false
 	if (typeof fieldDef?.isRequired == 'boolean') fieldRequired = fieldDef.isRequired
-	else if (typeof fieldDef?.isRequired == 'function') fieldRequired = fieldDef.isRequired(fieldValue, fieldName, formData)
+	else if (typeof fieldDef?.isRequired == 'function') fieldRequired = fieldDef.isRequired(fieldValue, fieldName, formData, formDefinition)
 
 	let errors: Array<string> = []
 	let errorMessage: string | undefined = undefined
 
 	if (fieldRequired) {
-		errors.push(...requiredFieldValidator(fieldValue, fieldName, formData))
+		errors.push(...requiredFieldValidator(fieldValue, fieldName, formData, formDefinition))
 	}
 
 	if (fieldDef?.validators) {
 		if (typeof fieldDef.validators === 'function') {
-			errors.push(...fieldDef.validators?.(fieldValue, fieldName, formData))
+			errors.push(...fieldDef.validators?.(fieldValue, fieldName, formData, formDefinition))
 		}
 		else if (Array.isArray(fieldDef.validators)) {
-			errors.push(...fieldDef.validators.flatMap(err => err(fieldValue, fieldName, formData)))
+			errors.push(...fieldDef.validators.flatMap(err => err(fieldValue, fieldName, formData, formDefinition)))
 		}
 		else {
 			switch (typeof fieldValue) {
 				case 'string': 
-					if (fieldDef.validators.max) errors.push(...getMaxLengthValidator(fieldDef.validators.max)(fieldValue, fieldName, formData))
-					if (fieldDef.validators.min) errors.push(...getMinLengthValidator(fieldDef.validators.min)(fieldValue, fieldName, formData))
+					if (fieldDef.validators.max) errors.push(...getMaxLengthValidator(fieldDef.validators.max, label)(fieldValue, fieldName, formData, formDefinition))
+					if (fieldDef.validators.min) errors.push(...getMinLengthValidator(fieldDef.validators.min, label)(fieldValue, fieldName, formData, formDefinition))
 					break
 				case 'number': 
-					if (fieldDef.validators.max) errors.push(...getMaxValidator(fieldDef.validators.max)(fieldValue, fieldName, formData))
-					if (fieldDef.validators.min) errors.push(...getMinValidator(fieldDef.validators.min)(fieldValue, fieldName, formData))
+					if (fieldDef.validators.max) errors.push(...getMaxValidator(fieldDef.validators.max, label)(fieldValue, fieldName, formData, formDefinition))
+					if (fieldDef.validators.min) errors.push(...getMinValidator(fieldDef.validators.min, label)(fieldValue, fieldName, formData, formDefinition))
 					break
 			}
 		}
@@ -143,8 +143,8 @@ function getInputProps<FormT extends FormShape, FieldT>(
 
 	if (errors.length > 0) errorMessage = getUnique(errors).join(" | ")
 
-	const disabled = fieldDef?.isDisabled?.(fieldValue, fieldName, formData)
-	const hidden = fieldDef?.isHidden?.(fieldValue, fieldName, formData)
+	const disabled = fieldDef?.isDisabled?.(fieldValue, fieldName, formData, formDefinition)
+	const hidden = fieldDef?.isHidden?.(fieldValue, fieldName, formData, formDefinition)
 
 	let isValid = !errorMessage
 
@@ -161,14 +161,14 @@ function getInputProps<FormT extends FormShape, FieldT>(
 		const coercedFieldValue = newFieldValue as any
 
 		// first we check if we should even perform the change
-		if (fieldDef?.disallowChange?.(coercedFieldValue, fieldName, formData)) {
+		if (fieldDef?.disallowChange?.(coercedFieldValue, fieldName, formData, formDefinition)) {
 			return
 		}
 		else {
 			formData[fieldName] = coercedFieldValue
 
 			if (fieldDef?.onChange) {
-				formData = fieldDef.onChange(formData[fieldName], fieldName, formData)
+				formData = fieldDef.onChange(formData[fieldName], fieldName, formData, formDefinition)
 			}
 
 			onFormChange(formData)
@@ -184,7 +184,7 @@ function getInputProps<FormT extends FormShape, FieldT>(
 function getSelectOptions<FormT extends FormShape, FieldT extends string | number>(
 	formDefinition: FormDefinition<FormT>,
 	formData: FormData<FormT>,
-	fieldName: OnlyKeysOfType<FormT, FieldT>,
+	fieldName: OnlyStringKeysOfType<FormT, FieldT>,
 ): Array<SelectOption<FieldT>> { // returns the input props, as well as whether or not the field is valid
 
 	const fieldDef = formDefinition[fieldName]
@@ -197,7 +197,7 @@ function getSelectOptions<FormT extends FormShape, FieldT extends string | numbe
 			selectOptions = fieldDef.selectOptions
 		}
 		else if (typeof fieldDef.selectOptions == 'function') {
-			selectOptions = fieldDef.selectOptions(fieldValue, fieldName, formData)
+			selectOptions = fieldDef.selectOptions(fieldValue, fieldName, formData, formDefinition)
 		}
 	}
 

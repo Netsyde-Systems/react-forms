@@ -12,10 +12,10 @@ import PhoneNumber from "../inputs/PhoneNumber"
 import EmailAddress from "../inputs/EmailAddress"
 
 import { createOptionInput, createStandardInput, ReactFormsInputControl, ReactFormsOptionControl } from "./FormBuilderInputs"
-import { FormShape, FormData, FormDefinition, FormState, OnlyKeysOfType } from "./FormBuilderTypes"
+import { FormShape, FormData, FormDefinition, FormState, OnlyStringKeysOfType } from "./FormBuilderTypes"
 
 export type FieldNameProps<FormT, FieldT> = {
-	field: OnlyKeysOfType<FormT, FieldT>
+	field: OnlyStringKeysOfType<FormT, FieldT>
 }
 
 // The FormBuilder class links form data to actual form fields that we can render in react.
@@ -41,7 +41,7 @@ export class FormBuilder<FormT extends FormShape> {
 	}
 
 	// We've factored out what needs to be done for every control type here
-	private linkStandardControl<FieldT>(fieldName: OnlyKeysOfType<FormT, FieldT>, InputControl: ReactFormsInputControl<FieldT>) {
+	private linkStandardControl<FieldT>(fieldName: OnlyStringKeysOfType<FormT, FieldT>, InputControl: ReactFormsInputControl<FieldT>) {
 		let newFormState = Object.assign({}, this.formState)
 		let newFormData = Object.assign({}, this.formData)
 
@@ -60,7 +60,7 @@ export class FormBuilder<FormT extends FormShape> {
 		return inputControl
 	}
 
-	private linkOptionControl<FieldT extends string | number>(fieldName: OnlyKeysOfType<FormT, FieldT>, OptionControl: ReactFormsOptionControl<FieldT>) {
+	private linkOptionControl<FieldT extends string | number>(fieldName: OnlyStringKeysOfType<FormT, FieldT>, OptionControl: ReactFormsOptionControl<FieldT>) {
 		let newFormState = Object.assign({}, this.formState)
 		let newFormData = Object.assign({}, this.formData)
 
@@ -79,31 +79,31 @@ export class FormBuilder<FormT extends FormShape> {
 		return inputControl
 	}
 
-	public textInput = (fieldName: OnlyKeysOfType<FormT, string>) => this.linkStandardControl(fieldName, TextInput)
+	public textInput = (fieldName: OnlyStringKeysOfType<FormT, string>) => this.linkStandardControl(fieldName, TextInput)
 	// TODO: Find out how to get around input losing focus issue
 	public TextInputElementTest = (props: FieldNameProps<FormT, string>) => this.linkStandardControl(props.field, TextInput)
 
-	public textArea = (fieldName: OnlyKeysOfType<FormT, string>) => this.linkStandardControl(fieldName, TextArea)
+	public textArea = (fieldName: OnlyStringKeysOfType<FormT, string>) => this.linkStandardControl(fieldName, TextArea)
 
-	public numberInput = (fieldName: OnlyKeysOfType<FormT, number>) => this.linkStandardControl<number>(fieldName, NumberInput)
+	public numberInput = (fieldName: OnlyStringKeysOfType<FormT, number>) => this.linkStandardControl<number>(fieldName, NumberInput)
 	
-	public dateInput = (fieldName: OnlyKeysOfType<FormT, Date>) => this.linkStandardControl(fieldName, DateInput)
+	public dateInput = (fieldName: OnlyStringKeysOfType<FormT, Date>) => this.linkStandardControl(fieldName, DateInput)
 
-	public postalCode = (fieldName: OnlyKeysOfType<FormT, string>) => this.linkStandardControl(fieldName, PostalCode)
+	public postalCode = (fieldName: OnlyStringKeysOfType<FormT, string>) => this.linkStandardControl(fieldName, PostalCode)
 
-	public phoneNumber = (fieldName: OnlyKeysOfType<FormT, number>) => this.linkStandardControl(fieldName, PhoneNumber)
+	public phoneNumber = (fieldName: OnlyStringKeysOfType<FormT, number>) => this.linkStandardControl(fieldName, PhoneNumber)
 
-	public emailAddress = (fieldName: OnlyKeysOfType<FormT, string>) => this.linkStandardControl(fieldName, EmailAddress)
+	public emailAddress = (fieldName: OnlyStringKeysOfType<FormT, string>) => this.linkStandardControl(fieldName, EmailAddress)
 
-	public textSelect = (fieldName: OnlyKeysOfType<FormT, string>) => this.linkOptionControl<string>(fieldName, TextSelect)
+	public textSelect = (fieldName: OnlyStringKeysOfType<FormT, string>) => this.linkOptionControl<string>(fieldName, TextSelect)
 
-	public numberSelect = (fieldName: OnlyKeysOfType<FormT, number>) => this.linkOptionControl<number>(fieldName, NumberSelect)
+	public numberSelect = (fieldName: OnlyStringKeysOfType<FormT, number>) => this.linkOptionControl<number>(fieldName, NumberSelect)
 
-	public textRadio = (fieldName: OnlyKeysOfType<FormT, string>) => this.linkOptionControl<string>(fieldName, TextRadio)
+	public textRadio = (fieldName: OnlyStringKeysOfType<FormT, string>) => this.linkOptionControl<string>(fieldName, TextRadio)
 
-	public numberRadio = (fieldName: OnlyKeysOfType<FormT, number>) => this.linkOptionControl<number>(fieldName, NumberRadio)
+	public numberRadio = (fieldName: OnlyStringKeysOfType<FormT, number>) => this.linkOptionControl<number>(fieldName, NumberRadio)
 
-	public checkbox = (fieldName: OnlyKeysOfType<FormT, boolean>) => this.linkStandardControl(fieldName, CheckBox)
+	public checkbox = (fieldName: OnlyStringKeysOfType<FormT, boolean>) => this.linkStandardControl(fieldName, CheckBox)
 
 	public validate() {
 		if (!this.formState.hasBeenValidated) {
