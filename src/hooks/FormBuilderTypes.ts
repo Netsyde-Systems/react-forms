@@ -30,7 +30,7 @@ export type SelectOptionsSpecifier<FormT extends FormShape, FieldT extends strin
 	FieldSpecifierFunction<FormT, Array<SelectOption<FieldT>>>
 
 // FieldDefinition is an object where we can define the field's behaviour
-export interface FieldDefinition<FormT extends FormShape, FieldT extends keyof FormT> {
+export interface FieldDefinition<FormT extends FormShape, FieldT> {
 	id?: string
 
 	// labels, placeholders, and required state can be defined as static, or can depend on form and field values
