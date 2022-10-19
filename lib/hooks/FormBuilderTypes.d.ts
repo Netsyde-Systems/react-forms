@@ -3,12 +3,13 @@ import { ValidatorFunction, ValidatorSpecification } from '../validation/validat
 export declare type OnlyKeysOfType<T, V> = {
     [K in keyof T]: Exclude<T[K], undefined> extends V ? K : never;
 }[keyof T];
+export declare type OnlyStringKeysOfType<T, V> = OnlyKeysOfType<T, V> & string;
 export interface FormShape {
     [field: string]: any;
 }
 export declare type FormData<T extends FormShape> = Partial<T>;
 export interface FieldSpecifierFunction<FormT extends FormShape, OutputT> {
-    (fieldValue: FormT[typeof fieldName] | undefined, fieldName: keyof FormT, formData: FormData<FormT>): OutputT;
+    (fieldValue: FormT[typeof fieldName] | undefined, fieldName: keyof FormT & string, formData: FormData<FormT>, formDefinition: FormDefinition<FormT>): OutputT;
 }
 export declare type SelectOptionsSpecifier<FormT extends FormShape, FieldT extends string | number> = Array<SelectOption<FieldT>> | FieldSpecifierFunction<FormT, Array<SelectOption<FieldT>>>;
 export interface FieldDefinition<FormT extends FormShape, FieldT> {

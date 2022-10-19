@@ -2,9 +2,11 @@ import { SelectOption } from '../inputs/inputs'
 import { ValidatorFunction, ValidatorSpecification } from '../validation/validation'
 
 // From https://stackoverflow.com/questions/63447660/typescript-remove-all-properties-with-particular-type
+/*
 type ExcludeKeysWithTypeOf<T, V> = {
   [K in keyof T]: Exclude<T[K], undefined> extends V ? never : K 
 }[keyof T]
+*/
 
 // inspired by the above
 export type OnlyKeysOfType<T, V> = {
