@@ -1,4 +1,4 @@
-import { FieldSpecifierFunction, FormShape } from '../hooks/FormBuilderTypes';
+import { FieldSpecifierFunction, FormShape } from '../formbuilder/FormBuilderTypes';
 export declare type ValidatorFunction<FormT extends FormShape> = FieldSpecifierFunction<FormT, Array<string>>;
 export interface MinMaxValidatorSpecification {
     min?: number;

@@ -1,6 +1,6 @@
 export { Button, type ButtonProps, type ButtonType } from './button/Button'
 
-export { FormBuilder } from './hooks/FormBuilder'
+export { FormBuilder } from './formbuilder/FormBuilder'
 export { useReactForms as useFormBuilder } from './hooks/useReactForms'
 
 export type { 
@@ -12,7 +12,7 @@ export type {
 	FormData,
 	FieldDefinition, 
 	FormDefinition
-} from './hooks/FormBuilderTypes'
+} from './formbuilder/FormBuilderTypes'
 
 export { type SelectOption } from './inputs/inputs'
 

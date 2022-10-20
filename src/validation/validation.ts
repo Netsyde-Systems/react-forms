@@ -1,5 +1,5 @@
 import EmailValidator from 'email-validator'
-import { FieldSpecifierFunction, FormDefinition, FormShape } from '../hooks/FormBuilderTypes'
+import { FieldSpecifierFunction, FormDefinition, FormShape } from '../formbuilder/FormBuilderTypes'
 
 export type ValidatorFunction<FormT extends FormShape> = FieldSpecifierFunction<FormT, Array<string>>
 

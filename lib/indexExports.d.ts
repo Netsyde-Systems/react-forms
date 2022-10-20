@@ -1,7 +1,7 @@
 export { Button, type ButtonProps, type ButtonType } from './button/Button';
-export { FormBuilder } from './hooks/FormBuilder';
+export { FormBuilder } from './formbuilder/FormBuilder';
 export { useReactForms as useFormBuilder } from './hooks/useReactForms';
-export type { OnlyKeysOfType, OnlyStringKeysOfType, FieldSpecifierFunction, SelectOptionsSpecifier, FormShape, FormData, FieldDefinition, FormDefinition } from './hooks/FormBuilderTypes';
+export type { OnlyKeysOfType, OnlyStringKeysOfType, FieldSpecifierFunction, SelectOptionsSpecifier, FormShape, FormData, FieldDefinition, FormDefinition } from './formbuilder/FormBuilderTypes';
 export { type SelectOption } from './inputs/inputs';
 export { CheckBox, type CheckBoxProps } from './inputs/CheckBox';
 export { DateInput, type DateInputProps } from './inputs/DateInput';

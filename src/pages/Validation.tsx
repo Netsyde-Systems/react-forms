@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormDefinition, FormData } from '../hooks/FormBuilderTypes'
+import { FormDefinition, FormData } from '../formbuilder/FormBuilderTypes'
 import useReactForms from '../hooks/useReactForms'
 import { getTypeMap } from '../utilities'
 import Well from '../well/Well'
@@ -21,17 +21,17 @@ const deferredDefinition: FormDefinition<ValidationShape> = {
 	minString: { label: 'Min String (2)', validators: { min: 2 } }, 
 	maxString: { label: 'Max String (5)', validators: { max: 5 } }, 
 	allString: { label: 'Required Min 2 Max 5', isRequired: true, validators: { min: 2, max: 5 } },
-	customString: { label: 'Must be of length 10 and contain "sheep"', validators: (fieldValue) => {  
+	customString: { label: 'Must be of length 10 and contain "sheep"', validators: (fieldValue: any) => {  
 		let errors: Array<string> = []
 		if (fieldValue && fieldValue.length < 10) errors.push("Must be of at least length 10")
 		if (fieldValue && !(fieldValue.indexOf('sheep') >= 0)) errors.push("Must contain 'sheep'")
 		return errors
 	}},
 	multiFnString: { label: 'Must be of length 7 and contain "ducks"', validators: [
-		(fieldValue) => {
+		(fieldValue: any) => {
 			return (!fieldValue || fieldValue.length >= 7) ? [] : ["Must be of at least length 7"]
 		}, 
-		(fieldValue) => {
+		(fieldValue: any) => {
 			return (!fieldValue || fieldValue.indexOf('ducks') >= 0) ? [] : ["Must contain 'ducks'"]
 		}, 
 	]}, 

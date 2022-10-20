@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
-import { FormShape, FormData, FormDefinition, FormState, initFormState } from './FormBuilderTypes'
-import { FormBuilder } from './FormBuilder'
+import { FormShape, FormData, FormDefinition, FormState, initFormState } from '../formbuilder/FormBuilderTypes'
+import { FormBuilder } from '../formbuilder/FormBuilder'
 
 export function useReactForms<FormT extends FormShape>(formDefinition: FormDefinition<FormT>, initialFormData: FormData<FormT> = {}): FormBuilder<FormT> {
 	const [formData, setFormData] = React.useState(initialFormData)

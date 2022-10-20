@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormDefinition, FormData } from '../hooks/FormBuilderTypes'
+import { FormDefinition, FormData } from '../formbuilder/FormBuilderTypes'
 import useReactForms from '../hooks/useReactForms'
 import { getTypeMap } from '../utilities'
 
