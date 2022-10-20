@@ -41,26 +41,28 @@ export type DisallowSpecification<FieldT> = FieldT extends string | number ? Max
 export interface FieldDefinition<FormT extends FormShape, FieldT> {
 	id?: string
 
-	// labels, placeholders, and required state can be defined as static, or can depend on form and field values
+	// labels and required/disabled states can be defined as static, or can depend on form and field values
 	label?: string | FieldSpecifierFunction<FormT, string>
 	isRequired?: boolean | FieldSpecifierFunction<FormT, boolean>
+	isDisabled?: boolean | FieldSpecifierFunction<FormT, boolean>
 	// TODO: add placeholder support in form builder
 	// placeholder?: string | FieldSpecifierFunction<FormT, string>
 
 	// having onChange, errorMessage, or disabled state as static would make no sense... 
-	// they always depend on current form state
+	// onChange & isHidden always depend on current form state as accessible via specifier functions
 	onChange?: FieldSpecifierFunction<FormT, FormData<FormT>>
-	validators?: ValidatorFunction<FormT> | Array<ValidatorFunction<FormT>> | ValidatorSpecification<FieldT>
-	isDisabled?: FieldSpecifierFunction<FormT, boolean>
 	isHidden?: FieldSpecifierFunction<FormT, boolean>
 
 	disallowChange?: FieldSpecifierFunction<FormT, boolean | undefined> | DisallowSpecification<FieldT>
 
-	// select options can only be specified for fields that are strings or numbers
-	selectOptions?: FieldT extends string | number ? SelectOptionsSpecifier<FormT, FieldT> : never
+	// Can have one, or multiple custom validator functions, or a specifier for straightforward cases (min/max/etc)
+	validators?: ValidatorFunction<FormT> | Array<ValidatorFunction<FormT>> | ValidatorSpecification<FieldT>
 
 	// can specify that field should show errors as soon as a user begins typing
 	validateImmediately?: boolean
+
+	// select options can only be specified for fields that are strings or numbers
+	selectOptions?: FieldT extends string | number ? SelectOptionsSpecifier<FormT, FieldT> : never
 }
 
 // A form definition maps the form's fields into their definitions

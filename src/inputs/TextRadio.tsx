@@ -20,7 +20,7 @@ export function TextRadio(props: TextRadioProps) {
 		const radioId = props.id + optionIndex
 		return (
 			<div key={optionIndex}>
-				<input id={radioId} name={props.id} type='radio' value={option.value} checked={props.value == option.value} onChange={handleOptionChange} disabled={props.disabled} />
+				<input id={radioId} name={props.id} type='radio' value={option.value} checked={props.value === option.value} onChange={handleOptionChange} disabled={props.disabled} />
 				<label htmlFor={props.id + optionIndex}>{option.text}</label>
 			</div>
 		)

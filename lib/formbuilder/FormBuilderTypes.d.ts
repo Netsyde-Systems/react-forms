@@ -20,13 +20,13 @@ export interface FieldDefinition<FormT extends FormShape, FieldT> {
     id?: string;
     label?: string | FieldSpecifierFunction<FormT, string>;
     isRequired?: boolean | FieldSpecifierFunction<FormT, boolean>;
+    isDisabled?: boolean | FieldSpecifierFunction<FormT, boolean>;
     onChange?: FieldSpecifierFunction<FormT, FormData<FormT>>;
-    validators?: ValidatorFunction<FormT> | Array<ValidatorFunction<FormT>> | ValidatorSpecification<FieldT>;
-    isDisabled?: FieldSpecifierFunction<FormT, boolean>;
     isHidden?: FieldSpecifierFunction<FormT, boolean>;
     disallowChange?: FieldSpecifierFunction<FormT, boolean | undefined> | DisallowSpecification<FieldT>;
-    selectOptions?: FieldT extends string | number ? SelectOptionsSpecifier<FormT, FieldT> : never;
+    validators?: ValidatorFunction<FormT> | Array<ValidatorFunction<FormT>> | ValidatorSpecification<FieldT>;
     validateImmediately?: boolean;
+    selectOptions?: FieldT extends string | number ? SelectOptionsSpecifier<FormT, FieldT> : never;
 }
 export declare type FormDefinition<FormT extends FormShape> = {
     [Property in keyof FormT]?: FieldDefinition<FormT, FormT[Property]>;

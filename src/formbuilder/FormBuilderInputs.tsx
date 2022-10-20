@@ -109,24 +109,33 @@ function getInputProps<FormT extends FormShape, FieldT>(
 	else if (typeof fieldDef?.label == 'function') label = fieldDef.label(fieldValue, fieldName, formData, formDefinition)
 
 	// fields aren't required unless they're specified as such with a boolean or a function
-	let fieldRequired = false
-	if (typeof fieldDef?.isRequired == 'boolean') fieldRequired = fieldDef.isRequired
-	else if (typeof fieldDef?.isRequired == 'function') fieldRequired = fieldDef.isRequired(fieldValue, fieldName, formData, formDefinition)
+	let required = false
+	if (typeof fieldDef?.isRequired == 'boolean') required = fieldDef.isRequired
+	else if (typeof fieldDef?.isRequired == 'function') required = fieldDef.isRequired(fieldValue, fieldName, formData, formDefinition)
 
+	// fields aren't disabled unless they're specified as such with a boolean or a function
+	let disabled = false
+	if (typeof fieldDef?.isDisabled == 'boolean') disabled = fieldDef.isDisabled
+	else if (typeof fieldDef?.isDisabled == 'function') disabled = fieldDef?.isDisabled?.(fieldValue, fieldName, formData, formDefinition)
+
+	// let's check for validation messsages
 	let errors: Array<string> = []
 	let errorMessage: string | undefined = undefined
 
-	if (fieldRequired) {
+	if (required) {
 		errors.push(...requiredFieldValidator(fieldValue, fieldName, formData, formDefinition))
 	}
 
 	if (fieldDef?.validators) {
+		// validators can be a single function
 		if (typeof fieldDef.validators === 'function') {
 			errors.push(...fieldDef.validators?.(fieldValue, fieldName, formData, formDefinition))
 		}
+		// or an array of functions
 		else if (Array.isArray(fieldDef.validators)) {
 			errors.push(...fieldDef.validators.flatMap(err => err(fieldValue, fieldName, formData, formDefinition)))
 		}
+		// or a simple object specifier (for min/max and possible other things)
 		else {
 			switch (typeof fieldValue) {
 				case 'string': 
@@ -143,7 +152,6 @@ function getInputProps<FormT extends FormShape, FieldT>(
 
 	if (errors.length > 0) errorMessage = getUnique(errors).join(" | ")
 
-	const disabled = fieldDef?.isDisabled?.(fieldValue, fieldName, formData, formDefinition)
 	const hidden = fieldDef?.isHidden?.(fieldValue, fieldName, formData, formDefinition)
 
 	let isValid = !errorMessage
@@ -178,7 +186,7 @@ function getInputProps<FormT extends FormShape, FieldT>(
 		}
 	}
 
-	const props: InputProps<FieldT> = { id, value: formData[fieldName] as FieldT, label, onChange, errorMessage, hidden, disabled, required: fieldRequired }
+	const props: InputProps<FieldT> = { id, value: formData[fieldName] as FieldT, label, onChange, errorMessage, hidden, disabled, required }
 
 	return [props, isValid]
 }
