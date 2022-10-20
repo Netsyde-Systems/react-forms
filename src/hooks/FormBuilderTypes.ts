@@ -31,6 +31,12 @@ export type SelectOptionsSpecifier<FormT extends FormShape, FieldT extends strin
  	Array<SelectOption<FieldT>> | 
 	FieldSpecifierFunction<FormT, Array<SelectOption<FieldT>>>
 
+export interface MaxLengthDisallowSpecification {
+	maxLength: number
+}
+
+export type DisallowSpecification<FieldT> = FieldT extends string | number ? MaxLengthDisallowSpecification : never // | AddOtherSpecifierHere
+
 // FieldDefinition is an object where we can define the field's behaviour
 export interface FieldDefinition<FormT extends FormShape, FieldT> {
 	id?: string
@@ -48,7 +54,7 @@ export interface FieldDefinition<FormT extends FormShape, FieldT> {
 	isDisabled?: FieldSpecifierFunction<FormT, boolean>
 	isHidden?: FieldSpecifierFunction<FormT, boolean>
 
-	disallowChange?: FieldSpecifierFunction<FormT, boolean>
+	disallowChange?: FieldSpecifierFunction<FormT, boolean | undefined> | DisallowSpecification<FieldT>
 
 	// select options can only be specified for fields that are strings or numbers
 	selectOptions?: FieldT extends string | number ? SelectOptionsSpecifier<FormT, FieldT> : never

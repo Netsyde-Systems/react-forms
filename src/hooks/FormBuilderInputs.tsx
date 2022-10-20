@@ -161,8 +161,11 @@ function getInputProps<FormT extends FormShape, FieldT>(
 		const coercedFieldValue = newFieldValue as any
 
 		// first we check if we should even perform the change
-		if (fieldDef?.disallowChange?.(coercedFieldValue, fieldName, formData, formDefinition)) {
-			return
+		if (typeof fieldDef?.disallowChange === 'object' && coercedFieldValue.toString().length > fieldDef.disallowChange.maxLength) {
+			return // don't perform change because we've exceeded max length
+		}
+		else if (typeof fieldDef?.disallowChange === 'function' && fieldDef.disallowChange(coercedFieldValue, fieldName, formData, formDefinition)) {
+			return // don't perform change because custom disallow function has told us to
 		}
 		else {
 			formData[fieldName] = coercedFieldValue

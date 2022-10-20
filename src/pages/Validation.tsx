@@ -6,7 +6,7 @@ import Well from '../well/Well'
 
 import './Validation.scss'
 
-interface StringValidationShape {
+interface ValidationShape {
 	reqString: string
 	minString: string
 	maxString: string
@@ -16,7 +16,7 @@ interface StringValidationShape {
 }
 
 // this form definition is validated only after the validate button is pressed
-const stringDefinitionDeferred: FormDefinition<StringValidationShape> = {
+const deferredDefinition: FormDefinition<ValidationShape> = {
 	reqString: { label: 'Required String', isRequired: true }, 
 	minString: { label: 'Min String (2)', validators: { min: 2 } }, 
 	maxString: { label: 'Max String (5)', validators: { max: 5 } }, 
@@ -34,29 +34,45 @@ const stringDefinitionDeferred: FormDefinition<StringValidationShape> = {
 		(fieldValue) => {
 			return (!fieldValue || fieldValue.indexOf('ducks') >= 0) ? [] : ["Must contain 'ducks'"]
 		}, 
-	]}
+	]}, 
 }
 
 // this form definition validated as soon as the user begins typing into an input 
-const stringDefinitionImmediate: FormDefinition<StringValidationShape> = Object.entries(stringDefinitionDeferred).reduce((formDef, [key, fieldDef]) => {
-	let typedKey = key as keyof FormData<StringValidationShape>
+const immediateDefinition: FormDefinition<ValidationShape> = Object.entries(deferredDefinition).reduce((formDef, [key, fieldDef]) => {
+	let typedKey = key as keyof FormData<ValidationShape>
 	formDef[typedKey] = Object.assign({}, fieldDef) 
 	formDef[typedKey]!.validateImmediately = true
 	return formDef
-}, {} as FormDefinition<StringValidationShape>)
+}, {} as FormDefinition<ValidationShape>)
 
-let stringFormDataDeferred: FormData<StringValidationShape> = {} 
-let stringFormDataImmediate: FormData<StringValidationShape> = {} 
+interface ForcedValidationShape {
+	maxString: string
+	customString: string
+	// figured out why string/number dichotomy exists here
+	//prevMaxNumber: number
+}
+
+const forcedDefinition: FormDefinition<ForcedValidationShape> = {
+	maxString: { label: 'Force string max 5', disallowChange: { maxLength: 5 } },
+
+	// figured out why string/number dichotomy exists.  Try commenting out prevMaxNumber above
+	customString: { label: 'Cannot contain "sheep"', disallowChange: (fieldValue) => { 
+		if (fieldValue && fieldValue?.indexOf('sheep') >= 0) return true
+	 } },
+	// prevMaxNumber: { label: 'Force number max 5', disallowChange: { maxLength: 5 } },
+}
+
 
 export function Validation() {
-	const rfDeferred = useReactForms(stringDefinitionDeferred, stringFormDataDeferred)
-	const rfImmediate = useReactForms(stringDefinitionImmediate, stringFormDataImmediate)
+	const rfDeferred = useReactForms(deferredDefinition)
+	const rfImmediate = useReactForms(immediateDefinition)
+	const rfForced = useReactForms(forcedDefinition)
 
 	return (
 		<div className='validation page'>
 			<h1>Validation Tests</h1>
 
-			<Well title='String Validation (Deferred)' buttonDefs={[{ text: 'Validate', onClick: () => rfDeferred.validate() }]}>
+			<Well title='Validation (Deferred)' buttonDefs={[{ text: 'Validate', onClick: () => rfDeferred.validate() }]}>
 				<div className='control-grid'>
 
 					<div className='control-row'>
@@ -81,12 +97,11 @@ export function Validation() {
 							{rfDeferred.textInput('multiFnString')}
 						</div>
 					</div>
-
 				</div>
 
 			</Well>
 
-			<Well title='String Validation (Immediate)'>
+			<Well title='Validation (Immediate)'>
 				<div className='control-grid'>
 
 					<div className='control-row'>
@@ -111,7 +126,21 @@ export function Validation() {
 							{rfImmediate.textInput('multiFnString')}
 						</div>
 					</div>
+				</div>
 
+			</Well>
+
+			<Well title='Validation (Forced)'>
+				<div className='control-grid'>
+
+					<div className='control-row'>
+						<div className='control-cell'>
+							{rfForced.textInput('maxString')}
+						</div>
+						<div className='control-cell'>
+							{rfForced.textInput('customString')}
+						</div>
+					</div>
 				</div>
 
 			</Well>
@@ -133,6 +162,15 @@ export function Validation() {
 			<h2>Immediate Form Types</h2>
 			<pre>
 				{JSON.stringify(getTypeMap(rfImmediate.formData), null, 2)}
+			</pre>
+
+			<h2>Forced Form Data</h2>
+			<pre>
+				{JSON.stringify(rfForced.formData, null, 2)}
+			</pre>
+			<h2>Immediate Form Types</h2>
+			<pre>
+				{JSON.stringify(getTypeMap(rfForced.formData), null, 2)}
 			</pre>
 		</div>
 	)
