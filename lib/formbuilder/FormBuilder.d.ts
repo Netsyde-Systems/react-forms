@@ -12,6 +12,8 @@ export declare class FormBuilder<FormT extends FormShape> {
     private _isValid;
     constructor(formDefinition: FormDefinition<FormT>, formData: FormData<FormT>, formState: FormState<FormT>, onFormDataUpdate?: import("react").Dispatch<import("react").SetStateAction<Partial<FormT>>> | undefined, onFormStateUpdate?: import("react").Dispatch<import("react").SetStateAction<FormState<FormT>>> | undefined);
     private updateValidity;
+    setData: (formData: FormData<FormT>, formState?: FormState<FormT>) => void;
+    setField: (fieldName: keyof FormT, fieldValue: Partial<FormT>[keyof FormT]) => void;
     private linkStandardControl;
     private linkOptionControl;
     textInput: (fieldName: OnlyStringKeysOfType<FormT, string>) => JSX.Element;

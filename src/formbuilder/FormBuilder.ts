@@ -40,17 +40,31 @@ export class FormBuilder<FormT extends FormShape> {
 		else this._isValid = this._isValid && isValid
 	}
 
+	public setData = (formData: FormData<FormT>, formState?: FormState<FormT>) => {
+		this.formData = formData
+		this.formState = formState ?? this.formState
+
+		this.onFormDataUpdate?.(this.formData)
+		this.onFormStateUpdate?.(this.formState)
+	}
+
+	public setField = (fieldName: keyof FormT, fieldValue: FormData<FormT>[typeof fieldName]) => {
+		let newFormData = Object.assign({}, this.formData)
+		let newFormState = Object.assign({}, this.formState)
+
+		newFormData[fieldName] = fieldValue
+		newFormState.fieldsTouched[fieldName] = true
+
+		this.setData(newFormData, newFormState)
+	}
+
 	// We've factored out what needs to be done for every control type here
 	private linkStandardControl<FieldT>(fieldName: OnlyStringKeysOfType<FormT, FieldT>, InputControl: ReactFormsInputControl<FieldT>) {
 		let newFormState = Object.assign({}, this.formState)
 		let newFormData = Object.assign({}, this.formData)
 
 		const handleChange = (formData: FormData<FormT>) => {
-			newFormState.fieldsTouched[fieldName] = true
-			this.formState = newFormState
-			this.formData = Object.assign({}, formData)
-			this.onFormDataUpdate?.(formData)
-			this.onFormStateUpdate?.(newFormState)
+			this.setField(fieldName, formData[fieldName])
 		}
 
 		const [inputControl, isValid] = createStandardInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange, InputControl)
@@ -65,11 +79,7 @@ export class FormBuilder<FormT extends FormShape> {
 		let newFormData = Object.assign({}, this.formData)
 
 		const handleChange = (formData: FormData<FormT>) => {
-			newFormState.fieldsTouched[fieldName] = true
-			this.formState = newFormState
-			this.formData = Object.assign({}, formData)
-			this.onFormDataUpdate?.(formData)
-			this.onFormStateUpdate?.(newFormState)
+			this.setField(fieldName, formData[fieldName])
 		}
 
 		const [inputControl, isValid] = createOptionInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange, OptionControl)
