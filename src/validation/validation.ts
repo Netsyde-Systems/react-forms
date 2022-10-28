@@ -1,7 +1,7 @@
 import EmailValidator from 'email-validator'
 import { FieldSpecifierFunction, FormDefinition, FormShape } from '../formbuilder/FormBuilderTypes'
 
-export type ValidatorFunction<FormT extends FormShape> = FieldSpecifierFunction<FormT, Array<string>>
+export type ValidatorFunction<FormT extends FormShape, LanguageT extends string | undefined = undefined> = FieldSpecifierFunction<FormT, Array<string>, LanguageT>
 
 export interface MinMaxValidatorSpecification {
 	min?: number
@@ -30,7 +30,7 @@ function getErrorLabel<FormT extends FormShape>(fieldName: string, formDefinitio
 
 
 
-export const requiredFieldValidator: ValidatorFunction<any> = function (fieldValue, fieldName, formData, formDefinition) {
+export const requiredFieldValidator: ValidatorFunction<any, any> = function (fieldValue, fieldName, formData, formDefinition) {
 	const label = getErrorLabel(fieldName, formDefinition)
 	return isValueProvided(fieldValue) ? 
 		[] : 
@@ -41,25 +41,25 @@ export const emailValidator: ValidatorFunction<any> = function (fieldValue: stri
 	return isValidEmail(fieldValue) ? [] : ['Invalid email']
 }
 
-export function getMinValidator<T>(minValue: T, errorLabel: string): ValidatorFunction<any> {
+export function getMinValidator<T>(minValue: T, errorLabel: string): ValidatorFunction<any, any> {
 	return function (fieldValue: T, fieldName) {
 		return fieldValue >= minValue ? [] : [`${errorLabel} must be greater than or equal to ${minValue}`]
 	}
 }
 
-export function getMaxValidator<T>(maxValue: T, errorLabel: string): ValidatorFunction<any> {
+export function getMaxValidator<T>(maxValue: T, errorLabel: string): ValidatorFunction<any, any> {
 	return function (fieldValue: T, fieldName) {
 		return fieldValue <= maxValue ? [] : [`${errorLabel} must be less than or equal to ${maxValue}`]
 	}
 }
 
-export function getMinLengthValidator(minLength: number, errorLabel: string): ValidatorFunction<any> {
+export function getMinLengthValidator(minLength: number, errorLabel: string): ValidatorFunction<any, any> {
 	return function (fieldValue: string, fieldName, formData) {
 		return (!fieldValue || fieldValue.length >= minLength) ? [] : [`${errorLabel} must be at least ${minLength} characters`]
 	}
 }
 
-export function getMaxLengthValidator(maxLength: number, errorLabel: string): ValidatorFunction<any> {
+export function getMaxLengthValidator(maxLength: number, errorLabel: string): ValidatorFunction<any, any> {
 	return function (fieldValue: string, fieldName, formData) {
 		return (!fieldValue || fieldValue.length <= maxLength) ? [] : [`${errorLabel} must be at most ${maxLength} characters`]
 	}

@@ -22,8 +22,8 @@ export interface FormShape {
 export type FormData<T extends FormShape> = Partial<T>
 
 // Field specifier functions take as arguments the form data, the field value and name, and returns a value
-export interface FieldSpecifierFunction<FormT extends FormShape, OutputT> {
-	(fieldValue: FormT[typeof fieldName] | undefined, fieldName: keyof FormT & string, formData: FormData<FormT>, formDefinition: FormDefinition<FormT>): OutputT
+export interface FieldSpecifierFunction<FormT extends FormShape, OutputT, LanguageT extends string | undefined = undefined> {
+	(fieldValue: FormT[typeof fieldName] | undefined, fieldName: keyof FormT & string, formData: FormData<FormT>, formDefinition: FormDefinition<FormT, LanguageT>): OutputT
 }
 
 // Select Options Specifier can be static list of select options, or can depend on state of form
@@ -37,26 +37,42 @@ export interface MaxLengthDisallowSpecification {
 
 export type DisallowSpecification<FieldT> = FieldT extends string | number ? MaxLengthDisallowSpecification : never // | AddOtherSpecifierHere
 
+export type LocalizedString<LanguageT extends string> = {
+	[lang in LanguageT]: string
+}
+
+export type LangSpec<LanguageT extends string | undefined> = LanguageT extends string ? LocalizedString<LanguageT> : string
+
+// TODO: make this more specific so that only LangSpec can be input?
+export function isLocalizedString<LanguageT extends string>(langSpec: any): langSpec is LocalizedString<LanguageT> {
+	return typeof langSpec === 'object'
+}
+
+export function getString<LanguageT extends string | undefined>(langSpec: LangSpec<LanguageT>, language?: LanguageT): string | undefined {
+	if (typeof language === 'string' && isLocalizedString(langSpec)) return langSpec[language]
+	else if (typeof langSpec === 'string') return langSpec
+}
+
 // FieldDefinition is an object where we can define the field's behaviour
-export interface FieldDefinition<FormT extends FormShape, FieldT> {
+export interface FieldDefinition<FormT extends FormShape, FieldT, LanguageT extends string | undefined> {
 	id?: string
 
 	// labels and required/disabled states can be defined as static, or can depend on form and field values
-	label?: string | FieldSpecifierFunction<FormT, string>
-	isRequired?: boolean | FieldSpecifierFunction<FormT, boolean>
-	isDisabled?: boolean | FieldSpecifierFunction<FormT, boolean>
+	label?: LangSpec<LanguageT> | FieldSpecifierFunction<FormT, LangSpec<LanguageT>, LanguageT>
+	isRequired?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT>
+	isDisabled?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT>
 	// TODO: add placeholder support in form builder
 	// placeholder?: string | FieldSpecifierFunction<FormT, string>
 
 	// having onChange, errorMessage, or disabled state as static would make no sense... 
 	// onChange & isHidden always depend on current form state as accessible via specifier functions
-	onChange?: FieldSpecifierFunction<FormT, FormData<FormT>>
-	isHidden?: FieldSpecifierFunction<FormT, boolean>
+	onChange?: FieldSpecifierFunction<FormT, FormData<FormT>, LanguageT>
+	isHidden?: FieldSpecifierFunction<FormT, boolean, LanguageT>
 
-	disallowChange?: FieldSpecifierFunction<FormT, boolean | undefined> | DisallowSpecification<FieldT>
+	disallowChange?: FieldSpecifierFunction<FormT, boolean | undefined, LanguageT> | DisallowSpecification<FieldT>
 
 	// Can have one, or multiple custom validator functions, or a specifier for straightforward cases (min/max/etc)
-	validators?: ValidatorFunction<FormT> | Array<ValidatorFunction<FormT>> | ValidatorSpecification<FieldT>
+	validators?: ValidatorFunction<FormT, any> | Array<ValidatorFunction<FormT, any>> | ValidatorSpecification<FieldT>
 
 	// can specify that field should show errors as soon as a user begins typing
 	validateImmediately?: boolean
@@ -67,8 +83,8 @@ export interface FieldDefinition<FormT extends FormShape, FieldT> {
 
 // A form definition maps the form's fields into their definitions
 // This is the object with which we define the form's behaviour
-export type FormDefinition<FormT extends FormShape> = {
-	[Property in keyof FormT]?: FieldDefinition<FormT, FormT[Property]>
+export type FormDefinition<FormT extends FormShape, LanguageT extends string | undefined = undefined> = {
+	[Property in keyof FormT]?: FieldDefinition<FormT, FormT[Property], LanguageT>
 }
 
 export type FormFieldTouchState<FormT extends FormShape> = {

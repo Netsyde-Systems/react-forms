@@ -19,16 +19,17 @@ export type FieldNameProps<FormT, FieldT> = {
 }
 
 // The FormBuilder class links form data to actual form fields that we can render in react.
-export class FormBuilder<FormT extends FormShape> {
+export class FormBuilder<FormT extends FormShape, LanguageT extends string | undefined = undefined> {
 
 	private _isValid: boolean | undefined 
 
 	constructor(
-		private formDefinition: FormDefinition<FormT>,
+		private formDefinition: FormDefinition<FormT, LanguageT>,
 		public formData: FormData<FormT>,
 		public formState: FormState<FormT>,
 		private onFormDataUpdate?: React.Dispatch<React.SetStateAction<FormData<FormT>>>, 
 		private onFormStateUpdate?: React.Dispatch<React.SetStateAction<FormState<FormT>>>, 
+		private language?: LanguageT
 	) {
 		this._isValid = undefined
 	}
@@ -67,7 +68,7 @@ export class FormBuilder<FormT extends FormShape> {
 			this.setField(fieldName, formData[fieldName])
 		}
 
-		const [inputControl, isValid] = createStandardInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange, InputControl)
+		const [inputControl, isValid] = createStandardInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange, InputControl, this.language)
 
 		this.updateValidity(isValid)
 
@@ -82,7 +83,7 @@ export class FormBuilder<FormT extends FormShape> {
 			this.setField(fieldName, formData[fieldName])
 		}
 
-		const [inputControl, isValid] = createOptionInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange, OptionControl)
+		const [inputControl, isValid] = createOptionInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange, OptionControl, this.language)
 
 		this.updateValidity(isValid)
 
