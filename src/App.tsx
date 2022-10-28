@@ -15,8 +15,9 @@ function App() {
 
 	return (
 		<BrowserRouter basename={Config.DeploymentDirectory}>
+
 			<div className="app">
-				<Header pageName='Test Page' />
+				<Header pageName='Tests Page' />
 				<nav>
 					<NavLink to='/'>Home</NavLink>
 					<NavLink to='controls'>Controls</NavLink>
