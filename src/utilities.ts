@@ -25,3 +25,7 @@ export const getTypeMap = (obj: any) => {
 export function getUnique<T>(items: Array<T>): Array<T> {
 	return Array.from(new Set(items))
 }
+
+export const Config = {
+	DeploymentDirectory: process.env.REACT_APP_DEPLOYMENT_DIRECTORY
+}

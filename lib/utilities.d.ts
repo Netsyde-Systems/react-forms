@@ -7,3 +7,6 @@ export declare const toIsoGmtDateString: (date?: Date | null) => string;
 export declare function iterateObject<T>(obj: T, iteratorFunction: (fieldName: keyof T, fieldValue: T[keyof T], obj: T) => void): void;
 export declare const getTypeMap: (obj: any) => any;
 export declare function getUnique<T>(items: Array<T>): Array<T>;
+export declare const Config: {
+    DeploymentDirectory: string | undefined;
+};

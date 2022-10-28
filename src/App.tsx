@@ -9,11 +9,12 @@ import Validation from './pages/Validation'
 import Localization from './pages/Localization'
 
 import './App.scss'
+import { Config } from './utilities'
 
 function App() {
 
 	return (
-		<BrowserRouter>
+		<BrowserRouter basename={Config.DeploymentDirectory}>
 			<div className="app">
 				<Header pageName='Test Page' />
 				<nav>
