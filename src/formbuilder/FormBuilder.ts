@@ -13,6 +13,7 @@ import EmailAddress from "../inputs/EmailAddress"
 
 import { createOptionInput, createStandardInput, ReactFormsInputControl, ReactFormsOptionControl } from "./FormBuilderInputs"
 import { FormShape, FormData, FormDefinition, FormState, OnlyStringKeysOfType } from "./FormBuilderTypes"
+import React from "react"
 
 export type FieldNameProps<FormT, FieldT> = {
 	field: OnlyStringKeysOfType<FormT, FieldT>
@@ -27,9 +28,10 @@ export class FormBuilder<FormT extends FormShape, LanguageT extends string | und
 		private formDefinition: FormDefinition<FormT, LanguageT>,
 		public formData: FormData<FormT>,
 		public formState: FormState<FormT>,
+		public language?: LanguageT, 
 		private onFormDataUpdate?: React.Dispatch<React.SetStateAction<FormData<FormT>>>, 
 		private onFormStateUpdate?: React.Dispatch<React.SetStateAction<FormState<FormT>>>, 
-		private language?: LanguageT
+		private onLanguageUpdate?: React.Dispatch<React.SetStateAction<LanguageT | undefined>>
 	) {
 		this._isValid = undefined
 	}
@@ -39,6 +41,11 @@ export class FormBuilder<FormT extends FormShape, LanguageT extends string | und
 		if (this._isValid === undefined) this._isValid = isValid
 		// otherwise we or it with the validity of all other fields rendered to see if form as a whole is valid
 		else this._isValid = this._isValid && isValid
+	}
+
+	public setLanguage = (language?: LanguageT) => {
+		this.language = language
+		this.onLanguageUpdate?.(language)
 	}
 
 	public setData = (formData: FormData<FormT>, formState?: FormState<FormT>) => {

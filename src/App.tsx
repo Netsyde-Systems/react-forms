@@ -2,10 +2,11 @@ import React from 'react'
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom'
 
 import Header from './header/Header'
-import Home from './pages/Home';
-import Controls from './pages/Controls';
-import Forms from './pages/Forms';
-import Validation from './pages/Validation';
+import Home from './pages/Home'
+import Controls from './pages/Controls'
+import Forms from './pages/Forms'
+import Validation from './pages/Validation'
+import Localization from './pages/Localization'
 
 import './App.scss'
 
@@ -20,12 +21,14 @@ function App() {
 					<NavLink to='controls'>Controls</NavLink>
 					<NavLink to='forms'>Forms</NavLink>
 					<NavLink to='validation'>Validation</NavLink>
+					<NavLink to='localization'>Localization</NavLink>
 				</nav>
 				<Routes>
 					<Route path='/' element={<Home />} />
 					<Route path='controls' element={<Controls />} />
 					<Route path='forms' element={<Forms />} />
 					<Route path='validation' element={<Validation />} />
+					<Route path='localization' element={<Localization />} />
 				</Routes>
 			</div>
 		</BrowserRouter>
