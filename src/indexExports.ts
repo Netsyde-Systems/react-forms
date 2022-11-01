@@ -5,10 +5,8 @@ export { useReactForms as useFormBuilder } from './hooks/useReactForms'
 
 export type { 
 	OnlyKeysOfType, 
-	OnlyStringKeysOfType, 
 	FieldSpecifierFunction, 
 	SelectOptionsSpecifier, 
-	FormShape, 
 	FormData,
 	FieldDefinition, 
 	FormDefinition

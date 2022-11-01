@@ -1,7 +1,8 @@
 import EmailValidator from 'email-validator'
-import { FieldSpecifierFunction, FormDefinition, FormShape } from '../formbuilder/FormBuilderTypes'
+import { getLabel } from '../formbuilder/FormBuilderInputs'
+import { FieldSpecifierFunction } from '../formbuilder/FormBuilderTypes'
 
-export type ValidatorFunction<FormT extends FormShape, LanguageT extends string | undefined = undefined> = FieldSpecifierFunction<FormT, Array<string>, LanguageT>
+export type ValidatorFunction<FormT, LanguageT extends string | undefined = undefined> = FieldSpecifierFunction<FormT, Array<string>, LanguageT>
 
 export interface MinMaxValidatorSpecification {
 	min?: number
@@ -23,15 +24,10 @@ export const isValueProvided = function (fieldValue?: any) {
 	}
 }
 
-function getErrorLabel<FormT extends FormShape>(fieldName: string, formDefinition: FormDefinition<FormT>) {
-	const label = formDefinition[fieldName]?.label ?? fieldName
-	return label
-}
 
 
-
-export const requiredFieldValidator: ValidatorFunction<any, any> = function (fieldValue, fieldName, formData, formDefinition) {
-	const label = getErrorLabel(fieldName, formDefinition)
+export const requiredFieldValidator: ValidatorFunction<any, any> = function (fieldValue, fieldName, formData, formDefinition, language) {
+	const label = getLabel(formDefinition, formData, fieldName.toString(), language)
 	return isValueProvided(fieldValue) ? 
 		[] : 
 		[`${label} is required`]

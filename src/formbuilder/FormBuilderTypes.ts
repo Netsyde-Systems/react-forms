@@ -13,21 +13,23 @@ export type OnlyKeysOfType<T, V> = {
   [K in keyof T]: Exclude<T[K], undefined> extends V ? K : never
 }[keyof T]
 
-export type OnlyStringKeysOfType<T, V> = OnlyKeysOfType<T, V> & string
+// export type OnlyStringKeysOfType<T, V> = OnlyKeysOfType<T, V> & string
 
+/*
 export interface FormShape {
 	[field: string]: any
 }
+*/
 
-export type FormData<T extends FormShape> = Partial<T>
+export type FormData<T> = Partial<T>
 
 // Field specifier functions take as arguments the form data, the field value and name, and returns a value
-export interface FieldSpecifierFunction<FormT extends FormShape, OutputT, LanguageT extends string | undefined = undefined> {
-	(fieldValue: FormT[typeof fieldName] | undefined, fieldName: keyof FormT & string, formData: FormData<FormT>, formDefinition: FormDefinition<FormT, LanguageT>): OutputT
+export interface FieldSpecifierFunction<FormT, OutputT, LanguageT extends string | undefined = undefined> {
+	(fieldValue: FormT[typeof fieldName] | undefined, fieldName: keyof FormT, formData: FormData<FormT>, formDefinition: FormDefinition<FormT, LanguageT>, language?: LanguageT): OutputT
 }
 
 // Select Options Specifier can be static list of select options, or can depend on state of form
-export type SelectOptionsSpecifier<FormT extends FormShape, FieldT extends string | number> =
+export type SelectOptionsSpecifier<FormT, FieldT extends string | number> =
  	Array<SelectOption<FieldT>> | 
 	FieldSpecifierFunction<FormT, Array<SelectOption<FieldT>>>
 
@@ -54,7 +56,7 @@ export function getString<LanguageT extends string | undefined>(langSpec: LangSp
 }
 
 // FieldDefinition is an object where we can define the field's behaviour
-export interface FieldDefinition<FormT extends FormShape, FieldT, LanguageT extends string | undefined> {
+export interface FieldDefinition<FormT, FieldT, LanguageT extends string | undefined> {
 	id?: string
 
 	// labels and required/disabled states can be defined as static, or can depend on form and field values
@@ -83,21 +85,21 @@ export interface FieldDefinition<FormT extends FormShape, FieldT, LanguageT exte
 
 // A form definition maps the form's fields into their definitions
 // This is the object with which we define the form's behaviour
-export type FormDefinition<FormT extends FormShape, LanguageT extends string | undefined = undefined> = {
+export type FormDefinition<FormT, LanguageT extends string | undefined = undefined> = {
 	[Property in keyof FormT]?: FieldDefinition<FormT, FormT[Property], LanguageT>
 }
 
-export type FormFieldTouchState<FormT extends FormShape> = {
+export type FormFieldTouchState<FormT> = {
 	[key in keyof FormT]?: boolean
 } 
 
 // FormState is used by the form builder to determine state of the form overall
 // We separate it from FormFieldState because adding fields to the mapped FormFieldState makes later type logic tricky
-export interface FormState<FormT extends FormShape> {
+export interface FormState<FormT> {
 	fieldsTouched: FormFieldTouchState<FormT>
 	hasBeenValidated: boolean
 }
 
-export function initFormState<FormT extends FormShape>(formData: FormT): FormState<FormT> {
+export function initFormState<FormT>(formData: FormT): FormState<FormT> {
 	return {hasBeenValidated: false, fieldsTouched: {}}
 }
