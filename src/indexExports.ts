@@ -9,7 +9,9 @@ export type {
 	SelectOptionsSpecifier, 
 	FormData,
 	FieldDefinition, 
-	FormDefinition
+	FormDefinition, 
+	LocalizedString, 
+	LangSpec,
 } from './formbuilder/FormBuilderTypes'
 
 export { type SelectOption } from './inputs/inputs'

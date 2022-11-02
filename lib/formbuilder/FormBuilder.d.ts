@@ -1,9 +1,9 @@
-import { FormShape, FormData, FormDefinition, FormState, OnlyStringKeysOfType } from "./FormBuilderTypes";
+import { ExtractLanguage, FormData, FormDefinition, FormState, LocalizedString, OnlyKeysOfType } from "./FormBuilderTypes";
 import React from "react";
 export declare type FieldNameProps<FormT, FieldT> = {
-    field: OnlyStringKeysOfType<FormT, FieldT>;
+    field: OnlyKeysOfType<FormT, FieldT>;
 };
-export declare class FormBuilder<FormT extends FormShape, LanguageT extends string | undefined = undefined> {
+export declare class FormBuilder<FormT, LanguageT extends string | undefined = undefined> {
     private formDefinition;
     formData: FormData<FormT>;
     formState: FormState<FormT>;
@@ -19,20 +19,21 @@ export declare class FormBuilder<FormT extends FormShape, LanguageT extends stri
     setField: (fieldName: keyof FormT, fieldValue: Partial<FormT>[keyof FormT]) => void;
     private linkStandardControl;
     private linkOptionControl;
-    textInput: (fieldName: OnlyStringKeysOfType<FormT, string>) => JSX.Element;
+    textInput: (fieldName: OnlyKeysOfType<FormT, string>) => JSX.Element;
     TextInputElementTest: (props: FieldNameProps<FormT, string>) => JSX.Element;
-    textArea: (fieldName: OnlyStringKeysOfType<FormT, string>) => JSX.Element;
-    numberInput: (fieldName: OnlyStringKeysOfType<FormT, number>) => JSX.Element;
-    dateInput: (fieldName: OnlyStringKeysOfType<FormT, Date>) => JSX.Element;
-    postalCode: (fieldName: OnlyStringKeysOfType<FormT, string>) => JSX.Element;
-    phoneNumber: (fieldName: OnlyStringKeysOfType<FormT, number>) => JSX.Element;
-    emailAddress: (fieldName: OnlyStringKeysOfType<FormT, string>) => JSX.Element;
-    textSelect: (fieldName: OnlyStringKeysOfType<FormT, string>) => JSX.Element;
-    numberSelect: (fieldName: OnlyStringKeysOfType<FormT, number>) => JSX.Element;
-    textRadio: (fieldName: OnlyStringKeysOfType<FormT, string>) => JSX.Element;
-    numberRadio: (fieldName: OnlyStringKeysOfType<FormT, number>) => JSX.Element;
-    checkbox: (fieldName: OnlyStringKeysOfType<FormT, boolean>) => JSX.Element;
+    textArea: (fieldName: OnlyKeysOfType<FormT, string>) => JSX.Element;
+    numberInput: (fieldName: OnlyKeysOfType<FormT, number>) => JSX.Element;
+    dateInput: (fieldName: OnlyKeysOfType<FormT, Date>) => JSX.Element;
+    postalCode: (fieldName: OnlyKeysOfType<FormT, string>) => JSX.Element;
+    phoneNumber: (fieldName: OnlyKeysOfType<FormT, number>) => JSX.Element;
+    emailAddress: (fieldName: OnlyKeysOfType<FormT, string>) => JSX.Element;
+    textSelect: (fieldName: OnlyKeysOfType<FormT, string>) => JSX.Element;
+    numberSelect: (fieldName: OnlyKeysOfType<FormT, number>) => JSX.Element;
+    textRadio: (fieldName: OnlyKeysOfType<FormT, string>) => JSX.Element;
+    numberRadio: (fieldName: OnlyKeysOfType<FormT, number>) => JSX.Element;
+    checkbox: (fieldName: OnlyKeysOfType<FormT, boolean>) => JSX.Element;
     validate(): void;
     get isValid(): boolean | undefined;
+    localize<LT extends ExtractLanguage<LanguageT>>(localizedString: LocalizedString<LT>, defaultLocalization?: string): string;
 }
 export default FormBuilder;

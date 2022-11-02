@@ -1,5 +1,5 @@
-import { FieldSpecifierFunction, FormShape } from '../formbuilder/FormBuilderTypes';
-export declare type ValidatorFunction<FormT extends FormShape, LanguageT extends string | undefined = undefined> = FieldSpecifierFunction<FormT, Array<string>, LanguageT>;
+import { FieldSpecifierFunction } from '../formbuilder/FormBuilderTypes';
+export declare type ValidatorFunction<FormT, LanguageT extends string | undefined = undefined> = FieldSpecifierFunction<FormT, Array<string>, LanguageT>;
 export interface MinMaxValidatorSpecification {
     min?: number;
     max?: number;
