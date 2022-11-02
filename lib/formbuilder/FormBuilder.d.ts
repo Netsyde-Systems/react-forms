@@ -30,7 +30,7 @@ export declare class FormBuilder<FormT, LanguageT extends string | undefined = u
     private updateValidity;
     setLanguage: (language?: LanguageT) => void;
     setData: (formData: FormData<FormT>, formState?: FormState<FormT>) => void;
-    setField: (fieldName: keyof FormT, fieldValue: Partial<FormT>[keyof FormT]) => void;
+    setField: (fieldName: keyof FormT, fieldValue: FormData<FormT>[keyof FormT]) => void;
     private linkStandardControl;
     private linkOptionControl;
     textInput: (fieldName: OnlyKeysOfType<FormT, string>) => JSX.Element;

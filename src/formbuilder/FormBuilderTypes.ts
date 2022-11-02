@@ -21,7 +21,9 @@ export interface FormShape {
 }
 */
 
-export type FormData<T> = Partial<T>
+export type FormData<T> = {
+	[K in keyof T]?: T[K] extends Array<infer A> ? Array<FormData<A>> : T[K]
+}
 
 // Field specifier functions take as arguments the form data, the field value and name, and returns a value
 export interface FieldSpecifierFunction<FormT, OutputT, LanguageT extends string | undefined = undefined> {

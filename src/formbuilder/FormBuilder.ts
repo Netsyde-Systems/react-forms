@@ -166,7 +166,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 			const handleFormDataUpdate = (newSubFormDatum: FormData<SubFormT>) => {
 				const newSubFormData = subFormData.slice()
 				newSubFormData[rowIndex] = newSubFormDatum
-				this.setField(fieldName, newSubFormData as any as FormT[typeof fieldName])
+				this.setField(fieldName, newSubFormData as any)
 			}
 
 			const subFormBuilder = new FormBuilder<SubFormT, LanguageT>(subFormDef.formDefinition, subFormDatum, subFormState, this.language, handleFormDataUpdate, undefined, undefined, rowIndex)
@@ -176,7 +176,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 				deleteInstance: () => {
 					const newSubFormData = subFormData.slice()
 					newSubFormData.splice(rowIndex, 1)
-					this.setField(fieldName, newSubFormData as any as FormT[typeof fieldName])
+					this.setField(fieldName, newSubFormData as any)
 				},
 			}
 
@@ -201,7 +201,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 
 				newSubFormData.push(newSubForm)
 
-				this.setField(fieldName, newSubFormData as any as FormT[typeof fieldName])
+				this.setField(fieldName, newSubFormData as any)
 			},
 		}
 

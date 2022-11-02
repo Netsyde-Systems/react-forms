@@ -3,7 +3,9 @@ import { MinMaxValidatorSpecification, ValidatorFunction, ValidatorSpecification
 export declare type OnlyKeysOfType<T, V> = {
     [K in keyof T]: Exclude<T[K], undefined> extends V ? K : never;
 }[keyof T];
-export declare type FormData<T> = Partial<T>;
+export declare type FormData<T> = {
+    [K in keyof T]?: T[K] extends Array<infer A> ? Array<FormData<A>> : T[K];
+};
 export interface FieldSpecifierFunction<FormT, OutputT, LanguageT extends string | undefined = undefined> {
     (fieldValue: FormData<FormT>[typeof fieldName] | undefined, fieldName: keyof FormT, formData: FormData<FormT>, formDefinition: FormDefinition<FormT, LanguageT>, language?: LanguageT): OutputT;
 }
