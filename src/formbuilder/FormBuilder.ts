@@ -12,7 +12,7 @@ import PhoneNumber from "../inputs/PhoneNumber"
 import EmailAddress from "../inputs/EmailAddress"
 
 import { createOptionInput, createStandardInput, ReactFormsInputControl, ReactFormsOptionControl } from "./FormBuilderInputs"
-import { FormData, FormDefinition, FormState, OnlyKeysOfType } from "./FormBuilderTypes"
+import { ExtractLanguage, FormData, FormDefinition, FormState, LocalizedString, OnlyKeysOfType } from "./FormBuilderTypes"
 import React from "react"
 
 export type FieldNameProps<FormT, FieldT> = {
@@ -133,6 +133,12 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 	}
 
 	public get isValid() { return this._isValid }
+
+	public localize<LT extends ExtractLanguage<LanguageT>>(localizedString: LocalizedString<LT>, defaultLocalization?: string): string {
+		return this.language ? 
+			localizedString[this.language as LT] : 
+			(defaultLocalization ?? '')
+	}
 }
 
 export default FormBuilder

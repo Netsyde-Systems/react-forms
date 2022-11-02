@@ -51,7 +51,7 @@ export function Localization() {
 
 	return (
 		<div className='forms page'>
-			<h1>Form Tests</h1>
+			<h1>{rf.localize({ en: 'Locationlization Tests', fr: 'Tests de Localization' })}</h1>
 
 			<div className='control-grid'>
 

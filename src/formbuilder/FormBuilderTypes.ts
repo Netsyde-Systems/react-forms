@@ -43,6 +43,8 @@ export type LocalizedString<LanguageT extends string> = {
 	[lang in LanguageT]: string
 }
 
+export type ExtractLanguage<LanguageT extends string | undefined> = LanguageT extends string ? LanguageT : never
+
 export type LangSpec<LanguageT extends string | undefined> = LanguageT extends string ? LocalizedString<LanguageT> : string
 
 // TODO: make this more specific so that only LangSpec can be input?
