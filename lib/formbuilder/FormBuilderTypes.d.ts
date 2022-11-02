@@ -1,11 +1,11 @@
 import { SelectOption } from '../inputs/inputs';
-import { ValidatorFunction, ValidatorSpecification } from '../validation/validation';
+import { MinMaxValidatorSpecification, ValidatorFunction, ValidatorSpecification } from '../validation/validation';
 export declare type OnlyKeysOfType<T, V> = {
     [K in keyof T]: Exclude<T[K], undefined> extends V ? K : never;
 }[keyof T];
 export declare type FormData<T> = Partial<T>;
 export interface FieldSpecifierFunction<FormT, OutputT, LanguageT extends string | undefined = undefined> {
-    (fieldValue: FormT[typeof fieldName] | undefined, fieldName: keyof FormT, formData: FormData<FormT>, formDefinition: FormDefinition<FormT, LanguageT>, language?: LanguageT): OutputT;
+    (fieldValue: FormData<FormT>[typeof fieldName] | undefined, fieldName: keyof FormT, formData: FormData<FormT>, formDefinition: FormDefinition<FormT, LanguageT>, language?: LanguageT): OutputT;
 }
 export declare type SelectOptionsSpecifier<FormT, FieldT extends string | number> = Array<SelectOption<FieldT>> | FieldSpecifierFunction<FormT, Array<SelectOption<FieldT>>>;
 export interface MaxLengthDisallowSpecification {
@@ -31,8 +31,22 @@ export interface FieldDefinition<FormT, FieldT, LanguageT extends string | undef
     validateImmediately?: boolean;
     selectOptions?: FieldT extends string | number ? SelectOptionsSpecifier<FormT, FieldT> : never;
 }
+export interface SubFormDefinition<FormT, SubFormT, LanguageT extends string | undefined> {
+    onChange?: FieldSpecifierFunction<FormT, FormData<FormT>, LanguageT>;
+    isHidden?: FieldSpecifierFunction<FormT, boolean, LanguageT>;
+    rowConstraints?: FieldSpecifierFunction<FormT, MinMaxValidatorSpecification, LanguageT> | MinMaxValidatorSpecification;
+    formDefinition: FormDefinition<SubFormT, LanguageT>;
+    newSubForm?: FieldSpecifierFunction<FormT, FormData<SubFormT>, LanguageT>;
+}
+export declare type FieldDefinitions<FormT, LanguageT extends string | undefined = undefined> = {
+    [Property in keyof FormT]?: FormT[Property] extends Array<any> ? never : FieldDefinition<FormT, FormT[Property], LanguageT>;
+};
+export declare type SubFormDefinitions<FormT, LanguageT extends string | undefined = undefined> = {
+    [Property in keyof FormT]?: FormT[Property] extends Array<infer SubFormT> ? SubFormDefinition<FormT, SubFormT, LanguageT> : never;
+};
 export declare type FormDefinition<FormT, LanguageT extends string | undefined = undefined> = {
-    [Property in keyof FormT]?: FieldDefinition<FormT, FormT[Property], LanguageT>;
+    fields?: FieldDefinitions<FormT, LanguageT>;
+    subForms?: SubFormDefinitions<FormT, LanguageT>;
 };
 export declare type FormFieldTouchState<FormT> = {
     [key in keyof FormT]?: boolean;

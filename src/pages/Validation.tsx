@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormDefinition, FormData } from '../formbuilder/FormBuilderTypes'
+import { FormDefinition, FormData, FieldDefinitions } from '../formbuilder/FormBuilderTypes'
 import useReactForms from '../hooks/useReactForms'
 import { getTypeMap } from '../utilities'
 import Well from '../well/Well'
@@ -17,33 +17,43 @@ interface ValidationShape {
 
 // this form definition is validated only after the validate button is pressed
 const deferredDefinition: FormDefinition<ValidationShape> = {
-	reqString: { label: 'Required String', isRequired: true }, 
-	minString: { label: 'Min String (2)', validators: { min: 2 } }, 
-	maxString: { label: 'Max String (5)', validators: { max: 5 } }, 
-	allString: { label: 'Required Min 2 Max 5', isRequired: true, validators: { min: 2, max: 5 } },
-	customString: { label: 'Must be of length 10 and contain "sheep"', validators: (fieldValue: any) => {  
-		let errors: Array<string> = []
-		if (fieldValue && fieldValue.length < 10) errors.push("Must be of at least length 10")
-		if (fieldValue && !(fieldValue.indexOf('sheep') >= 0)) errors.push("Must contain 'sheep'")
-		return errors
-	}},
-	multiFnString: { label: 'Must be of length 7 and contain "ducks"', validators: [
-		(fieldValue: any) => {
-			return (!fieldValue || fieldValue.length >= 7) ? [] : ["Must be of at least length 7"]
-		}, 
-		(fieldValue: any) => {
-			return (!fieldValue || fieldValue.indexOf('ducks') >= 0) ? [] : ["Must contain 'ducks'"]
-		}, 
-	]}, 
+	fields: {
+		reqString: { label: 'Required String', isRequired: true },
+		minString: { label: 'Min String (2)', validators: { min: 2 } },
+		maxString: { label: 'Max String (5)', validators: { max: 5 } },
+		allString: { label: 'Required Min 2 Max 5', isRequired: true, validators: { min: 2, max: 5 } },
+		customString: {
+			label: 'Must be of length 10 and contain "sheep"', validators: (fieldValue: any) => {
+				let errors: Array<string> = []
+				if (fieldValue && fieldValue.length < 10) errors.push("Must be of at least length 10")
+				if (fieldValue && !(fieldValue.indexOf('sheep') >= 0)) errors.push("Must contain 'sheep'")
+				return errors
+			}
+		},
+		multiFnString: {
+			label: 'Must be of length 7 and contain "ducks"', validators: [
+				(fieldValue: any) => {
+					return (!fieldValue || fieldValue.length >= 7) ? [] : ["Must be of at least length 7"]
+				},
+				(fieldValue: any) => {
+					return (!fieldValue || fieldValue.indexOf('ducks') >= 0) ? [] : ["Must contain 'ducks'"]
+				},
+			]
+		},
+	}
 }
 
 // this form definition validated as soon as the user begins typing into an input 
-const immediateDefinition: FormDefinition<ValidationShape> = Object.entries(deferredDefinition).reduce((formDef, [key, fieldDef]) => {
+const immediateFieldDefinitions: FieldDefinitions<ValidationShape> = Object.entries(deferredDefinition.fields!).reduce((formDef, [key, fieldDef]) => {
 	let typedKey = key as keyof FormData<ValidationShape>
-	formDef[typedKey] = Object.assign({}, fieldDef) 
+	formDef[typedKey] = Object.assign({}, fieldDef)
 	formDef[typedKey]!.validateImmediately = true
 	return formDef
-}, {} as FormDefinition<ValidationShape>)
+}, {} as FieldDefinitions<ValidationShape>)
+
+const immediateDefinition: FormDefinition<ValidationShape> = {
+	fields: immediateFieldDefinitions,
+}
 
 interface ForcedValidationShape {
 	maxString: string
@@ -53,13 +63,17 @@ interface ForcedValidationShape {
 }
 
 const forcedDefinition: FormDefinition<ForcedValidationShape> = {
-	maxString: { label: 'Force string max 5', disallowChange: { maxLength: 5 } },
+	fields: {
+		maxString: { label: 'Force string max 5', disallowChange: { maxLength: 5 } },
 
-	// figured out why string/number dichotomy exists.  Try commenting out prevMaxNumber above
-	customString: { label: 'Cannot contain "sheep"', disallowChange: (fieldValue) => { 
-		if (fieldValue && fieldValue?.indexOf('sheep') >= 0) return true
-	 } },
+		// figured out why string/number dichotomy exists.  Try commenting out prevMaxNumber above
+		customString: {
+			label: 'Cannot contain "sheep"', disallowChange: (fieldValue) => {
+				if (fieldValue && fieldValue?.indexOf('sheep') >= 0) return true
+			}
+		},
 	// prevMaxNumber: { label: 'Force number max 5', disallowChange: { maxLength: 5 } },
+	}, 
 }
 
 

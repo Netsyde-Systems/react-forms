@@ -14,30 +14,32 @@ interface TestFormShape {
 }
 
 const testFormDefinition: FormDefinition<TestFormShape, Language> = {
-	stringProperty: {
-		label: {
-			en: 'a String', 
-			fr: 'une chaîne'
-		}
+	fields: {
+		stringProperty: {
+			label: {
+				en: 'a String',
+				fr: 'une chaîne'
+			}
 
-	}, 
-	numberProperty: {
-		label: {
-			en: 'a Number', 
-			fr: 'un nombre'
-		}
-	}, 
-	languageProperty: {
-		label: {
-			en: 'Language', 
-			fr: 'le langue'
+		},
+		numberProperty: {
+			label: {
+				en: 'a Number',
+				fr: 'un nombre'
+			}
+		},
+		languageProperty: {
+			label: {
+				en: 'Language',
+				fr: 'le langue'
+			},
+			selectOptions: [
+				{ value: 'en', text: 'English' },
+				// lame type hack for now... TODO: Fix this
+				{ value: 'fr' as 'en', text: 'Français' },
+			]
 		}, 
-		selectOptions: [
-			{ value: 'en', text: 'English' }, 
-			// lame type hack for now... TODO: Fix this
-			{ value: 'fr' as 'en', text: 'Français' },
-		]
-	}, 
+	}
 }
 
 let testFormData: FormData<TestFormShape> = {} 

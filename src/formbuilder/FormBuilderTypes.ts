@@ -1,5 +1,5 @@
 import { SelectOption } from '../inputs/inputs'
-import { ValidatorFunction, ValidatorSpecification } from '../validation/validation'
+import { MinMaxValidatorSpecification, ValidatorFunction, ValidatorSpecification } from '../validation/validation'
 
 // From https://stackoverflow.com/questions/63447660/typescript-remove-all-properties-with-particular-type
 /*
@@ -25,7 +25,7 @@ export type FormData<T> = Partial<T>
 
 // Field specifier functions take as arguments the form data, the field value and name, and returns a value
 export interface FieldSpecifierFunction<FormT, OutputT, LanguageT extends string | undefined = undefined> {
-	(fieldValue: FormT[typeof fieldName] | undefined, fieldName: keyof FormT, formData: FormData<FormT>, formDefinition: FormDefinition<FormT, LanguageT>, language?: LanguageT): OutputT
+	(fieldValue: FormData<FormT>[typeof fieldName] | undefined, fieldName: keyof FormT, formData: FormData<FormT>, formDefinition: FormDefinition<FormT, LanguageT>, language?: LanguageT): OutputT
 }
 
 // Select Options Specifier can be static list of select options, or can depend on state of form
@@ -85,10 +85,37 @@ export interface FieldDefinition<FormT, FieldT, LanguageT extends string | undef
 	selectOptions?: FieldT extends string | number ? SelectOptionsSpecifier<FormT, FieldT> : never
 }
 
+// SubFormDefinition is an object where we can define the subform's behaviour
+export interface SubFormDefinition<FormT, SubFormT, LanguageT extends string | undefined> {
+
+	// having onChange, errorMessage, or disabled state as static would make no sense... 
+	// onChange & isHidden always depend on current form state as accessible via specifier functions
+	onChange?: FieldSpecifierFunction<FormT, FormData<FormT>, LanguageT>
+	isHidden?: FieldSpecifierFunction<FormT, boolean, LanguageT>
+
+	rowConstraints?: FieldSpecifierFunction<FormT, MinMaxValidatorSpecification, LanguageT> | MinMaxValidatorSpecification
+
+	formDefinition: FormDefinition<SubFormT, LanguageT>
+
+	newSubForm?: FieldSpecifierFunction<FormT, FormData<SubFormT>, LanguageT>
+}
+
+
 // A form definition maps the form's fields into their definitions
 // This is the object with which we define the form's behaviour
+export type FieldDefinitions<FormT, LanguageT extends string | undefined = undefined> = {
+	[Property in keyof FormT]?: FormT[Property] extends Array<any> ? never : FieldDefinition<FormT, FormT[Property], LanguageT>
+}
+
+// A form definition maps the form's fields into their definitions
+// This is the object with which we define the form's behaviour
+export type SubFormDefinitions<FormT, LanguageT extends string | undefined = undefined> = {
+	[Property in keyof FormT]?: FormT[Property] extends Array<infer SubFormT> ? SubFormDefinition<FormT, SubFormT, LanguageT> : never
+}
+
 export type FormDefinition<FormT, LanguageT extends string | undefined = undefined> = {
-	[Property in keyof FormT]?: FieldDefinition<FormT, FormT[Property], LanguageT>
+	fields?: FieldDefinitions<FormT, LanguageT>
+	subForms?: SubFormDefinitions<FormT, LanguageT>
 }
 
 export type FormFieldTouchState<FormT> = {

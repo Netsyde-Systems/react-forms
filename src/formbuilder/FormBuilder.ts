@@ -1,3 +1,5 @@
+import { ReactElement } from "react"
+
 import TextInput from "../inputs/TextInput"
 import NumberInput from "../inputs/NumberInput"
 import TextArea from "../inputs/TextArea"
@@ -12,11 +14,27 @@ import PhoneNumber from "../inputs/PhoneNumber"
 import EmailAddress from "../inputs/EmailAddress"
 
 import { createOptionInput, createStandardInput, ReactFormsInputControl, ReactFormsOptionControl } from "./FormBuilderInputs"
-import { ExtractLanguage, FormData, FormDefinition, FormState, LocalizedString, OnlyKeysOfType } from "./FormBuilderTypes"
-import React from "react"
+import { ExtractLanguage, FormData, FormDefinition, FormFieldTouchState, FormState, LocalizedString, OnlyKeysOfType } from "./FormBuilderTypes"
 
 export type FieldNameProps<FormT, FieldT> = {
 	field: OnlyKeysOfType<FormT, FieldT>
+}
+
+export interface SubFormLoopController {
+	subFormIndex: number
+	deleteInstance: () => void
+}
+
+export interface SubFormLoopConstructor<SubFormT, LanguageT extends string | undefined> {
+	(builder: FormBuilder<SubFormT, LanguageT>, controller: SubFormLoopController): ReactElement 
+}
+
+export interface SubFormPanelController {
+	addInstance: () => void
+}
+
+export interface SubFormPanelConstructor {
+	(controller: SubFormPanelController): ReactElement 
 }
 
 // The FormBuilder class links form data to actual form fields that we can render in react.
@@ -29,9 +47,10 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		public formData: FormData<FormT>,
 		public formState: FormState<FormT>,
 		public language?: LanguageT, 
-		private onFormDataUpdate?: React.Dispatch<React.SetStateAction<FormData<FormT>>>, 
-		private onFormStateUpdate?: React.Dispatch<React.SetStateAction<FormState<FormT>>>, 
-		private onLanguageUpdate?: React.Dispatch<React.SetStateAction<LanguageT | undefined>>
+		private onFormDataUpdate?: (formData: FormData<FormT>) => void, 
+		private onFormStateUpdate?: (formState: FormState<FormT>) => void, 
+		private onLanguageUpdate?: (language: LanguageT | undefined) => void, 
+		private rowIndex?: number
 	) {
 		this._isValid = undefined
 	}
@@ -75,7 +94,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 			this.setField(fieldName, formData[fieldName])
 		}
 
-		const [inputControl, isValid] = createStandardInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange, InputControl, this.language)
+		const [inputControl, isValid] = createStandardInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, InputControl, this.language)
 
 		this.updateValidity(isValid)
 
@@ -90,7 +109,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 			this.setField(fieldName, formData[fieldName])
 		}
 
-		const [inputControl, isValid] = createOptionInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange, OptionControl, this.language)
+		const [inputControl, isValid] = createOptionInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, OptionControl, this.language)
 
 		this.updateValidity(isValid)
 
@@ -130,6 +149,63 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 			this.formState = newFormState
 			this.onFormStateUpdate?.(newFormState)
 		}
+	}
+
+	public subFormLoop<SubFormT>(fieldName: OnlyKeysOfType<FormT, Array<SubFormT>>, subFormConstructor: SubFormLoopConstructor<SubFormT, LanguageT>): Array<ReactElement> {
+		const subFormDef = this.formDefinition.subForms![fieldName]!
+		const subFormData = (this.formData[fieldName] ?? []) as Array<FormData<SubFormT>>
+
+		const elements = subFormData?.map((subFormDatum, rowIndex) => {
+			const fieldsTouched = (this.formState.fieldsTouched[fieldName] ?? []) as Array<FormFieldTouchState<SubFormT>>
+
+			const subFormState: FormState<SubFormT> = {
+				fieldsTouched: fieldsTouched[rowIndex] ?? {}, 
+				hasBeenValidated: this.formState.hasBeenValidated
+			}
+
+			const handleFormDataUpdate = (newSubFormDatum: FormData<SubFormT>) => {
+				const newSubFormData = subFormData.slice()
+				newSubFormData[rowIndex] = newSubFormDatum
+				this.setField(fieldName, newSubFormData as any as FormT[typeof fieldName])
+			}
+
+			const subFormBuilder = new FormBuilder<SubFormT, LanguageT>(subFormDef.formDefinition, subFormDatum, subFormState, this.language, handleFormDataUpdate, undefined, undefined, rowIndex)
+
+			const subFormController: SubFormLoopController = {
+				subFormIndex: rowIndex, 
+				deleteInstance: () => {
+					const newSubFormData = subFormData.slice()
+					newSubFormData.splice(rowIndex, 1)
+					this.setField(fieldName, newSubFormData as any as FormT[typeof fieldName])
+				},
+			}
+
+			return subFormConstructor(subFormBuilder, subFormController) 
+		})
+
+		// return elements
+		return elements
+	}
+
+	public subFormPanel<SubFormT>(fieldName: OnlyKeysOfType<FormT, Array<SubFormT>>, subFormPanelConstructor: SubFormPanelConstructor): ReactElement {
+
+		const subFormController: SubFormPanelController = {
+			addInstance: () => {
+				const subFormDefinition = this.formDefinition.subForms?.[fieldName]
+				const newSubFormData = ((this.formData[fieldName] ?? []) as Array<FormData<SubFormT>>).slice()
+
+				let newSubForm: FormData<SubFormT> = {}
+				if (subFormDefinition?.newSubForm) {
+					newSubForm = subFormDefinition.newSubForm(this.formData[fieldName], fieldName, this.formData, this.formDefinition, this.language)
+				}
+
+				newSubFormData.push(newSubForm)
+
+				this.setField(fieldName, newSubFormData as any as FormT[typeof fieldName])
+			},
+		}
+
+		return subFormPanelConstructor(subFormController) 
 	}
 
 	public get isValid() { return this._isValid }

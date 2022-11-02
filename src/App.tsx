@@ -7,6 +7,7 @@ import Controls from './pages/Controls'
 import Forms from './pages/Forms'
 import Validation from './pages/Validation'
 import Localization from './pages/Localization'
+import SubForms from './pages/SubForms'
 
 import './App.scss'
 import { Config } from './utilities'
@@ -24,6 +25,7 @@ function App() {
 					<NavLink to='forms'>Forms</NavLink>
 					<NavLink to='validation'>Validation</NavLink>
 					<NavLink to='localization'>Localization</NavLink>
+					<NavLink to='subforms'>SubForms</NavLink>
 				</nav>
 				<Routes>
 					<Route path='/' element={<Home />} />
@@ -31,6 +33,7 @@ function App() {
 					<Route path='forms' element={<Forms />} />
 					<Route path='validation' element={<Validation />} />
 					<Route path='localization' element={<Localization />} />
+					<Route path='subforms' element={<SubForms />} />
 				</Routes>
 			</div>
 		</BrowserRouter>

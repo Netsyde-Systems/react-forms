@@ -1,8 +1,21 @@
+import { ReactElement } from "react";
 import { ExtractLanguage, FormData, FormDefinition, FormState, LocalizedString, OnlyKeysOfType } from "./FormBuilderTypes";
-import React from "react";
 export declare type FieldNameProps<FormT, FieldT> = {
     field: OnlyKeysOfType<FormT, FieldT>;
 };
+export interface SubFormLoopController {
+    subFormIndex: number;
+    deleteInstance: () => void;
+}
+export interface SubFormLoopConstructor<SubFormT, LanguageT extends string | undefined> {
+    (builder: FormBuilder<SubFormT, LanguageT>, controller: SubFormLoopController): ReactElement;
+}
+export interface SubFormPanelController {
+    addInstance: () => void;
+}
+export interface SubFormPanelConstructor {
+    (controller: SubFormPanelController): ReactElement;
+}
 export declare class FormBuilder<FormT, LanguageT extends string | undefined = undefined> {
     private formDefinition;
     formData: FormData<FormT>;
@@ -11,8 +24,9 @@ export declare class FormBuilder<FormT, LanguageT extends string | undefined = u
     private onFormDataUpdate?;
     private onFormStateUpdate?;
     private onLanguageUpdate?;
+    private rowIndex?;
     private _isValid;
-    constructor(formDefinition: FormDefinition<FormT, LanguageT>, formData: FormData<FormT>, formState: FormState<FormT>, language?: LanguageT | undefined, onFormDataUpdate?: React.Dispatch<React.SetStateAction<Partial<FormT>>> | undefined, onFormStateUpdate?: React.Dispatch<React.SetStateAction<FormState<FormT>>> | undefined, onLanguageUpdate?: React.Dispatch<React.SetStateAction<LanguageT | undefined>> | undefined);
+    constructor(formDefinition: FormDefinition<FormT, LanguageT>, formData: FormData<FormT>, formState: FormState<FormT>, language?: LanguageT | undefined, onFormDataUpdate?: ((formData: FormData<FormT>) => void) | undefined, onFormStateUpdate?: ((formState: FormState<FormT>) => void) | undefined, onLanguageUpdate?: ((language: LanguageT | undefined) => void) | undefined, rowIndex?: number | undefined);
     private updateValidity;
     setLanguage: (language?: LanguageT) => void;
     setData: (formData: FormData<FormT>, formState?: FormState<FormT>) => void;
@@ -33,6 +47,8 @@ export declare class FormBuilder<FormT, LanguageT extends string | undefined = u
     numberRadio: (fieldName: OnlyKeysOfType<FormT, number>) => JSX.Element;
     checkbox: (fieldName: OnlyKeysOfType<FormT, boolean>) => JSX.Element;
     validate(): void;
+    subFormLoop<SubFormT>(fieldName: OnlyKeysOfType<FormT, Array<SubFormT>>, subFormConstructor: SubFormLoopConstructor<SubFormT, LanguageT>): Array<ReactElement>;
+    subFormPanel<SubFormT>(fieldName: OnlyKeysOfType<FormT, Array<SubFormT>>, subFormPanelConstructor: SubFormPanelConstructor): ReactElement;
     get isValid(): boolean | undefined;
     localize<LT extends ExtractLanguage<LanguageT>>(localizedString: LocalizedString<LT>, defaultLocalization?: string): string;
 }

@@ -10,6 +10,7 @@ export type {
 	FormData,
 	FieldDefinition, 
 	FormDefinition, 
+	SubFormDefinition,
 	LocalizedString, 
 	LangSpec,
 } from './formbuilder/FormBuilderTypes'

@@ -23,33 +23,37 @@ interface TestFormShape {
 }
 
 const testFormDefinition: FormDefinition<TestFormShape> = {
-	selectStringProperty: {
-		selectOptions: [
-			{ value: 'First', text: 'First Option' },
-			{ value: 'Second', text: 'Second Option' }, 
-		]
-	}, 
-	selectNumberProperty: {
-		selectOptions: [
-			{ value: 1, text: 'First Option' },
-			{ value: 2, text: 'Second Option' }, 
-		]
-	}, 
-	radioStringProperty: {
-		selectOptions: [
-			{ value: 'First', text: 'First Option' },
-			{ value: 'Second', text: 'Second Option' }, 
-		]
-	}, 
-	radioNumberProperty: {
-		selectOptions: [
-			{ value: 1, text: 'First Option' },
-			{ value: 2, text: 'Second Option' }, 
-		]
-	}, 
+	fields: {
+
+		selectStringProperty: {
+			selectOptions: [
+				{ value: 'First', text: 'First Option' },
+				{ value: 'Second', text: 'Second Option' },
+			]
+		},
+		selectNumberProperty: {
+			selectOptions: [
+				{ value: 1, text: 'First Option' },
+				{ value: 2, text: 'Second Option' },
+			]
+		},
+		radioStringProperty: {
+			selectOptions: [
+				{ value: 'First', text: 'First Option' },
+				{ value: 'Second', text: 'Second Option' },
+			]
+		},
+		radioNumberProperty: {
+			selectOptions: [
+				{ value: 1, text: 'First Option' },
+				{ value: 2, text: 'Second Option' },
+			]
+		},
+
+	}
 }
 
-let testFormData: FormData<TestFormShape> = {} 
+let testFormData: FormData<TestFormShape> = {}
 
 export function Forms() {
 	const rf = useReactForms(testFormDefinition, testFormData)
