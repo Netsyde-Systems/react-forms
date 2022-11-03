@@ -24,10 +24,12 @@ export function createStandardInput<FormT, FieldType, LanguageT extends string |
 	fieldName: OnlyKeysOfType<FormT, FieldType>,
 	onChange: (data: FormData<FormT>) => void, 
 	InputControl: ReactFormsInputControl<FieldType>, 
-	language?: LanguageT
+	language: LanguageT, 
+	subFormIndex: number | undefined, 
+	rootFormData: FormData<any> | undefined
 ): [JSX.Element, boolean] { // returns the react input, as well as whether or not the field is valid
 
-	let [props, isValid] = getInputProps<FormT, FieldType, LanguageT>(fieldDefinitions, formData, formState, fieldName, onChange, language)
+	let [props, isValid] = getInputProps<FormT, FieldType, LanguageT>(fieldDefinitions, formData, formState, fieldName, onChange, language, subFormIndex, rootFormData)
 
 	return [
 		InputControl(props),
@@ -42,10 +44,12 @@ export function createOptionInput<FormT, FieldType extends string | number, Lang
 	fieldName: OnlyKeysOfType<FormT, FieldType>,
 	onChange: (formData: FormData<FormT>) => void, 
 	OptionControl: ReactFormsOptionControl<FieldType>, 
-	language?: LanguageT
+	language: LanguageT, 
+	subFormIndex: number | undefined, 
+	rootFormData: FormData<any> | undefined
 ): [JSX.Element, boolean] { // returns the react input, as well as whether or not the field is valid
 
-	const [props, isValid] = getInputProps<FormT, FieldType, LanguageT>(formDefinition, formData, formState, fieldName, onChange, language)
+	const [props, isValid] = getInputProps<FormT, FieldType, LanguageT>(formDefinition, formData, formState, fieldName, onChange, language, subFormIndex, rootFormData)
 
 	const selectOptions = getSelectOptions<FormT, FieldType>(formDefinition, formData, fieldName)
 
@@ -61,10 +65,12 @@ export function createTextSelect<FormT, LanguageT extends string | undefined>(
 	formState: FormState<FormT>,
 	fieldName: OnlyKeysOfType<FormT, string>,
 	onChange: (formData: FormData<FormT>) => void,
-	language?: LanguageT
+	language: LanguageT, 
+	subFormIndex: number | undefined, 
+	rootFormData: FormData<any> | undefined
 ): [JSX.Element, boolean] { // returns the react input, as well as whether or not the field is valid
 
-	const [props, isValid] = getInputProps<FormT, string, LanguageT>(formDefinition, formData, formState, fieldName, onChange, language)
+	const [props, isValid] = getInputProps<FormT, string, LanguageT>(formDefinition, formData, formState, fieldName, onChange, language, subFormIndex, rootFormData)
 
 	const selectOptions = getSelectOptions<FormT, string>(formDefinition, formData, fieldName)
 
@@ -80,10 +86,12 @@ export function createNumberSelect<FormT, LanguageT extends string | undefined =
 	formState: FormState<FormT>,
 	fieldName: OnlyKeysOfType<FormT, number>,
 	onChange: (formData: FormData<FormT>) => void, 
-	language?: LanguageT
+	language: LanguageT, 
+	subFormIndex: number | undefined, 
+	rootFormData: FormData<any> | undefined
 ): [JSX.Element, boolean] { // returns the react input, as well as whether or not the field is valid
 
-	const [props, isValid] = getInputProps<FormT, number, LanguageT>(formDefinition, formData, formState, fieldName, onChange, language)
+	const [props, isValid] = getInputProps<FormT, number, LanguageT>(formDefinition, formData, formState, fieldName, onChange, language, subFormIndex, rootFormData)
 
 	const selectOptions = getSelectOptions<FormT, number>(formDefinition, formData, fieldName)
 
@@ -124,54 +132,59 @@ function getInputProps<FormT, FieldT, LanguageT extends string | undefined>(
 	formState: FormState<FormT>,
 	fieldName: OnlyKeysOfType<FormT, FieldT>,
 	onFormChange: (formData: FormData<FormT>) => void, 
-	language?: LanguageT
+	language: LanguageT, 
+	subFormIndex: number | undefined, 
+	rootFormData: FormData<any> | undefined
 ): [InputProps<FieldT>, boolean] { // returns the input props, as well as whether or not the field is valid
 
 	const fieldDef = fieldDefinitions[fieldName]
 	const fieldValue = formData[fieldName]
 
-	// id defaults to fieldname if not provided
-	const id = fieldDef?.id || fieldName.toString()
-
 	let label = getLabel(fieldDefinitions, formData, fieldName, language)
+
+	// id defaults to fieldname if not provided
+	let id = fieldName.toString()
+	if (typeof fieldDef?.id == 'string') id = fieldDef.id
+	else if (typeof fieldDef?.id == 'function') id = fieldDef.id(fieldValue, fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData)
+	// TODO!!! Figure out why it's permitting us to pass FieldDefinitions in place of a FormDefiniton
 
 	// fields aren't required unless they're specified as such with a boolean or a function
 	let required = false
 	if (typeof fieldDef?.isRequired == 'boolean') required = fieldDef.isRequired
-	else if (typeof fieldDef?.isRequired == 'function') required = fieldDef.isRequired(fieldValue, fieldName, formData, fieldDefinitions)
+	else if (typeof fieldDef?.isRequired == 'function') required = fieldDef.isRequired(fieldValue, fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData)
 
 	// fields aren't disabled unless they're specified as such with a boolean or a function
 	let disabled = false
 	if (typeof fieldDef?.isDisabled == 'boolean') disabled = fieldDef.isDisabled
-	else if (typeof fieldDef?.isDisabled == 'function') disabled = fieldDef?.isDisabled?.(fieldValue, fieldName, formData, fieldDefinitions)
+	else if (typeof fieldDef?.isDisabled == 'function') disabled = fieldDef?.isDisabled?.(fieldValue, fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData)
 
 	// let's check for validation messsages
 	let errors: Array<string> = []
 	let errorMessage: string | undefined = undefined
 
 	if (required) {
-		errors.push(...requiredFieldValidator(fieldValue, fieldName, formData, fieldDefinitions))
+		errors.push(...requiredFieldValidator(fieldValue, fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData))
 	}
 
 	if (fieldDef?.validators) {
 		// validators can be a single function
 		if (typeof fieldDef.validators === 'function') {
-			errors.push(...fieldDef.validators?.(fieldValue, fieldName, formData, fieldDefinitions))
+			errors.push(...fieldDef.validators?.(fieldValue, fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData))
 		}
 		// or an array of functions
 		else if (Array.isArray(fieldDef.validators)) {
-			errors.push(...fieldDef.validators.flatMap(err => err(fieldValue, fieldName, formData, fieldDefinitions)))
+			errors.push(...fieldDef.validators.flatMap(err => err(fieldValue, fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData)))
 		}
 		// or a simple object specifier (for min/max and possible other things)
 		else {
 			switch (typeof fieldValue) {
 				case 'string': 
-					if (fieldDef.validators.max) errors.push(...getMaxLengthValidator(fieldDef.validators.max, label)(fieldValue, fieldName, formData, fieldDefinitions))
-					if (fieldDef.validators.min) errors.push(...getMinLengthValidator(fieldDef.validators.min, label)(fieldValue, fieldName, formData, fieldDefinitions))
+					if (fieldDef.validators.max) errors.push(...getMaxLengthValidator(fieldDef.validators.max, label)(fieldValue, fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData))
+					if (fieldDef.validators.min) errors.push(...getMinLengthValidator(fieldDef.validators.min, label)(fieldValue, fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData))
 					break
 				case 'number': 
-					if (fieldDef.validators.max) errors.push(...getMaxValidator(fieldDef.validators.max, label)(fieldValue, fieldName, formData, fieldDefinitions))
-					if (fieldDef.validators.min) errors.push(...getMinValidator(fieldDef.validators.min, label)(fieldValue, fieldName, formData, fieldDefinitions))
+					if (fieldDef.validators.max) errors.push(...getMaxValidator(fieldDef.validators.max, label)(fieldValue, fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData))
+					if (fieldDef.validators.min) errors.push(...getMinValidator(fieldDef.validators.min, label)(fieldValue, fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData))
 					break
 				case undefined: 
 					// put in this dummy case to resolve the typing issue with isHidden, below
@@ -182,7 +195,7 @@ function getInputProps<FormT, FieldT, LanguageT extends string | undefined>(
 
 	if (errors.length > 0) errorMessage = getUnique(errors).join(" | ")
 
-	const hidden = fieldDef?.isHidden?.(fieldValue, fieldName, formData, fieldDefinitions)
+	const hidden = fieldDef?.isHidden?.(fieldValue, fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData)
 
 	let isValid = !errorMessage
 
@@ -202,14 +215,14 @@ function getInputProps<FormT, FieldT, LanguageT extends string | undefined>(
 		if (typeof fieldDef?.disallowChange === 'object' && coercedFieldValue.toString().length > fieldDef.disallowChange.maxLength) {
 			return // don't perform change because we've exceeded max length
 		}
-		else if (typeof fieldDef?.disallowChange === 'function' && fieldDef.disallowChange(coercedFieldValue, fieldName, formData, fieldDefinitions)) {
+		else if (typeof fieldDef?.disallowChange === 'function' && fieldDef.disallowChange(coercedFieldValue, fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData)) {
 			return // don't perform change because custom disallow function has told us to
 		}
 		else {
 			formData[fieldName] = coercedFieldValue
 
 			if (fieldDef?.onChange) {
-				formData = fieldDef.onChange(formData[fieldName], fieldName, formData, fieldDefinitions)
+				formData = fieldDef.onChange(formData[fieldName], fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData)
 			}
 
 			onFormChange(formData)

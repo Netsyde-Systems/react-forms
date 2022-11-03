@@ -50,7 +50,8 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		private onFormDataUpdate?: (formData: FormData<FormT>) => void, 
 		private onFormStateUpdate?: (formState: FormState<FormT>) => void, 
 		private onLanguageUpdate?: (language: LanguageT | undefined) => void, 
-		private rowIndex?: number
+		private subFormIndex?: number, 
+		private rootFormData?: FormData<any>
 	) {
 		this._isValid = undefined
 	}
@@ -94,7 +95,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 			this.setField(fieldName, formData[fieldName])
 		}
 
-		const [inputControl, isValid] = createStandardInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, InputControl, this.language)
+		const [inputControl, isValid] = createStandardInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, InputControl, this.language as LanguageT, this.subFormIndex, this.rootFormData)
 
 		this.updateValidity(isValid)
 
@@ -109,7 +110,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 			this.setField(fieldName, formData[fieldName])
 		}
 
-		const [inputControl, isValid] = createOptionInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, OptionControl, this.language)
+		const [inputControl, isValid] = createOptionInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, OptionControl, this.language as LanguageT, this.subFormIndex, this.rootFormData)
 
 		this.updateValidity(isValid)
 
@@ -169,7 +170,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 				this.setField(fieldName, newSubFormData as any)
 			}
 
-			const subFormBuilder = new FormBuilder<SubFormT, LanguageT>(subFormDef.formDefinition, subFormDatum, subFormState, this.language, handleFormDataUpdate, undefined, undefined, rowIndex)
+			const subFormBuilder = new FormBuilder<SubFormT, LanguageT>(subFormDef.formDefinition, subFormDatum, subFormState, this.language, handleFormDataUpdate, undefined, undefined, rowIndex, this.formData)
 
 			const subFormController: SubFormLoopController = {
 				subFormIndex: rowIndex, 

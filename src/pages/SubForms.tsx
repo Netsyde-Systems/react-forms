@@ -58,6 +58,10 @@ const formDefinition: FormDefinition<FormShape, Language> = {
 						}
 					}, 
 					booleanProperty: {
+						// in order to make radio/checkbox labels clickable we need unique ids
+						id: (fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData) => {
+							return `bool_${subFormIndex}`
+						},
 						label: {
 							en: 'A Boolean',
 							fr: 'un booléen'
@@ -101,8 +105,8 @@ export function Localization() {
 
 
 				<h2>Sub Forms</h2>
-				<div>HACK.  Figure out why we have to pass the SubFormShape as a generic constraint</div>
-				<div>TODO.  Figure out how to infer the shape from the field name</div>
+				<div>TODO:  Figure out why we have to pass the SubFormShape as a generic constraint</div>
+				<div>TODO:  Figure out how to infer the shape from the field name instead</div>
 				{rf.subFormLoop<SubFormShape>('subFormsProperty', (srf, controller) => {
 					return (
 						<div className='control-row' key={controller.subFormIndex}>

@@ -25,9 +25,23 @@ export type FormData<T> = {
 	[K in keyof T]?: T[K] extends Array<infer A> ? Array<FormData<A>> : T[K]
 }
 
+// TODO: look into refactoring FieldSpecifier function so that uses this arguments payload instead
+/*
+export interface FieldSpecifierArguments<FormT, PropT extends keyof FormT, LanguageT extends string | undefined = undefined> {
+	fieldValue: FormData<FormT>[PropT] | undefined 
+	fieldName: keyof FormT 
+	formData: FormData<FormT> 
+	formDefinition: FormDefinition<FormT, LanguageT> 
+	language?: LanguageT
+	subFormIndex?: number
+	// TODO: look into making rootFormData type-safe
+	rootFormData: FormData<any>
+}
+*/
+
 // Field specifier functions take as arguments the form data, the field value and name, and returns a value
 export interface FieldSpecifierFunction<FormT, OutputT, LanguageT extends string | undefined = undefined> {
-	(fieldValue: FormData<FormT>[typeof fieldName] | undefined, fieldName: keyof FormT, formData: FormData<FormT>, formDefinition: FormDefinition<FormT, LanguageT>, language?: LanguageT): OutputT
+	(fieldValue: FormData<FormT>[typeof fieldName] | undefined, fieldName: keyof FormT, formData: FormData<FormT>, formDefinition: FormDefinition<FormT, LanguageT>, language?: LanguageT, subFormIndex?: number, rootFormData?: FormData<any>): OutputT
 }
 
 // Select Options Specifier can be static list of select options, or can depend on state of form
@@ -61,9 +75,9 @@ export function getString<LanguageT extends string | undefined>(langSpec: LangSp
 
 // FieldDefinition is an object where we can define the field's behaviour
 export interface FieldDefinition<FormT, FieldT, LanguageT extends string | undefined> {
-	id?: string
 
-	// labels and required/disabled states can be defined as static, or can depend on form and field values
+	// ids, labels and required/disabled states can be defined as static, or can depend on form and field values
+	id?: string | FieldSpecifierFunction<FormT, string, LanguageT>
 	label?: LangSpec<LanguageT> | FieldSpecifierFunction<FormT, LangSpec<LanguageT>, LanguageT>
 	isRequired?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT>
 	isDisabled?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT>

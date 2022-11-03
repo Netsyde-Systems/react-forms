@@ -24,9 +24,10 @@ export declare class FormBuilder<FormT, LanguageT extends string | undefined = u
     private onFormDataUpdate?;
     private onFormStateUpdate?;
     private onLanguageUpdate?;
-    private rowIndex?;
+    private subFormIndex?;
+    private rootFormData?;
     private _isValid;
-    constructor(formDefinition: FormDefinition<FormT, LanguageT>, formData: FormData<FormT>, formState: FormState<FormT>, language?: LanguageT | undefined, onFormDataUpdate?: ((formData: FormData<FormT>) => void) | undefined, onFormStateUpdate?: ((formState: FormState<FormT>) => void) | undefined, onLanguageUpdate?: ((language: LanguageT | undefined) => void) | undefined, rowIndex?: number | undefined);
+    constructor(formDefinition: FormDefinition<FormT, LanguageT>, formData: FormData<FormT>, formState: FormState<FormT>, language?: LanguageT | undefined, onFormDataUpdate?: ((formData: FormData<FormT>) => void) | undefined, onFormStateUpdate?: ((formState: FormState<FormT>) => void) | undefined, onLanguageUpdate?: ((language: LanguageT | undefined) => void) | undefined, subFormIndex?: number | undefined, rootFormData?: FormData<any> | undefined);
     private updateValidity;
     setLanguage: (language?: LanguageT) => void;
     setData: (formData: FormData<FormT>, formState?: FormState<FormT>) => void;

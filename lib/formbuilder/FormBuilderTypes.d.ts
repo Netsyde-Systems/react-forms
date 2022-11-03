@@ -7,7 +7,7 @@ export declare type FormData<T> = {
     [K in keyof T]?: T[K] extends Array<infer A> ? Array<FormData<A>> : T[K];
 };
 export interface FieldSpecifierFunction<FormT, OutputT, LanguageT extends string | undefined = undefined> {
-    (fieldValue: FormData<FormT>[typeof fieldName] | undefined, fieldName: keyof FormT, formData: FormData<FormT>, formDefinition: FormDefinition<FormT, LanguageT>, language?: LanguageT): OutputT;
+    (fieldValue: FormData<FormT>[typeof fieldName] | undefined, fieldName: keyof FormT, formData: FormData<FormT>, formDefinition: FormDefinition<FormT, LanguageT>, language?: LanguageT, subFormIndex?: number, rootFormData?: FormData<any>): OutputT;
 }
 export declare type SelectOptionsSpecifier<FormT, FieldT extends string | number> = Array<SelectOption<FieldT>> | FieldSpecifierFunction<FormT, Array<SelectOption<FieldT>>>;
 export interface MaxLengthDisallowSpecification {
@@ -22,7 +22,7 @@ export declare type LangSpec<LanguageT extends string | undefined> = LanguageT e
 export declare function isLocalizedString<LanguageT extends string>(langSpec: any): langSpec is LocalizedString<LanguageT>;
 export declare function getString<LanguageT extends string | undefined>(langSpec: LangSpec<LanguageT>, language?: LanguageT): string | undefined;
 export interface FieldDefinition<FormT, FieldT, LanguageT extends string | undefined> {
-    id?: string;
+    id?: string | FieldSpecifierFunction<FormT, string, LanguageT>;
     label?: LangSpec<LanguageT> | FieldSpecifierFunction<FormT, LangSpec<LanguageT>, LanguageT>;
     isRequired?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT>;
     isDisabled?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT>;
