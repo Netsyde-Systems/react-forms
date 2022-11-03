@@ -18,6 +18,7 @@ import { MaskedInput } from '../inputs/MaskedInput'
 import { PhoneNumber } from '../inputs/PhoneNumber'
 import { PostalCode } from '../inputs/PostalCode'
 import { EmailAddress } from '../inputs/EmailAddress'
+import { FileInput } from '../inputs/FileInput'
 
 import './Controls.scss'
 
@@ -37,6 +38,7 @@ function Controls() {
 	const [phoneValue, setPhoneValue] = React.useState<number>()
 	const [postalCodeValue, setPostalCodeValue] = React.useState<string>()
 	const [emailValue, setEmailValue] = React.useState<string>()
+	const [fileValue, setFileValue] = React.useState<any>()
 
 	const [controlsHaveErrors, setControlErrors] = React.useState(false)
 	const [controlsAreDisabled, disableControls] = React.useState(false)
@@ -151,6 +153,12 @@ function Controls() {
 					<div className='control-row'>
 						<div className='control-cell'>
 							<TextArea id='txtAreaInput' label='Text Area' value={textAreaValue} onChange={setTextAreaValue} placeholder="Text Area Placeholder" rows={5} {...sharedProperties} />
+						</div>
+						<div className='control-cell'>
+							{nullableValueMessage(textAreaValue)}
+						</div>
+						<div className='control-cell'>
+							<FileInput id='fileInput' label='File Input' value={fileValue} onChange={setFileValue} />
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(textAreaValue)}
