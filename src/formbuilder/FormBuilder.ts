@@ -68,9 +68,11 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		this.onLanguageUpdate?.(language)
 	}
 
-	public setData = (formData: FormData<FormT>, formState?: FormState<FormT>) => {
+	public setData = (formData: FormData<FormT>, formState?: FormState<FormT>, fieldName?: keyof FormT) => {
 		this.formData = formData
 		this.formState = formState ?? this.formState
+
+		if (fieldName) this.formState.fieldsTouched[fieldName] = true
 
 		this.onFormDataUpdate?.(this.formData)
 		this.onFormStateUpdate?.(this.formState)
@@ -92,7 +94,9 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		let newFormData = Object.assign({}, this.formData)
 
 		const handleChange = (formData: FormData<FormT>) => {
-			this.setField(fieldName, formData[fieldName])
+			// can't use setfield, because formData may have been altered by a changehandler
+			// this.setField(fieldName, formData[fieldName])
+			this.setData(formData, newFormState, fieldName)
 		}
 
 		const [inputControl, isValid] = createStandardInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, InputControl, this.language as LanguageT, this.subFormIndex, this.rootFormData)
@@ -107,7 +111,9 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		let newFormData = Object.assign({}, this.formData)
 
 		const handleChange = (formData: FormData<FormT>) => {
-			this.setField(fieldName, formData[fieldName])
+			// can't use setfield, because formData may have been altered by a changehandler
+			// this.setField(fieldName, formData[fieldName])
+			this.setData(formData, newFormState, fieldName)
 		}
 
 		const [inputControl, isValid] = createOptionInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, OptionControl, this.language as LanguageT, this.subFormIndex, this.rootFormData)

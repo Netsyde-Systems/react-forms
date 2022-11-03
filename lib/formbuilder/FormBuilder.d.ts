@@ -30,7 +30,7 @@ export declare class FormBuilder<FormT, LanguageT extends string | undefined = u
     constructor(formDefinition: FormDefinition<FormT, LanguageT>, formData: FormData<FormT>, formState: FormState<FormT>, language?: LanguageT | undefined, onFormDataUpdate?: ((formData: FormData<FormT>) => void) | undefined, onFormStateUpdate?: ((formState: FormState<FormT>) => void) | undefined, onLanguageUpdate?: ((language: LanguageT | undefined) => void) | undefined, subFormIndex?: number | undefined, rootFormData?: FormData<any> | undefined);
     private updateValidity;
     setLanguage: (language?: LanguageT) => void;
-    setData: (formData: FormData<FormT>, formState?: FormState<FormT>) => void;
+    setData: (formData: FormData<FormT>, formState?: FormState<FormT>, fieldName?: keyof FormT) => void;
     setField: (fieldName: keyof FormT, fieldValue: FormData<FormT>[keyof FormT]) => void;
     private linkStandardControl;
     private linkOptionControl;
