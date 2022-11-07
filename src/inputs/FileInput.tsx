@@ -3,11 +3,17 @@
 import React from 'react'
 import { getInputEnvelopeClass, InputProps } from './inputs'
 import { ErrorMessage } from './ErrorMessage'
-import { InputLabel } from './InputLabel'
 
-import './Inputs.scss'
+import './FileInput.scss'
 
-const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 500000;
+const KILO_BYTES_PER_BYTE = 1000
+const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 500000
+
+const convertNestedObjectToArray = (nestedObj: any) =>
+	Object.keys(nestedObj).map(key => nestedObj[key])
+
+const convertBytesToKB = (bytes: number) =>
+	Math.round(bytes / KILO_BYTES_PER_BYTE)
 
 export interface FileInputProps extends InputProps<any> {
 	multiple?: boolean
@@ -15,28 +21,15 @@ export interface FileInputProps extends InputProps<any> {
 }
 
 export const FileInput: React.FC<FileInputProps> = (props) => {
-	let inputRef = React.useRef<HTMLInputElement>(null)
+	let fileInputField = React.useRef<HTMLInputElement>(null)
 	const [files, setFiles] = React.useState<any>({})
 
 	const className = getInputEnvelopeClass(props, 'file', 'input')
 
 	const { id, disabled, required, multiple = false, maxFileSizeInBytes = DEFAULT_MAX_FILE_SIZE_IN_BYTES } = props
 
-	const KILO_BYTES_PER_BYTE = 1000
-
-	const convertNestedObjectToArray = (nestedObj: any) =>
-		Object.keys(nestedObj).map((key) => nestedObj[key])
-
-	const convertBytesToKB = (bytes: number) =>
-		Math.round(bytes / KILO_BYTES_PER_BYTE)
-
-	const handleUploadClick = () => {
-		inputRef.current?.click()
-	}
-
-	const callUpdateFilesCb = (files: any) => {
-		const filesAsArray = convertNestedObjectToArray(files);
-		props.onChange(filesAsArray)
+	const handleUploadBtnClick = () => {
+		fileInputField.current?.click()
 	}
 
 	const addNewFiles = (newFiles: any) => {
@@ -51,6 +44,11 @@ export const FileInput: React.FC<FileInputProps> = (props) => {
 		return { ...files }
 	}
 
+	const callUpdateFilesCb = (files: any) => {
+		const filesAsArray = convertNestedObjectToArray(files)
+		props.onChange(filesAsArray)
+	}
+
 	const handleNewFileUpload: React.ChangeEventHandler<HTMLInputElement> = (e: any) => {
 		const { files: newFiles } = e.target
 		if (newFiles.length) {
@@ -60,28 +58,33 @@ export const FileInput: React.FC<FileInputProps> = (props) => {
 		}
 	}
 
+	const removeFile = (fileName: string) => {
+		delete files[fileName]
+		setFiles({ ...files })
+		callUpdateFilesCb({ ...files })
+	}
+
 	return (
-		<>
-			<section>
-				<InputLabel {...props} />
-				<p>Drag and drop your files anywhere or</p>
-				<button type="button" onClick={handleUploadClick}>
+		<div className={className}>
+			<section className='upload'>
+				<label>{props.label}</label>
+				<p>Drag and drop or</p>
+				<button type="button" onClick={handleUploadBtnClick}>
 					<i className="fas fa-file-upload" />
 					<span> Upload {props.multiple ? "files" : "a file"}</span>
 				</button>
 				<div className={className}>
-					<input ref={inputRef} type='file' value={props.value ?? ''} onChange={handleNewFileUpload} multiple={multiple} {...{ id, disabled, required }} />
+					<input ref={fileInputField} type='file' title='' value='' onChange={handleNewFileUpload} multiple={multiple} {...{ id, disabled, required }} />
 					<ErrorMessage {...props} />
 				</div>
 			</section>
-			<article>
-				<span>To Upload</span>
-				<section>
+			<article className='preview'>
+				<section className='file-list'>
 					{Object.keys(files).map((fileName, index) => {
-						let file = files[fileName];
-						let isImageFile = file.type.split("/")[0] === "image";
+						let file = files[fileName]
+						let isImageFile = file.type.split("/")[0] === "image"
 						return (
-							<section key={fileName}>
+							<section key={fileName} className='file'>
 								<div>
 									{isImageFile && (
 										<img
@@ -89,20 +92,20 @@ export const FileInput: React.FC<FileInputProps> = (props) => {
 											alt={`file preview ${index}`}
 										/>
 									)}
-									<div data-isImageFile={isImageFile}>
-										<span>{file.name}</span>
+									<div data-isimagefile={isImageFile} className='meta-data'>
+										<span className='filename'>{file.name}</span>
 										<aside>
 											<span>{convertBytesToKB(file.size)} kb</span>
-											<i className="fas fa-trash-alt" />
+											<i className="fas fa-trash-alt" onClick={() => removeFile(fileName)} />
 										</aside>
 									</div>
 								</div>
 							</section>
-						);
+						)
 					})}
 				</section>
 			</article>
-		</>
+		</div>
 	)
 }
 

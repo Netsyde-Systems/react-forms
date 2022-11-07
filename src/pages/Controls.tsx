@@ -157,11 +157,14 @@ function Controls() {
 						<div className='control-cell'>
 							{nullableValueMessage(textAreaValue)}
 						</div>
+					</div>
+
+					<div className='control-row'>
 						<div className='control-cell'>
-							<FileInput id='fileInput' label='File Input' value={fileValue} onChange={setFileValue} />
+							<FileInput id='fileInput' label='File Input' multiple value={fileValue} onChange={setFileValue} />
 						</div>
 						<div className='control-cell'>
-							{nullableValueMessage(textAreaValue)}
+							{nullableValueMessage(fileValue)}
 						</div>
 					</div>
 
