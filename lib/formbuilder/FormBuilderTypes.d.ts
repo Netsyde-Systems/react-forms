@@ -1,5 +1,5 @@
 import { SelectOption } from '../inputs/inputs';
-import { MinMaxValidatorSpecification, ValidatorFunction, ValidatorSpecification } from '../validation/validation';
+import { ValidatorFunction, ValidatorSpecification } from '../validation/validation';
 export declare type OnlyKeysOfType<T, V> = {
     [K in keyof T]: Exclude<T[K], undefined> extends V ? K : never;
 }[keyof T];
@@ -29,14 +29,14 @@ export interface FieldDefinition<FormT, FieldT, LanguageT extends string | undef
     onChange?: FieldSpecifierFunction<FormT, FormData<FormT>, LanguageT>;
     isHidden?: FieldSpecifierFunction<FormT, boolean, LanguageT>;
     disallowChange?: FieldSpecifierFunction<FormT, boolean | undefined, LanguageT> | DisallowSpecification<FieldT>;
-    validators?: ValidatorFunction<FormT, any> | Array<ValidatorFunction<FormT, any>> | ValidatorSpecification<FieldT>;
+    validators?: ValidatorFunction<FormT, LanguageT> | Array<ValidatorFunction<FormT, LanguageT>> | ValidatorSpecification<FieldT>;
     validateImmediately?: boolean;
     selectOptions?: FieldT extends string | number ? SelectOptionsSpecifier<FormT, FieldT> : never;
 }
 export interface SubFormDefinition<FormT, SubFormT, LanguageT extends string | undefined> {
     onChange?: FieldSpecifierFunction<FormT, FormData<FormT>, LanguageT>;
     isHidden?: FieldSpecifierFunction<FormT, boolean, LanguageT>;
-    rowConstraints?: FieldSpecifierFunction<FormT, MinMaxValidatorSpecification, LanguageT> | MinMaxValidatorSpecification;
+    validators?: ValidatorFunction<FormT, LanguageT> | Array<ValidatorFunction<FormT, LanguageT>> | ValidatorSpecification<Array<SubFormT>>;
     formDefinition: FormDefinition<SubFormT, LanguageT>;
     newSubForm?: FieldSpecifierFunction<FormT, FormData<SubFormT>, LanguageT>;
 }

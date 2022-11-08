@@ -1,5 +1,5 @@
 import { SelectOption } from '../inputs/inputs'
-import { MinMaxValidatorSpecification, ValidatorFunction, ValidatorSpecification } from '../validation/validation'
+import { ValidatorFunction, ValidatorSpecification } from '../validation/validation'
 
 // From https://stackoverflow.com/questions/63447660/typescript-remove-all-properties-with-particular-type
 /*
@@ -92,7 +92,7 @@ export interface FieldDefinition<FormT, FieldT, LanguageT extends string | undef
 	disallowChange?: FieldSpecifierFunction<FormT, boolean | undefined, LanguageT> | DisallowSpecification<FieldT>
 
 	// Can have one, or multiple custom validator functions, or a specifier for straightforward cases (min/max/etc)
-	validators?: ValidatorFunction<FormT, any> | Array<ValidatorFunction<FormT, any>> | ValidatorSpecification<FieldT>
+	validators?: ValidatorFunction<FormT, LanguageT> | Array<ValidatorFunction<FormT, LanguageT>> | ValidatorSpecification<FieldT>
 
 	// can specify that field should show errors as soon as a user begins typing
 	validateImmediately?: boolean
@@ -109,7 +109,8 @@ export interface SubFormDefinition<FormT, SubFormT, LanguageT extends string | u
 	onChange?: FieldSpecifierFunction<FormT, FormData<FormT>, LanguageT>
 	isHidden?: FieldSpecifierFunction<FormT, boolean, LanguageT>
 
-	rowConstraints?: FieldSpecifierFunction<FormT, MinMaxValidatorSpecification, LanguageT> | MinMaxValidatorSpecification
+	// Can have one, or multiple custom validator functions, or a specifier for straightforward cases (min/max/etc)
+	validators?: ValidatorFunction<FormT, LanguageT> | Array<ValidatorFunction<FormT, LanguageT>> | ValidatorSpecification<Array<SubFormT>>
 
 	formDefinition: FormDefinition<SubFormT, LanguageT>
 

@@ -9,7 +9,7 @@ export interface MinMaxValidatorSpecification {
 	max?: number
 }
 
-export type ValidatorSpecification<FieldT> = FieldT extends string | number | Date ? MinMaxValidatorSpecification : never // | AddOtherSpecifierHere
+export type ValidatorSpecification<FieldT> = FieldT extends string | number | Date | Array<any> ? MinMaxValidatorSpecification : never // | AddOtherSpecifierHere
 
 export const isValidEmail = function (fieldValue?: string) {
 	return !!fieldValue && EmailValidator.validate(fieldValue)

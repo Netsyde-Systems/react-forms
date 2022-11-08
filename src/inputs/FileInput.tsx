@@ -6,46 +6,56 @@ import { ErrorMessage } from './ErrorMessage'
 
 import './FileInput.scss'
 
-const KILO_BYTES_PER_BYTE = 1000
-const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 500000
+const BYTES_PER_KILOBYTE = 1024
+const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 5 * BYTES_PER_KILOBYTE ** 2 // 5 MB
 
-const convertNestedObjectToArray = (nestedObj: any) =>
-	Object.keys(nestedObj).map(key => nestedObj[key])
+const objectToArray = (obj: any) => 
+	Object.keys(obj).map(key => obj[key])
+
+function arrayToObject<T>(arr: Array<T>, keySelector: (obj: T) => string) {
+	const dic = arr.reduce((obj, item) => {
+		const key = keySelector(item)
+		obj[key] = item
+		return obj
+	}, {} as any)
+
+	return dic
+}
 
 const convertBytesToKB = (bytes: number) =>
-	Math.round(bytes / KILO_BYTES_PER_BYTE)
+	Math.round(bytes / BYTES_PER_KILOBYTE)
 
-export interface FileInputProps extends InputProps<any> {
+export interface FileInputProps extends InputProps<Array<File>> {
 	multiple?: boolean
 	maxFileSizeInBytes?: number
 }
 
-export const FileInput: React.FC<FileInputProps> = (props) => {
+export function FileInput(props: FileInputProps) {
 	let fileInputField = React.useRef<HTMLInputElement>(null)
+	let fileLookup = arrayToObject(props.value || [], (file) => file.name)
 
 	const className = getInputEnvelopeClass(props, 'file', 'input')
 
-	const { id, disabled, required, multiple = false, maxFileSizeInBytes = DEFAULT_MAX_FILE_SIZE_IN_BYTES } = props
+	const { id, disabled, required, multiple = true, maxFileSizeInBytes = DEFAULT_MAX_FILE_SIZE_IN_BYTES } = props
 
 	const handleUploadBtnClick = () => {
 		fileInputField.current?.click()
 	}
 
-	const addNewFiles = (newFiles: any) => {
-		const newValue = Object.assign({}, props.value)
+	const addNewFiles = (newFiles: Array<File>) => {
 		for (let file of newFiles) {
 			if (file.size < maxFileSizeInBytes) {
-				if (!props.multiple) {
+				if (!multiple) {
 					return { file }
 				}
-				newValue[file.name] = file
+				fileLookup[file.name] = file
 			}
 		}
-		return { ...newValue }
+		return { ...fileLookup }
 	}
 
 	const handleFileUpdate = (files: any) => {
-		const filesAsArray = convertNestedObjectToArray(files)
+		const filesAsArray = objectToArray(files)
 		props.onChange(filesAsArray)
 	}
 
@@ -58,7 +68,7 @@ export const FileInput: React.FC<FileInputProps> = (props) => {
 	}
 
 	const removeFile = (fileName: string) => {
-		const newValue = Object.assign({}, props.value)
+		const newValue = Object.assign({}, fileLookup)
 		delete newValue[fileName]
 		handleFileUpdate({ ...newValue })
 	}
@@ -70,7 +80,7 @@ export const FileInput: React.FC<FileInputProps> = (props) => {
 				<p>Drag and drop or</p>
 				<button type="button" onClick={handleUploadBtnClick}>
 					<i className="fas fa-file-upload" />
-					<span> Upload {props.multiple ? "files" : "a file"}</span>
+					<span> Upload {multiple ? "files" : "a file"}</span>
 				</button>
 				<div className={className}>
 					<input ref={fileInputField} type='file' title='' value='' onChange={handleNewFileUpload} multiple={multiple} {...{ id, disabled, required }} />
@@ -79,8 +89,8 @@ export const FileInput: React.FC<FileInputProps> = (props) => {
 			</section>
 			<article className='preview'>
 				<section className='file-list'>
-					{Object.keys(props.value ?? {}).map((fileName, index) => {
-						let file = props.value[fileName]
+					{Object.keys(fileLookup).map((fileName, index) => {
+						let file = fileLookup[fileName]
 						let isImageFile = file.type.split("/")[0] === "image"
 						return (
 							<section key={fileName} className='file'>

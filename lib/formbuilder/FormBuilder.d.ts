@@ -47,6 +47,7 @@ export declare class FormBuilder<FormT, LanguageT extends string | undefined = u
     textRadio: (fieldName: OnlyKeysOfType<FormT, string>) => JSX.Element;
     numberRadio: (fieldName: OnlyKeysOfType<FormT, number>) => JSX.Element;
     checkbox: (fieldName: OnlyKeysOfType<FormT, boolean>) => JSX.Element;
+    files: (fieldName: OnlyKeysOfType<FormT, Array<File>>) => JSX.Element;
     validate(): void;
     subFormLoop<SubFormT>(fieldName: OnlyKeysOfType<FormT, Array<SubFormT>>, subFormConstructor: SubFormLoopConstructor<SubFormT, LanguageT>): Array<ReactElement>;
     subFormPanel<SubFormT>(fieldName: OnlyKeysOfType<FormT, Array<SubFormT>>, subFormPanelConstructor: SubFormPanelConstructor): ReactElement;

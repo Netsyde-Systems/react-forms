@@ -16,5 +16,6 @@ export { TextArea, type TextAreaProps } from './inputs/TextArea';
 export { TextInput, type TextInputProps } from './inputs/TextInput';
 export { TextRadio, type TextRadioProps } from './inputs/TextRadio';
 export { TextSelect, type TextSelectProps } from './inputs/TextSelect';
+export { FileInput, type FileInputProps } from './inputs/FileInput';
 export { Well, type WellProps } from './well/Well';
 export { isValidEmail, isValueProvided, requiredFieldValidator, emailValidator } from './validation/validation';

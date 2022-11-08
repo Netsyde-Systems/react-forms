@@ -4,7 +4,7 @@ export interface MinMaxValidatorSpecification {
     min?: number;
     max?: number;
 }
-export declare type ValidatorSpecification<FieldT> = FieldT extends string | number | Date ? MinMaxValidatorSpecification : never;
+export declare type ValidatorSpecification<FieldT> = FieldT extends string | number | Date | Array<any> ? MinMaxValidatorSpecification : never;
 export declare const isValidEmail: (fieldValue?: string) => boolean;
 export declare const isValueProvided: (fieldValue?: any) => boolean;
 export declare const requiredFieldValidator: ValidatorFunction<any, any>;

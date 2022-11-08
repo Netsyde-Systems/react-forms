@@ -15,6 +15,7 @@ import EmailAddress from "../inputs/EmailAddress"
 
 import { createOptionInput, createStandardInput, ReactFormsInputControl, ReactFormsOptionControl } from "./FormBuilderInputs"
 import { ExtractLanguage, FormData, FormDefinition, FormFieldTouchState, FormState, LocalizedString, OnlyKeysOfType } from "./FormBuilderTypes"
+import FileInput from "../inputs/FileInput"
 
 export type FieldNameProps<FormT, FieldT> = {
 	field: OnlyKeysOfType<FormT, FieldT>
@@ -148,6 +149,8 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 	public numberRadio = (fieldName: OnlyKeysOfType<FormT, number>) => this.linkOptionControl<number>(fieldName, NumberRadio)
 
 	public checkbox = (fieldName: OnlyKeysOfType<FormT, boolean>) => this.linkStandardControl(fieldName, CheckBox)
+
+	public files = (fieldName: OnlyKeysOfType<FormT, Array<File>>) => this.linkStandardControl(fieldName, FileInput)
 
 	public validate() {
 		if (!this.formState.hasBeenValidated) {

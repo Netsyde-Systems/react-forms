@@ -20,6 +20,8 @@ interface TestFormShape {
 	phoneNumber: number
 	postalCode: string
 	email: string
+
+	filesProperty: Array<File>
 }
 
 const testFormDefinition: FormDefinition<TestFormShape> = {
@@ -110,6 +112,10 @@ export function Forms() {
 					<div className='control-cell'>
 						{rf.emailAddress('email')}
 					</div>
+				</div>
+
+				<div>
+					{rf.files('filesProperty')}
 				</div>
 
 				<h2>JSX Tests</h2>
