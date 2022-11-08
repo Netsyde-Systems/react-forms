@@ -22,7 +22,6 @@ export interface FileInputProps extends InputProps<any> {
 
 export const FileInput: React.FC<FileInputProps> = (props) => {
 	let fileInputField = React.useRef<HTMLInputElement>(null)
-	const [files, setFiles] = React.useState<any>({})
 
 	const className = getInputEnvelopeClass(props, 'file', 'input')
 
@@ -33,18 +32,19 @@ export const FileInput: React.FC<FileInputProps> = (props) => {
 	}
 
 	const addNewFiles = (newFiles: any) => {
+		const newValue = Object.assign({}, props.value)
 		for (let file of newFiles) {
 			if (file.size < maxFileSizeInBytes) {
-				if (props.multiple) {
+				if (!props.multiple) {
 					return { file }
 				}
-				files[file.name] = file
+				newValue[file.name] = file
 			}
 		}
-		return { ...files }
+		return { ...newValue }
 	}
 
-	const callUpdateFilesCb = (files: any) => {
+	const handleFileUpdate = (files: any) => {
 		const filesAsArray = convertNestedObjectToArray(files)
 		props.onChange(filesAsArray)
 	}
@@ -53,15 +53,14 @@ export const FileInput: React.FC<FileInputProps> = (props) => {
 		const { files: newFiles } = e.target
 		if (newFiles.length) {
 			let updatedFiles = addNewFiles(newFiles)
-			setFiles(updatedFiles)
-			callUpdateFilesCb(updatedFiles)
+			handleFileUpdate(updatedFiles)
 		}
 	}
 
 	const removeFile = (fileName: string) => {
-		delete files[fileName]
-		setFiles({ ...files })
-		callUpdateFilesCb({ ...files })
+		const newValue = Object.assign({}, props.value)
+		delete newValue[fileName]
+		handleFileUpdate({ ...newValue })
 	}
 
 	return (
@@ -80,8 +79,8 @@ export const FileInput: React.FC<FileInputProps> = (props) => {
 			</section>
 			<article className='preview'>
 				<section className='file-list'>
-					{Object.keys(files).map((fileName, index) => {
-						let file = files[fileName]
+					{Object.keys(props.value ?? {}).map((fileName, index) => {
+						let file = props.value[fileName]
 						let isImageFile = file.type.split("/")[0] === "image"
 						return (
 							<section key={fileName} className='file'>
