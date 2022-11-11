@@ -3,13 +3,14 @@
 import React from 'react'
 import { getInputEnvelopeClass, InputProps } from './inputs'
 import { ErrorMessage } from './ErrorMessage'
+import { InputLabel } from './InputLabel'
 
 import './FileInput.scss'
 
 const BYTES_PER_KILOBYTE = 1024
 const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 5 * BYTES_PER_KILOBYTE ** 2 // 5 MB
 
-const objectToArray = (obj: any) => 
+const objectToArray = (obj: any) =>
 	Object.keys(obj).map(key => obj[key])
 
 function arrayToObject<T>(arr: Array<T>, keySelector: (obj: T) => string) {
@@ -74,47 +75,47 @@ export function FileInput(props: FileInputProps) {
 	}
 
 	return (
-		<div className={className}>
-			<section className='upload'>
-				<label>{props.label}</label>
-				<p>Drag and drop or</p>
-				<button type="button" onClick={handleUploadBtnClick}>
-					<i className="fas fa-file-upload" />
-					<span> Upload {multiple ? "files" : "a file"}</span>
-				</button>
-				<div className={className}>
-					<input ref={fileInputField} type='file' title='' value='' onChange={handleNewFileUpload} multiple={multiple} {...{ id, disabled, required }} />
-					<ErrorMessage {...props} />
-				</div>
-			</section>
-			<article className='preview'>
-				<section className='file-list'>
-					{Object.keys(fileLookup).map((fileName, index) => {
-						let file = fileLookup[fileName]
-						let isImageFile = file.type.split("/")[0] === "image"
-						return (
-							<section key={fileName} className='file'>
-								<div>
-									{isImageFile && (
-										<img
-											src={URL.createObjectURL(file)}
-											alt={`file preview ${index}`}
-										/>
-									)}
-									<div data-isimagefile={isImageFile} className='meta-data'>
-										<span className='filename'>{file.name}</span>
-										<aside>
-											<span>{convertBytesToKB(file.size)} kb</span>
-											<i className="fas fa-trash-alt" onClick={() => removeFile(fileName)} />
-										</aside>
-									</div>
-								</div>
-							</section>
-						)
-					})}
+			<div className={className}>
+				<InputLabel {...props} />
+				<section className='upload'>
+					<p>Drag and drop or</p>
+					<button type="button" onClick={handleUploadBtnClick}>
+						<i className="fas fa-file-upload" />
+						<span> Upload {multiple ? "files" : "a file"}</span>
+					</button>
+					<div className={className}>
+						<input ref={fileInputField} type='file' title='' value='' onChange={handleNewFileUpload} multiple={multiple} {...{ id, disabled, required }} />
+						<ErrorMessage {...props} />
+					</div>
 				</section>
-			</article>
-		</div>
+				<article className='preview'>
+					<section className='file-list'>
+						{Object.keys(fileLookup).map((fileName, index) => {
+							let file = fileLookup[fileName]
+							let isImageFile = file.type.split("/")[0] === "image"
+							return (
+								<section key={fileName} className='file'>
+									<div>
+										{isImageFile && (
+											<img
+												src={URL.createObjectURL(file)}
+												alt={`file preview ${index}`}
+											/>
+										)}
+										<div data-isimagefile={isImageFile} className='meta-data'>
+											<span className='filename'>{file.name}</span>
+											<aside>
+												<span>{convertBytesToKB(file.size)} kb</span>
+												<i className="fas fa-trash-alt" onClick={() => removeFile(fileName)} />
+											</aside>
+										</div>
+									</div>
+								</section>
+							)
+						})}
+					</section>
+				</article>
+			</div>
 	)
 }
 

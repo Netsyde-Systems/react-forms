@@ -46,10 +46,10 @@ export interface SubFormDefinition<FormT, SubFormT, LanguageT extends string | u
     newSubForm?: FieldSpecifierFunction<FormT, FormData<SubFormT>, LanguageT>;
 }
 export declare type FieldDefinitions<FormT, LanguageT extends string | undefined = undefined> = {
-    [Property in keyof FormT]?: FormT[Property] extends Array<any> ? never : FieldDefinition<FormT, FormT[Property], LanguageT>;
+    [Property in keyof FormT]?: FormT[Property] extends Array<File> ? FieldDefinition<FormT, FormT[Property], LanguageT> : FormT[Property] extends Array<any> ? never : FieldDefinition<FormT, FormT[Property], LanguageT>;
 };
 export declare type SubFormDefinitions<FormT, LanguageT extends string | undefined = undefined> = {
-    [Property in keyof FormT]?: FormT[Property] extends Array<infer SubFormT> ? SubFormDefinition<FormT, SubFormT, LanguageT> : never;
+    [Property in keyof FormT]?: FormT[Property] extends Array<File> ? never : FormT[Property] extends Array<infer SubFormT> ? SubFormDefinition<FormT, SubFormT, LanguageT> : never;
 };
 export declare type FormDefinition<FormT, LanguageT extends string | undefined = undefined> = {
     fields?: FieldDefinitions<FormT, LanguageT>;

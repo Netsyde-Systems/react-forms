@@ -26,7 +26,6 @@ interface TestFormShape {
 
 const testFormDefinition: FormDefinition<TestFormShape> = {
 	fields: {
-
 		selectStringProperty: {
 			selectOptions: [
 				{ value: 'First', text: 'First Option' },
@@ -50,8 +49,11 @@ const testFormDefinition: FormDefinition<TestFormShape> = {
 				{ value: 1, text: 'First Option' },
 				{ value: 2, text: 'Second Option' },
 			]
+		}, 
+		filesProperty: {
+			label: 'File Input Name is now configurable'
 		}
-	}
+	}, 
 }
 
 let testFormData: FormData<TestFormShape> = {}
