@@ -41,9 +41,10 @@ const formDefinition: FormDefinition<FormShape, Language> = {
 				fr: 'le langue'
 			},
 			selectOptions: [
-				{ value: 'en', text: 'English' },
-				// lame type hack for now... TODO: Fix this
-				{ value: 'fr' as 'en', text: 'Français' },
+				// Language name always appears in its own language (as is usually the convention)
+				{ value: 'en', text: { en: 'English', fr: 'English' } },
+				// Hack to make typescript happy that types agree
+				{ value: 'fr' as 'en', text: { en: 'Français', fr: 'Français' } },
 			]
 		}, 
 	}, 

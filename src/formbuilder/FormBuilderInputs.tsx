@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { convertToSelectOption, LocalizedOption } from './FormBuilderTypes'
 import { SelectOption, SelectProps } from '../inputs/inputs'
 import { FieldDefinitions, FormState, OnlyKeysOfType, FormData, isLocalizedString, getString } from "./FormBuilderTypes"
 
@@ -51,7 +52,7 @@ export function createOptionInput<FormT, FieldType extends string | number, Lang
 
 	const [props, isValid] = getInputProps<FormT, FieldType, LanguageT>(formDefinition, formData, formState, fieldName, onChange, language, subFormIndex, rootFormData)
 
-	const selectOptions = getSelectOptions<FormT, FieldType>(formDefinition, formData, fieldName)
+	const selectOptions = getSelectOptions<FormT, FieldType, LanguageT>(formDefinition, formData, fieldName, language)
 
 	return [
 		<OptionControl {...props} selectOptions={selectOptions} />, 
@@ -72,7 +73,7 @@ export function createTextSelect<FormT, LanguageT extends string | undefined>(
 
 	const [props, isValid] = getInputProps<FormT, string, LanguageT>(formDefinition, formData, formState, fieldName, onChange, language, subFormIndex, rootFormData)
 
-	const selectOptions = getSelectOptions<FormT, string>(formDefinition, formData, fieldName)
+	const selectOptions = getSelectOptions<FormT, string, LanguageT>(formDefinition, formData, fieldName, language)
 
 	return [
 		<TextSelect {...props} selectOptions={selectOptions} />, 
@@ -93,7 +94,7 @@ export function createNumberSelect<FormT, LanguageT extends string | undefined =
 
 	const [props, isValid] = getInputProps<FormT, number, LanguageT>(formDefinition, formData, formState, fieldName, onChange, language, subFormIndex, rootFormData)
 
-	const selectOptions = getSelectOptions<FormT, number>(formDefinition, formData, fieldName)
+	const selectOptions = getSelectOptions<FormT, number, LanguageT>(formDefinition, formData, fieldName, language)
 
 	return [
 		<NumberSelect {...props} selectOptions={selectOptions} />, 
@@ -235,27 +236,28 @@ function getInputProps<FormT, FieldT, LanguageT extends string | undefined>(
 }
 
 
-function getSelectOptions<FormT, FieldT extends string | number>(
+function getSelectOptions<FormT, FieldT extends string | number, LanguageT extends string | undefined = undefined>(
 	formDefinition: FieldDefinitions<FormT, any>,
 	formData: FormData<FormT>,
 	fieldName: OnlyKeysOfType<FormT, FieldT>,
+	language: LanguageT
 ): Array<SelectOption<FieldT>> { // returns the input props, as well as whether or not the field is valid
 
 	const fieldDef = formDefinition[fieldName]
 	const fieldValue = formData[fieldName] 
 
-	let selectOptions: Array<SelectOption<FieldT>> = []
+	let localizedOptions: Array<LocalizedOption<FieldT, LanguageT>> = []
 
 	if (fieldDef) {
 		if (typeof fieldDef.selectOptions == 'object') {
 			// Type HACK.  TODO: investigate
-			selectOptions = fieldDef.selectOptions as any as Array<SelectOption<FieldT>>
+			localizedOptions = fieldDef.selectOptions as any as Array<LocalizedOption<FieldT, LanguageT>>
 		}
 		else if (typeof fieldDef.selectOptions == 'function') {
 			// Type HACK.  TODO: investigate
-			selectOptions = fieldDef.selectOptions(fieldValue, fieldName, formData, formDefinition) as any as Array<SelectOption<FieldT>>
+			localizedOptions = fieldDef.selectOptions(fieldValue, fieldName, formData, formDefinition) as any as Array<LocalizedOption<FieldT, LanguageT>>
 		}
 	}
 
-	return selectOptions
+	return localizedOptions.map(lo => convertToSelectOption(lo, language))
 }

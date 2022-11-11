@@ -50,8 +50,7 @@ const testFormDefinition: FormDefinition<TestFormShape> = {
 				{ value: 1, text: 'First Option' },
 				{ value: 2, text: 'Second Option' },
 			]
-		},
-
+		}
 	}
 }
 

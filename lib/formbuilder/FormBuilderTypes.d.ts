@@ -9,7 +9,12 @@ export declare type FormData<T> = {
 export interface FieldSpecifierFunction<FormT, OutputT, LanguageT extends string | undefined = undefined> {
     (fieldValue: FormData<FormT>[typeof fieldName] | undefined, fieldName: keyof FormT, formData: FormData<FormT>, formDefinition: FormDefinition<FormT, LanguageT>, language?: LanguageT, subFormIndex?: number, rootFormData?: FormData<any>): OutputT;
 }
-export declare type SelectOptionsSpecifier<FormT, FieldT extends string | number> = Array<SelectOption<FieldT>> | FieldSpecifierFunction<FormT, Array<SelectOption<FieldT>>>;
+export declare type LocalizedOption<ValueT extends string | number, LanguageT extends string | undefined = undefined> = {
+    value: ValueT;
+    text: LangSpec<LanguageT>;
+};
+export declare function convertToSelectOption<ValueT extends string | number, LanguageT extends string | undefined = undefined>(localizedOption: LocalizedOption<ValueT, LanguageT>, language: LanguageT): SelectOption<ValueT>;
+export declare type SelectOptionsSpecifier<FormT, FieldT extends string | number, LanguageT extends string | undefined = undefined> = Array<LocalizedOption<FieldT, LanguageT>> | FieldSpecifierFunction<FormT, Array<LocalizedOption<FieldT, LanguageT>>, LanguageT>;
 export interface MaxLengthDisallowSpecification {
     maxLength: number;
 }
@@ -31,7 +36,7 @@ export interface FieldDefinition<FormT, FieldT, LanguageT extends string | undef
     disallowChange?: FieldSpecifierFunction<FormT, boolean | undefined, LanguageT> | DisallowSpecification<FieldT>;
     validators?: ValidatorFunction<FormT, LanguageT> | Array<ValidatorFunction<FormT, LanguageT>> | ValidatorSpecification<FieldT>;
     validateImmediately?: boolean;
-    selectOptions?: FieldT extends string | number ? SelectOptionsSpecifier<FormT, FieldT> : never;
+    selectOptions?: FieldT extends string | number ? SelectOptionsSpecifier<FormT, FieldT, LanguageT> : never;
 }
 export interface SubFormDefinition<FormT, SubFormT, LanguageT extends string | undefined> {
     onChange?: FieldSpecifierFunction<FormT, FormData<FormT>, LanguageT>;

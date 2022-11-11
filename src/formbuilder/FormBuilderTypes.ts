@@ -44,10 +44,23 @@ export interface FieldSpecifierFunction<FormT, OutputT, LanguageT extends string
 	(fieldValue: FormData<FormT>[typeof fieldName] | undefined, fieldName: keyof FormT, formData: FormData<FormT>, formDefinition: FormDefinition<FormT, LanguageT>, language?: LanguageT, subFormIndex?: number, rootFormData?: FormData<any>): OutputT
 }
 
+export type LocalizedOption<ValueT extends string | number, LanguageT extends string | undefined = undefined> = {
+	value: ValueT
+	text: LangSpec<LanguageT>
+}
+
+export function convertToSelectOption<ValueT extends string | number, LanguageT extends string | undefined = undefined>(localizedOption: LocalizedOption<ValueT, LanguageT>, language: LanguageT): SelectOption<ValueT> {
+	let { text: localizedText, value } = localizedOption
+
+	const text = getString(localizedText, language) ?? ''
+
+	return { value, text }
+}
+
 // Select Options Specifier can be static list of select options, or can depend on state of form
-export type SelectOptionsSpecifier<FormT, FieldT extends string | number> =
- 	Array<SelectOption<FieldT>> | 
-	FieldSpecifierFunction<FormT, Array<SelectOption<FieldT>>>
+export type SelectOptionsSpecifier<FormT, FieldT extends string | number, LanguageT extends string | undefined = undefined> =
+ 	Array<LocalizedOption<FieldT, LanguageT>> | 
+	FieldSpecifierFunction<FormT, Array<LocalizedOption<FieldT, LanguageT>>, LanguageT>
 
 export interface MaxLengthDisallowSpecification {
 	maxLength: number
@@ -98,7 +111,7 @@ export interface FieldDefinition<FormT, FieldT, LanguageT extends string | undef
 	validateImmediately?: boolean
 
 	// select options can only be specified for fields that are strings or numbers
-	selectOptions?: FieldT extends string | number ? SelectOptionsSpecifier<FormT, FieldT> : never
+	selectOptions?: FieldT extends string | number ? SelectOptionsSpecifier<FormT, FieldT, LanguageT> : never
 }
 
 // SubFormDefinition is an object where we can define the subform's behaviour

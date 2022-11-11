@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormDefinition, FormData } from '../formbuilder/FormBuilderTypes'
+import { FormDefinition } from '../formbuilder/FormBuilderTypes'
 import useReactForms from '../hooks/useReactForms'
 import { getTypeMap } from '../utilities'
 
@@ -10,6 +10,8 @@ type Language = 'en' | 'fr'
 interface TestFormShape {
 	stringProperty: string
 	numberProperty: number
+	stringDropdown: string
+	numberDropdown: number
 	languageProperty: Language
 }
 
@@ -28,24 +30,64 @@ const testFormDefinition: FormDefinition<TestFormShape, Language> = {
 				fr: 'un nombre'
 			}
 		},
+		stringDropdown: {
+			label: {
+				en: 'a String dropdown',
+				fr: 'une sélecteur de chaîne'
+			}, 
+			selectOptions: [
+				{ value: 'opt1', text: { 
+					en: 'Choice One', 
+					fr: 'Choix Un'} 
+				}, 
+				{ value: 'opt2', text: { 
+					en: 'Choice Two', 
+					fr: 'Choix Deux'} 
+				}, 
+				{ value: 'opt3', text: { 
+					en: 'Choice Three', 
+					fr: 'Choix Trois'} 
+				}, 
+			]
+		},
+		numberDropdown: {
+			label: {
+				en: 'a Number dropdown',
+				fr: 'un sélecteur de nombre'
+			}, 
+			selectOptions: [
+				{ value: 1, text: { 
+					en: 'Choice One', 
+					fr: 'Choix Un'} 
+				}, 
+				{ value: 2, text: { 
+					en: 'Choice Two', 
+					fr: 'Choix Deux'} 
+				}, 
+				{ value: 3, text: { 
+					en: 'Choice Three', 
+					fr: 'Choix Trois'} 
+				}, 
+			]
+		},
 		languageProperty: {
 			label: {
 				en: 'Language',
 				fr: 'le langue'
 			},
 			selectOptions: [
-				{ value: 'en', text: 'English' },
-				// lame type hack for now... TODO: Fix this
-				{ value: 'fr' as 'en', text: 'Français' },
+				// Language name always appears in its own language (as is usually the convention)
+				{ value: 'en', text: { en: 'English', fr: 'English' } },
+				// Hack to make typescript happy that types agree
+				{ value: 'fr' as 'en', text: { en: 'Français', fr: 'Français' } },
 			]
 		}, 
 	}
 }
 
-let testFormData: FormData<TestFormShape> = {} 
 
 export function Localization() {
-	const rf = useReactForms(testFormDefinition, testFormData)
+	const rf = useReactForms(testFormDefinition, {languageProperty: 'en'})
 
 	if (rf.language !== rf.formData.languageProperty) {
 		rf.setLanguage(rf.formData.languageProperty)
@@ -66,6 +108,17 @@ export function Localization() {
 					</div>
 					<div className='control-cell'>
 						{rf.textSelect('languageProperty')}
+					</div>
+				</div>
+
+				<div className='control-row'>
+					<div className='control-cell'>
+						{rf.textSelect('stringDropdown')}
+					</div>
+					<div className='control-cell'>
+						{rf.numberSelect('numberDropdown')}
+					</div>
+					<div className='control-cell'>
 					</div>
 				</div>
 			</div>
