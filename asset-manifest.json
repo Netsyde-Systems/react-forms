@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/react-forms/static/css/main.fc85a8a6.css",
-    "main.js": "/react-forms/static/js/main.2c0305e5.js",
+    "main.css": "/react-forms/static/css/main.8895dabb.css",
+    "main.js": "/react-forms/static/js/main.8a32d930.js",
     "static/js/787.b02cee40.chunk.js": "/react-forms/static/js/787.b02cee40.chunk.js",
     "static/media/react-forms-logo.png": "/react-forms/static/media/react-forms-logo.97886083cc2799a3d559.png",
     "index.html": "/react-forms/index.html",
-    "main.fc85a8a6.css.map": "/react-forms/static/css/main.fc85a8a6.css.map",
-    "main.2c0305e5.js.map": "/react-forms/static/js/main.2c0305e5.js.map",
+    "main.8895dabb.css.map": "/react-forms/static/css/main.8895dabb.css.map",
+    "main.8a32d930.js.map": "/react-forms/static/js/main.8a32d930.js.map",
     "787.b02cee40.chunk.js.map": "/react-forms/static/js/787.b02cee40.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.fc85a8a6.css",
-    "static/js/main.2c0305e5.js"
+    "static/css/main.8895dabb.css",
+    "static/js/main.8a32d930.js"
   ]
 }
