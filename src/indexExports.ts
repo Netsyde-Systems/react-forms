@@ -12,6 +12,7 @@ export type {
 	FormDefinition, 
 	SubFormDefinition,
 	LocalizedString, 
+	LocalizedOption, 
 	LangSpec,
 } from './formbuilder/FormBuilderTypes'
 
