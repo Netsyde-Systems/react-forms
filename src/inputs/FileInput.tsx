@@ -26,9 +26,16 @@ function arrayToObject<T>(arr: Array<T>, keySelector: (obj: T) => string) {
 const convertBytesToKB = (bytes: number) =>
 	Math.round(bytes / BYTES_PER_KILOBYTE)
 
+const DefaultFileInputTextResources = {
+	dragAndDropOr: 'Drag and drop or',
+	uploadAFile: 'Upload a File',
+	uploadFiles: 'Upload Files',
+}
+
 export interface FileInputProps extends InputProps<Array<File>> {
 	multiple?: boolean
 	maxFileSizeInBytes?: number
+	textResources?: Partial<typeof DefaultFileInputTextResources>
 }
 
 export function FileInput(props: FileInputProps) {
@@ -37,7 +44,11 @@ export function FileInput(props: FileInputProps) {
 
 	const className = getInputEnvelopeClass(props, 'file', 'input')
 
-	const { id, disabled, required, multiple = true, maxFileSizeInBytes = DEFAULT_MAX_FILE_SIZE_IN_BYTES } = props
+	const { id, disabled, required, multiple, textResources,
+		maxFileSizeInBytes = DEFAULT_MAX_FILE_SIZE_IN_BYTES,
+	} = props
+
+	const filledTextResources = Object.assign({}, DefaultFileInputTextResources, textResources)
 
 	const handleUploadBtnClick = () => {
 		fileInputField.current?.click()
@@ -77,47 +88,47 @@ export function FileInput(props: FileInputProps) {
 	const uploadClassName = getInputEnvelopeClass(props, 'upload')
 
 	return (
-			<div className={className}>
-				<InputLabel {...props} />
-				<section className={uploadClassName}>
-					<p>Drag and drop or</p>
-					<button type="button" onClick={handleUploadBtnClick} disabled={props.disabled} >
-						<i className="fas fa-file-upload" />
-						<span> Upload {multiple ? "files" : "a file"}</span>
-					</button>
-					<div className={className}>
-						<input ref={fileInputField} type='file' title='' value='' onChange={handleNewFileUpload} multiple={multiple} {...{ id, disabled, required }} />
-					</div>
-				</section>
-				<article className='preview'>
-					<section className='file-list'>
-						{Object.keys(fileLookup).map((fileName, index) => {
-							let file = fileLookup[fileName]
-							let isImageFile = file.type.split("/")[0] === "image"
-							return (
-								<section key={fileName} className='file'>
-									<div>
-										{isImageFile && (
-											<img
-												src={URL.createObjectURL(file)}
-												alt={`file preview ${index}`}
-											/>
-										)}
-										<div data-isimagefile={isImageFile} className='meta-data'>
-											<span className='filename'>{file.name}</span>
-											<aside>
-												<span>{convertBytesToKB(file.size)} kb</span>
-												<i className="fas fa-trash-alt" onClick={() => removeFile(fileName)} />
-											</aside>
-										</div>
+		<div className={className}>
+			<InputLabel {...props} />
+			<section className={uploadClassName}>
+				<p>{filledTextResources.dragAndDropOr}</p>
+				<button type="button" onClick={handleUploadBtnClick} disabled={props.disabled} >
+					<i className="fas fa-file-upload" />
+					<span>{multiple ? filledTextResources.uploadFiles : filledTextResources.uploadAFile}</span>
+				</button>
+				<div className={className}>
+					<input ref={fileInputField} type='file' title='' value='' onChange={handleNewFileUpload} multiple={multiple} {...{ id, disabled, required }} />
+				</div>
+			</section>
+			<article className='preview'>
+				<section className='file-list'>
+					{Object.keys(fileLookup).map((fileName, index) => {
+						let file = fileLookup[fileName]
+						let isImageFile = file.type.split("/")[0] === "image"
+						return (
+							<section key={fileName} className='file'>
+								<div>
+									{isImageFile && (
+										<img
+											src={URL.createObjectURL(file)}
+											alt={`file preview ${index}`}
+										/>
+									)}
+									<div data-isimagefile={isImageFile} className='meta-data'>
+										<span className='filename'>{file.name}</span>
+										<aside>
+											<span>{convertBytesToKB(file.size)} kb</span>
+											<i className="fas fa-trash-alt" onClick={() => removeFile(fileName)} />
+										</aside>
 									</div>
-								</section>
-							)
-						})}
-					</section>
-				</article>
-				<ErrorMessage {...props} />
-			</div>
+								</div>
+							</section>
+						)
+					})}
+				</section>
+			</article>
+			<ErrorMessage {...props} />
+		</div>
 	)
 }
 
