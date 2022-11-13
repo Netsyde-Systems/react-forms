@@ -2,7 +2,7 @@ import React from 'react'
 import Button from '../button/Button'
 import { FormDefinition, FormData } from '../formbuilder/FormBuilderTypes'
 import useReactForms from '../hooks/useReactForms'
-import { getTypeMap } from '../utilities'
+import { DataInspector } from './DataInspector'
 
 import './SubForms.scss'
 
@@ -133,13 +133,7 @@ export function Localization() {
 			</div>
 
 			<h2>Test Form Data</h2>
-			<pre>
-				{JSON.stringify(rf.formData, null, 2)}
-			</pre>
-			<h2>Test Form Types</h2>
-			<pre>
-				{JSON.stringify(getTypeMap(rf.formData), null, 2)}
-			</pre>
+			<DataInspector formBuilder={rf} />
 		</div>
 	)
 }

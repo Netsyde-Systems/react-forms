@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormDefinition, FormData, FieldDefinitions } from '../formbuilder/FormBuilderTypes'
 import useReactForms from '../hooks/useReactForms'
-import { getTypeMap } from '../utilities'
 import Well from '../well/Well'
+import { DataInspector } from './DataInspector'
 
 import './Validation.scss'
 
@@ -161,31 +161,13 @@ export function Validation() {
 
 
 			<h2>Deferred Form Data</h2>
-			<pre>
-				{JSON.stringify(rfDeferred.formData, null, 2)}
-			</pre>
-			<h2>Deferred Form Types</h2>
-			<pre>
-				{JSON.stringify(getTypeMap(rfDeferred.formData), null, 2)}
-			</pre>
+			<DataInspector formBuilder={rfDeferred} />
 
 			<h2>Immediate Form Data</h2>
-			<pre>
-				{JSON.stringify(rfImmediate.formData, null, 2)}
-			</pre>
-			<h2>Immediate Form Types</h2>
-			<pre>
-				{JSON.stringify(getTypeMap(rfImmediate.formData), null, 2)}
-			</pre>
+			<DataInspector formBuilder={rfImmediate} />
 
 			<h2>Forced Form Data</h2>
-			<pre>
-				{JSON.stringify(rfForced.formData, null, 2)}
-			</pre>
-			<h2>Immediate Form Types</h2>
-			<pre>
-				{JSON.stringify(getTypeMap(rfForced.formData), null, 2)}
-			</pre>
+			<DataInspector formBuilder={rfForced} />
 		</div>
 	)
 }

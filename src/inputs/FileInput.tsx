@@ -1,13 +1,13 @@
 // Based on widget described here: https://dev.to/chandrapantachhetri/responsive-react-file-upload-component-with-drag-and-drop-4ef8
 
 import React from 'react'
+import { BYTES_PER_KILOBYTE, convertBytesToKB } from '../utilities'
 import { getInputEnvelopeClass, InputProps } from './inputs'
 import { ErrorMessage } from './ErrorMessage'
 import { InputLabel } from './InputLabel'
 
 import './FileInput.scss'
 
-const BYTES_PER_KILOBYTE = 1024
 const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 5 * BYTES_PER_KILOBYTE ** 2 // 5 MB
 
 const objectToArray = (obj: any) =>
@@ -22,9 +22,6 @@ function arrayToObject<T>(arr: Array<T>, keySelector: (obj: T) => string) {
 
 	return dic
 }
-
-const convertBytesToKB = (bytes: number) =>
-	Math.round(bytes / BYTES_PER_KILOBYTE)
 
 const DefaultFileInputTextResources = {
 	dragAndDropOr: 'Drag and drop or',
@@ -117,7 +114,7 @@ export function FileInput(props: FileInputProps) {
 									<div data-isimagefile={isImageFile} className='meta-data'>
 										<span className='filename'>{file.name}</span>
 										<aside>
-											<span>{convertBytesToKB(file.size)} kb</span>
+											<span>{convertBytesToKB(file.size)} kB</span>
 											<i className="fas fa-trash-alt" onClick={() => removeFile(fileName)} />
 										</aside>
 									</div>
