@@ -40,7 +40,7 @@
 
 			&:disabled {
 				cursor: not-allowed;
-				background-color: lightgray; 
+				background-color: constants.$disabled-color;
 				opacity: 1.0;
 			}
 		}

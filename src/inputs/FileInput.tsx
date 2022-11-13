@@ -74,18 +74,19 @@ export function FileInput(props: FileInputProps) {
 		handleFileUpdate({ ...newValue })
 	}
 
+	const uploadClassName = getInputEnvelopeClass(props, 'upload')
+
 	return (
 			<div className={className}>
 				<InputLabel {...props} />
-				<section className='upload'>
+				<section className={uploadClassName}>
 					<p>Drag and drop or</p>
-					<button type="button" onClick={handleUploadBtnClick}>
+					<button type="button" onClick={handleUploadBtnClick} disabled={props.disabled} >
 						<i className="fas fa-file-upload" />
 						<span> Upload {multiple ? "files" : "a file"}</span>
 					</button>
 					<div className={className}>
 						<input ref={fileInputField} type='file' title='' value='' onChange={handleNewFileUpload} multiple={multiple} {...{ id, disabled, required }} />
-						<ErrorMessage {...props} />
 					</div>
 				</section>
 				<article className='preview'>
@@ -115,6 +116,7 @@ export function FileInput(props: FileInputProps) {
 						})}
 					</section>
 				</article>
+				<ErrorMessage {...props} />
 			</div>
 	)
 }

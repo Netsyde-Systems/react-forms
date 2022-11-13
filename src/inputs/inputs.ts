@@ -30,5 +30,5 @@ export interface SelectProps<T extends string | number> extends InputProps<T> {
 }
 
 export function getInputEnvelopeClass(props: InputProps<any>, ...args: Array<string>) {
-	return classNames(...args, { 'has-errors': !!props.errorMessage }, { 'hidden': props.hidden })
+	return classNames(...args, { 'has-errors': !!props.errorMessage }, { hidden: props.hidden }, { disabled: props.disabled })
 }

@@ -38,7 +38,7 @@ function Controls() {
 	const [phoneValue, setPhoneValue] = React.useState<number>()
 	const [postalCodeValue, setPostalCodeValue] = React.useState<string>()
 	const [emailValue, setEmailValue] = React.useState<string>()
-	const [fileValue, setFileValue] = React.useState<any>()
+	const [fileValue, setFileValue] = React.useState<Array<File>>()
 
 	const [controlsHaveErrors, setControlErrors] = React.useState(false)
 	const [controlsAreDisabled, disableControls] = React.useState(false)
@@ -58,6 +58,7 @@ function Controls() {
 		setMaskedValue(undefined)
 		setPhoneValue(undefined)
 		setPostalCodeValue(undefined)
+		setFileValue(undefined)
 	}
 
 	const toggleButtonText = {
@@ -161,7 +162,7 @@ function Controls() {
 
 					<div className='control-row'>
 						<div className='control-cell'>
-							<FileInput id='fileInput' label='File Input' multiple value={fileValue} onChange={setFileValue} />
+							<FileInput id='fileInput' label='File Input' multiple value={fileValue} onChange={setFileValue} {...sharedProperties} />
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(fileValue)}

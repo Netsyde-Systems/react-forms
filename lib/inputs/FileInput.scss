@@ -1,10 +1,16 @@
+@use '../constants';
+
 // Based on widget described here: https://dev.to/chandrapantachhetri/responsive-react-file-upload-component-with-drag-and-drop-4ef8
 
 .file.input {
 
+	&.hidden {
+		visibility: hidden;
+	}
+
 	section.upload {
 		position: relative;
-		margin: 10px 0 15px;
+		margin: 10px 0 0;
 		border: 2px dotted lightgray;
 		padding: 35px 20px;
 		border-radius: 6px;
@@ -12,6 +18,15 @@
 		flex-direction: column;
 		align-items: center;
 		background-color: white;
+
+		&.disabled {
+			background-color: constants.$disabled-color;
+		}
+
+		&.has-errors {
+			border-color: constants.$error-color;
+			background-color: constants.$error-background-color;
+		}
 
 		p {
 			color: black;
@@ -49,6 +64,9 @@
 			padding-right: 0;
 			justify-content: center;
 
+			&:disabled {
+				cursor: not-allowed;
+			}
 
 			i {
 				&:before {
@@ -92,7 +110,7 @@
 	}
 
 	article.preview {
-		margin-bottom: 35px;
+		margin-bottom: 5px;
 
 		section.file-list {
 			display: flex;
