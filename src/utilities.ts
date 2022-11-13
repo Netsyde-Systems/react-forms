@@ -21,15 +21,15 @@ export const getTypeMap = (obj: any) => {
 		if (['string', 'number', 'boolean'].indexOf(typeof value) >= 0) {
 			typeMap[key] = typeof value
 		}
-		else if (value.constructor === Date) {
+		else if (value?.constructor === Date) {
 			typeMap[key] = 'date'
+		}
+		else if (value?.constructor === File) {
+			typeMap[key] = 'file'
 		}
 		else if (Array.isArray(value)) {
 			if (value.length === 0) {
 				typeMap[key] = 'array'
-			}
-			else if (value.every((v: any) => v.constructor === File)) {
-				typeMap[key] = 'file array'
 			}
 			else typeMap[key] = getTypeMap(value)
 		}

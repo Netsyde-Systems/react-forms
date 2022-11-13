@@ -1,0 +1,16 @@
+.form-inspector {
+	display: flex;
+
+	justify-content: flex-end;
+
+	.form {
+		flex-grow: 10;
+	}
+
+	&.open {
+	}
+
+	button {
+		font-size: xx-small;
+	} 
+}

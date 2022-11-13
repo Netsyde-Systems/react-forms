@@ -12,8 +12,10 @@ export interface DateInputProps extends InputProps<Date> { }
 
 export function DateInput(props: DateInputProps) {
 	const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+		/*
 		console.log(e.target.value)
 		console.log(e.target.valueAsDate)
+		*/
 		props.onChange(e.target.valueAsDate || undefined)
 	} 
 

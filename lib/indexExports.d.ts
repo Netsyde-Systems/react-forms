@@ -19,3 +19,5 @@ export { TextSelect, type TextSelectProps } from './inputs/TextSelect';
 export { FileInput, type FileInputProps } from './inputs/FileInput';
 export { Well, type WellProps } from './well/Well';
 export { isValidEmail, isValueProvided, requiredFieldValidator, emailValidator } from './validation/validation';
+export { FormInspector } from './pages/FormInspector';
+export { DataInspector } from './pages/DataInspector';

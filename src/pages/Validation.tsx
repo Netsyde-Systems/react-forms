@@ -2,7 +2,7 @@ import React from 'react'
 import { FormDefinition, FormData, FieldDefinitions } from '../formbuilder/FormBuilderTypes'
 import useReactForms from '../hooks/useReactForms'
 import Well from '../well/Well'
-import { DataInspector } from './DataInspector'
+import FormInspector from './FormInspector'
 
 import './Validation.scss'
 
@@ -72,8 +72,8 @@ const forcedDefinition: FormDefinition<ForcedValidationShape> = {
 				if (fieldValue && fieldValue?.indexOf('sheep') >= 0) return true
 			}
 		},
-	// prevMaxNumber: { label: 'Force number max 5', disallowChange: { maxLength: 5 } },
-	}, 
+		// prevMaxNumber: { label: 'Force number max 5', disallowChange: { maxLength: 5 } },
+	},
 }
 
 
@@ -86,88 +86,81 @@ export function Validation() {
 		<div className='validation page'>
 			<h1>Validation Tests</h1>
 
-			<Well title='Validation (Deferred)' buttonDefs={[{ text: 'Validate', onClick: () => rfDeferred.validate() }]}>
-				<div className='control-grid'>
-
-					<div className='control-row'>
-						<div className='control-cell'>
-							{rfDeferred.textInput('reqString')}
+			<FormInspector formBuilder={rfDeferred}>
+				<Well title='Validation (Deferred)' buttonDefs={[{ text: 'Validate', onClick: () => rfDeferred.validate() }]}>
+					<div className='control-grid'>
+						<div className='control-row'>
+							<div className='control-cell'>
+								{rfDeferred.textInput('reqString')}
+							</div>
+							<div className='control-cell'>
+								{rfDeferred.textInput('minString')}
+							</div>
+							<div className='control-cell'>
+								{rfDeferred.textInput('maxString')}
+							</div>
 						</div>
-						<div className='control-cell'>
-							{rfDeferred.textInput('minString')}
-						</div>
-						<div className='control-cell'>
-							{rfDeferred.textInput('maxString')}
-						</div>
-					</div>
-					<div className='control-row'>
-						<div className='control-cell'>
-							{rfDeferred.textInput('allString')}
-						</div>
-						<div className='control-cell'>
-							{rfDeferred.textInput('customString')}
-						</div>
-						<div className='control-cell'>
-							{rfDeferred.textInput('multiFnString')}
-						</div>
-					</div>
-				</div>
-
-			</Well>
-
-			<Well title='Validation (Immediate)'>
-				<div className='control-grid'>
-
-					<div className='control-row'>
-						<div className='control-cell'>
-							{rfImmediate.textInput('reqString')}
-						</div>
-						<div className='control-cell'>
-							{rfImmediate.textInput('minString')}
-						</div>
-						<div className='control-cell'>
-							{rfImmediate.textInput('maxString')}
+						<div className='control-row'>
+							<div className='control-cell'>
+								{rfDeferred.textInput('allString')}
+							</div>
+							<div className='control-cell'>
+								{rfDeferred.textInput('customString')}
+							</div>
+							<div className='control-cell'>
+								{rfDeferred.textInput('multiFnString')}
+							</div>
 						</div>
 					</div>
-					<div className='control-row'>
-						<div className='control-cell'>
-							{rfImmediate.textInput('allString')}
+				</Well>
+			</FormInspector>
+
+			<FormInspector formBuilder={rfImmediate}>
+				<Well title='Validation (Immediate)'>
+					<div className='control-grid'>
+
+						<div className='control-row'>
+							<div className='control-cell'>
+								{rfImmediate.textInput('reqString')}
+							</div>
+							<div className='control-cell'>
+								{rfImmediate.textInput('minString')}
+							</div>
+							<div className='control-cell'>
+								{rfImmediate.textInput('maxString')}
+							</div>
 						</div>
-						<div className='control-cell'>
-							{rfImmediate.textInput('customString')}
-						</div>
-						<div className='control-cell'>
-							{rfImmediate.textInput('multiFnString')}
+						<div className='control-row'>
+							<div className='control-cell'>
+								{rfImmediate.textInput('allString')}
+							</div>
+							<div className='control-cell'>
+								{rfImmediate.textInput('customString')}
+							</div>
+							<div className='control-cell'>
+								{rfImmediate.textInput('multiFnString')}
+							</div>
 						</div>
 					</div>
-				</div>
+				</Well>
+			</FormInspector>
 
-			</Well>
+			<FormInspector formBuilder={rfForced}>
+				<Well title='Validation (Forced)'>
+					<div className='control-grid'>
 
-			<Well title='Validation (Forced)'>
-				<div className='control-grid'>
-
-					<div className='control-row'>
-						<div className='control-cell'>
-							{rfForced.textInput('maxString')}
-						</div>
-						<div className='control-cell'>
-							{rfForced.textInput('customString')}
+						<div className='control-row'>
+							<div className='control-cell'>
+								{rfForced.textInput('maxString')}
+							</div>
+							<div className='control-cell'>
+								{rfForced.textInput('customString')}
+							</div>
 						</div>
 					</div>
-				</div>
+				</Well>
+			</FormInspector>
 
-			</Well>
-
-
-			<h2>Deferred Form Data</h2>
-			<DataInspector formBuilder={rfDeferred} />
-
-			<h2>Immediate Form Data</h2>
-			<DataInspector formBuilder={rfImmediate} />
-
-			<h2>Forced Form Data</h2>
-			<DataInspector formBuilder={rfForced} />
 		</div>
 	)
 }
