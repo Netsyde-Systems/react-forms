@@ -11,6 +11,7 @@ export interface DataInspectorProps {
 // custom stringify replacers to allow us to inspect file arrays
 function stringifyValueReplacer(key: any, value: any): string | void {
 	if (value?.constructor === File) return `${value.name} | ${convertBytesToKB(value.size)} kB`
+	else if (value === undefined) return 'undefined'
 	else return value
 }
 

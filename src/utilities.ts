@@ -15,29 +15,34 @@ export function iterateObject<T>(obj: T, iteratorFunction: (fieldName: keyof T, 
 }
 
 export const getTypeMap = (obj: any) => {
-	let typeMap = Object.keys(obj).reduce((typeMap, key) => {
-		const value = obj[key]
+	if (typeof obj === 'undefined') return 'undefined'
 
-		if (['string', 'number', 'boolean'].indexOf(typeof value) >= 0) {
-			typeMap[key] = typeof value
-		}
-		else if (value?.constructor === Date) {
-			typeMap[key] = 'date'
-		}
-		else if (value?.constructor === File) {
-			typeMap[key] = 'file'
-		}
-		else if (Array.isArray(value)) {
-			if (value.length === 0) {
-				typeMap[key] = 'array'
+	else {
+		let typeMap = Object.keys(obj).reduce((typeMap, key) => {
+			const value = obj[key]
+
+			if (['string', 'number', 'boolean'].indexOf(typeof value) >= 0) {
+				typeMap[key] = typeof value
+			}
+			else if (value?.constructor === Date) {
+				typeMap[key] = 'date'
+			}
+			else if (value?.constructor === File) {
+				typeMap[key] = 'file'
+			}
+			else if (Array.isArray(value)) {
+				if (value.length === 0) {
+					typeMap[key] = 'array'
+				}
+				else typeMap[key] = getTypeMap(value)
 			}
 			else typeMap[key] = getTypeMap(value)
-		}
-		else typeMap[key] = getTypeMap(value)
+
+			return typeMap
+		}, {} as any)
 
 		return typeMap
-	}, {} as any)
-	return typeMap
+	}
 }
 
 export function getUnique<T>(items: Array<T>): Array<T> {
