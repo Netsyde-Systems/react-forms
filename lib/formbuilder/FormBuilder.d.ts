@@ -39,6 +39,7 @@ export declare class FormBuilder<FormT, LanguageT extends string | undefined = u
     textArea: (fieldName: OnlyKeysOfType<FormT, string>) => JSX.Element;
     numberInput: (fieldName: OnlyKeysOfType<FormT, number>) => JSX.Element;
     dateInput: (fieldName: OnlyKeysOfType<FormT, Date>) => JSX.Element;
+    localizedDateInput: (fieldName: OnlyKeysOfType<FormT, Date>) => JSX.Element;
     postalCode: (fieldName: OnlyKeysOfType<FormT, string>) => JSX.Element;
     phoneNumber: (fieldName: OnlyKeysOfType<FormT, number>) => JSX.Element;
     emailAddress: (fieldName: OnlyKeysOfType<FormT, string>) => JSX.Element;

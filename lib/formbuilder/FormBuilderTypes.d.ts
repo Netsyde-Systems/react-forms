@@ -22,6 +22,10 @@ export declare type DisallowSpecification<FieldT> = FieldT extends string | numb
 export declare type LocalizedString<LanguageT extends string> = {
     [lang in LanguageT]: string;
 };
+export declare type LocaleLookup<LanguageT extends string> = {
+    [lang in LanguageT]: Locale;
+};
+export declare function isLocaleLookup<LanguageT extends string>(locales?: LocaleLookup<LanguageT>): locales is LocaleLookup<LanguageT>;
 export declare type ExtractLanguage<LanguageT extends string | undefined> = LanguageT extends string ? LanguageT : never;
 export declare type LangSpec<LanguageT extends string | undefined> = LanguageT extends string ? LocalizedString<LanguageT> : string;
 export declare function isLocalizedString<LanguageT extends string>(langSpec: any): langSpec is LocalizedString<LanguageT>;
@@ -37,6 +41,7 @@ export interface FieldDefinition<FormT, FieldT, LanguageT extends string | undef
     validators?: ValidatorFunction<FormT, LanguageT> | Array<ValidatorFunction<FormT, LanguageT>> | ValidatorSpecification<FieldT>;
     validateImmediately?: boolean;
     selectOptions?: FieldT extends string | number ? SelectOptionsSpecifier<FormT, FieldT, LanguageT> : never;
+    locales?: LanguageT extends string ? LocaleLookup<LanguageT> : never;
 }
 export interface SubFormDefinition<FormT, SubFormT, LanguageT extends string | undefined> {
     onChange?: FieldSpecifierFunction<FormT, FormData<FormT>, LanguageT>;

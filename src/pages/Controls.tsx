@@ -1,8 +1,6 @@
 import React from 'react'
 
-import { Locale, toIsoGmtDateString } from '../utilities'
-
-import Button, { ButtonProps } from '../button/Button'
+import { Button, ButtonProps } from '../button/Button'
 import { Well } from '../well/Well'
 import { TextInput } from '../inputs/TextInput'
 import { NumberInput } from '../inputs/NumberInput'
@@ -14,6 +12,7 @@ import { CheckBox } from '../inputs/CheckBox'
 import { TextRadio } from '../inputs/TextRadio'
 import { NumberRadio } from '../inputs/NumberRadio'
 import { DateInput } from '../inputs/DateInput'
+import { LocalizedDateInput } from '../inputs/LocalizedDateInput'
 import { MaskedInput } from '../inputs/MaskedInput'
 import { PhoneNumber } from '../inputs/PhoneNumber'
 import { PostalCode } from '../inputs/PostalCode'
@@ -22,12 +21,22 @@ import { FileInput } from '../inputs/FileInput'
 
 import './Controls.scss'
 
+import { Locale } from 'date-fns'
+import { enCA, frCA } from 'date-fns/locale'
+import { LanguageCode, dateToIsoGmtShortDateString } from '../utilities'
+
+const dateLocales: { [K in LanguageCode]: Locale } = {
+	'en-CA': enCA,
+	'fr-CA': frCA
+}
+
 function Controls() {
 
-	const [locale, setLocale] = React.useState<Locale>()
+	const [locale, setLocale] = React.useState<LanguageCode>('en-CA')
 	const [textInputValue, setTextInputValue] = React.useState<string>()
 	const [numberInputValue, setNumberInputValue] = React.useState<number>()
 	const [dateInputValue, setDateInputValue] = React.useState<Date>()
+	const [localizedDateInputValue, setLocalizedDateInputValue] = React.useState<Date>()
 	const [selectTextValue, setSelectTextValue] = React.useState<string>()
 	const [selectNumberValue, setSelectNumberValue] = React.useState<number>()
 	const [checkboxValue, setCheckboxValue] = React.useState<boolean>()
@@ -190,13 +199,14 @@ function Controls() {
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(dateInputValue)}<br/>
-							ISO GMT DATE: {toIsoGmtDateString(dateInputValue)}
+							ISO GMT DATE: {dateToIsoGmtShortDateString(dateInputValue)}
 						</div>
 						<div className='control-cell'>
-							<PhoneNumber id='txtPhoneNumber' label='Phone Number' value={phoneValue} onChange={setPhoneValue} {...sharedProperties} />
+							<LocalizedDateInput locale={dateLocales[locale]} id='locDatInput' label='Localized Date' value={localizedDateInputValue} onChange={setLocalizedDateInputValue} {...sharedProperties} />
 						</div>
 						<div className='control-cell'>
-							{nullableValueMessage(phoneValue)}
+							{nullableValueMessage(localizedDateInputValue)}<br/>
+							ISO GMT DATE: {dateToIsoGmtShortDateString(localizedDateInputValue)}
 						</div>
 					</div>
 					<div className='control-row'>
@@ -211,6 +221,18 @@ function Controls() {
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(emailValue)}
+						</div>
+					</div>
+					<div className='control-row'>
+						<div className='control-cell'>
+							<PhoneNumber id='txtPhoneNumber' label='Phone Number' value={phoneValue} onChange={setPhoneValue} {...sharedProperties} />
+						</div>
+						<div className='control-cell'>
+							{nullableValueMessage(phoneValue)}
+						</div>
+						<div className='control-cell'>
+						</div>
+						<div className='control-cell'>
 						</div>
 					</div>
 

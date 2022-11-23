@@ -1,17 +1,24 @@
 import React from 'react'
-import { FormDefinition } from '../formbuilder/FormBuilderTypes'
+import { FormDefinition, LocaleLookup } from '../formbuilder/FormBuilderTypes'
 import useReactForms from '../hooks/useReactForms'
 import FormInspector from './FormInspector'
+import { enCA, frCA } from 'date-fns/locale'
 
 import './Localization.scss'
 
 type Language = 'en' | 'fr'
+
+const locales: LocaleLookup<Language> = {
+	en: enCA, 
+	fr: frCA
+}
 
 interface TestFormShape {
 	stringProperty: string
 	numberProperty: number
 	stringDropdown: string
 	numberDropdown: number
+	dateProperty: Date
 	languageProperty: Language
 }
 
@@ -29,6 +36,13 @@ const testFormDefinition: FormDefinition<TestFormShape, Language> = {
 				en: 'a Number',
 				fr: 'un nombre'
 			}
+		},
+		dateProperty: {
+			label: {
+				en: 'a Date',
+				fr: 'une date'
+			}, 
+			locales
 		},
 		stringDropdown: {
 			label: {
@@ -132,6 +146,7 @@ export function Localization() {
 							{rf.numberSelect('numberDropdown')}
 						</div>
 						<div className='control-cell'>
+							{rf.localizedDateInput('dateProperty')}
 						</div>
 					</div>
 				</div>

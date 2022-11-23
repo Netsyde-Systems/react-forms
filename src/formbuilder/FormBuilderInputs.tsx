@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { convertToSelectOption, LocalizedOption } from './FormBuilderTypes'
+import { convertToSelectOption, isLocaleLookup, LocaleLookup, LocalizedOption } from './FormBuilderTypes'
 import { SelectOption, SelectProps } from '../inputs/inputs'
 import { FieldDefinitions, FormState, OnlyKeysOfType, FormData, isLocalizedString, getString } from "./FormBuilderTypes"
 
@@ -159,6 +159,13 @@ function getInputProps<FormT, FieldT, LanguageT extends string | undefined>(
 	if (typeof fieldDef?.isDisabled == 'boolean') disabled = fieldDef.isDisabled
 	else if (typeof fieldDef?.isDisabled == 'function') disabled = fieldDef?.isDisabled?.(fieldValue, fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData)
 
+	let locale: Locale | undefined = undefined
+	if (language && isLocaleLookup(fieldDef?.locales)) {
+		// type hack; only seems to be necessary for babel runtime.  
+		// TODO: Investigate
+		locale = (fieldDef?.locales as LocaleLookup<any>)[language]
+	}
+
 	// let's check for validation messsages
 	let errors: Array<string> = []
 	let errorMessage: string | undefined = undefined
@@ -230,7 +237,7 @@ function getInputProps<FormT, FieldT, LanguageT extends string | undefined>(
 		}
 	}
 
-	const props: InputProps<FieldT> = { id, value: formData[fieldName] as any as FieldT, label, onChange, errorMessage, hidden, disabled, required }
+	const props: InputProps<FieldT> = { id, value: formData[fieldName] as any as FieldT, label, onChange, errorMessage, hidden, disabled, required, locale }
 
 	return [props, isValid]
 }

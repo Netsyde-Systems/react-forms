@@ -72,6 +72,14 @@ export type LocalizedString<LanguageT extends string> = {
 	[lang in LanguageT]: string
 }
 
+export type LocaleLookup<LanguageT extends string> = {
+	[lang in LanguageT]: Locale
+}
+
+export function isLocaleLookup<LanguageT extends string>(locales?: LocaleLookup<LanguageT>): locales is LocaleLookup<LanguageT> {
+	return typeof locales === 'object'
+}
+
 export type ExtractLanguage<LanguageT extends string | undefined> = LanguageT extends string ? LanguageT : never
 
 export type LangSpec<LanguageT extends string | undefined> = LanguageT extends string ? LocalizedString<LanguageT> : string
@@ -112,6 +120,8 @@ export interface FieldDefinition<FormT, FieldT, LanguageT extends string | undef
 
 	// select options can only be specified for fields that are strings or numbers
 	selectOptions?: FieldT extends string | number ? SelectOptionsSpecifier<FormT, FieldT, LanguageT> : never
+
+	locales?: LanguageT extends string ? LocaleLookup<LanguageT> : never
 }
 
 // SubFormDefinition is an object where we can define the subform's behaviour

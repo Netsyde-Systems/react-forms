@@ -4,6 +4,7 @@ import TextInput from "../inputs/TextInput"
 import NumberInput from "../inputs/NumberInput"
 import TextArea from "../inputs/TextArea"
 import DateInput from "../inputs/DateInput"
+import LocalizedDateInput from "../inputs/LocalizedDateInput"
 import CheckBox from "../inputs/CheckBox"
 import TextSelect from "../inputs/TextSelect"
 import NumberSelect from "../inputs/NumberSelect"
@@ -12,10 +13,10 @@ import NumberRadio from "../inputs/NumberRadio"
 import PostalCode from "../inputs/PostalCode"
 import PhoneNumber from "../inputs/PhoneNumber"
 import EmailAddress from "../inputs/EmailAddress"
+import FileInput from "../inputs/FileInput"
 
 import { createOptionInput, createStandardInput, ReactFormsInputControl, ReactFormsOptionControl } from "./FormBuilderInputs"
 import { ExtractLanguage, FormData, FormDefinition, FormFieldTouchState, FormState, LocalizedString, OnlyKeysOfType } from "./FormBuilderTypes"
-import FileInput from "../inputs/FileInput"
 
 export type FieldNameProps<FormT, FieldT> = {
 	field: OnlyKeysOfType<FormT, FieldT>
@@ -133,6 +134,8 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 	public numberInput = (fieldName: OnlyKeysOfType<FormT, number>) => this.linkStandardControl<number>(fieldName, NumberInput)
 	
 	public dateInput = (fieldName: OnlyKeysOfType<FormT, Date>) => this.linkStandardControl(fieldName, DateInput)
+
+	public localizedDateInput = (fieldName: OnlyKeysOfType<FormT, Date>) => this.linkStandardControl(fieldName, LocalizedDateInput)
 
 	public postalCode = (fieldName: OnlyKeysOfType<FormT, string>) => this.linkStandardControl(fieldName, PostalCode)
 

@@ -3,9 +3,18 @@ export const Languages = {
 	'fr-CA': 'French', 
 }
 
-export type Locale = keyof typeof Languages
+export type LanguageCode = keyof typeof Languages
 
-export const toIsoGmtDateString = (date?: Date | null) => date?.toISOString().substring(0, 10) ?? ''
+export const dateToIsoGmtShortDateString = (date?: Date | null) => date?.toISOString().substring(0, 10) ?? ''
+
+export const shortDateStringToDate = (date?: string | null) => {
+	const dateParts = date?.split('-').map(Number)
+
+	if (dateParts && dateParts.length === 3) {
+		return new Date(dateParts[0], dateParts[1] - 1, dateParts[2])
+	}
+	else return undefined
+}
 
 // Support typed object iteration.  Hack fix to address: https://effectivetypescript.com/2020/05/26/iterate-objects/
 export function iterateObject<T>(obj: T, iteratorFunction: (fieldName: keyof T, fieldValue: T[keyof T], obj: T) => void ) {

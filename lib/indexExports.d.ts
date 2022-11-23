@@ -1,10 +1,11 @@
 export { Button, type ButtonProps, type ButtonType } from './button/Button';
 export { FormBuilder } from './formbuilder/FormBuilder';
 export { useReactForms as useFormBuilder } from './hooks/useReactForms';
-export type { OnlyKeysOfType, FieldSpecifierFunction, SelectOptionsSpecifier, FormData, FieldDefinition, FormDefinition, SubFormDefinition, LocalizedString, LocalizedOption, LangSpec, } from './formbuilder/FormBuilderTypes';
+export type { OnlyKeysOfType, FieldSpecifierFunction, SelectOptionsSpecifier, FormData, FieldDefinition, FormDefinition, SubFormDefinition, LocalizedString, LocalizedOption, LocaleLookup, LangSpec, } from './formbuilder/FormBuilderTypes';
 export { type SelectOption } from './inputs/inputs';
 export { CheckBox, type CheckBoxProps } from './inputs/CheckBox';
 export { DateInput, type DateInputProps } from './inputs/DateInput';
+export { LocalizedDateInput, type LocalizedDateInputProps } from './inputs/LocalizedDateInput';
 export { EmailAddress, type EmailAddressProps } from './inputs/EmailAddress';
 export { MaskedInput, type MaskedInputProps } from './inputs/MaskedInput';
 export { NumberInput, type NumberInputProps } from './inputs/NumberInput';

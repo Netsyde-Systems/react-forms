@@ -1,13 +1,8 @@
 import classNames from 'classnames'
-
-import { Locale } from "../utilities"
+import { Locale } from 'date-fns'
 
 export interface Activatable {
 	disabled?: boolean
-}
-
-export interface Localizable {
-	locale?: Locale
 }
 
 export interface InputProps<T> extends Activatable {
@@ -18,6 +13,7 @@ export interface InputProps<T> extends Activatable {
 	errorMessage?: string
 	required?: boolean
 	hidden?: boolean
+	locale?: Locale
 }
 
 export interface SelectOption<T extends string | number> {
