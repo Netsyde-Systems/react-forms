@@ -8,7 +8,7 @@
   ],
   "homepage": "https://netsyde-systems.github.io/react-forms/",
   "license": "MIT",
-  "version": "0.2.13",
+  "version": "0.2.14",
   "repository": {
     "type": "git",
     "url": "https://github.com/Netsyde-Systems/react-forms"
@@ -32,10 +32,11 @@
     "classnames": "^2.3.1",
     "date-fns": "^2.29.3",
     "email-validator": "^2.0.4",
-    "imask": "^6.4.2",
+    "imask": "^6.4.3",
     "react": "^18.1.0",
     "react-datepicker": "^4.8.0",
     "react-dom": "^18.1.0",
+    "react-imask": "^6.4.3",
     "sass": "^1.52.3"
   },
   "main": "lib/indexExports",

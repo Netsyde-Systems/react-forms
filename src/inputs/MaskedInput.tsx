@@ -1,7 +1,8 @@
-import React, { ChangeEventHandler } from 'react'
+import React from 'react'
 
 // Uses https://imask.js.org/ for masking logic
-import IMask from 'imask'
+import IMask, { AnyMaskedOptions, InputMask, Masked } from 'imask'
+import { IMaskInput } from 'react-imask'
 
 import { InputProps, getInputEnvelopeClass } from './inputs'
 import { InputLabel} from './InputLabel'
@@ -15,31 +16,40 @@ export interface MaskTestFunction {
 
 export interface MaskedInputProps extends InputProps<string> {
 	placeholder?: string
-	mask: string | RegExp | MaskTestFunction
+	mask: string | AnyMaskedOptions
 	type?: string
 }
 
 export function MaskedInput(props: MaskedInputProps) {
+	let mask: Masked<any>
+	
+	if (typeof props.mask === 'string' ) {
+		mask = IMask.createMask({mask: props.mask})
+	}
+	else mask = IMask.createMask(props.mask)
 
-	const mask = IMask.createMask({ mask: props.mask as any })
+	mask.value = props.value ?? ''
 
-	const maskedValue = mask.resolve(props.value || '')
+	const handleAccept = (value: unknown, mask: InputMask<AnyMaskedOptions>, e: any) => { 
+		/*
+		console.log(`value: ${value}`)
+		console.log(`mask.unmaskedValue: ${mask.unmaskedValue}`)
+		console.log(`mask.typedValue: ${mask.typedValue}`)
+		console.log(`e.target.value: ${e?.target?.value}`)
+		*/
 
-	const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => { 
-		mask.resolve(e.target.value)
-		props.onChange(mask.unmaskedValue)
+		props.onChange(value as string)
 	}
 
 	const className = getInputEnvelopeClass(props, 'text', 'input')
 
-	// Shorthand for common properties with same name, and not requiring processing.  
-	// enables more concise notation below
 	const { id, disabled, placeholder, required } = props
 
+	// TODO: try adding an input ref to see if it will help preserve state across separator and radix updates
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
-			<input type={props.type} value={maskedValue} onChange={handleChange} {...{ id, disabled, required, placeholder }} />
+			<IMaskInput value={mask.value} unmask={true} mask={mask} onAccept={handleAccept}  {...{ id, disabled, required, placeholder }} />
 			<ErrorMessage {...props} />
 		</div>
 	)

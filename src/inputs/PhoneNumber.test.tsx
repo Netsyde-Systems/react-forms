@@ -1,4 +1,5 @@
 import React from 'react'
+import userEvent from '@testing-library/user-event'
 import { render, cleanup, screen, fireEvent } from '@testing-library/react'
 import PhoneNumber from './PhoneNumber'
 
@@ -14,16 +15,39 @@ it('has correct id', () => {
 	expect(input).toHaveAttribute('id', 'txtPhoneNumber')
 })
 
-//it('calls onChange function', () => {
-//	const handleChange = jest.fn()
+it('calls onchange function', async () => {
+	const user = userEvent.setup()
+	const handlechange = jest.fn()
 
-//	const phoneNumber = render(<PhoneNumber id='txtPhoneNumber' value={undefined} onChange={handleChange} />)
-//	const input = phoneNumber.getByDisplayValue('')
+	const phonenumber = render(<PhoneNumber id='txtphonenumber' value={undefined} onChange={handlechange} />)
+	const input = phonenumber.getByDisplayValue('')
 
-//	fireEvent.change(input, { target: { value: '' } })
+	/*
+	fireEvent.change(input, { target: { value: '123' } })
+	expect(handlechange).toHaveBeenCalledWith(123)
+	*/
 
-//	expect(handleChange).toHaveBeenCalledWith('')
-//})
+	await user.type(input, '123')
+	expect(handlechange).toHaveBeenCalledTimes(3)
+	expect(handlechange).toHaveBeenLastCalledWith(123)
+})
+
+it('prevents onChange calls out of phone domain', async () => {
+	const user = userEvent.setup()
+	const handlechange = jest.fn()
+
+	const phonenumber = render(<PhoneNumber id='txtphonenumber' value={undefined} onChange={handlechange} />)
+	const input = phonenumber.getByDisplayValue('')
+
+	/*
+	fireEvent.change(input, { target: { value: '123' } })
+	expect(handlechange).toHaveBeenCalledWith(123)
+	*/
+
+	await user.type(input, '1234567890123456')
+	expect(handlechange).toHaveBeenCalledTimes(15)
+	expect(handlechange).toHaveBeenLastCalledWith(123456789012345)
+})
 
 it('has no label when not provided', () => {
 	const phoneNumber = render(<PhoneNumber id='txtPhoneNumber' onChange={() => null} value={undefined} />)

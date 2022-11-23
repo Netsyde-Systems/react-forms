@@ -1,4 +1,5 @@
 import React from 'react'
+import userEvent from '@testing-library/user-event'
 import { render, cleanup, screen, fireEvent } from '@testing-library/react'
 import MaskedInput from './MaskedInput'
 
@@ -14,15 +15,39 @@ it('has correct id', () => {
 	expect(input).toHaveAttribute('id', 'txtMaskedInput')
 })
 
-it('calls onChange function', () => {
+it('calls onChange function', async () => {
+	const user = userEvent.setup();
 	const handleChange = jest.fn()
 
-	const maskedInput = render(<MaskedInput id='txtMaskedInput' onChange={handleChange} value={'null'} mask={''} />)
+	const maskedInput = render(<MaskedInput id='txtMaskedInput' onChange={handleChange} value={undefined} mask={'a00'} />)
 	const input = maskedInput.getByDisplayValue('')
 
-	fireEvent.change(input, { target: { value: 'a00' } })
+	// fireEvent.change(input, { target: { value: 'x12' } })
+	// expect(handleChange).toHaveBeenCalledWith('x12')
 
-	expect(handleChange).toHaveBeenCalledWith('')
+	await user.type(input, 'x12')
+	expect(handleChange).toHaveBeenCalledTimes(3)
+	expect(handleChange).lastCalledWith('x12')
+})
+
+it('prevents onChange calls out of mask domain', async () => {
+	const user = userEvent.setup();
+	const handleChange = jest.fn()
+
+	const maskedInput = render(<MaskedInput id='txtMaskedInput' onChange={handleChange} value={undefined} mask={'a00'} />)
+	const input = maskedInput.getByDisplayValue('')
+
+	// fireEvent.change(input, { target: { value: 'x12' } })
+	// expect(handleChange).toHaveBeenCalledWith('x12')
+
+	await user.type(input, 'a12345')
+	/*
+	expect(handleChange).toHaveBeenCalledTimes(6)
+	expect(handleChange).lastCalledWith('a12345')
+	*/
+
+	expect(handleChange).toHaveBeenCalledTimes(3)
+	expect(handleChange).lastCalledWith('a12')
 })
 
 it('has no label when not provided', () => {

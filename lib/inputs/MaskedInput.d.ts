@@ -1,4 +1,5 @@
 /// <reference types="react" />
+import { AnyMaskedOptions } from 'imask';
 import { InputProps } from './inputs';
 import './Inputs.scss';
 export interface MaskTestFunction {
@@ -6,7 +7,7 @@ export interface MaskTestFunction {
 }
 export interface MaskedInputProps extends InputProps<string> {
     placeholder?: string;
-    mask: string | RegExp | MaskTestFunction;
+    mask: string | AnyMaskedOptions;
     type?: string;
 }
 export declare function MaskedInput(props: MaskedInputProps): JSX.Element;

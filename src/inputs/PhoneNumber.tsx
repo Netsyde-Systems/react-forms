@@ -5,9 +5,7 @@ import { InputProps } from './inputs'
 import './Inputs.scss'
 import { MaskedInput } from './MaskedInput'
 
-export interface PhoneNumberProps extends InputProps<number> {}
-
-export function PhoneNumber(props: PhoneNumberProps) {
+export function PhoneNumber(props: InputProps<number>) {
 
 	const handleChange = (textValue?: string) => {
 			const numVal = Number(textValue)
