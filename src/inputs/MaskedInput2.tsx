@@ -1,7 +1,8 @@
 import React, { ChangeEventHandler } from 'react'
 
 // Uses https://imask.js.org/ for masking logic
-import IMask, { AnyMaskedOptions, Masked } from 'imask'
+import IMask, { AnyMaskedOptions, InputMask, Masked } from 'imask'
+import { IMaskInput } from 'react-imask'
 
 import { InputProps, getInputEnvelopeClass } from './inputs'
 import { InputLabel} from './InputLabel'
@@ -27,15 +28,12 @@ export function MaskedInput(props: MaskedInputProps) {
 	}
 	else mask = IMask.createMask(props.mask)
 
-	const maskedValue = mask.resolve(props.value || '')
-
-	const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => { 
-		console.log(`value: ${e.target.value}`)
+	const handleAccept = (value: unknown, mask: InputMask<AnyMaskedOptions>, e: any) => { 
+		console.log(`value: ${e?.target?.value}`)
 		console.log(`unmaskedValue: ${mask.unmaskedValue}`)
 		console.log(`typedValue: ${mask.typedValue}`)
 
-		mask.resolve(e.target.value)
-		props.onChange(mask.unmaskedValue)
+		props.onChange(value as string)
 	}
 
 	const className = getInputEnvelopeClass(props, 'text', 'input')
@@ -45,7 +43,7 @@ export function MaskedInput(props: MaskedInputProps) {
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
-			<input type={props.type} value={maskedValue} onChange={handleChange} {...{ id, disabled, required, placeholder }} />
+			<IMaskInput value={props.value} unmask={true} mask={mask} onAccept={handleAccept}  {...{ id, disabled, required, placeholder }} />
 			<ErrorMessage {...props} />
 		</div>
 	)

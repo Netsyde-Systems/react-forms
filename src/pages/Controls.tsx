@@ -24,6 +24,7 @@ import './Controls.scss'
 import { Locale } from 'date-fns'
 import { enCA, frCA } from 'date-fns/locale'
 import { LanguageCode, dateToIsoGmtShortDateString } from '../utilities'
+import Currency from '../inputs/Currency'
 
 const dateLocales: { [K in LanguageCode]: Locale } = {
 	'en-CA': enCA,
@@ -45,6 +46,7 @@ function Controls() {
 	const [textAreaValue, setTextAreaValue] = React.useState<string>()
 	const [textMaskedValue, setMaskedValue] = React.useState<string>()
 	const [phoneValue, setPhoneValue] = React.useState<number>()
+	const [dollarValue, setDollarValue] = React.useState<number>()
 	const [postalCodeValue, setPostalCodeValue] = React.useState<string>()
 	const [emailValue, setEmailValue] = React.useState<string>()
 	const [fileValue, setFileValue] = React.useState<Array<File>>()
@@ -60,12 +62,14 @@ function Controls() {
 		setSelectTextValue(undefined)
 		setSelectNumberValue(undefined)
 		setDateInputValue(undefined)
+		setLocalizedDateInputValue(undefined)
 		setCheckboxValue(undefined)
 		setRadioValue(undefined)
 		setNumberRadioValue(undefined)
 		setTextAreaValue(undefined)
 		setMaskedValue(undefined)
 		setPhoneValue(undefined)
+		setDollarValue(undefined)
 		setPostalCodeValue(undefined)
 		setFileValue(undefined)
 	}
@@ -231,8 +235,10 @@ function Controls() {
 							{nullableValueMessage(phoneValue)}
 						</div>
 						<div className='control-cell'>
+							<Currency id='txtCurrency' label='Currency' value={dollarValue} onChange={setDollarValue} {...sharedProperties} />
 						</div>
 						<div className='control-cell'>
+							{nullableValueMessage(dollarValue)}
 						</div>
 					</div>
 
