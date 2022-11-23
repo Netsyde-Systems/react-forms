@@ -1,4 +1,5 @@
 import React from 'react'
+import userEvent from '@testing-library/user-event'
 import { render, cleanup, screen, fireEvent } from '@testing-library/react'
 import PostalCode from './PostalCode'
 
@@ -14,15 +15,38 @@ it('has correct id', () => {
 	expect(input).toHaveAttribute('id', 'txtPostalCode')
 })
 
-it('calls onChange function', () => {
+it('calls onChange function', async () => {
+	const user = userEvent.setup()
 	const handleChange = jest.fn()
 
 	const postalCode = render(<PostalCode id='txtPostalCode' value={undefined} onChange={handleChange} />)
 	const input = postalCode.getByDisplayValue('')
 
+	/*
 	fireEvent.change(input, { target: { value: 'A1A1A1' } })
-
 	expect(handleChange).toHaveBeenCalledWith('A1A1A1')
+	*/
+
+	await user.type(input, 'A1A1A1')
+	expect(handleChange).toHaveBeenCalledTimes(6)
+	expect(handleChange).toHaveBeenLastCalledWith('A1A1A1')
+})
+
+it('prevents calls out of postal code domain', async () => {
+	const user = userEvent.setup()
+	const handleChange = jest.fn()
+
+	const postalCode = render(<PostalCode id='txtPostalCode' value={undefined} onChange={handleChange} />)
+	const input = postalCode.getByDisplayValue('')
+
+	/*
+	fireEvent.change(input, { target: { value: 'A1A1A1' } })
+	expect(handleChange).toHaveBeenCalledWith('A1A1A1')
+	*/
+
+	await user.type(input, 'A1A1A1XXX')
+	expect(handleChange).toHaveBeenCalledTimes(6)
+	expect(handleChange).toHaveBeenLastCalledWith('A1A1A1')
 })
 
 it('has no label when not provided', () => {

@@ -1,7 +1,8 @@
-import React, { ChangeEventHandler } from 'react'
+import React from 'react'
 
 // Uses https://imask.js.org/ for masking logic
-import IMask, { AnyMaskedOptions, Masked } from 'imask'
+import IMask, { AnyMaskedOptions, InputMask, Masked } from 'imask'
+import { IMaskInput } from 'react-imask'
 
 import { InputProps, getInputEnvelopeClass } from './inputs'
 import { InputLabel} from './InputLabel'
@@ -27,25 +28,28 @@ export function MaskedInput(props: MaskedInputProps) {
 	}
 	else mask = IMask.createMask(props.mask)
 
-	const maskedValue = mask.resolve(props.value || '')
+	mask.value = props.value ?? ''
 
-	const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => { 
-		console.log(`value: ${e.target.value}`)
-		console.log(`unmaskedValue: ${mask.unmaskedValue}`)
-		console.log(`typedValue: ${mask.typedValue}`)
+	const handleAccept = (value: unknown, mask: InputMask<AnyMaskedOptions>, e: any) => { 
+		/*
+		console.log(`value: ${value}`)
+		console.log(`mask.unmaskedValue: ${mask.unmaskedValue}`)
+		console.log(`mask.typedValue: ${mask.typedValue}`)
+		console.log(`e.target.value: ${e?.target?.value}`)
+		*/
 
-		mask.resolve(e.target.value)
-		props.onChange(mask.unmaskedValue)
+		props.onChange(value as string)
 	}
 
 	const className = getInputEnvelopeClass(props, 'text', 'input')
 
 	const { id, disabled, placeholder, required } = props
 
+	// TODO: try adding an input ref to see if it will help preserve state across separator and radix updates
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
-			<input type={props.type} value={maskedValue} onChange={handleChange} {...{ id, disabled, required, placeholder }} />
+			<IMaskInput value={mask.value} unmask={true} mask={mask} onAccept={handleAccept}  {...{ id, disabled, required, placeholder }} />
 			<ErrorMessage {...props} />
 		</div>
 	)

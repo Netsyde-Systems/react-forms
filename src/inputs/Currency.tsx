@@ -1,19 +1,18 @@
-import { AnyMaskedOptions } from 'imask'
 import React from 'react'
 
+import { AnyMaskedOptions } from 'imask'
 import { InputProps } from './inputs'
+import { MaskedInput } from './MaskedInput'
 
 import './Inputs.scss'
-// import { MaskedInput } from './MaskedInput'
-import { MaskedInput } from './MaskedInput2'
 
 export function Currency(props: InputProps<number>) {
 
 	const handleChange = (textValue?: string) => {
-		console.log(`textValue: ${textValue}`)
+		console.log(`currency textValue: ${textValue}`)
 		const numVal = Number(textValue)
 		if (textValue === '' || isNaN(numVal)) props.onChange(undefined)
-		else props.onChange(numVal / 100.0)
+		else props.onChange(numVal)
 	}
 
 	const dollarMask: AnyMaskedOptions = {
@@ -21,12 +20,8 @@ export function Currency(props: InputProps<number>) {
 		blocks: {
 			curr: {
 				mask: Number,
-				// thousandsSeparator: ',',
-				/*
-				scale: 2, 
+				thousandsSeparator: ',',
 				radix: '.', 
-				padFractionalZeros: true
-				*/
 			}
 		}
 	}
