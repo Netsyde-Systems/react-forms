@@ -43,6 +43,7 @@ export declare class FormBuilder<FormT, LanguageT extends string | undefined = u
     postalCode: (fieldName: OnlyKeysOfType<FormT, string>) => JSX.Element;
     phoneNumber: (fieldName: OnlyKeysOfType<FormT, number>) => JSX.Element;
     emailAddress: (fieldName: OnlyKeysOfType<FormT, string>) => JSX.Element;
+    currency: (fieldName: OnlyKeysOfType<FormT, number>) => JSX.Element;
     textSelect: (fieldName: OnlyKeysOfType<FormT, string>) => JSX.Element;
     numberSelect: (fieldName: OnlyKeysOfType<FormT, number>) => JSX.Element;
     textRadio: (fieldName: OnlyKeysOfType<FormT, string>) => JSX.Element;

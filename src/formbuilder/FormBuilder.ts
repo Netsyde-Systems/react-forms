@@ -14,6 +14,7 @@ import PostalCode from "../inputs/PostalCode"
 import PhoneNumber from "../inputs/PhoneNumber"
 import EmailAddress from "../inputs/EmailAddress"
 import FileInput from "../inputs/FileInput"
+import Currency from "../inputs/Currency"
 
 import { createOptionInput, createStandardInput, ReactFormsInputControl, ReactFormsOptionControl } from "./FormBuilderInputs"
 import { ExtractLanguage, FormData, FormDefinition, FormFieldTouchState, FormState, LocalizedString, OnlyKeysOfType } from "./FormBuilderTypes"
@@ -142,6 +143,8 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 	public phoneNumber = (fieldName: OnlyKeysOfType<FormT, number>) => this.linkStandardControl(fieldName, PhoneNumber)
 
 	public emailAddress = (fieldName: OnlyKeysOfType<FormT, string>) => this.linkStandardControl(fieldName, EmailAddress)
+
+	public currency = (fieldName: OnlyKeysOfType<FormT, number>) => this.linkStandardControl(fieldName, Currency)
 
 	public textSelect = (fieldName: OnlyKeysOfType<FormT, string>) => this.linkOptionControl<string>(fieldName, TextSelect)
 

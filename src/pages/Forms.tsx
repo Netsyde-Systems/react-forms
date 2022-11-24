@@ -20,6 +20,7 @@ interface TestFormShape {
 	phoneNumber: number
 	postalCode: string
 	email: string
+	currency: number
 
 	filesProperty: Array<File>
 }
@@ -115,6 +116,10 @@ export function Forms() {
 						</div>
 						<div className='control-cell'>
 							{rf.emailAddress('email')}
+						</div>
+						<div className='control-cell'>
+							{rf.currency('currency')}
+							Note, cents input not yet working with form builder (but is when using control itself).  <br/>TODO: investigate
 						</div>
 					</div>
 
