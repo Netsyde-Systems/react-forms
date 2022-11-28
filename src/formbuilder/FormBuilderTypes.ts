@@ -39,9 +39,19 @@ export interface FieldSpecifierArguments<FormT, PropT extends keyof FormT, Langu
 }
 */
 
-// Field specifier functions take as arguments the form data, the field value and name, and returns a value
+export interface FieldSpecifierArgument<FormT, PropT extends keyof FormT, LanguageT extends string | undefined = undefined> {
+	fieldValue: FormData<FormT>[PropT]
+	fieldName: PropT
+	formData: FormData<FormT>
+	formDefinition: FormDefinition<FormT, LanguageT>
+	language?: LanguageT
+	subFormIndex?: number
+	rootFormData?: FormData<any>
+}
+
+// Field specifier functions take as arguments the form data, the field value and name, and return a value
 export interface FieldSpecifierFunction<FormT, OutputT, LanguageT extends string | undefined = undefined> {
-	(fieldValue: FormData<FormT>[typeof fieldName] | undefined, fieldName: keyof FormT, formData: FormData<FormT>, formDefinition: FormDefinition<FormT, LanguageT>, language?: LanguageT, subFormIndex?: number, rootFormData?: FormData<any>): OutputT
+	(arg: FieldSpecifierArgument<FormT, keyof FormT, LanguageT>): OutputT
 }
 
 export type LocalizedOption<ValueT extends string | number, LanguageT extends string | undefined = undefined> = {

@@ -23,7 +23,7 @@ const deferredDefinition: FormDefinition<ValidationShape> = {
 		maxString: { label: 'Max String (5)', validators: { max: 5 } },
 		allString: { label: 'Required Min 2 Max 5', isRequired: true, validators: { min: 2, max: 5 } },
 		customString: {
-			label: 'Must be of length 10 and contain "sheep"', validators: (fieldValue: any) => {
+			label: 'Must be of length 10 and contain "sheep"', validators: ({ fieldValue }) => {
 				let errors: Array<string> = []
 				if (fieldValue && fieldValue.length < 10) errors.push("Must be of at least length 10")
 				if (fieldValue && !(fieldValue.indexOf('sheep') >= 0)) errors.push("Must contain 'sheep'")
@@ -32,10 +32,10 @@ const deferredDefinition: FormDefinition<ValidationShape> = {
 		},
 		multiFnString: {
 			label: 'Must be of length 7 and contain "ducks"', validators: [
-				(fieldValue: any) => {
+				({ fieldValue }) => {
 					return (!fieldValue || fieldValue.length >= 7) ? [] : ["Must be of at least length 7"]
 				},
-				(fieldValue: any) => {
+				({ fieldValue }) => {
 					return (!fieldValue || fieldValue.indexOf('ducks') >= 0) ? [] : ["Must contain 'ducks'"]
 				},
 			]
@@ -68,14 +68,13 @@ const forcedDefinition: FormDefinition<ForcedValidationShape> = {
 
 		// figured out why string/number dichotomy exists.  Try commenting out prevMaxNumber above
 		customString: {
-			label: 'Cannot contain "sheep"', disallowChange: (fieldValue) => {
+			label: 'Cannot contain "sheep"', disallowChange: ({ fieldValue }) => {
 				if (fieldValue && fieldValue?.indexOf('sheep') >= 0) return true
 			}
 		},
 		// prevMaxNumber: { label: 'Force number max 5', disallowChange: { maxLength: 5 } },
 	},
 }
-
 
 export function Validation() {
 	const rfDeferred = useReactForms(deferredDefinition)

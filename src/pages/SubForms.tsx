@@ -60,7 +60,7 @@ const formDefinition: FormDefinition<FormShape, Language> = {
 					}, 
 					booleanProperty: {
 						// in order to make radio/checkbox labels clickable we need unique ids
-						id: (fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData) => {
+						id: ({ subFormIndex }) => {
 							return `bool_${subFormIndex}`
 						},
 						label: {

@@ -119,7 +119,7 @@ export function getLabel<FormT, FieldT, LanguageT extends string | undefined>(
 		if (typeof fieldDef.label == 'string') label = fieldDef.label
 		else if (typeof language === 'string' && isLocalizedString(fieldDef.label)) label = fieldDef.label[language]
 		else if (typeof fieldDef?.label == 'function') {
-			const langSpec = fieldDef.label(fieldValue, fieldName, formData, formDefinition)
+			const langSpec = fieldDef.label({ fieldValue, fieldName, formData, formDefinition })
 			label = getString(langSpec, language) ?? label
 		}
 	}
@@ -143,21 +143,23 @@ function getInputProps<FormT, FieldT, LanguageT extends string | undefined>(
 
 	let label = getLabel(fieldDefinitions, formData, fieldName, language)
 
+	// TODO!!! Figure out why it's permitting us to pass FieldDefinitions in place of a FormDefiniton
+	const formDefinition = fieldDefinitions
+
 	// id defaults to fieldname if not provided
 	let id = fieldName.toString()
 	if (typeof fieldDef?.id == 'string') id = fieldDef.id
-	else if (typeof fieldDef?.id == 'function') id = fieldDef.id(fieldValue, fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData)
-	// TODO!!! Figure out why it's permitting us to pass FieldDefinitions in place of a FormDefiniton
+	else if (typeof fieldDef?.id == 'function') id = fieldDef.id({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData })
 
 	// fields aren't required unless they're specified as such with a boolean or a function
 	let required = false
 	if (typeof fieldDef?.isRequired == 'boolean') required = fieldDef.isRequired
-	else if (typeof fieldDef?.isRequired == 'function') required = fieldDef.isRequired(fieldValue, fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData)
+	else if (typeof fieldDef?.isRequired == 'function') required = fieldDef.isRequired({fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData})
 
 	// fields aren't disabled unless they're specified as such with a boolean or a function
 	let disabled = false
 	if (typeof fieldDef?.isDisabled == 'boolean') disabled = fieldDef.isDisabled
-	else if (typeof fieldDef?.isDisabled == 'function') disabled = fieldDef?.isDisabled?.(fieldValue, fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData)
+	else if (typeof fieldDef?.isDisabled == 'function') disabled = fieldDef?.isDisabled?.({fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData})
 
 	let locale: Locale | undefined = undefined
 	if (language && isLocaleLookup(fieldDef?.locales)) {
@@ -171,28 +173,28 @@ function getInputProps<FormT, FieldT, LanguageT extends string | undefined>(
 	let errorMessage: string | undefined = undefined
 
 	if (required) {
-		errors.push(...requiredFieldValidator(fieldValue, fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData))
+		errors.push(...requiredFieldValidator({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData }))
 	}
 
 	if (fieldDef?.validators) {
 		// validators can be a single function
 		if (typeof fieldDef.validators === 'function') {
-			errors.push(...fieldDef.validators?.(fieldValue, fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData))
+			errors.push(...fieldDef.validators?.({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData }))
 		}
 		// or an array of functions
 		else if (Array.isArray(fieldDef.validators)) {
-			errors.push(...fieldDef.validators.flatMap(err => err(fieldValue, fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData)))
+			errors.push(...fieldDef.validators.flatMap(err => err({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData })))
 		}
 		// or a simple object specifier (for min/max and possible other things)
 		else {
 			switch (typeof fieldValue) {
 				case 'string': 
-					if (fieldDef.validators.max) errors.push(...getMaxLengthValidator(fieldDef.validators.max, label)(fieldValue, fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData))
-					if (fieldDef.validators.min) errors.push(...getMinLengthValidator(fieldDef.validators.min, label)(fieldValue, fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData))
+					if (fieldDef.validators.max) errors.push(...getMaxLengthValidator(fieldDef.validators.max, label)({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData }))
+					if (fieldDef.validators.min) errors.push(...getMinLengthValidator(fieldDef.validators.min, label)({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData }))
 					break
 				case 'number': 
-					if (fieldDef.validators.max) errors.push(...getMaxValidator(fieldDef.validators.max, label)(fieldValue, fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData))
-					if (fieldDef.validators.min) errors.push(...getMinValidator(fieldDef.validators.min, label)(fieldValue, fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData))
+					if (fieldDef.validators.max) errors.push(...getMaxValidator(fieldDef.validators.max, label)({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData }))
+					if (fieldDef.validators.min) errors.push(...getMinValidator(fieldDef.validators.min, label)({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData }))
 					break
 				case undefined: 
 					// put in this dummy case to resolve the typing issue with isHidden, below
@@ -203,7 +205,7 @@ function getInputProps<FormT, FieldT, LanguageT extends string | undefined>(
 
 	if (errors.length > 0) errorMessage = getUnique(errors).join(" | ")
 
-	const hidden = fieldDef?.isHidden?.(fieldValue, fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData)
+	const hidden = fieldDef?.isHidden?.({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData })
 
 	let isValid = !errorMessage
 
@@ -223,14 +225,14 @@ function getInputProps<FormT, FieldT, LanguageT extends string | undefined>(
 		if (typeof fieldDef?.disallowChange === 'object' && coercedFieldValue.toString().length > fieldDef.disallowChange.maxLength) {
 			return // don't perform change because we've exceeded max length
 		}
-		else if (typeof fieldDef?.disallowChange === 'function' && fieldDef.disallowChange(coercedFieldValue, fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData)) {
+		else if (typeof fieldDef?.disallowChange === 'function' && fieldDef.disallowChange({ fieldValue: coercedFieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData })) {
 			return // don't perform change because custom disallow function has told us to
 		}
 		else {
 			formData[fieldName] = coercedFieldValue
 
 			if (fieldDef?.onChange) {
-				formData = fieldDef.onChange(formData[fieldName], fieldName, formData, fieldDefinitions, language, subFormIndex, rootFormData)
+				formData = fieldDef.onChange({ fieldValue: formData[fieldName], fieldName, formData, formDefinition, language, subFormIndex, rootFormData })
 			}
 
 			onFormChange(formData)
@@ -262,7 +264,7 @@ function getSelectOptions<FormT, FieldT extends string | number, LanguageT exten
 		}
 		else if (typeof fieldDef.selectOptions == 'function') {
 			// Type HACK.  TODO: investigate
-			localizedOptions = fieldDef.selectOptions(fieldValue, fieldName, formData, formDefinition) as any as Array<LocalizedOption<FieldT, LanguageT>>
+			localizedOptions = fieldDef.selectOptions({ fieldValue, fieldName, formData, formDefinition }) as any as Array<LocalizedOption<FieldT, LanguageT>>
 		}
 	}
 

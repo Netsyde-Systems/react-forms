@@ -6,8 +6,17 @@ export declare type OnlyKeysOfType<T, V> = {
 export declare type FormData<T> = {
     [K in keyof T]?: T[K] extends Array<infer A> ? Array<FormData<A>> : T[K];
 };
+export interface FieldSpecifierArgument<FormT, PropT extends keyof FormT, LanguageT extends string | undefined = undefined> {
+    fieldValue: FormData<FormT>[PropT];
+    fieldName: PropT;
+    formData: FormData<FormT>;
+    formDefinition: FormDefinition<FormT, LanguageT>;
+    language?: LanguageT;
+    subFormIndex?: number;
+    rootFormData?: FormData<any>;
+}
 export interface FieldSpecifierFunction<FormT, OutputT, LanguageT extends string | undefined = undefined> {
-    (fieldValue: FormData<FormT>[typeof fieldName] | undefined, fieldName: keyof FormT, formData: FormData<FormT>, formDefinition: FormDefinition<FormT, LanguageT>, language?: LanguageT, subFormIndex?: number, rootFormData?: FormData<any>): OutputT;
+    (arg: FieldSpecifierArgument<FormT, keyof FormT, LanguageT>): OutputT;
 }
 export declare type LocalizedOption<ValueT extends string | number, LanguageT extends string | undefined = undefined> = {
     value: ValueT;

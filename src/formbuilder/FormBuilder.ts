@@ -212,7 +212,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 
 				let newSubForm: FormData<SubFormT> = {}
 				if (subFormDefinition?.newSubForm) {
-					newSubForm = subFormDefinition.newSubForm(this.formData[fieldName], fieldName, this.formData, this.formDefinition, this.language)
+					newSubForm = subFormDefinition.newSubForm({ fieldValue: this.formData[fieldName], fieldName, formData: this.formData, formDefinition: this.formDefinition, language: this.language })
 				}
 
 				newSubFormData.push(newSubForm)

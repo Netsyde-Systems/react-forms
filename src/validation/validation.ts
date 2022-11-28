@@ -26,37 +26,37 @@ export const isValueProvided = function (fieldValue?: any) {
 
 
 
-export const requiredFieldValidator: ValidatorFunction<any, any> = function (fieldValue, fieldName, formData, formDefinition, language) {
+export const requiredFieldValidator: ValidatorFunction<any, any> = function ({ fieldValue, fieldName, formData, formDefinition, language }) {
 	const label = getLabel(formDefinition, formData, fieldName.toString(), language)
 	return isValueProvided(fieldValue) ? 
 		[] : 
 		[`${label} is required`]
 }
 
-export const emailValidator: ValidatorFunction<any> = function (fieldValue: string) {
+export const emailValidator: ValidatorFunction<any> = function ({ fieldValue }) {
 	return isValidEmail(fieldValue) ? [] : ['Invalid email']
 }
 
 export function getMinValidator<T>(minValue: T, errorLabel: string): ValidatorFunction<any, any> {
-	return function (fieldValue: T, fieldName) {
+	return function ({ fieldValue }) {
 		return fieldValue >= minValue ? [] : [`${errorLabel} must be greater than or equal to ${minValue}`]
 	}
 }
 
 export function getMaxValidator<T>(maxValue: T, errorLabel: string): ValidatorFunction<any, any> {
-	return function (fieldValue: T, fieldName) {
+	return function ({ fieldValue }) {
 		return fieldValue <= maxValue ? [] : [`${errorLabel} must be less than or equal to ${maxValue}`]
 	}
 }
 
 export function getMinLengthValidator(minLength: number, errorLabel: string): ValidatorFunction<any, any> {
-	return function (fieldValue: string, fieldName, formData) {
+	return function ({ fieldValue }) {
 		return (!fieldValue || fieldValue.length >= minLength) ? [] : [`${errorLabel} must be at least ${minLength} characters`]
 	}
 }
 
 export function getMaxLengthValidator(maxLength: number, errorLabel: string): ValidatorFunction<any, any> {
-	return function (fieldValue: string, fieldName, formData) {
+	return function ({ fieldValue }) {
 		return (!fieldValue || fieldValue.length <= maxLength) ? [] : [`${errorLabel} must be at most ${maxLength} characters`]
 	}
 }
