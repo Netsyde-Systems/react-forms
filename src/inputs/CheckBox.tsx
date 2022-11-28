@@ -7,16 +7,13 @@ import { ErrorMessage } from './ErrorMessage'
 import './Inputs.scss'
 import './CheckBox.scss'
 
-export interface CheckBoxProps extends InputProps<boolean> { }
+export function CheckBox(props: InputProps<boolean>) {
 
-export function CheckBox(props: CheckBoxProps) {
 	const handleChange: ChangeEventHandler<HTMLInputElement> =
 		(e) => props.onChange(e.target.checked)
 
 	const className = getInputEnvelopeClass(props, 'checkbox', 'input')
 
-	// Shorthand for common properties with same name, and not requiring processing.  
-	// enables more concise notation below
 	const { id, disabled, required } = props
 
 	return (

@@ -1,15 +1,12 @@
 import React from 'react'
 
 import { SelectProps, SelectOption } from './inputs'
-import TextSelect, { TextSelectProps } from './TextSelect'
+import TextSelect from './TextSelect'
 
 import './Inputs.scss'
 
-export interface NumberSelectProps extends SelectProps<number> {
-	placeholder?: string
- }
+export function NumberSelect(props: SelectProps<number>) {
 
-export function NumberSelect(props: NumberSelectProps) {
 	let { id, value, onChange, label, errorMessage, required, hidden, placeholder, selectOptions, disabled } = props
 
 	let textValue: string | undefined = value?.toString()
@@ -18,9 +15,10 @@ export function NumberSelect(props: NumberSelectProps) {
 			if (isNaN(numVal)) props.onChange(undefined)
 			else onChange(numVal)
 	}
+
 	let textSelectOptions: Array<SelectOption<string>> = selectOptions.map(({ text, value }) => { return { text, value: value.toString() } })
 
-	let textProps: TextSelectProps = {
+	let textProps: SelectProps<string> = {
 		id, value: textValue, onChange: textOnChange, label, errorMessage, required, hidden, placeholder, selectOptions: textSelectOptions, disabled
 	}
 

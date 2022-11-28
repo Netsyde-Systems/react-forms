@@ -1,14 +1,12 @@
 import React from 'react'
 
 import { SelectProps, SelectOption } from './inputs'
-import TextRadio, { TextRadioProps } from './TextRadio'
+import TextRadio from './TextRadio'
 
 import './Inputs.scss'
 import './Radio.scss'
 
-export interface NumberRadioProps extends SelectProps<number> { }
-
-export function NumberRadio(props: NumberRadioProps) {
+export function NumberRadio(props: SelectProps<number>) {
 	let { id, value, onChange, label, errorMessage, required, hidden, selectOptions, disabled } = props
 
 	let textValue: string | undefined = value?.toString()
@@ -17,9 +15,10 @@ export function NumberRadio(props: NumberRadioProps) {
 			if (isNaN(numVal)) props.onChange(undefined)
 			else onChange(numVal)
 	}
+
 	let textSelectOptions: Array<SelectOption<string>> = selectOptions.map(({ text, value }) => { return { text, value: value.toString() } })
 
-	let textProps: TextRadioProps = {
+	let textProps: SelectProps<string> = {
 		id, value: textValue, onChange: textOnChange, label, errorMessage, required, hidden, selectOptions: textSelectOptions, disabled
 	}
 

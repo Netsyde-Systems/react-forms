@@ -6,18 +6,13 @@ import { ErrorMessage } from './ErrorMessage'
 
 import './Inputs.scss'
 
-export interface TextInputProps extends InputProps<string> {
-	placeholder?: string
- }
+export function TextInput(props: InputProps<string>) {
 
-export function TextInput(props: TextInputProps) {
 	const handleChange: ChangeEventHandler<HTMLInputElement> = 
 		(e) => props.onChange(e.target.value)
 
 	const className = getInputEnvelopeClass(props, 'text', 'input')
 
-	// Shorthand for common properties with same name, and not requiring processing.  
-	// enables more concise notation below
 	const { id, disabled, required, placeholder } = props
 
 	return (

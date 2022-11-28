@@ -13,6 +13,7 @@ export interface InputProps<T> extends Activatable {
 	errorMessage?: string
 	required?: boolean
 	hidden?: boolean
+	placeholder?: string
 	locale?: Locale
 }
 

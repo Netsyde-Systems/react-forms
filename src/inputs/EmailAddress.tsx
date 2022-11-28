@@ -4,11 +4,7 @@ import { TextInput } from './TextInput'
 import { InputProps } from './inputs'
 import { isValidEmail } from '../validation/validation'
 
-export interface EmailAddressProps extends InputProps<string> {
-	placeholder?: string
-}
-
-export function EmailAddress(props: EmailAddressProps) {
+export function EmailAddress(props: InputProps<string>) {
 
 	const clonedProps = Object.assign({}, props)
 

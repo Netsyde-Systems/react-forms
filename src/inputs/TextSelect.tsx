@@ -6,22 +6,17 @@ import { ErrorMessage } from './ErrorMessage'
 
 import './Inputs.scss'
 
-export interface TextSelectProps extends SelectProps<string> {
-	placeholder?: string
- }
-
  // html options in react can't take a null values
  // bit of a hack fix to allow returning null value.
 const NULL_STRING_VALUE = Number.MIN_SAFE_INTEGER.toString()
 
-export function TextSelect(props: TextSelectProps) {
+export function TextSelect(props: SelectProps<string>) {
+
 	const handleChange: ChangeEventHandler<HTMLSelectElement> = 
 		(e) => props.onChange(e.target.value === NULL_STRING_VALUE ? undefined : e.target.value)
 
 	const className = getInputEnvelopeClass(props, 'select', 'input')
 
-	// Shorthand for common properties with same name, and not requiring processing.  
-	// enables more concise notation below
 	const { id, disabled, required } = props
 
 	const options = props.selectOptions.map((option, optionIndex) => {

@@ -2,7 +2,5 @@
 import { InputProps } from './inputs';
 import './Inputs.scss';
 import 'react-datepicker/dist/react-datepicker.css';
-export interface LocalizedDateInputProps extends InputProps<Date> {
-}
-export declare function LocalizedDateInput(props: LocalizedDateInputProps): JSX.Element;
+export declare function LocalizedDateInput(props: InputProps<Date>): JSX.Element;
 export default LocalizedDateInput;

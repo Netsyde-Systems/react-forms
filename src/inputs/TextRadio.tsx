@@ -7,10 +7,7 @@ import { ErrorMessage } from './ErrorMessage'
 import './Inputs.scss'
 import './Radio.scss'
 
-export interface TextRadioProps extends SelectProps<string> {
-}
-
-export function TextRadio(props: TextRadioProps) {
+export function TextRadio(props: SelectProps<string>) {
 
 	const handleOptionChange: ChangeEventHandler<HTMLInputElement> = (e) => props.onChange(e.target.value) 
 

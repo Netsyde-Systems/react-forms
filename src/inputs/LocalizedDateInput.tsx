@@ -10,9 +10,8 @@ import { ErrorMessage } from './ErrorMessage'
 import './Inputs.scss'
 import 'react-datepicker/dist/react-datepicker.css'
 
-export interface LocalizedDateInputProps extends InputProps<Date> { }
+export function LocalizedDateInput(props: InputProps<Date>) {
 
-export function LocalizedDateInput(props: LocalizedDateInputProps) {
 	const handleChange = (date: Date | null) => {
 		props.onChange(date || undefined)
 	} 

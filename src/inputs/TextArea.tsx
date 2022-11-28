@@ -9,17 +9,15 @@ import './Inputs.scss'
 export interface TextAreaProps extends InputProps<string> {
 	rows?: number
 	cols?: number
-	placeholder?: string
 }
 
 export function TextArea(props: TextAreaProps) {
+
 	const handleChange: ChangeEventHandler<HTMLTextAreaElement> =
 		(e) => props.onChange(e.target.value)
 
 	const className = getInputEnvelopeClass(props, 'text', 'area')
 
-	// Shorthand for common properties with same name, and not requiring processing.  
-	// enables more concise notation below
 	const { id, disabled, required, placeholder, rows, cols } = props
 
 	return (

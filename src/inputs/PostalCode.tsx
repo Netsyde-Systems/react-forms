@@ -6,6 +6,7 @@ import './Inputs.scss'
 import { MaskedInput } from './MaskedInput'
 
 export function PostalCode(props: InputProps<string>) {
+
 	const handleChange = (val?: string) => props.onChange(val?.toUpperCase() || '')
 
 	return (

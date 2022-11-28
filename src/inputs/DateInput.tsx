@@ -8,9 +8,8 @@ import './Inputs.scss'
 
 import { dateToIsoGmtShortDateString, shortDateStringToDate } from '../utilities'
 
-export interface DateInputProps extends InputProps<Date> { }
+export function DateInput(props: InputProps<Date>) {
 
-export function DateInput(props: DateInputProps) {
 	const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
 		// props.onChange(e.target.valueAsDate || undefined)
 		const valueAsDate = shortDateStringToDate(e.target.value)

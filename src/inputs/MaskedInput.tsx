@@ -15,9 +15,7 @@ export interface MaskTestFunction {
 }
 
 export interface MaskedInputProps extends InputProps<string> {
-	placeholder?: string
 	mask: string | AnyMaskedOptions
-	type?: string
 }
 
 export function MaskedInput(props: MaskedInputProps) {
@@ -31,13 +29,6 @@ export function MaskedInput(props: MaskedInputProps) {
 	mask.value = props.value ?? ''
 
 	const handleAccept = (value: unknown, mask: InputMask<AnyMaskedOptions>, e: any) => { 
-		/*
-		console.log(`value: ${value}`)
-		console.log(`mask.unmaskedValue: ${mask.unmaskedValue}`)
-		console.log(`mask.typedValue: ${mask.typedValue}`)
-		console.log(`e.target.value: ${e?.target?.value}`)
-		*/
-
 		props.onChange(value as string)
 	}
 
@@ -45,7 +36,6 @@ export function MaskedInput(props: MaskedInputProps) {
 
 	const { id, disabled, placeholder, required } = props
 
-	// TODO: try adding an input ref to see if it will help preserve state across separator and radix updates
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
