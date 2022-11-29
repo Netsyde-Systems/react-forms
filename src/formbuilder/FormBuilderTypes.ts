@@ -15,29 +15,9 @@ export type OnlyKeysOfType<T, V> = {
 
 // export type OnlyStringKeysOfType<T, V> = OnlyKeysOfType<T, V> & string
 
-/*
-export interface FormShape {
-	[field: string]: any
-}
-*/
-
 export type FormData<T> = {
 	[K in keyof T]?: T[K] extends Array<infer A> ? Array<FormData<A>> : T[K]
 }
-
-// TODO: look into refactoring FieldSpecifier function so that uses this arguments payload instead
-/*
-export interface FieldSpecifierArguments<FormT, PropT extends keyof FormT, LanguageT extends string | undefined = undefined> {
-	fieldValue: FormData<FormT>[PropT] | undefined 
-	fieldName: keyof FormT 
-	formData: FormData<FormT> 
-	formDefinition: FormDefinition<FormT, LanguageT> 
-	language?: LanguageT
-	subFormIndex?: number
-	// TODO: look into making rootFormData type-safe
-	rootFormData: FormData<any>
-}
-*/
 
 export interface FieldSpecifierArgument<FormT, PropT extends keyof FormT, LanguageT extends string | undefined = undefined> {
 	fieldValue: FormData<FormT>[PropT]
