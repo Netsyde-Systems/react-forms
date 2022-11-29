@@ -6,8 +6,9 @@ export interface InputProps<T> extends Activatable {
     id: string;
     value: T | undefined;
     onChange: (val?: T) => void;
-    label?: string;
-    errorMessage?: string;
+    label?: string | false;
+    errorMessage?: string | false;
+    hasError?: boolean;
     required?: boolean;
     hidden?: boolean;
     placeholder?: string;

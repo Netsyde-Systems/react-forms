@@ -1,7 +1,5 @@
 /// <reference types="react" />
 import './ErrorMessage.scss';
-interface ErrorMessageProps {
-    errorMessage?: string;
-}
-export declare function ErrorMessage(props: ErrorMessageProps): JSX.Element;
+import { InputProps } from './inputs';
+export declare function ErrorMessage(props: InputProps<any>): JSX.Element;
 export default ErrorMessage;

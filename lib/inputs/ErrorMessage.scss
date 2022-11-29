@@ -7,10 +7,11 @@
 	border-radius: .2rem;
 	font-weight: bold;
 
-	// this specifies that the label should not collapse if there is only white space (prevents form jitter)
-	white-space: pre;
-
 	&.hidden {
 		visibility: hidden;
+	}
+
+	&.collapsed {
+		padding: 0;
 	}
 }

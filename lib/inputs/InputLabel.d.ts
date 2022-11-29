@@ -1,9 +1,5 @@
 /// <reference types="react" />
 import './InputLabel.scss';
-interface InputLabelProps {
-    id: string;
-    label?: string;
-    required?: boolean;
-}
-export declare function InputLabel(props: InputLabelProps): JSX.Element;
+import { InputProps } from './inputs';
+export declare function InputLabel(props: InputProps<any>): JSX.Element;
 export default InputLabel;

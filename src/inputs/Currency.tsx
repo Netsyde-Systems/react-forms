@@ -27,7 +27,7 @@ export function Currency(props: InputProps<number>) {
 	}
 
 	return (
-		<MaskedInput {...props} value={props.value?.toString() || ''} placeholder='$1,234.56' onChange={handleChange} mask={dollarMask} />
+		<MaskedInput {...props} value={props.value?.toString() || ''} placeholder='$' onChange={handleChange} mask={dollarMask} />
 	)
 }
 

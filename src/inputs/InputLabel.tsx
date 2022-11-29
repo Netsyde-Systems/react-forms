@@ -2,22 +2,19 @@ import React from 'react'
 import classNames from 'classnames'
 
 import './InputLabel.scss'
+import { InputProps } from './inputs'
 
-interface InputLabelProps {
-	id: string
-	label?: string
-	required?: boolean
-}
+export function InputLabel(props: InputProps<any>) {
+	const { id, label, required } = props
 
-export function InputLabel(props: InputLabelProps) {
-	const {id, label, required} = props
+	const className = classNames('input-label', { required })
 
-	// we add a 'none' class to indicate that there is no label (to allow css to hide the element)
-	const className = classNames('input-label', { hidden: !label }, { required })
+	// a label explicitly set to false means we don't want to reserve space for it when empty (which is the default to avoid jitter)
+	// useful for tabular forms with labels as column headers
+	const labelText = label === false ? null : label 
 
-	// we render a space if there is no error so that the span doesn't collapse (prevents form jitter)
 	return (
-		<label className={className} htmlFor={id}>{label || ' '}</label>
+		<label className={className} htmlFor={id}>{labelText}</label>
 	)
 }
 

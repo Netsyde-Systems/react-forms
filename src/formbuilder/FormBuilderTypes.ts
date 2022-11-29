@@ -132,6 +132,8 @@ export interface FieldDefinition<FormT, FieldT, LanguageT extends string | undef
 	selectOptions?: FieldT extends string | number ? SelectOptionsSpecifier<FormT, FieldT, LanguageT> : never
 
 	locales?: LanguageT extends string ? LocaleLookup<LanguageT> : never
+
+	collapseLabels?: boolean
 }
 
 // SubFormDefinition is an object where we can define the subform's behaviour

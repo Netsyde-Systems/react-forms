@@ -2,19 +2,18 @@ import React from 'react'
 import classNames from 'classnames'
 
 import './ErrorMessage.scss'
+import { InputProps } from './inputs'
 
-interface ErrorMessageProps {
-	errorMessage?: string
-}
+export function ErrorMessage(props: InputProps<any>) {
 
-export function ErrorMessage(props: ErrorMessageProps) {
+	// an error message explicitly set to false means we don't want to reserve space for it when empty (which is the default to avoid jitter)
+	// useful for tabular forms where error messages may be rendered elsewhere
+	const errorText = props.errorMessage === false ? null : (props.errorMessage)
 
-	// we add a 'none' class to indicate that there are no errors (to allow css to hide the element)
-	const className = classNames('error-message', {hidden: !props.errorMessage})
-
-	// we render a space if there is no error so that the span doesn't collapse (prevents form jitter)
+	// we add a hidden class to indicate that there are no errors (to allow css to hide the padded element)
+	const className = classNames('error-message', { hidden: !errorText, collapsed: props.errorMessage === false })
 	return (
-		<span className={className}>{props.errorMessage || ' '}</span>
+		<span className={className}>{errorText}</span>
 	)
 }
 

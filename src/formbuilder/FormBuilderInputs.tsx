@@ -189,12 +189,12 @@ function getInputProps<FormT, FieldT, LanguageT extends string | undefined>(
 		else {
 			switch (typeof fieldValue) {
 				case 'string': 
-					if (fieldDef.validators.max) errors.push(...getMaxLengthValidator(fieldDef.validators.max, label)({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData }))
-					if (fieldDef.validators.min) errors.push(...getMinLengthValidator(fieldDef.validators.min, label)({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData }))
+					if (fieldDef.validators.max) errors.push(...getMaxLengthValidator(fieldDef.validators.max, label || ' ')({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData }))
+					if (fieldDef.validators.min) errors.push(...getMinLengthValidator(fieldDef.validators.min, label || ' ')({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData }))
 					break
 				case 'number': 
-					if (fieldDef.validators.max) errors.push(...getMaxValidator(fieldDef.validators.max, label)({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData }))
-					if (fieldDef.validators.min) errors.push(...getMinValidator(fieldDef.validators.min, label)({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData }))
+					if (fieldDef.validators.max) errors.push(...getMaxValidator(fieldDef.validators.max, label || ' ')({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData }))
+					if (fieldDef.validators.min) errors.push(...getMinValidator(fieldDef.validators.min, label || ' ')({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData }))
 					break
 				case undefined: 
 					// put in this dummy case to resolve the typing issue with isHidden, below
@@ -239,7 +239,17 @@ function getInputProps<FormT, FieldT, LanguageT extends string | undefined>(
 		}
 	}
 
-	const props: InputProps<FieldT> = { id, value: formData[fieldName] as any as FieldT, label, onChange, errorMessage, hidden, disabled, required, locale }
+	const props: InputProps<FieldT> = { 
+		id, 
+		value: formData[fieldName] as any as FieldT, 
+		label: fieldDef?.collapseLabels ? false : label, 
+		errorMessage: fieldDef?.collapseLabels ? false : errorMessage, 
+		onChange, 
+		hidden, 
+		disabled, 
+		required, 
+		locale 
+	}
 
 	return [props, isValid]
 }

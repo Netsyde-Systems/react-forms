@@ -9,8 +9,13 @@ export interface InputProps<T> extends Activatable {
 	id: string
 	value: T | undefined
 	onChange: (val?: T) => void
-	label?: string
-	errorMessage?: string
+	// a label or errorMessage of false indicates we should collapse it
+	// useful for tabular displays
+	label?: string | false
+	errorMessage?: string | false
+	// true indicates we want to highlight the field but not show the error message
+	// useful for tabular displays
+	hasError?: boolean
 	required?: boolean
 	hidden?: boolean
 	placeholder?: string
@@ -27,5 +32,7 @@ export interface SelectProps<T extends string | number> extends InputProps<T> {
 }
 
 export function getInputEnvelopeClass(props: InputProps<any>, ...args: Array<string>) {
-	return classNames(...args, { 'has-errors': !!props.errorMessage }, { hidden: props.hidden }, { disabled: props.disabled })
+	const { hidden, disabled } = props
+
+	return classNames(...args, { 'has-errors': props.hasError || (typeof props.errorMessage === 'string') }, { hidden, disabled })
 }

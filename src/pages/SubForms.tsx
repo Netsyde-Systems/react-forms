@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '../button/Button'
-import { FormDefinition, FormData } from '../formbuilder/FormBuilderTypes'
+import { FormDefinition, FormData, LocalizedString } from '../formbuilder/FormBuilderTypes'
 import useReactForms from '../hooks/useReactForms'
 import FormInspector from './FormInspector'
 
@@ -11,13 +11,14 @@ type Language = 'en' | 'fr'
 interface FormShape {
 	stringProperty: string
 	numberProperty: number
-	languageProperty: Language
-	subFormsProperty: Array<SubFormShape>
+	language: Language
+	subForms: Array<SubFormShape>
 }
 
 interface SubFormShape {
-	dateProperty: Date
-	booleanProperty: boolean
+	date: Date
+	cost: number
+	exclude: boolean
 }
 
 const formDefinition: FormDefinition<FormShape, Language> = {
@@ -35,7 +36,7 @@ const formDefinition: FormDefinition<FormShape, Language> = {
 				fr: 'un nombre'
 			}
 		},
-		languageProperty: {
+		language: {
 			label: {
 				en: 'Language',
 				fr: 'le langue'
@@ -49,26 +50,23 @@ const formDefinition: FormDefinition<FormShape, Language> = {
 		}, 
 	}, 
 	subForms: {
-		subFormsProperty: {
+		subForms: {
 			formDefinition: {
 				fields: {
-					dateProperty: {
-						label: {
-							en: 'A Date',
-							fr: 'une date'
-						}
+					date: {
+						collapseLabels: true
 					}, 
-					booleanProperty: {
+					exclude: {
 						// in order to make radio/checkbox labels clickable we need unique ids
 						id: ({ subFormIndex }) => {
 							return `bool_${subFormIndex}`
 						},
-						label: {
-							en: 'A Boolean',
-							fr: 'un booléen'
-						}
+						collapseLabels: true
+					}, 
+					cost: {
+						collapseLabels: true, 
+						validators: ({ fieldValue }) => fieldValue! > 100 ? ['Error'] : []
 					}
-
 				}
 			}
 
@@ -76,13 +74,34 @@ const formDefinition: FormDefinition<FormShape, Language> = {
 	}
 }
 
-let testFormData: FormData<FormShape> = {} 
+const sumCosts = (subForms?: Array<FormData<SubFormShape>>) => {
+	if (!subForms || subForms.length === 0) return 0
+
+	else return subForms.reduce((partialSum, subForm) => {
+		if (subForm.exclude || !subForm.cost) return partialSum
+		else return partialSum + subForm.cost
+	}, 0)
+}
+
+const subFormHeaders: Record<keyof SubFormShape, LocalizedString<Language>> = {
+	date: { en: 'Date', fr: 'Date' }, 
+	cost: {en: 'Cost', fr: 'Coût'}, 
+	exclude: {en: 'Exclude', fr: 'Exclure'}, 
+}
+
+const SumLabel: LocalizedString<Language> = {
+	en: 'Sum: ', 
+	fr: 'Somme: '
+}
+
+
+let testFormData: FormData<FormShape> = { language: 'en', subForms: [{}] } 
 
 export function Localization() {
 	const rf = useReactForms(formDefinition, testFormData)
 
-	if (rf.language !== rf.formData.languageProperty) {
-		rf.setLanguage(rf.formData.languageProperty)
+	if (rf.language !== rf.formData.language) {
+		rf.setLanguage(rf.formData.language)
 	}
 
 	return (
@@ -101,38 +120,61 @@ export function Localization() {
 							{rf.numberInput('numberProperty')}
 						</div>
 						<div className='control-cell'>
-							{rf.textSelect('languageProperty')}
+							{rf.textSelect('language')}
 						</div>
 					</div>
 
 
 					<h2>Sub Forms</h2>
-					<div>TODO:  Figure out why we have to pass the SubFormShape as a generic constraint</div>
-					<div>TODO:  Figure out how to infer the shape from the field name instead</div>
-					{rf.subFormLoop<SubFormShape>('subFormsProperty', (srf, controller) => {
+					{rf.subFormPanel('subForms', (controller) => {
 						return (
-							<div className='control-row' key={controller.subFormIndex}>
-								<div className='control-cell'>
-									{srf.dateInput('dateProperty')}
-								</div>
-								<div className='control-cell'>
-									{srf.checkbox('booleanProperty')}
-								</div>
-								<div className='control-cell'>
-									<Button text='Delete' onClick={controller.deleteInstance} />
-								</div>
-							</div>
+							<Button text='Add New' onClick={controller.addInstance} />
 						)
 					})}
-					{rf.subFormPanel('subFormsProperty', (controller) => {
-						return (
-							<div className='control-row'>
-								<Button text='Add New' onClick={controller.addInstance} />
-							</div>
-						)
-					})}
+					<table>
+						<thead>
+							<tr>
+								<th>{rf.localize(subFormHeaders.date)}</th>
+								<th>{rf.localize(subFormHeaders.cost)}</th>
+								<th>{rf.localize(subFormHeaders.exclude)}</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							{rf.subFormLoop<SubFormShape>('subForms', (srf, controller) => {
+								return (
+									<tr key={controller.subFormIndex}>
+										<td>
+											{srf.dateInput('date')}
+										</td>
+										<td>
+											{srf.currency('cost')}
+										</td>
+										<td>
+											{srf.checkbox('exclude')}
+										</td>
+										<td>
+											<Button text='Delete' onClick={controller.deleteInstance} />
+										</td>
+									</tr>
+								)
+							})}
+						</tbody>
+						<tfoot>
+							<tr>
+								<td></td>
+								<td>{rf.localize(SumLabel)} ${sumCosts(rf.formData?.subForms)}</td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tfoot>
+					</table>
 				</div>
 			</div>
+			<hr/>
+			<div>TODO:  Figure out why we have to pass the SubFormShape as a generic constraint</div>
+			<div>TODO:  Figure out how to infer the shape from the field name instead</div>
+			<div>TODO:  Figure out why subform validation not working</div>
 		</FormInspector>
 	)
 }

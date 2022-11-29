@@ -51,6 +51,7 @@ export interface FieldDefinition<FormT, FieldT, LanguageT extends string | undef
     validateImmediately?: boolean;
     selectOptions?: FieldT extends string | number ? SelectOptionsSpecifier<FormT, FieldT, LanguageT> : never;
     locales?: LanguageT extends string ? LocaleLookup<LanguageT> : never;
+    collapseLabels?: boolean;
 }
 export interface SubFormDefinition<FormT, SubFormT, LanguageT extends string | undefined> {
     onChange?: FieldSpecifierFunction<FormT, FormData<FormT>, LanguageT>;
