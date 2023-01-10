@@ -1,4 +1,4 @@
-export { Button, type ButtonProps, type ButtonType } from './button/Button';
+export { Button, type ButtonProps, type ButtonType } from './inputs/Button';
 export { FormBuilder } from './formbuilder/FormBuilder';
 export { useReactForms as useFormBuilder } from './hooks/useReactForms';
 export type { OnlyKeysOfType, FieldSpecifierFunction, SelectOptionsSpecifier, FormData, FieldDefinition, FormDefinition, SubFormDefinition, LocalizedString, LocalizedOption, LocaleLookup, LangSpec, } from './formbuilder/FormBuilderTypes';
@@ -19,7 +19,8 @@ export { TextInput } from './inputs/TextInput';
 export { TextRadio } from './inputs/TextRadio';
 export { TextSelect } from './inputs/TextSelect';
 export { FileInput, type FileInputProps } from './inputs/FileInput';
-export { Well, type WellProps } from './well/Well';
+export { Well, type WellProps } from './utility-controls/Well';
 export { isValidEmail, isValueProvided, requiredFieldValidator, emailValidator } from './validation/validation';
-export { FormInspector } from './pages/FormInspector';
-export { DataInspector } from './pages/DataInspector';
+export { FormInspector } from './utility-controls/FormInspector';
+export { DataInspector } from './utility-controls/DataInspector';
+export { LanguageToggle } from './utility-controls/LanguageToggle';

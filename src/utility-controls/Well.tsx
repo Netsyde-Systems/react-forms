@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, ButtonProps } from '../button/Button'
+import { Button, ButtonProps } from '../inputs/Button'
 
 import './Well.scss'
 

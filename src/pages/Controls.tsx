@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { Button, ButtonProps } from '../button/Button'
-import { Well } from '../well/Well'
+import { Button, ButtonProps } from '../inputs/Button'
+import { Well } from '../utility-controls/Well'
 import { TextInput } from '../inputs/TextInput'
 import { NumberInput } from '../inputs/NumberInput'
 import { TextArea } from '../inputs/TextArea'

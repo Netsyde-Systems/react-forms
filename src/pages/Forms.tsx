@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormDefinition, FormData } from '../formbuilder/FormBuilderTypes'
 import useReactForms from '../hooks/useReactForms'
-import FormInspector from './FormInspector'
+import FormInspector from '../utility-controls/FormInspector'
 
 import './Forms.scss'
 

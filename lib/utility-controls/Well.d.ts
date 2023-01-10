@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonProps } from '../button/Button';
+import { ButtonProps } from '../inputs/Button';
 import './Well.scss';
 export interface WellProps extends React.PropsWithChildren {
     title?: string;

@@ -1,8 +1,8 @@
 import React from 'react'
-import Button from '../button/Button'
+import Button from '../inputs/Button'
 import { FormDefinition, FormData, LocalizedString } from '../formbuilder/FormBuilderTypes'
 import useReactForms from '../hooks/useReactForms'
-import FormInspector from './FormInspector'
+import FormInspector from '../utility-controls/FormInspector'
 
 import './SubForms.scss'
 

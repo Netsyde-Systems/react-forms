@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormDefinition, LocaleLookup } from '../formbuilder/FormBuilderTypes'
 import useReactForms from '../hooks/useReactForms'
-import FormInspector from './FormInspector'
+import FormInspector from '../utility-controls/FormInspector'
 import { enCA, frCA } from 'date-fns/locale'
 
 import './Localization.scss'

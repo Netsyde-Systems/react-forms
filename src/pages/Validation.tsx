@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormDefinition, FormData, FieldDefinitions } from '../formbuilder/FormBuilderTypes'
 import useReactForms from '../hooks/useReactForms'
-import Well from '../well/Well'
-import FormInspector from './FormInspector'
+import Well from '../utility-controls/Well'
+import FormInspector from '../utility-controls/FormInspector'
 
 import './Validation.scss'
 
