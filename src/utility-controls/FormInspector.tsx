@@ -28,7 +28,7 @@ export const FormInspector: React.FC<FormInspectorProps> = ({formBuilder, childr
 				{children}
 			</div>
 			<div className='data-inspector'>
-				<button onClick={() => setInspectorIsOpen(!inspectorIsOpen)}>{buttonText}</button>
+				<button className='inspect' onClick={() => setInspectorIsOpen(!inspectorIsOpen)}>{buttonText}</button>
 				{dataInspector}
 			</div>
 		</div>
