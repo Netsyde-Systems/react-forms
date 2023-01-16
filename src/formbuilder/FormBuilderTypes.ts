@@ -39,7 +39,7 @@ export type LocalizedOption<ValueT extends string | number, LanguageT extends st
 	text: LangSpec<LanguageT>
 }
 
-export function convertToSelectOption<ValueT extends string | number, LanguageT extends string | undefined = undefined>(localizedOption: LocalizedOption<ValueT, LanguageT>, language: LanguageT): SelectOption<ValueT> {
+export function convertToSelectOption<ValueT extends string | number, LanguageT extends string | undefined = undefined>(localizedOption: LocalizedOption<ValueT, LanguageT>, language?: LanguageT): SelectOption<ValueT> {
 	let { text: localizedText, value } = localizedOption
 
 	const text = getString(localizedText, language) ?? ''
@@ -164,11 +164,14 @@ export type FormFieldTouchState<FormT> = {
 
 // FormState is used by the form builder to determine state of the form overall
 // We separate it from FormFieldState because adding fields to the mapped FormFieldState makes later type logic tricky
-export interface FormState<FormT> {
+export interface FormState<FormT, LanguageT extends string | undefined = undefined> {
 	fieldsTouched: FormFieldTouchState<FormT>
 	hasBeenValidated: boolean
+	language?: LanguageT
+	isDisabled?: boolean
+	isReadonly?: boolean
 }
 
-export function initFormState<FormT>(formData: FormT): FormState<FormT> {
-	return {hasBeenValidated: false, fieldsTouched: {}}
+export function initFormState<FormT, LanguageT extends string | undefined = undefined>(formData: FormT, language?: LanguageT): FormState<FormT, LanguageT> {
+	return { hasBeenValidated: false, fieldsTouched: {}, language }
 }

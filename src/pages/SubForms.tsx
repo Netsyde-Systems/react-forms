@@ -100,7 +100,7 @@ let testFormData: FormData<FormShape> = { language: 'en', subForms: [{}] }
 export function Localization() {
 	const rf = useReactForms(formDefinition, testFormData)
 
-	if (rf.language !== rf.formData.language) {
+	if (rf.formState.language !== rf.formData.language) {
 		rf.setLanguage(rf.formData.language)
 	}
 

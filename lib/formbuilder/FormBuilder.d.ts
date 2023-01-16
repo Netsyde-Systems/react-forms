@@ -19,18 +19,18 @@ export interface SubFormPanelConstructor {
 export declare class FormBuilder<FormT, LanguageT extends string | undefined = undefined> {
     private formDefinition;
     formData: FormData<FormT>;
-    formState: FormState<FormT>;
-    language?: LanguageT | undefined;
+    formState: FormState<FormT, LanguageT>;
     private onFormDataUpdate?;
     private onFormStateUpdate?;
-    private onLanguageUpdate?;
     private subFormIndex?;
     private rootFormData?;
     private _isValid;
-    constructor(formDefinition: FormDefinition<FormT, LanguageT>, formData: FormData<FormT>, formState: FormState<FormT>, language?: LanguageT | undefined, onFormDataUpdate?: ((formData: FormData<FormT>) => void) | undefined, onFormStateUpdate?: ((formState: FormState<FormT>) => void) | undefined, onLanguageUpdate?: ((language: LanguageT | undefined) => void) | undefined, subFormIndex?: number | undefined, rootFormData?: FormData<any> | undefined);
+    constructor(formDefinition: FormDefinition<FormT, LanguageT>, formData: FormData<FormT>, formState: FormState<FormT, LanguageT>, onFormDataUpdate?: ((formData: FormData<FormT>) => void) | undefined, onFormStateUpdate?: ((formState: FormState<FormT, LanguageT>) => void) | undefined, subFormIndex?: number | undefined, rootFormData?: FormData<any> | undefined);
     private updateValidity;
     setLanguage: (language?: LanguageT) => void;
-    setData: (formData: FormData<FormT>, formState?: FormState<FormT>, fieldName?: keyof FormT) => void;
+    setReadOnly: (isReadOnly?: boolean) => void;
+    setDisabled: (isDisabled?: boolean) => void;
+    setData: (formData: FormData<FormT>, formState?: FormState<FormT, LanguageT>, fieldName?: keyof FormT) => void;
     setField: (fieldName: keyof FormT, fieldValue: FormData<FormT>[keyof FormT]) => void;
     private linkStandardControl;
     private linkOptionControl;

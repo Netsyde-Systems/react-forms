@@ -21,16 +21,15 @@ export interface ReactFormsOptionControl<FieldType extends string | number> {
 export function createStandardInput<FormT, FieldType, LanguageT extends string | undefined>(
 	fieldDefinitions: FieldDefinitions<FormT, LanguageT>,
 	formData: FormData<FormT>,
-	formState: FormState<FormT>,
+	formState: FormState<FormT, LanguageT>,
 	fieldName: OnlyKeysOfType<FormT, FieldType>,
 	onChange: (data: FormData<FormT>) => void, 
 	InputControl: ReactFormsInputControl<FieldType>, 
-	language: LanguageT, 
 	subFormIndex: number | undefined, 
 	rootFormData: FormData<any> | undefined
 ): [JSX.Element, boolean] { // returns the react input, as well as whether or not the field is valid
 
-	let [props, isValid] = getInputProps<FormT, FieldType, LanguageT>(fieldDefinitions, formData, formState, fieldName, onChange, language, subFormIndex, rootFormData)
+	let [props, isValid] = getInputProps<FormT, FieldType, LanguageT>(fieldDefinitions, formData, formState, fieldName, onChange, subFormIndex, rootFormData)
 
 	return [
 		InputControl(props),
@@ -41,18 +40,17 @@ export function createStandardInput<FormT, FieldType, LanguageT extends string |
 export function createOptionInput<FormT, FieldType extends string | number, LanguageT extends string | undefined>(
 	formDefinition: FieldDefinitions<FormT, LanguageT>,
 	formData: FormData<FormT>,
-	formState: FormState<FormT>,
+	formState: FormState<FormT, LanguageT>,
 	fieldName: OnlyKeysOfType<FormT, FieldType>,
 	onChange: (formData: FormData<FormT>) => void, 
 	OptionControl: ReactFormsOptionControl<FieldType>, 
-	language: LanguageT, 
 	subFormIndex: number | undefined, 
 	rootFormData: FormData<any> | undefined
 ): [JSX.Element, boolean] { // returns the react input, as well as whether or not the field is valid
 
-	const [props, isValid] = getInputProps<FormT, FieldType, LanguageT>(formDefinition, formData, formState, fieldName, onChange, language, subFormIndex, rootFormData)
+	const [props, isValid] = getInputProps<FormT, FieldType, LanguageT>(formDefinition, formData, formState, fieldName, onChange, subFormIndex, rootFormData)
 
-	const selectOptions = getSelectOptions<FormT, FieldType, LanguageT>(formDefinition, formData, fieldName, language)
+	const selectOptions = getSelectOptions<FormT, FieldType, LanguageT>(formDefinition, formData, fieldName, formState.language)
 
 	return [
 		<OptionControl {...props} selectOptions={selectOptions} />, 
@@ -71,7 +69,7 @@ export function createTextSelect<FormT, LanguageT extends string | undefined>(
 	rootFormData: FormData<any> | undefined
 ): [JSX.Element, boolean] { // returns the react input, as well as whether or not the field is valid
 
-	const [props, isValid] = getInputProps<FormT, string, LanguageT>(formDefinition, formData, formState, fieldName, onChange, language, subFormIndex, rootFormData)
+	const [props, isValid] = getInputProps<FormT, string, LanguageT>(formDefinition, formData, formState, fieldName, onChange, subFormIndex, rootFormData)
 
 	const selectOptions = getSelectOptions<FormT, string, LanguageT>(formDefinition, formData, fieldName, language)
 
@@ -92,7 +90,7 @@ export function createNumberSelect<FormT, LanguageT extends string | undefined =
 	rootFormData: FormData<any> | undefined
 ): [JSX.Element, boolean] { // returns the react input, as well as whether or not the field is valid
 
-	const [props, isValid] = getInputProps<FormT, number, LanguageT>(formDefinition, formData, formState, fieldName, onChange, language, subFormIndex, rootFormData)
+	const [props, isValid] = getInputProps<FormT, number, LanguageT>(formDefinition, formData, formState, fieldName, onChange, subFormIndex, rootFormData)
 
 	const selectOptions = getSelectOptions<FormT, number, LanguageT>(formDefinition, formData, fieldName, language)
 
@@ -130,16 +128,16 @@ export function getLabel<FormT, FieldT, LanguageT extends string | undefined>(
 function getInputProps<FormT, FieldT, LanguageT extends string | undefined>(
 	fieldDefinitions: FieldDefinitions<FormT, LanguageT>,
 	formData: FormData<FormT>,
-	formState: FormState<FormT>,
+	formState: FormState<FormT, LanguageT>,
 	fieldName: OnlyKeysOfType<FormT, FieldT>,
 	onFormChange: (formData: FormData<FormT>) => void, 
-	language: LanguageT, 
 	subFormIndex: number | undefined, 
 	rootFormData: FormData<any> | undefined
 ): [InputProps<FieldT>, boolean] { // returns the input props, as well as whether or not the field is valid
 
 	const fieldDef = fieldDefinitions[fieldName]
 	const fieldValue = formData[fieldName]
+	const { language } = formState
 
 	let label = getLabel(fieldDefinitions, formData, fieldName, language)
 
@@ -256,10 +254,10 @@ function getInputProps<FormT, FieldT, LanguageT extends string | undefined>(
 
 
 function getSelectOptions<FormT, FieldT extends string | number, LanguageT extends string | undefined = undefined>(
-	formDefinition: FieldDefinitions<FormT, any>,
+	formDefinition: FieldDefinitions<FormT, LanguageT>,
 	formData: FormData<FormT>,
 	fieldName: OnlyKeysOfType<FormT, FieldT>,
-	language: LanguageT
+	language?: LanguageT
 ): Array<SelectOption<FieldT>> { // returns the input props, as well as whether or not the field is valid
 
 	const fieldDef = formDefinition[fieldName]
