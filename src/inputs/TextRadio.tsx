@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler } from 'react'
+import { ChangeEventHandler } from 'react'
 
 import { SelectProps, getInputEnvelopeClass } from './inputs'
 import { InputLabel } from './InputLabel'
@@ -9,7 +9,7 @@ import './Radio.scss'
 
 export function TextRadio(props: SelectProps<string>) {
 
-	const handleOptionChange: ChangeEventHandler<HTMLInputElement> = (e) => props.onChange(e.target.value) 
+	const handleOptionChange: ChangeEventHandler<HTMLInputElement> = (e) => !props.readOnly && props.onChange(e.target.value) 
 
 	const className = getInputEnvelopeClass(props, 'radio', 'input')
 
@@ -17,7 +17,7 @@ export function TextRadio(props: SelectProps<string>) {
 		const radioId = props.id + optionIndex
 		return (
 			<div key={optionIndex}>
-				<input id={radioId} name={props.id} type='radio' value={option.value} checked={props.value === option.value} onChange={handleOptionChange} disabled={props.disabled} />
+				<input id={radioId} name={props.id} type='radio' value={option.value} checked={props.value === option.value} onChange={handleOptionChange} disabled={props.disabled} readOnly={props.readOnly} />
 				<label htmlFor={props.id + optionIndex}>{option.text}</label>
 			</div>
 		)

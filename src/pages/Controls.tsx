@@ -5,7 +5,7 @@ import { Well } from '../utility-controls/Well'
 import { TextInput } from '../inputs/TextInput'
 import { NumberInput } from '../inputs/NumberInput'
 import { TextArea } from '../inputs/TextArea'
-import { SelectOption } from '../inputs/inputs'
+import { InputProps, SelectOption } from '../inputs/inputs'
 import { TextSelect } from '../inputs/TextSelect'
 import { NumberSelect } from '../inputs/NumberSelect'
 import { CheckBox } from '../inputs/CheckBox'
@@ -54,7 +54,8 @@ function Controls() {
 	const [controlsHaveErrors, setControlErrors] = React.useState(false)
 	const [controlsAreDisabled, disableControls] = React.useState(false)
 	const [controlsAreHidden, hideControls] = React.useState(false)
-	const [inputsAreRequired, makeInputsRequired] = React.useState(false)
+	const [controlsAreReadOnly, makeControlsReadonly] = React.useState(false)
+	const [controlsAreRequired, makeControlsRequired] = React.useState(false)
 
 	const clearInputs = () => { 
 		setTextInputValue(undefined)
@@ -74,28 +75,33 @@ function Controls() {
 		setFileValue(undefined)
 	}
 
-	const toggleButtonText = {
+	const buttonText = {
 		clear: `Clear Inputs`, 
 		locale: `Toggle Locale (${locale})`, 
 		error: `Toggle Errors`, 
 		hidden: `Toggle Hidden`, 
-		required: `Toggle Required`, 
 		disable: `Toggle Disabled`, 
+		readonly: `Toggle Readonly`, 
+		required: `Toggle Required`, 
 	}
 
+	const getToggleButtonType = (toggleValue: boolean) => toggleValue ? 'primary' : 'secondary'
+
 	const buttonDefs: Array<ButtonProps> = [
-		{ type: 'secondary', text: toggleButtonText.clear, onClick: clearInputs }, 
-		{ type: 'secondary', text: toggleButtonText.locale, onClick: () => setLocale(locale === 'en-CA' ? 'fr-CA' : 'en-CA') }, 
-		{ type: 'secondary', text: toggleButtonText.error, onClick: () => setControlErrors(!controlsHaveErrors) }, 
-		{ type: 'secondary', text: toggleButtonText.hidden, onClick: () => hideControls(!controlsAreHidden) }, 
-		{ type: 'secondary', text: toggleButtonText.disable, onClick: () => disableControls(!controlsAreDisabled) }, 
-		{ type: 'secondary', text: toggleButtonText.required, onClick: () => makeInputsRequired(!inputsAreRequired) }, 
+		{ type: 'secondary', text: buttonText.clear, onClick: clearInputs }, 
+		{ type: 'secondary', text: buttonText.locale, onClick: () => setLocale(locale === 'en-CA' ? 'fr-CA' : 'en-CA') }, 
+		{ type: getToggleButtonType(controlsHaveErrors), text: buttonText.error, onClick: () => setControlErrors(!controlsHaveErrors) }, 
+		{ type: getToggleButtonType(controlsAreHidden), text: buttonText.hidden, onClick: () => hideControls(!controlsAreHidden) }, 
+		{ type: getToggleButtonType(controlsAreDisabled), text: buttonText.disable, onClick: () => disableControls(!controlsAreDisabled) }, 
+		{ type: getToggleButtonType(controlsAreReadOnly), text: buttonText.readonly, onClick: () => makeControlsReadonly(!controlsAreReadOnly) }, 
+		{ type: getToggleButtonType(controlsAreRequired), text: buttonText.required, onClick: () => makeControlsRequired(!controlsAreRequired) }, 
 	]
 
-	const sharedProperties = {
+	const sharedProperties: Pick<InputProps<any>, 'errorMessage' | 'disabled' | 'required' | 'readOnly' | 'hidden' > = {
 		errorMessage: controlsHaveErrors ? 'There is an Error of some sort' : undefined, 
 		disabled: controlsAreDisabled, 
-		required: inputsAreRequired, 
+		required: controlsAreRequired, 
+		readOnly: controlsAreReadOnly,
 		hidden: controlsAreHidden
 	}
 

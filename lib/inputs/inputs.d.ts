@@ -13,6 +13,7 @@ export interface InputProps<T> extends Activatable {
     hidden?: boolean;
     placeholder?: string;
     locale?: Locale;
+    readOnly?: boolean;
 }
 export interface SelectOption<T extends string | number> {
     value: T;

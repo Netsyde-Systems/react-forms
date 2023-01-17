@@ -1,11 +1,18 @@
-import React from 'react'
-
-import { SelectProps, SelectOption } from './inputs'
-import TextSelect from './TextSelect'
+import { SelectProps, SelectOption, InputProps } from './inputs'
+import { TextSelect } from './TextSelect'
+import { ReadonlyField } from './ReadonlyField'
 
 import './Inputs.scss'
 
 export function NumberSelect(props: SelectProps<number>) {
+	if (props.readOnly) {
+		const selProps = Object.assign({}, props) as InputProps<string>
+		const opt = props.selectOptions.find(o => o.value === props.value)
+
+		selProps.value = opt?.text || ''
+
+		return <ReadonlyField {...selProps} />
+	}
 
 	let { id, value, onChange, label, errorMessage, required, hidden, placeholder, selectOptions, disabled } = props
 

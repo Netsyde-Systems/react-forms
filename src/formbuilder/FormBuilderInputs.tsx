@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { convertToSelectOption, isLocaleLookup, LocaleLookup, LocalizedOption } from './FormBuilderTypes'
 import { SelectOption, SelectProps } from '../inputs/inputs'
 import { FieldDefinitions, FormState, OnlyKeysOfType, FormData, isLocalizedString, getString } from "./FormBuilderTypes"
@@ -156,8 +154,15 @@ function getInputProps<FormT, FieldT, LanguageT extends string | undefined>(
 
 	// fields aren't disabled unless they're specified as such with a boolean or a function
 	let disabled = false
-	if (typeof fieldDef?.isDisabled == 'boolean') disabled = fieldDef.isDisabled
+	if (formState.isDisabled) disabled = true
+	else if (typeof fieldDef?.isDisabled == 'boolean') disabled = fieldDef.isDisabled
 	else if (typeof fieldDef?.isDisabled == 'function') disabled = fieldDef?.isDisabled?.({fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData})
+
+	// fields aren't readOnly unless they're specified as such with a boolean or a function
+	let readOnly = false
+	if (formState.isReadonly) readOnly = true
+	else if (typeof fieldDef?.isReadOnly == 'boolean') readOnly = fieldDef.isReadOnly
+	else if (typeof fieldDef?.isReadOnly == 'function') readOnly = fieldDef?.isReadOnly?.({fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData})
 
 	let locale: Locale | undefined = undefined
 	if (language && isLocaleLookup(fieldDef?.locales)) {
@@ -245,6 +250,7 @@ function getInputProps<FormT, FieldT, LanguageT extends string | undefined>(
 		onChange, 
 		hidden, 
 		disabled, 
+		readOnly, 
 		required, 
 		locale 
 	}

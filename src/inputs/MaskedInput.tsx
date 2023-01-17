@@ -1,5 +1,3 @@
-import React from 'react'
-
 // Uses https://imask.js.org/ for masking logic
 import IMask, { AnyMaskedOptions, InputMask, Masked } from 'imask'
 import { IMaskInput } from 'react-imask'
@@ -7,6 +5,7 @@ import { IMaskInput } from 'react-imask'
 import { InputProps, getInputEnvelopeClass } from './inputs'
 import { InputLabel} from './InputLabel'
 import { ErrorMessage } from './ErrorMessage'
+import { ReadonlyField } from './ReadonlyField'
 
 import './Inputs.scss'
 
@@ -27,6 +26,10 @@ export function MaskedInput(props: MaskedInputProps) {
 	else mask = IMask.createMask(props.mask)
 
 	mask.value = props.value ?? ''
+
+	if (props.readOnly) {
+		return <ReadonlyField {...Object.assign({}, props, { value: mask.value })} />
+	}
 
 	const handleAccept = (value: unknown, mask: InputMask<AnyMaskedOptions>, e: any) => { 
 		props.onChange(value as string)

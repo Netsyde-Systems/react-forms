@@ -44,6 +44,7 @@ export interface FieldDefinition<FormT, FieldT, LanguageT extends string | undef
     label?: LangSpec<LanguageT> | FieldSpecifierFunction<FormT, LangSpec<LanguageT>, LanguageT>;
     isRequired?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT>;
     isDisabled?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT>;
+    isReadOnly?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT>;
     onChange?: FieldSpecifierFunction<FormT, FormData<FormT>, LanguageT>;
     isHidden?: FieldSpecifierFunction<FormT, boolean, LanguageT>;
     disallowChange?: FieldSpecifierFunction<FormT, boolean | undefined, LanguageT> | DisallowSpecification<FieldT>;

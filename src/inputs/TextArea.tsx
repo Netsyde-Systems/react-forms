@@ -1,8 +1,9 @@
-import React, { ChangeEventHandler } from 'react'
+import { ChangeEventHandler } from 'react'
 
 import { InputProps, getInputEnvelopeClass } from './inputs'
 import { InputLabel } from './InputLabel'
 import { ErrorMessage } from './ErrorMessage'
+import { ReadonlyField } from './ReadonlyField'
 
 import './Inputs.scss'
 
@@ -12,6 +13,7 @@ export interface TextAreaProps extends InputProps<string> {
 }
 
 export function TextArea(props: TextAreaProps) {
+	if (props.readOnly) return <ReadonlyField {...props} />
 
 	const handleChange: ChangeEventHandler<HTMLTextAreaElement> =
 		(e) => props.onChange(e.target.value)
