@@ -18,6 +18,7 @@ import Currency from "../inputs/Currency"
 
 import { createOptionInput, createStandardInput, ReactFormsInputControl, ReactFormsOptionControl } from "./FormBuilderInputs"
 import { ExtractLanguage, FormData, FormDefinition, FormFieldTouchState, FormState, LocalizedString, OnlyKeysOfType } from "./FormBuilderTypes"
+import { ElementBuilder } from "./ElementBuilder"
 
 export type FieldNameProps<FormT, FieldT> = {
 	field: OnlyKeysOfType<FormT, FieldT>
@@ -44,6 +45,7 @@ export interface SubFormPanelConstructor {
 export class FormBuilder<FormT, LanguageT extends string | undefined = undefined> {
 
 	private _isValid: boolean | undefined 
+	public ElementBuilder: ElementBuilder<FormT, LanguageT>
 
 	constructor(
 		private formDefinition: FormDefinition<FormT, LanguageT>,
@@ -55,6 +57,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		private rootFormData?: FormData<any>
 	) {
 		this._isValid = undefined
+		this.ElementBuilder = new ElementBuilder(this)
 	}
 
 	private updateValidity(isValid: boolean) {
@@ -135,8 +138,6 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 	}
 
 	public textInput = (fieldName: OnlyKeysOfType<FormT, string>) => this.linkStandardControl(fieldName, TextInput)
-	// TODO: Find out how to get around input losing focus issue
-	public TextInputElementTest = (props: FieldNameProps<FormT, string>) => this.linkStandardControl(props.field, TextInput)
 
 	public textArea = (fieldName: OnlyKeysOfType<FormT, string>) => this.linkStandardControl(fieldName, TextArea)
 

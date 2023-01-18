@@ -1,5 +1,6 @@
 import { ReactElement } from "react";
 import { ExtractLanguage, FormData, FormDefinition, FormState, LocalizedString, OnlyKeysOfType } from "./FormBuilderTypes";
+import { ElementBuilder } from "./ElementBuilder";
 export declare type FieldNameProps<FormT, FieldT> = {
     field: OnlyKeysOfType<FormT, FieldT>;
 };
@@ -25,6 +26,7 @@ export declare class FormBuilder<FormT, LanguageT extends string | undefined = u
     private subFormIndex?;
     private rootFormData?;
     private _isValid;
+    ElementBuilder: ElementBuilder<FormT, LanguageT>;
     constructor(formDefinition: FormDefinition<FormT, LanguageT>, formData: FormData<FormT>, formState: FormState<FormT, LanguageT>, onFormDataUpdate?: ((formData: FormData<FormT>) => void) | undefined, onFormStateUpdate?: ((formState: FormState<FormT, LanguageT>) => void) | undefined, subFormIndex?: number | undefined, rootFormData?: FormData<any> | undefined);
     private updateValidity;
     setLanguage: (language?: LanguageT) => void;
@@ -35,7 +37,6 @@ export declare class FormBuilder<FormT, LanguageT extends string | undefined = u
     private linkStandardControl;
     private linkOptionControl;
     textInput: (fieldName: OnlyKeysOfType<FormT, string>) => JSX.Element;
-    TextInputElementTest: (props: FieldNameProps<FormT, string>) => JSX.Element;
     textArea: (fieldName: OnlyKeysOfType<FormT, string>) => JSX.Element;
     numberInput: (fieldName: OnlyKeysOfType<FormT, number>) => JSX.Element;
     dateInput: (fieldName: OnlyKeysOfType<FormT, Date>) => JSX.Element;

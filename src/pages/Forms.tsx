@@ -61,6 +61,7 @@ let testFormData: FormData<TestFormShape> = {}
 
 export function Forms() {
 	const rf = useReactForms(testFormDefinition, testFormData)
+	const { ElementBuilder: RF } = rf
 
 	return (
 
@@ -85,6 +86,19 @@ export function Forms() {
 
 					<div className='control-row'>
 						<div className='control-cell'>
+							<RF.TextInput field='stringProperty' />
+						</div>
+						<div className='control-cell'>
+							<RF.NumberInput field='numberProperty' />
+						</div>
+						<div className='control-cell'>
+							<RF.DateInput field='dateProperty' />
+						</div>
+					</div>
+
+
+					<div className='control-row'>
+						<div className='control-cell'>
 							{rf.textSelect('selectStringProperty')}
 						</div>
 						<div className='control-cell'>
@@ -94,6 +108,19 @@ export function Forms() {
 							{rf.checkbox('checkboxProperty')}
 						</div>
 					</div>
+
+					<div className='control-row'>
+						<div className='control-cell'>
+							<RF.TextSelect field='selectStringProperty' />
+						</div>
+						<div className='control-cell'>
+							<RF.NumberSelect field='selectNumberProperty' />
+						</div>
+						<div className='control-cell'>
+							<RF.CheckBox field='checkboxProperty' />
+						</div>
+					</div>
+
 
 					<div className='control-row'>
 						<div className='control-cell'>
@@ -109,6 +136,19 @@ export function Forms() {
 
 					<div className='control-row'>
 						<div className='control-cell'>
+							<RF.TextRadio field='radioStringProperty' />
+						</div>
+						<div className='control-cell'>
+							<RF.NumberRadio field='radioNumberProperty' />
+						</div>
+						<div className='control-cell'>
+							<RF.TextArea field='longStringProperty' />
+						</div>
+					</div>
+
+
+					<div className='control-row'>
+						<div className='control-cell'>
 							{rf.phoneNumber('phoneNumber')}
 						</div>
 						<div className='control-cell'>
@@ -119,23 +159,31 @@ export function Forms() {
 						</div>
 						<div className='control-cell'>
 							{rf.currency('currency')}
+						</div>
+					</div>
+
+					<div className='control-row'>
+						<div className='control-cell'>
+							<RF.PhoneNumber field='phoneNumber' />
+						</div>
+						<div className='control-cell'>
+							<RF.PostalCode field='postalCode' />
+						</div>
+						<div className='control-cell'>
+							<RF.EmailAddress field='email' />
+						</div>
+						<div className='control-cell'>
+							<RF.Currency field='currency' />
 							Note, cents input not yet working with form builder (but is when using control itself).  <br/>TODO: investigate
 						</div>
 					</div>
 
+
 					<div>
 						{rf.files('filesProperty')}
 					</div>
-
-					<h2>JSX Tests</h2>
-					<p>
-						TODO: Fix 'input losing focus' issue when calling property via JSX
-					</p>
-
-					<div className='control-row'>
-						<div className='control-cell'>
-							<rf.TextInputElementTest field='stringProperty' />
-						</div>
+					<div>
+						<RF.Files field='filesProperty' />
 					</div>
 
 				</div>
