@@ -1,5 +1,4 @@
-import React from 'react'
-import { FormDefinition, FormData } from '../formbuilder/FormBuilderTypes'
+import { FormDefinition } from '../formbuilder/FormBuilderTypes'
 import useReactForms from '../hooks/useReactForms'
 import FormInspector from '../utility-controls/FormInspector'
 
@@ -57,10 +56,8 @@ const testFormDefinition: FormDefinition<TestFormShape> = {
 	}, 
 }
 
-let testFormData: FormData<TestFormShape> = {}
-
 export function Forms() {
-	const rf = useReactForms(testFormDefinition, testFormData)
+	const rf = useReactForms(testFormDefinition)
 	const { ElementBuilder: RF } = rf
 
 	return (

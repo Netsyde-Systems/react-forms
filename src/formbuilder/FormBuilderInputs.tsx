@@ -215,7 +215,7 @@ function getInputProps<FormT, FieldT, LanguageT extends string | undefined>(
 	// error message is only shown if 
 	// 1. We want it to be shown immediately and the field has been touched (we give user immediate input as they're typing)
 	// 2. Form has been validated (give user feedback only after submit attempt)
-	if ((fieldDef?.validateImmediately && formState.fieldsTouched[fieldName]) || formState.hasBeenValidated) { /* errorMessage already initiated */ }
+	if ((fieldDef?.validateImmediately && formState.fieldsTouched?.[fieldName]) || formState.hasBeenValidated) { /* errorMessage already initiated */ }
 	else {
 		errorMessage = undefined
 	}

@@ -86,7 +86,10 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		this.formData = formData
 		this.formState = formState ?? this.formState
 
-		if (fieldName) this.formState.fieldsTouched[fieldName] = true
+		if (fieldName) {
+			this.formState.fieldsTouched ??= {}
+			this.formState.fieldsTouched[fieldName] = true
+		}
 
 		this.onFormDataUpdate?.(this.formData)
 		this.onFormStateUpdate?.(this.formState)
@@ -97,6 +100,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		let newFormState = Object.assign({}, this.formState)
 
 		newFormData[fieldName] = fieldValue
+		newFormState.fieldsTouched ??= {}
 		newFormState.fieldsTouched[fieldName] = true
 
 		this.setData(newFormData, newFormState)
@@ -181,7 +185,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		const subFormData = (this.formData[fieldName] ?? []) as Array<FormData<SubFormT>>
 
 		const elements = subFormData?.map((subFormDatum, rowIndex) => {
-			const fieldsTouched = (this.formState.fieldsTouched[fieldName] ?? []) as Array<FormFieldTouchState<SubFormT>>
+			const fieldsTouched = (this.formState.fieldsTouched?.[fieldName] ?? []) as Array<FormFieldTouchState<SubFormT>>
 
 			const { hasBeenValidated, language, isDisabled, isReadonly } = this.formState
 

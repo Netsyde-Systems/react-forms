@@ -75,10 +75,9 @@ export declare type FormFieldTouchState<FormT> = {
     [key in keyof FormT]?: boolean;
 };
 export interface FormState<FormT, LanguageT extends string | undefined = undefined> {
-    fieldsTouched: FormFieldTouchState<FormT>;
-    hasBeenValidated: boolean;
+    fieldsTouched?: FormFieldTouchState<FormT>;
+    hasBeenValidated?: boolean;
     language?: LanguageT;
     isDisabled?: boolean;
     isReadonly?: boolean;
 }
-export declare function initFormState<FormT, LanguageT extends string | undefined = undefined>(formData: FormT, language?: LanguageT): FormState<FormT, LanguageT>;

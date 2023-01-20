@@ -113,7 +113,7 @@ const testFormDefinition: FormDefinition<TestFormShape, Language> = {
 
 
 export function Localization() {
-	const rf = useReactForms(testFormDefinition, { languageProperty: 'en' })
+	const rf = useReactForms(testFormDefinition)
 
 	if (rf.formState.language !== rf.formData.languageProperty) {
 		rf.setLanguage(rf.formData.languageProperty)
