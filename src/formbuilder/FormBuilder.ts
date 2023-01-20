@@ -17,7 +17,7 @@ import FileInput from "../inputs/FileInput"
 import Currency from "../inputs/Currency"
 
 import { createOptionInput, createStandardInput, ReactFormsInputControl, ReactFormsOptionControl } from "./FormBuilderInputs"
-import { ExtractLanguage, FormData, FormDefinition, FormFieldTouchState, FormState, LocalizedString, OnlyKeysOfType } from "./FormBuilderTypes"
+import { ExtractLanguage, FormData, FormDefinition, FormFieldMap, FormState, LocalizedString, OnlyKeysOfType } from "./FormBuilderTypes"
 import { ElementBuilder } from "./ElementBuilder"
 
 export type FieldNameProps<FormT, FieldT> = {
@@ -44,7 +44,6 @@ export interface SubFormPanelConstructor {
 // The FormBuilder class links form data to actual form fields that we can render in react.
 export class FormBuilder<FormT, LanguageT extends string | undefined = undefined> {
 
-	private _isValid: boolean | undefined 
 	public ElementBuilder: ElementBuilder<FormT, LanguageT>
 
 	constructor(
@@ -56,15 +55,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		private subFormIndex?: number, 
 		private rootFormData?: FormData<any>
 	) {
-		this._isValid = undefined
 		this.ElementBuilder = new ElementBuilder(this)
-	}
-
-	private updateValidity(isValid: boolean) {
-		// form is set to field validity if this is the first control rendered
-		if (this._isValid === undefined) this._isValid = isValid
-		// otherwise we or it with the validity of all other fields rendered to see if form as a whole is valid
-		else this._isValid = this._isValid && isValid
 	}
 
 	public setLanguage = (language?: LanguageT) => {
@@ -117,9 +108,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 			this.setData(formData, newFormState, fieldName)
 		}
 
-		const [inputControl, isValid] = createStandardInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, InputControl, this.subFormIndex, this.rootFormData)
-
-		this.updateValidity(isValid)
+		const inputControl = createStandardInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, InputControl, this.subFormIndex, this.rootFormData)
 
 		return inputControl
 	}
@@ -134,9 +123,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 			this.setData(formData, newFormState, fieldName)
 		}
 
-		const [inputControl, isValid] = createOptionInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, OptionControl, this.subFormIndex, this.rootFormData)
-
-		this.updateValidity(isValid)
+		const inputControl = createOptionInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, OptionControl, this.subFormIndex, this.rootFormData)
 
 		return inputControl
 	}
@@ -185,7 +172,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		const subFormData = (this.formData[fieldName] ?? []) as Array<FormData<SubFormT>>
 
 		const elements = subFormData?.map((subFormDatum, rowIndex) => {
-			const fieldsTouched = (this.formState.fieldsTouched?.[fieldName] ?? []) as Array<FormFieldTouchState<SubFormT>>
+			const fieldsTouched = (this.formState.fieldsTouched?.[fieldName] ?? []) as Array<FormFieldMap<SubFormT, boolean>>
 
 			const { hasBeenValidated, language, isDisabled, isReadonly } = this.formState
 
@@ -242,7 +229,12 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		return subFormPanelConstructor(subFormController) 
 	}
 
-	public get isValid() { return this._isValid }
+	public get isValid() { 
+		this.formState.fieldErrorConditions ??= {}
+
+		const isValid = !(Object.values(this.formState.fieldErrorConditions) as Array<string>).some(Boolean)
+		return isValid
+	}
 
 	public localize<LT extends ExtractLanguage<LanguageT>>(localizedString: LocalizedString<LT>, defaultLocalization?: string): string {
 		const { language } = this.formState

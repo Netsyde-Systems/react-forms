@@ -25,14 +25,11 @@ export function createStandardInput<FormT, FieldType, LanguageT extends string |
 	InputControl: ReactFormsInputControl<FieldType>, 
 	subFormIndex: number | undefined, 
 	rootFormData: FormData<any> | undefined
-): [JSX.Element, boolean] { // returns the react input, as well as whether or not the field is valid
+): JSX.Element { 
 
-	let [props, isValid] = getInputProps<FormT, FieldType, LanguageT>(fieldDefinitions, formData, formState, fieldName, onChange, subFormIndex, rootFormData)
+	let props = getInputProps<FormT, FieldType, LanguageT>(fieldDefinitions, formData, formState, fieldName, onChange, subFormIndex, rootFormData)
 
-	return [
-		InputControl(props),
-		isValid
-	]
+	return InputControl(props)
 }
 
 export function createOptionInput<FormT, FieldType extends string | number, LanguageT extends string | undefined>(
@@ -44,16 +41,13 @@ export function createOptionInput<FormT, FieldType extends string | number, Lang
 	OptionControl: ReactFormsOptionControl<FieldType>, 
 	subFormIndex: number | undefined, 
 	rootFormData: FormData<any> | undefined
-): [JSX.Element, boolean] { // returns the react input, as well as whether or not the field is valid
+): JSX.Element { 
 
-	const [props, isValid] = getInputProps<FormT, FieldType, LanguageT>(formDefinition, formData, formState, fieldName, onChange, subFormIndex, rootFormData)
+	const props = getInputProps<FormT, FieldType, LanguageT>(formDefinition, formData, formState, fieldName, onChange, subFormIndex, rootFormData)
 
 	const selectOptions = getSelectOptions<FormT, FieldType, LanguageT>(formDefinition, formData, fieldName, formState.language)
 
-	return [
-		<OptionControl {...props} selectOptions={selectOptions} />, 
-		isValid
-	]
+	return <OptionControl {...props} selectOptions={selectOptions} />
 }
 
 export function createTextSelect<FormT, LanguageT extends string | undefined>(
@@ -65,16 +59,13 @@ export function createTextSelect<FormT, LanguageT extends string | undefined>(
 	language: LanguageT, 
 	subFormIndex: number | undefined, 
 	rootFormData: FormData<any> | undefined
-): [JSX.Element, boolean] { // returns the react input, as well as whether or not the field is valid
+): JSX.Element { 
 
-	const [props, isValid] = getInputProps<FormT, string, LanguageT>(formDefinition, formData, formState, fieldName, onChange, subFormIndex, rootFormData)
+	const props = getInputProps<FormT, string, LanguageT>(formDefinition, formData, formState, fieldName, onChange, subFormIndex, rootFormData)
 
 	const selectOptions = getSelectOptions<FormT, string, LanguageT>(formDefinition, formData, fieldName, language)
 
-	return [
-		<TextSelect {...props} selectOptions={selectOptions} />, 
-		isValid
-	]
+	return <TextSelect {...props} selectOptions={selectOptions} />
 }
 
 export function createNumberSelect<FormT, LanguageT extends string | undefined = undefined>(
@@ -86,16 +77,13 @@ export function createNumberSelect<FormT, LanguageT extends string | undefined =
 	language: LanguageT, 
 	subFormIndex: number | undefined, 
 	rootFormData: FormData<any> | undefined
-): [JSX.Element, boolean] { // returns the react input, as well as whether or not the field is valid
+): JSX.Element { 
 
-	const [props, isValid] = getInputProps<FormT, number, LanguageT>(formDefinition, formData, formState, fieldName, onChange, subFormIndex, rootFormData)
+	const props = getInputProps<FormT, number, LanguageT>(formDefinition, formData, formState, fieldName, onChange, subFormIndex, rootFormData)
 
 	const selectOptions = getSelectOptions<FormT, number, LanguageT>(formDefinition, formData, fieldName, language)
 
-	return [
-		<NumberSelect {...props} selectOptions={selectOptions} />, 
-		isValid
-	]
+	return <NumberSelect {...props} selectOptions={selectOptions} />
 }
 
 export function getLabel<FormT, FieldT, LanguageT extends string | undefined>(
@@ -131,7 +119,7 @@ function getInputProps<FormT, FieldT, LanguageT extends string | undefined>(
 	onFormChange: (formData: FormData<FormT>) => void, 
 	subFormIndex: number | undefined, 
 	rootFormData: FormData<any> | undefined
-): [InputProps<FieldT>, boolean] { // returns the input props, as well as whether or not the field is valid
+): InputProps<FieldT> { 
 
 	const fieldDef = fieldDefinitions[fieldName]
 	const fieldValue = formData[fieldName]
@@ -173,7 +161,7 @@ function getInputProps<FormT, FieldT, LanguageT extends string | undefined>(
 
 	// let's check for validation messsages
 	let errors: Array<string> = []
-	let errorMessage: string | undefined = undefined
+	let errorCondition: string | undefined = undefined
 
 	if (required) {
 		errors.push(...requiredFieldValidator({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData }))
@@ -206,15 +194,14 @@ function getInputProps<FormT, FieldT, LanguageT extends string | undefined>(
 		}
 	}
 
-	if (errors.length > 0) errorMessage = getUnique(errors).join(" | ")
+	if (errors.length > 0) errorCondition = getUnique(errors).join(" | ")
 
 	const hidden = fieldDef?.isHidden?.({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData })
-
-	let isValid = !errorMessage
 
 	// error message is only shown if 
 	// 1. We want it to be shown immediately and the field has been touched (we give user immediate input as they're typing)
 	// 2. Form has been validated (give user feedback only after submit attempt)
+	let errorMessage = errorCondition
 	if ((fieldDef?.validateImmediately && formState.fieldsTouched?.[fieldName]) || formState.hasBeenValidated) { /* errorMessage already initiated */ }
 	else {
 		errorMessage = undefined
@@ -255,7 +242,10 @@ function getInputProps<FormT, FieldT, LanguageT extends string | undefined>(
 		locale 
 	}
 
-	return [props, isValid]
+	formState.fieldErrorConditions ??= {}
+	formState.fieldErrorConditions[fieldName] = errorCondition
+
+	return props
 }
 
 

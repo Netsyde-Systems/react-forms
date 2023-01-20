@@ -25,10 +25,8 @@ export declare class FormBuilder<FormT, LanguageT extends string | undefined = u
     private onFormStateUpdate?;
     private subFormIndex?;
     private rootFormData?;
-    private _isValid;
     ElementBuilder: ElementBuilder<FormT, LanguageT>;
     constructor(formDefinition: FormDefinition<FormT, LanguageT>, formData: FormData<FormT>, formState: FormState<FormT, LanguageT>, onFormDataUpdate?: ((formData: FormData<FormT>) => void) | undefined, onFormStateUpdate?: ((formState: FormState<FormT, LanguageT>) => void) | undefined, subFormIndex?: number | undefined, rootFormData?: FormData<any> | undefined);
-    private updateValidity;
     setLanguage: (language?: LanguageT) => void;
     setReadOnly: (isReadOnly?: boolean) => void;
     setDisabled: (isDisabled?: boolean) => void;
@@ -54,7 +52,7 @@ export declare class FormBuilder<FormT, LanguageT extends string | undefined = u
     validate(): void;
     subFormLoop<SubFormT>(fieldName: OnlyKeysOfType<FormT, Array<SubFormT>>, subFormConstructor: SubFormLoopConstructor<SubFormT, LanguageT>): Array<ReactElement>;
     subFormPanel<SubFormT>(fieldName: OnlyKeysOfType<FormT, Array<SubFormT>>, subFormPanelConstructor: SubFormPanelConstructor): ReactElement;
-    get isValid(): boolean | undefined;
+    get isValid(): boolean;
     localize<LT extends ExtractLanguage<LanguageT>>(localizedString: LocalizedString<LT>, defaultLocalization?: string): string;
 }
 export default FormBuilder;

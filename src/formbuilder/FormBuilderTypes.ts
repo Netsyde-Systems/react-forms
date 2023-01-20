@@ -159,14 +159,18 @@ export type FormDefinition<FormT, LanguageT extends string | undefined = undefin
 	subForms?: SubFormDefinitions<FormT, LanguageT>
 }
 
-export type FormFieldTouchState<FormT> = {
-	[key in keyof FormT]?: boolean
+export type FormFieldMap<FormT, DataT> = {
+	[key in keyof FormT]?: DataT
 } 
+
 
 // FormState is used by the form builder to determine state of the form overall
 // We separate it from FormFieldState because adding fields to the mapped FormFieldState makes later type logic tricky
 export interface FormState<FormT, LanguageT extends string | undefined = undefined> {
-	fieldsTouched?: FormFieldTouchState<FormT>
+	// TODO: make fieldsTouched & fieldsValid required, and allow assigning by partial in formbuilder
+	// will make code much cleaner and avoid repetetive existence checks
+	fieldsTouched?: FormFieldMap<FormT, boolean>
+	fieldErrorConditions?: FormFieldMap<FormT, string>
 	hasBeenValidated?: boolean
 	language?: LanguageT
 	isDisabled?: boolean

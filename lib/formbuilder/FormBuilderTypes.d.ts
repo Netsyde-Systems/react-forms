@@ -71,11 +71,12 @@ export declare type FormDefinition<FormT, LanguageT extends string | undefined =
     fields?: FieldDefinitions<FormT, LanguageT>;
     subForms?: SubFormDefinitions<FormT, LanguageT>;
 };
-export declare type FormFieldTouchState<FormT> = {
-    [key in keyof FormT]?: boolean;
+export declare type FormFieldMap<FormT, DataT> = {
+    [key in keyof FormT]?: DataT;
 };
 export interface FormState<FormT, LanguageT extends string | undefined = undefined> {
-    fieldsTouched?: FormFieldTouchState<FormT>;
+    fieldsTouched?: FormFieldMap<FormT, boolean>;
+    fieldErrorConditions?: FormFieldMap<FormT, string>;
     hasBeenValidated?: boolean;
     language?: LanguageT;
     isDisabled?: boolean;
