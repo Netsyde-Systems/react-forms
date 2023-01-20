@@ -20,6 +20,7 @@ export const isValueProvided = function (fieldValue?: any) {
 		case 'boolean': return true // booleans are present whether true of false
 		case 'number': return true // numbers are present whether 0 (falsy) or numeric (truthy)
 		case 'string': return !!fieldValue // strings are not present when empty
+		case 'object': return true // objects such as dates and possibly files are present
 		default: return false
 	}
 }

@@ -1,5 +1,4 @@
-import React from 'react'
-import { FormDefinition, FormData, FieldDefinitions } from '../formbuilder/FormBuilderTypes'
+import { FormDefinition, FieldDefinitions } from '../formbuilder/FormBuilderTypes'
 import useReactForms from '../hooks/useReactForms'
 import Well from '../utility-controls/Well'
 import FormInspector from '../utility-controls/FormInspector'
@@ -13,29 +12,38 @@ interface ValidationShape {
 	allString: string
 	customString: string
 	multiFnString: string
+	reqDate: Date
 }
 
 // this form definition is validated only after the validate button is pressed
 const deferredDefinition: FormDefinition<ValidationShape> = {
 	fields: {
 		reqString: { label: 'Required String', isRequired: true },
+		reqDate: { label: 'Required Date', isRequired: true },
 		minString: { label: 'Min String (2)', validators: { min: 2 } },
 		maxString: { label: 'Max String (5)', validators: { max: 5 } },
 		allString: { label: 'Required Min 2 Max 5', isRequired: true, validators: { min: 2, max: 5 } },
 		customString: {
-			label: 'Must be of length 10 and contain "sheep"', validators: ({ fieldValue }) => {
+			// TODO: figure out why adding a date field above makes fieldValue ambiguous as to whether it's a string or date
+			label: 'Must be of length 10 and contain "sheep"', validators: ({ formData /*, fieldValue */ }) => {
 				let errors: Array<string> = []
+
+				const fieldValue = formData.customString
+
 				if (fieldValue && fieldValue.length < 10) errors.push("Must be of at least length 10")
 				if (fieldValue && !(fieldValue.indexOf('sheep') >= 0)) errors.push("Must contain 'sheep'")
 				return errors
 			}
 		},
 		multiFnString: {
+			// TODO: figure out why adding a date field above makes fieldValue ambiguous as to whether it's a string or date
 			label: 'Must be of length 7 and contain "ducks"', validators: [
-				({ fieldValue }) => {
+				({ formData /*,  fieldValue */ }) => {
+					const fieldValue = formData.customString
 					return (!fieldValue || fieldValue.length >= 7) ? [] : ["Must be of at least length 7"]
 				},
-				({ fieldValue }) => {
+				({ formData /*,  fieldValue */ }) => {
+					const fieldValue = formData.customString
 					return (!fieldValue || fieldValue.indexOf('ducks') >= 0) ? [] : ["Must contain 'ducks'"]
 				},
 			]
@@ -45,9 +53,15 @@ const deferredDefinition: FormDefinition<ValidationShape> = {
 
 // this form definition validated as soon as the user begins typing into an input 
 const immediateFieldDefinitions: FieldDefinitions<ValidationShape> = Object.entries(deferredDefinition.fields!).reduce((formDef, [key, fieldDef]) => {
+	/*
 	let typedKey = key as keyof FormData<ValidationShape>
 	formDef[typedKey] = Object.assign({}, fieldDef)
 	formDef[typedKey]!.validateImmediately = true
+	*/
+
+	// TODO: find out why adding a date to the form data def causes this typing issue
+	(formDef as any)[key] = Object.assign({}, fieldDef) as any
+	(formDef as any)[key]!.validateImmediately = true
 	return formDef
 }, {} as FieldDefinitions<ValidationShape>)
 
@@ -110,6 +124,11 @@ export function Validation() {
 								{rfDeferred.textInput('multiFnString')}
 							</div>
 						</div>
+						<div className='control-row'>
+							<div className='control-cell'>
+								{rfDeferred.dateInput('reqDate')}
+							</div>
+						</div>
 					</div>
 				</Well>
 			</FormInspector>
@@ -138,6 +157,11 @@ export function Validation() {
 							</div>
 							<div className='control-cell'>
 								{rfImmediate.textInput('multiFnString')}
+							</div>
+						</div>
+						<div className='control-row'>
+							<div className='control-cell'>
+								{rfImmediate.dateInput('reqDate')}
 							</div>
 						</div>
 					</div>
