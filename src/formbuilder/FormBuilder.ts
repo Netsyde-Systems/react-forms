@@ -59,18 +59,24 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 	}
 
 	public setLanguage = (language?: LanguageT) => {
-		this.formState = Object.assign({}, this.formState, { language })
-		this.onFormStateUpdate?.(this.formState)
+		if (language !== this.formState.language) {
+			this.formState = Object.assign({}, this.formState, { language })
+			this.onFormStateUpdate?.(this.formState)
+		}
 	}
 
 	public setReadOnly = (isReadOnly = true) => {
-		this.formState = Object.assign({}, this.formState, { isReadOnly })
-		this.onFormStateUpdate?.(this.formState)
+		if (isReadOnly !== this.formState.isReadonly) {
+			this.formState = Object.assign({}, this.formState, { isReadOnly })
+			this.onFormStateUpdate?.(this.formState)
+		}
 	}
 
 	public setDisabled = (isDisabled = true) => {
-		this.formState = Object.assign({}, this.formState, { isDisabled })
-		this.onFormStateUpdate?.(this.formState)
+		if (isDisabled !== this.formState.isDisabled) {
+			this.formState = Object.assign({}, this.formState, { isDisabled })
+			this.onFormStateUpdate?.(this.formState)
+		}
 	}
 
 	public setData = (formData: FormData<FormT>, formState?: FormState<FormT, LanguageT>, fieldName?: keyof FormT) => {
