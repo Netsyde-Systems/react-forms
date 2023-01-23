@@ -23,10 +23,11 @@ export declare class FormBuilder<FormT, LanguageT extends string | undefined = u
     formState: FormState<FormT, LanguageT>;
     private onFormDataUpdate?;
     private onFormStateUpdate?;
+    private subFormName?;
     private subFormIndex?;
     private rootFormData?;
     ElementBuilder: ElementBuilder<FormT, LanguageT>;
-    constructor(formDefinition: FormDefinition<FormT, LanguageT>, formData: FormData<FormT>, formState: FormState<FormT, LanguageT>, onFormDataUpdate?: ((formData: FormData<FormT>) => void) | undefined, onFormStateUpdate?: ((formState: FormState<FormT, LanguageT>) => void) | undefined, subFormIndex?: number | undefined, rootFormData?: FormData<any> | undefined);
+    constructor(formDefinition: FormDefinition<FormT, LanguageT>, formData: FormData<FormT>, formState: FormState<FormT, LanguageT>, onFormDataUpdate?: ((formData: FormData<FormT>) => void) | undefined, onFormStateUpdate?: ((formState: FormState<FormT, LanguageT>) => void) | undefined, subFormName?: string | undefined, subFormIndex?: number | undefined, rootFormData?: FormData<any> | undefined);
     setLanguage: (language?: LanguageT) => void;
     setReadOnly: (isReadOnly?: boolean) => void;
     setDisabled: (isDisabled?: boolean) => void;

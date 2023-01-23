@@ -7,7 +7,7 @@ import { InputProps } from './inputs'
 export function InputLabel(props: InputProps<any>) {
 	const { id, label, required } = props
 
-	const className = classNames('input-label', { required })
+	const className = classNames('input-label', { required: required && !!label })
 
 	// a label explicitly set to false means we don't want to reserve space for it when empty (which is the default to avoid jitter)
 	// useful for tabular forms with labels as column headers
