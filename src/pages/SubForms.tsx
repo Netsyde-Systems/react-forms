@@ -54,7 +54,8 @@ const formDefinition: FormDefinition<FormShape, Language> = {
 			formDefinition: {
 				fields: {
 					date: {
-						collapseLabels: true
+						collapseLabels: true, 
+						isRequired: true
 					}, 
 					exclude: {
 						// in order to make radio/checkbox labels clickable we need unique ids
@@ -65,6 +66,7 @@ const formDefinition: FormDefinition<FormShape, Language> = {
 					}, 
 					cost: {
 						collapseLabels: true, 
+						isRequired: true,
 						validators: ({ fieldValue }) => fieldValue! > 100 ? ['Error'] : []
 					}
 				}

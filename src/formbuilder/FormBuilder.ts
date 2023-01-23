@@ -52,6 +52,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		public formState: FormState<FormT, LanguageT>,
 		private onFormDataUpdate?: (formData: FormData<FormT>) => void, 
 		private onFormStateUpdate?: (formState: FormState<FormT, LanguageT>) => void, 
+		private subFormName?: string,
 		private subFormIndex?: number, 
 		private rootFormData?: FormData<any>
 	) {
@@ -59,7 +60,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 
 		// do an initial round of getting form props so that any error conditions are found immediately to hydrate validation state
 		formDefinition.fields && Object.entries(formDefinition.fields).forEach(([fieldName, fieldDef]) => {
-			getInputProps(formDefinition.fields!, formData, formState, fieldName as any, () => null, undefined, undefined)
+			getInputProps(formDefinition.fields!, formData, formState, fieldName as any, () => null, undefined, undefined, undefined)
 		})
 	}
 
@@ -119,7 +120,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 			this.setData(formData, newFormState, fieldName)
 		}
 
-		const inputControl = createStandardInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, InputControl, this.subFormIndex, this.rootFormData)
+		const inputControl = createStandardInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, InputControl, this.subFormName, this.subFormIndex, this.rootFormData)
 
 		return inputControl
 	}
@@ -134,7 +135,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 			this.setData(formData, newFormState, fieldName)
 		}
 
-		const inputControl = createOptionInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, OptionControl, this.subFormIndex, this.rootFormData)
+		const inputControl = createOptionInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, OptionControl, this.subFormName, this.subFormIndex, this.rootFormData)
 
 		return inputControl
 	}
@@ -184,11 +185,13 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 
 		const elements = subFormData?.map((subFormDatum, rowIndex) => {
 			const fieldsTouched = (this.formState.fieldsTouched?.[fieldName] ?? []) as Array<FormFieldMap<SubFormT, boolean>>
+			const fieldErrorConditions = (this.formState.fieldErrorConditions?.[fieldName] ?? []) as Array<FormFieldMap<SubFormT, string>>
 
 			const { hasBeenValidated, language, isDisabled, isReadonly } = this.formState
 
 			const subFormState: FormState<SubFormT, LanguageT> = {
 				fieldsTouched: fieldsTouched[rowIndex] ?? {}, 
+				fieldErrorConditions: fieldErrorConditions[rowIndex ?? {}],  
 				hasBeenValidated,
 				isDisabled, 
 				isReadonly,
@@ -201,7 +204,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 				this.setField(fieldName, newSubFormData as any)
 			}
 
-			const subFormBuilder = new FormBuilder<SubFormT, LanguageT>(subFormDef.formDefinition, subFormDatum, subFormState, handleFormDataUpdate, undefined, rowIndex, this.formData)
+			const subFormBuilder = new FormBuilder<SubFormT, LanguageT>(subFormDef.formDefinition, subFormDatum, subFormState, handleFormDataUpdate, undefined, fieldName?.toString(), rowIndex, this.formData)
 
 			const subFormController: SubFormLoopController = {
 				subFormIndex: rowIndex, 

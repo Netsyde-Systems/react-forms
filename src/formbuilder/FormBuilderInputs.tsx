@@ -23,11 +23,12 @@ export function createStandardInput<FormT, FieldType, LanguageT extends string |
 	fieldName: OnlyKeysOfType<FormT, FieldType>,
 	onChange: (data: FormData<FormT>) => void, 
 	InputControl: ReactFormsInputControl<FieldType>, 
+	subFormName: string | undefined,
 	subFormIndex: number | undefined, 
 	rootFormData: FormData<any> | undefined
 ): JSX.Element { 
 
-	let props = getInputProps<FormT, FieldType, LanguageT>(fieldDefinitions, formData, formState, fieldName, onChange, subFormIndex, rootFormData)
+	let props = getInputProps<FormT, FieldType, LanguageT>(fieldDefinitions, formData, formState, fieldName, onChange, subFormName, subFormIndex, rootFormData)
 
 	return InputControl(props)
 }
@@ -39,11 +40,12 @@ export function createOptionInput<FormT, FieldType extends string | number, Lang
 	fieldName: OnlyKeysOfType<FormT, FieldType>,
 	onChange: (formData: FormData<FormT>) => void, 
 	OptionControl: ReactFormsOptionControl<FieldType>, 
+	subFormName: string | undefined,
 	subFormIndex: number | undefined, 
 	rootFormData: FormData<any> | undefined
 ): JSX.Element { 
 
-	const props = getInputProps<FormT, FieldType, LanguageT>(formDefinition, formData, formState, fieldName, onChange, subFormIndex, rootFormData)
+	const props = getInputProps<FormT, FieldType, LanguageT>(formDefinition, formData, formState, fieldName, onChange, subFormName, subFormIndex, rootFormData)
 
 	const selectOptions = getSelectOptions<FormT, FieldType, LanguageT>(formDefinition, formData, fieldName, formState.language)
 
@@ -57,11 +59,12 @@ export function createTextSelect<FormT, LanguageT extends string | undefined>(
 	fieldName: OnlyKeysOfType<FormT, string>,
 	onChange: (formData: FormData<FormT>) => void,
 	language: LanguageT, 
+	subFormName: string | undefined,
 	subFormIndex: number | undefined, 
 	rootFormData: FormData<any> | undefined
 ): JSX.Element { 
 
-	const props = getInputProps<FormT, string, LanguageT>(formDefinition, formData, formState, fieldName, onChange, subFormIndex, rootFormData)
+	const props = getInputProps<FormT, string, LanguageT>(formDefinition, formData, formState, fieldName, onChange, subFormName, subFormIndex, rootFormData)
 
 	const selectOptions = getSelectOptions<FormT, string, LanguageT>(formDefinition, formData, fieldName, language)
 
@@ -75,11 +78,12 @@ export function createNumberSelect<FormT, LanguageT extends string | undefined =
 	fieldName: OnlyKeysOfType<FormT, number>,
 	onChange: (formData: FormData<FormT>) => void, 
 	language: LanguageT, 
+	subFormName: string | undefined,
 	subFormIndex: number | undefined, 
 	rootFormData: FormData<any> | undefined
 ): JSX.Element { 
 
-	const props = getInputProps<FormT, number, LanguageT>(formDefinition, formData, formState, fieldName, onChange, subFormIndex, rootFormData)
+	const props = getInputProps<FormT, number, LanguageT>(formDefinition, formData, formState, fieldName, onChange, subFormName, subFormIndex, rootFormData)
 
 	const selectOptions = getSelectOptions<FormT, number, LanguageT>(formDefinition, formData, fieldName, language)
 
@@ -117,8 +121,9 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 	formState: FormState<FormT, LanguageT>,
 	fieldName: OnlyKeysOfType<FormT, FieldT>,
 	onFormChange: (formData: FormData<FormT>) => void, 
+	subFormName: string | undefined, 
 	subFormIndex: number | undefined, 
-	rootFormData: FormData<any> | undefined
+	rootFormData: FormData<any> | undefined, 
 ): InputProps<FieldT> { 
 
 	const fieldDef = fieldDefinitions[fieldName]
@@ -243,7 +248,12 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 	}
 
 	formState.fieldErrorConditions ??= {}
-	formState.fieldErrorConditions[fieldName] = errorCondition
+	if (subFormName === undefined) {
+		formState.fieldErrorConditions[fieldName] = errorCondition
+	}
+	else {
+		(formState.fieldErrorConditions as any)[subFormName] = errorCondition
+	}
 
 	return props
 }
