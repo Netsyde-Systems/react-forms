@@ -8,7 +8,7 @@
   ],
   "homepage": "https://netsyde-systems.github.io/react-forms/",
   "license": "MIT",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "repository": {
     "type": "git",
     "url": "https://github.com/Netsyde-Systems/react-forms"
@@ -26,7 +26,7 @@
     "deploy": "npm run build && gh-pages -d build",
     "cleanlib": "rimraf lib/",
     "copystyles": "copyfiles -u 1 src/**/*.scss lib/",
-    "compilelib": "npm run cleanlib && npm run copystyles && tsc --project tsconfig.lib.json"
+    "compile": "npm run cleanlib && npm run copystyles && tsc --project tsconfig.lib.json"
   },
   "dependencies": {
     "classnames": "^2.3.1",

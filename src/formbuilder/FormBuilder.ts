@@ -16,7 +16,7 @@ import EmailAddress from "../inputs/EmailAddress"
 import FileInput from "../inputs/FileInput"
 import Currency from "../inputs/Currency"
 
-import { createOptionInput, createStandardInput, ReactFormsInputControl, ReactFormsOptionControl } from "./FormBuilderInputs"
+import { createOptionInput, createStandardInput, getInputProps, ReactFormsInputControl, ReactFormsOptionControl } from "./FormBuilderInputs"
 import { ExtractLanguage, FormData, FormDefinition, FormFieldMap, FormState, LocalizedString, OnlyKeysOfType } from "./FormBuilderTypes"
 import { ElementBuilder } from "./ElementBuilder"
 
@@ -56,6 +56,11 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		private rootFormData?: FormData<any>
 	) {
 		this.ElementBuilder = new ElementBuilder(this)
+
+		// do an initial round of getting form props so that any error conditions are found immediately to hydrate validation state
+		formDefinition.fields && Object.entries(formDefinition.fields).forEach(([fieldName, fieldDef]) => {
+			getInputProps(formDefinition.fields!, formData, formState, fieldName as any, () => null, undefined, undefined)
+		})
 	}
 
 	public setLanguage = (language?: LanguageT) => {

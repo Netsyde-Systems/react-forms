@@ -111,7 +111,7 @@ export function getLabel<FormT, FieldT, LanguageT extends string | undefined>(
 	return label
 }
 
-function getInputProps<FormT, FieldT, LanguageT extends string | undefined>(
+export function getInputProps<FormT, FieldT, LanguageT extends string | undefined>(
 	fieldDefinitions: FieldDefinitions<FormT, LanguageT>,
 	formData: FormData<FormT>,
 	formState: FormState<FormT, LanguageT>,
