@@ -207,9 +207,11 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 	// 1. We want it to be shown immediately and the field has been touched (we give user immediate input as they're typing)
 	// 2. Form has been validated (give user feedback only after submit attempt)
 	let errorMessage = errorCondition
+	let hasError = !!errorCondition
 	if ((fieldDef?.validateImmediately && formState.fieldsTouched?.[fieldName]) || formState.hasBeenValidated) { /* errorMessage already initiated */ }
 	else {
 		errorMessage = undefined
+		hasError = false
 	}
 
 	const onChange = (newFieldValue?: FieldT) => {
@@ -239,6 +241,7 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 		value: formData[fieldName] as any as FieldT, 
 		label: fieldDef?.collapseLabels ? false : label, 
 		errorMessage: fieldDef?.collapseLabels ? false : errorMessage, 
+		hasError, 
 		onChange, 
 		hidden, 
 		disabled, 
