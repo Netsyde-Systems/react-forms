@@ -219,7 +219,7 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 		const coercedFieldValue = newFieldValue as any
 
 		// first we check if we should even perform the change
-		if (typeof fieldDef?.disallowChange === 'object' && coercedFieldValue.toString().length > fieldDef.disallowChange.maxLength) {
+		if (typeof fieldDef?.disallowChange === 'object' && coercedFieldValue?.toString().length > fieldDef.disallowChange.maxLength) {
 			return // don't perform change because we've exceeded max length
 		}
 		else if (typeof fieldDef?.disallowChange === 'function' && fieldDef.disallowChange({ fieldValue: coercedFieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData })) {
