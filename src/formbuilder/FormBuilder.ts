@@ -17,7 +17,7 @@ import FileInput from "../inputs/FileInput"
 import Currency from "../inputs/Currency"
 
 import { createOptionInput, createStandardInput, getInputProps, ReactFormsInputControl, ReactFormsOptionControl } from "./FormBuilderInputs"
-import { ExtractLanguage, FormData, FormDefinition, FormFieldMap, FormState, LocalizedString, OnlyKeysOfType } from "./FormBuilderTypes"
+import { ExtractLanguage, FieldSpecifierArgument, FormData, FormDefinition, FormFieldMap, FormState, LocalizedString, OnlyKeysOfType, SubFormDefinition } from "./FormBuilderTypes"
 import { ElementBuilder } from "./ElementBuilder"
 
 export type FieldNameProps<FormT, FieldT> = {
@@ -61,6 +61,34 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		// do an initial round of getting form props so that any error conditions are found immediately to hydrate validation state
 		formDefinition.fields && Object.entries(formDefinition.fields).forEach(([fieldName, fieldDef]) => {
 			getInputProps(formDefinition.fields!, formData, formState, fieldName as any, () => null, undefined, undefined, undefined)
+		})
+
+		// TODO: this is ugly; we need to refactor this so that formbuilder is truly recursive
+		this.validateSubForms()
+	}
+
+	// TODO: this is ugly; we need to refactor this so that formbuilder is truly recursive
+	private validateSubForms() {
+		const {formDefinition, formData, formState } = this
+
+		formDefinition.subForms && Object.entries(formDefinition.subForms).forEach(([subFormName, subFormDefinition]) => {
+			const typedSubFormName = subFormName as keyof FormT
+			const typedSubFormDefinition = subFormDefinition as SubFormDefinition<FormT, any, LanguageT>
+
+			const fieldSpecArg: FieldSpecifierArgument<FormT, keyof FormT, LanguageT> = {
+				fieldValue: formData[typedSubFormName], 
+				fieldName: typedSubFormName,
+				formData,
+				formDefinition,
+				language: formState.language, 
+			}
+
+			if (typedSubFormDefinition.validators) {
+				const errorConditions = typedSubFormDefinition.validators(fieldSpecArg)
+				const errorMessage = errorConditions.join(' | ')
+				this.formState.fieldErrorConditions ??= {}
+				this.formState.fieldErrorConditions[typedSubFormName] = errorMessage
+			}
 		})
 	}
 
@@ -185,13 +213,13 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 
 		const elements = subFormData?.map((subFormDatum, rowIndex) => {
 			const fieldsTouched = (this.formState.fieldsTouched?.[fieldName] ?? []) as Array<FormFieldMap<SubFormT, boolean>>
-			const fieldErrorConditions = (this.formState.fieldErrorConditions?.[fieldName] ?? []) as Array<FormFieldMap<SubFormT, string>>
+			// const fieldErrorConditions = (this.formState.fieldErrorConditions?.[fieldName] ?? []) as Array<FormFieldMap<SubFormT, string>>
 
 			const { hasBeenValidated, language, isDisabled, isReadonly } = this.formState
 
 			const subFormState: FormState<SubFormT, LanguageT> = {
 				fieldsTouched: fieldsTouched[rowIndex] ?? {}, 
-				fieldErrorConditions: fieldErrorConditions[rowIndex ?? {}],  
+				// fieldErrorConditions: fieldErrorConditions[rowIndex ?? {}],  
 				hasBeenValidated,
 				isDisabled, 
 				isReadonly,
@@ -202,6 +230,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 				const newSubFormData = subFormData.slice()
 				newSubFormData[rowIndex] = newSubFormDatum
 				this.setField(fieldName, newSubFormData as any)
+				this.validateSubForms()
 			}
 
 			const subFormBuilder = new FormBuilder<SubFormT, LanguageT>(subFormDef.formDefinition, subFormDatum, subFormState, handleFormDataUpdate, undefined, fieldName?.toString(), rowIndex, this.formData)
@@ -212,6 +241,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 					const newSubFormData = subFormData.slice()
 					newSubFormData.splice(rowIndex, 1)
 					this.setField(fieldName, newSubFormData as any)
+					this.validateSubForms()
 				},
 			}
 
@@ -237,6 +267,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 				newSubFormData.push(newSubForm)
 
 				this.setField(fieldName, newSubFormData as any)
+				this.validateSubForms()
 			},
 		}
 
@@ -246,6 +277,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 	public get isValid() { 
 		this.formState.fieldErrorConditions ??= {}
 
+		this.validateSubForms()
 		const isValid = !(Object.values(this.formState.fieldErrorConditions) as Array<string>).some(Boolean)
 		return isValid
 	}

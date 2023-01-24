@@ -248,12 +248,17 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 	}
 
 	formState.fieldErrorConditions ??= {}
+	formState.fieldErrorConditions[fieldName] = errorCondition
+
+	/*
+	formState.fieldErrorConditions ??= {}
 	if (subFormName === undefined) {
 		formState.fieldErrorConditions[fieldName] = errorCondition
 	}
 	else {
 		(formState.fieldErrorConditions as any)[subFormName] = errorCondition
 	}
+	*/
 
 	return props
 }

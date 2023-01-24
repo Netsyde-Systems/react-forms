@@ -125,8 +125,9 @@ export interface SubFormDefinition<FormT, SubFormT, LanguageT extends string | u
 	onChange?: FieldSpecifierFunction<FormT, FormData<FormT>, LanguageT>
 	isHidden?: FieldSpecifierFunction<FormT, boolean, LanguageT>
 
-	// Can have one, or multiple custom validator functions, or a specifier for straightforward cases (min/max/etc)
-	validators?: ValidatorFunction<FormT, LanguageT> | Array<ValidatorFunction<FormT, LanguageT>> | ValidatorSpecification<Array<SubFormT>>
+	// We only support a single validator function (for now)
+	// TODO: allow full validation suite 
+	validators?: ValidatorFunction<FormT, LanguageT> // | Array<ValidatorFunction<FormT, LanguageT>> | ValidatorSpecification<Array<SubFormT>>
 
 	formDefinition: FormDefinition<SubFormT, LanguageT>
 

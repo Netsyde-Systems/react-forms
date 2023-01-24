@@ -1,4 +1,3 @@
-import React from 'react'
 import Button from '../inputs/Button'
 import { FormDefinition, FormData, LocalizedString } from '../formbuilder/FormBuilderTypes'
 import useReactForms from '../hooks/useReactForms'
@@ -12,7 +11,8 @@ interface FormShape {
 	stringProperty: string
 	numberProperty: number
 	language: Language
-	subForms: Array<SubFormShape>
+	subFormsProperty: Array<SubFormShape>
+	req2SubFormsProperty: Array<SubFormShape>
 }
 
 interface SubFormShape {
@@ -50,7 +50,7 @@ const formDefinition: FormDefinition<FormShape, Language> = {
 		}, 
 	}, 
 	subForms: {
-		subForms: {
+		subFormsProperty: {
 			formDefinition: {
 				fields: {
 					date: {
@@ -72,7 +72,36 @@ const formDefinition: FormDefinition<FormShape, Language> = {
 				}
 			}
 
-		}
+		}, 
+		req2SubFormsProperty: {
+			validators: ({formData, language}) => {
+				if (!formData.req2SubFormsProperty || formData.req2SubFormsProperty.length < 2) {
+					return [(language && min2SubForms[language]) || min2SubForms.en]
+				}
+				return []
+			},  
+			formDefinition: {
+				fields: {
+					date: {
+						collapseLabels: true, 
+						isRequired: true
+					}, 
+					exclude: {
+						// in order to make radio/checkbox labels clickable we need unique ids
+						id: ({ subFormIndex }) => {
+							return `bool_${subFormIndex}`
+						},
+						collapseLabels: true
+					}, 
+					cost: {
+						collapseLabels: true, 
+						isRequired: true,
+						validators: ({ fieldValue }) => fieldValue! > 100 ? ['Error'] : []
+					}
+				}
+			}
+
+		}, 
 	}
 }
 
@@ -96,8 +125,12 @@ const SumLabel: LocalizedString<Language> = {
 	fr: 'Somme: '
 }
 
+const min2SubForms: LocalizedString<Language> = {
+	en: 'Minimum two subforms required', 
+	fr: 'FR: Un minimum de deux subforms sont necessaire [sp]'
+}
 
-let testFormData: FormData<FormShape> = { language: 'en', subForms: [{}] } 
+let testFormData: FormData<FormShape> = { language: 'en', subFormsProperty: [{}] } 
 
 export function Localization() {
 	const rf = useReactForms(formDefinition, testFormData)
@@ -128,7 +161,7 @@ export function Localization() {
 
 
 					<h2>Sub Forms</h2>
-					{rf.subFormPanel('subForms', (controller) => {
+					{rf.subFormPanel('subFormsProperty', (controller) => {
 						return (
 							<Button text='Add New' onClick={controller.addInstance} />
 						)
@@ -143,7 +176,7 @@ export function Localization() {
 							</tr>
 						</thead>
 						<tbody>
-							{rf.subFormLoop<SubFormShape>('subForms', (srf, controller) => {
+							{rf.subFormLoop<SubFormShape>('subFormsProperty', (srf, controller) => {
 								return (
 									<tr key={controller.subFormIndex}>
 										<td>
@@ -165,7 +198,52 @@ export function Localization() {
 						<tfoot>
 							<tr>
 								<td></td>
-								<td>{rf.localize(SumLabel)} ${sumCosts(rf.formData?.subForms)}</td>
+								<td>{rf.localize(SumLabel)} ${sumCosts(rf.formData?.subFormsProperty)}</td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tfoot>
+					</table>
+
+					<h2>Min 2 Required Sub Forms</h2>
+					{rf.subFormPanel('req2SubFormsProperty', (controller) => {
+						return (
+							<Button text='Add New' onClick={controller.addInstance} />
+						)
+					})}
+					<table>
+						<thead>
+							<tr>
+								<th>{rf.localize(subFormHeaders.date)}</th>
+								<th>{rf.localize(subFormHeaders.cost)}</th>
+								<th>{rf.localize(subFormHeaders.exclude)}</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							{rf.subFormLoop<SubFormShape>('req2SubFormsProperty', (srf, controller) => {
+								return (
+									<tr key={controller.subFormIndex}>
+										<td>
+											{srf.dateInput('date')}
+										</td>
+										<td>
+											{srf.currency('cost')}
+										</td>
+										<td>
+											{srf.checkbox('exclude')}
+										</td>
+										<td>
+											<Button text='Delete' onClick={controller.deleteInstance} />
+										</td>
+									</tr>
+								)
+							})}
+						</tbody>
+						<tfoot>
+							<tr>
+								<td></td>
+								<td>{rf.localize(SumLabel)} ${sumCosts(rf.formData?.req2SubFormsProperty)}</td>
 								<td></td>
 								<td></td>
 							</tr>

@@ -57,7 +57,7 @@ export interface FieldDefinition<FormT, FieldT, LanguageT extends string | undef
 export interface SubFormDefinition<FormT, SubFormT, LanguageT extends string | undefined> {
     onChange?: FieldSpecifierFunction<FormT, FormData<FormT>, LanguageT>;
     isHidden?: FieldSpecifierFunction<FormT, boolean, LanguageT>;
-    validators?: ValidatorFunction<FormT, LanguageT> | Array<ValidatorFunction<FormT, LanguageT>> | ValidatorSpecification<Array<SubFormT>>;
+    validators?: ValidatorFunction<FormT, LanguageT>;
     formDefinition: FormDefinition<SubFormT, LanguageT>;
     newSubForm?: FieldSpecifierFunction<FormT, FormData<SubFormT>, LanguageT>;
 }
