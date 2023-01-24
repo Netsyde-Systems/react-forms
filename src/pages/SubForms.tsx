@@ -68,8 +68,7 @@ const formDefinition: FormDefinition<FormShape, Language> = {
 					},
 					cost: {
 						collapseLabels: true,
-						isRequired: true,
-						validators: ({ fieldValue }) => fieldValue! > 100 ? ['Error'] : []
+						isRequired: true
 					}
 				}
 			}
@@ -97,8 +96,7 @@ const formDefinition: FormDefinition<FormShape, Language> = {
 					},
 					cost: {
 						collapseLabels: true,
-						isRequired: true,
-						validators: ({ fieldValue }) => fieldValue! > 100 ? ['Error'] : []
+						isRequired: true
 					}
 				}
 			}
