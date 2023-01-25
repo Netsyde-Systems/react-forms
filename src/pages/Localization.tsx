@@ -1,12 +1,14 @@
-import React from 'react'
 import { FormDefinition, LocaleLookup } from '../formbuilder/FormBuilderTypes'
 import useReactForms from '../hooks/useReactForms'
 import FormInspector from '../utility-controls/FormInspector'
 import { enCA, frCA } from 'date-fns/locale'
 
 import './Localization.scss'
+import { LanguageToggle } from '../utility-controls/LanguageToggle'
 
-type Language = 'en' | 'fr'
+const ALL_LANGUAGES = ['en', 'fr'] as const
+
+type Language = typeof ALL_LANGUAGES[number]
 
 const locales: LocaleLookup<Language> = {
 	en: enCA, 
@@ -19,7 +21,6 @@ interface TestFormShape {
 	stringDropdown: string
 	numberDropdown: number
 	dateProperty: Date
-	languageProperty: Language
 }
 
 const testFormDefinition: FormDefinition<TestFormShape, Language> = {
@@ -96,63 +97,48 @@ const testFormDefinition: FormDefinition<TestFormShape, Language> = {
 				},
 			]
 		},
-		languageProperty: {
-			label: {
-				en: 'Language',
-				fr: 'le langue'
-			},
-			selectOptions: [
-				// Language name always appears in its own language (as is usually the convention)
-				{ value: 'en', text: { en: 'English', fr: 'English' } },
-				// Hack to make typescript happy that types agree
-				{ value: 'fr' as 'en', text: { en: 'Français', fr: 'Français' } },
-			]
-		},
 	}
 }
 
-
 export function Localization() {
-	const rf = useReactForms(testFormDefinition)
-
-	if (rf.formState.language !== rf.formData.languageProperty) {
-		rf.setLanguage(rf.formData.languageProperty)
-	}
+	const rf = useReactForms(testFormDefinition, {language: 'en' as Language})
 
 	return (
-		<FormInspector formBuilder={rf}>
-			<div className='forms page'>
-				<h1>{rf.localize({ en: 'Locationlization Tests', fr: 'Tests de Localization' })}</h1>
+		<>
+			<LanguageToggle languages={ALL_LANGUAGES.slice()} onLanguageChange={lang => rf.setLanguage(lang)} currentLanguage={rf.formState.language!} />
+			<FormInspector formBuilder={rf}>
+				<div className='forms page'>
+					<h1>{rf.localize({ en: 'Locationlization Tests', fr: 'Tests de Localization' })}</h1>
 
-				<div className='control-grid'>
+					<div className='control-grid'>
 
-					<div className='control-row'>
-						<div className='control-cell'>
-							{rf.textInput('stringProperty')}
+						<div className='control-row'>
+							<div className='control-cell'>
+								{rf.textInput('stringProperty')}
+							</div>
+							<div className='control-cell'>
+								{rf.numberInput('numberProperty')}
+							</div>
+							<div className='control-cell'>
+							</div>
 						</div>
-						<div className='control-cell'>
-							{rf.numberInput('numberProperty')}
-						</div>
-						<div className='control-cell'>
-							{rf.textSelect('languageProperty')}
-						</div>
-					</div>
 
-					<div className='control-row'>
-						<div className='control-cell'>
-							{rf.textSelect('stringDropdown')}
-						</div>
-						<div className='control-cell'>
-							{rf.numberSelect('numberDropdown')}
-						</div>
-						<div className='control-cell'>
-							{rf.localizedDateInput('dateProperty')}
+						<div className='control-row'>
+							<div className='control-cell'>
+								{rf.textSelect('stringDropdown')}
+							</div>
+							<div className='control-cell'>
+								{rf.numberSelect('numberDropdown')}
+							</div>
+							<div className='control-cell'>
+								{rf.localizedDateInput('dateProperty')}
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 
-		</FormInspector>
+			</FormInspector>
+		</>
 	)
 }
 
