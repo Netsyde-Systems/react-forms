@@ -1,5 +1,5 @@
 {
-  "name": "react-forms",
+  "name": "@netsyde/react-forms",
   "description": "A Small, Simple, Strongly Typed Forms Library",
   "keywords": [
     "React",
@@ -8,10 +8,10 @@
   ],
   "homepage": "https://netsyde-systems.github.io/react-forms/",
   "license": "MIT",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Netsyde-Systems/react-forms"
+    "url": "git+https://github.com/Netsyde-Systems/react-forms.git"
   },
   "bugs": {
     "url": "https://github.com/Netsyde-Systems/react-forms/issues"
@@ -75,5 +75,10 @@
     "shx": "^0.3.4",
     "typescript": "^4.7.3",
     "web-vitals": "^2.1.4"
-  }
+  },
+  "types": "./lib/indexExports.d.ts",
+  "directories": {
+    "lib": "lib"
+  },
+  "author": "Miro Koprnicky"
 }
