@@ -4,7 +4,6 @@ import useReactForms from '../hooks/useReactForms'
 import FormInspector from '../utility-controls/FormInspector'
 
 import './SubForms.scss'
-import Well from '../utility-controls/Well'
 
 type Language = 'en' | 'fr'
 
@@ -143,118 +142,115 @@ export function Localization() {
 		<FormInspector formBuilder={rf}>
 			<div className='forms page'>
 
-				<Well title='SubForms' buttonDefs={[{ text: 'Validate', onClick: () => rf.validate() }]}>
+				<div className='control-grid'>
 
-					<div className='control-grid'>
-
-						<h2>Main Form</h2>
-						<div className='control-row'>
-							<div className='control-cell'>
-								{rf.textInput('stringProperty')}
-							</div>
-							<div className='control-cell'>
-								{rf.numberInput('numberProperty')}
-							</div>
-							<div className='control-cell'>
-								{rf.textSelect('language')}
-							</div>
+					<h2>Main Form</h2>
+					<div className='control-row'>
+						<div className='control-cell'>
+							{rf.textInput('stringProperty')}
 						</div>
-
-
-						<h2>Sub Forms</h2>
-						{rf.subFormPanel('subFormsProperty', (controller) => {
-							return (
-								<Button text='Add New' onClick={controller.addInstance} />
-							)
-						})}
-						<table>
-							<thead>
-								<tr>
-									<th>{rf.localize(subFormHeaders.date)}</th>
-									<th>{rf.localize(subFormHeaders.cost)}</th>
-									<th>{rf.localize(subFormHeaders.exclude)}</th>
-									<th></th>
-								</tr>
-							</thead>
-							<tbody>
-								{rf.subFormLoop<SubFormShape>('subFormsProperty', (srf, controller) => {
-									return (
-										<tr key={controller.subFormIndex}>
-											<td>
-												{srf.dateInput('date')}
-											</td>
-											<td>
-												{srf.currency('cost')}
-											</td>
-											<td>
-												{srf.checkbox('exclude')}
-											</td>
-											<td>
-												<Button text='Delete' onClick={controller.deleteInstance} />
-											</td>
-										</tr>
-									)
-								})}
-							</tbody>
-							<tfoot>
-								<tr>
-									<td></td>
-									<td>{rf.localize(SumLabel)} ${sumCosts(rf.formData?.subFormsProperty)}</td>
-									<td></td>
-									<td></td>
-								</tr>
-							</tfoot>
-						</table>
-
-						<h2>Min 2 Required Sub Forms</h2>
-
-						{rf.subFormPanel('req2SubFormsProperty', (controller) => {
-							return (
-								<Button text='Add New' onClick={controller.addInstance} />
-							)
-						})}
-						<table>
-							<thead>
-								<tr>
-									<th>{rf.localize(subFormHeaders.date)}</th>
-									<th>{rf.localize(subFormHeaders.cost)}</th>
-									<th>{rf.localize(subFormHeaders.exclude)}</th>
-									<th></th>
-								</tr>
-							</thead>
-							<tbody>
-								{rf.subFormLoop<SubFormShape>('req2SubFormsProperty', (srf, controller) => {
-									return (
-										<tr key={controller.subFormIndex}>
-											<td>
-												{srf.dateInput('date')}
-											</td>
-											<td>
-												{srf.currency('cost')}
-											</td>
-											<td>
-												{srf.checkbox('exclude')}
-											</td>
-											<td>
-												<Button text='Delete' onClick={controller.deleteInstance} />
-											</td>
-										</tr>
-									)
-								})}
-							</tbody>
-							<tfoot>
-								<tr>
-									<td></td>
-									<td>{rf.localize(SumLabel)} ${sumCosts(rf.formData?.req2SubFormsProperty)}</td>
-									<td></td>
-									<td></td>
-								</tr>
-							</tfoot>
-						</table>
+						<div className='control-cell'>
+							{rf.numberInput('numberProperty')}
+						</div>
+						<div className='control-cell'>
+							{rf.textSelect('language')}
+						</div>
 					</div>
 
-				</Well>
 
+					<h2>Sub Forms</h2>
+					{rf.subFormPanel('subFormsProperty', (controller) => {
+						return (
+							<Button text='Add New' onClick={controller.addInstance} />
+						)
+					})}
+					<table>
+						<thead>
+							<tr>
+								<th>{rf.localize(subFormHeaders.date)}</th>
+								<th>{rf.localize(subFormHeaders.cost)}</th>
+								<th>{rf.localize(subFormHeaders.exclude)}</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							{rf.subFormLoop<SubFormShape>('subFormsProperty', (srf, controller) => {
+								return (
+									<tr key={controller.subFormIndex}>
+										<td>
+											{srf.dateInput('date')}
+										</td>
+										<td>
+											{srf.currency('cost')}
+										</td>
+										<td>
+											{srf.checkbox('exclude')}
+										</td>
+										<td>
+											<Button text='Delete' onClick={controller.deleteInstance} />
+										</td>
+									</tr>
+								)
+							})}
+						</tbody>
+						<tfoot>
+							<tr>
+								<td></td>
+								<td>{rf.localize(SumLabel)} ${sumCosts(rf.formData?.subFormsProperty)}</td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tfoot>
+					</table>
+
+					<h2>Min 2 Required Sub Forms</h2>
+
+					{rf.subFormPanel('req2SubFormsProperty', (controller) => {
+						return (
+							<Button text='Add New' onClick={controller.addInstance} />
+						)
+					})}
+					<table>
+						<thead>
+							<tr>
+								<th>{rf.localize(subFormHeaders.date)}</th>
+								<th>{rf.localize(subFormHeaders.cost)}</th>
+								<th>{rf.localize(subFormHeaders.exclude)}</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							{rf.subFormLoop<SubFormShape>('req2SubFormsProperty', (srf, controller) => {
+								return (
+									<tr key={controller.subFormIndex}>
+										<td>
+											{srf.dateInput('date')}
+										</td>
+										<td>
+											{srf.currency('cost')}
+										</td>
+										<td>
+											{srf.checkbox('exclude')}
+										</td>
+										<td>
+											<Button text='Delete' onClick={controller.deleteInstance} />
+										</td>
+									</tr>
+								)
+							})}
+						</tbody>
+						<tfoot>
+							<tr>
+								<td></td>
+								<td>{rf.localize(SumLabel)} ${sumCosts(rf.formData?.req2SubFormsProperty)}</td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+
+				<button onClick={() => rf.validate()} >Validate</button>
 			</div>
 			<hr />
 			<div>TODO:  Figure out why we have to pass the SubFormShape as a generic constraint</div>

@@ -1,6 +1,5 @@
 /// <reference types="react" />
 import { Activatable } from '../inputs/inputs';
-import './Button.scss';
 export declare type ButtonType = 'primary' | 'secondary';
 export interface ButtonProps extends Activatable {
     text: string;

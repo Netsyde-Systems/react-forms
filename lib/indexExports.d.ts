@@ -19,7 +19,6 @@ export { TextInput } from './inputs/TextInput';
 export { TextRadio } from './inputs/TextRadio';
 export { TextSelect } from './inputs/TextSelect';
 export { FileInput, type FileInputProps } from './inputs/FileInput';
-export { Well, type WellProps } from './utility-controls/Well';
 export { isValidEmail, isValueProvided, requiredFieldValidator, emailValidator } from './validation/validation';
 export { FormInspector } from './utility-controls/FormInspector';
 export { DataInspector } from './utility-controls/DataInspector';

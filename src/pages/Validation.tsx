@@ -1,6 +1,5 @@
 import { FormDefinition, FieldDefinitions } from '../formbuilder/FormBuilderTypes'
 import useReactForms from '../hooks/useReactForms'
-import Well from '../utility-controls/Well'
 import FormInspector from '../utility-controls/FormInspector'
 
 import './Validation.scss'
@@ -100,7 +99,8 @@ export function Validation() {
 			<h1>Validation Tests</h1>
 
 			<FormInspector formBuilder={rfDeferred}>
-				<Well title='Validation (Deferred)' buttonDefs={[{ text: 'Validate', onClick: () => rfDeferred.validate() }]}>
+					<h2>Validation (Deffered)</h2>
+
 					<div className='control-grid'>
 						<div className='control-row'>
 							<div className='control-cell'>
@@ -130,11 +130,12 @@ export function Validation() {
 							</div>
 						</div>
 					</div>
-				</Well>
 			</FormInspector>
 
+			<button onClick={() => rfDeferred.validate()}>Validate</button>
+
 			<FormInspector formBuilder={rfImmediate}>
-				<Well title='Validation (Immediate)'>
+				<h2>Validation (Immediate)</h2>
 					<div className='control-grid'>
 
 						<div className='control-row'>
@@ -165,11 +166,10 @@ export function Validation() {
 							</div>
 						</div>
 					</div>
-				</Well>
 			</FormInspector>
 
 			<FormInspector formBuilder={rfForced}>
-				<Well title='Validation (Forced)'>
+					<h2>Validate (Forced)</h2>
 					<div className='control-grid'>
 
 						<div className='control-row'>
@@ -181,7 +181,6 @@ export function Validation() {
 							</div>
 						</div>
 					</div>
-				</Well>
 			</FormInspector>
 
 		</div>

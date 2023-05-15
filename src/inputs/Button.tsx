@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { Activatable } from '../inputs/inputs'
 
-import './Button.scss'
+// import './Button.scss'
 
 export type ButtonType = 'primary' | 'secondary'
 

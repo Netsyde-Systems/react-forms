@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { Button, ButtonProps } from '../inputs/Button'
-import { Well } from '../utility-controls/Well'
 import { TextInput } from '../inputs/TextInput'
 import { NumberInput } from '../inputs/NumberInput'
 import { TextArea } from '../inputs/TextArea'
@@ -120,9 +119,6 @@ function Controls() {
 	return (
 		<div className='controls page'>
 			<h1>Control Tests</h1>
-			<Well title={"Well Title"} buttonDefs={buttonDefs} >
-				<p>Well content</p>
-
 				<div className='control-grid'>
 
 					<div className='control-row'>
@@ -257,7 +253,8 @@ function Controls() {
 						</div>
 					</div>
 				</div>
-			</Well>
+
+				{buttonDefs.map(bd => <button onClick={bd.onClick}>{bd.text}</button>)}
 		</div>
 	)
 }
