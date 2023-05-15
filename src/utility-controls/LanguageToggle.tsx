@@ -1,5 +1,3 @@
-import Button from '../inputs/Button'
-
 export interface LanguageToggleProps<LanguageT extends string> {
 	currentLanguage: LanguageT
 	languages: Array<LanguageT>
@@ -14,5 +12,5 @@ export function LanguageToggle<LanguageT extends string>(props: LanguageTogglePr
 	if (nextLanguageIndex >= languages.length) nextLanguageIndex = 0
 	const nextLanguage = languages[nextLanguageIndex]
 
-	return <Button text={`Toggle Language ${currentLanguage} -> ${nextLanguage}`} onClick={() => onLanguageChange(nextLanguage)} />
+	return <button onClick={() => onLanguageChange(nextLanguage)}>{`Toggle Language ${currentLanguage} -> ${nextLanguage}`}</button>
 }

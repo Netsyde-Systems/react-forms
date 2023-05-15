@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { Button, ButtonProps } from '../inputs/Button'
 import { TextInput } from '../inputs/TextInput'
 import { NumberInput } from '../inputs/NumberInput'
 import { TextArea } from '../inputs/TextArea'
@@ -86,7 +85,7 @@ function Controls() {
 
 	const getToggleButtonType = (toggleValue: boolean) => toggleValue ? 'primary' : 'secondary'
 
-	const buttonDefs: Array<ButtonProps> = [
+	const buttonDefs = [
 		{ type: 'secondary', text: buttonText.clear, onClick: clearInputs }, 
 		{ type: 'secondary', text: buttonText.locale, onClick: () => setLocale(locale === 'en-CA' ? 'fr-CA' : 'en-CA') }, 
 		{ type: getToggleButtonType(controlsHaveErrors), text: buttonText.error, onClick: () => setControlErrors(!controlsHaveErrors) }, 
@@ -241,15 +240,6 @@ function Controls() {
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(dollarValue)}
-						</div>
-					</div>
-
-					<div className='control-row'>
-						<div className='control-cell'>
-							<Button type='secondary' text='Secondary Button' onClick={() => alert('Secondary Button Clicked')} disabled={controlsAreDisabled} hidden={controlsAreHidden} />
-						</div>
-						<div className='control-cell'>
-							<Button type='primary' text='Primary Button' onClick={() => alert('Primary Button Clicked')} disabled={controlsAreDisabled} hidden={controlsAreHidden} />
 						</div>
 					</div>
 				</div>

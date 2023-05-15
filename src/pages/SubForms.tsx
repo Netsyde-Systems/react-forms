@@ -1,4 +1,3 @@
-import Button from '../inputs/Button'
 import { FormDefinition, FormData, LocalizedString } from '../formbuilder/FormBuilderTypes'
 import useReactForms from '../hooks/useReactForms'
 import FormInspector from '../utility-controls/FormInspector'
@@ -161,7 +160,7 @@ export function Localization() {
 					<h2>Sub Forms</h2>
 					{rf.subFormPanel('subFormsProperty', (controller) => {
 						return (
-							<Button text='Add New' onClick={controller.addInstance} />
+							<button onClick={controller.addInstance}>Add New</button>
 						)
 					})}
 					<table>
@@ -187,7 +186,7 @@ export function Localization() {
 											{srf.checkbox('exclude')}
 										</td>
 										<td>
-											<Button text='Delete' onClick={controller.deleteInstance} />
+											<button onClick={controller.deleteInstance}>Delete</button>
 										</td>
 									</tr>
 								)
@@ -207,7 +206,7 @@ export function Localization() {
 
 					{rf.subFormPanel('req2SubFormsProperty', (controller) => {
 						return (
-							<Button text='Add New' onClick={controller.addInstance} />
+							<button onClick={controller.addInstance}>Add New</button>
 						)
 					})}
 					<table>
@@ -233,7 +232,7 @@ export function Localization() {
 											{srf.checkbox('exclude')}
 										</td>
 										<td>
-											<Button text='Delete' onClick={controller.deleteInstance} />
+											<button onClick={controller.deleteInstance}>Delete</button>
 										</td>
 									</tr>
 								)
