@@ -21,4 +21,4 @@ export { FileInput, type FileInputProps } from './inputs/FileInput';
 export { isValidEmail, isValueProvided, requiredFieldValidator, emailValidator } from './validation/validation';
 export { FormInspector } from './utility-controls/FormInspector';
 export { DataInspector } from './utility-controls/DataInspector';
-export { LanguageToggle } from './utility-controls/LanguageToggle';
+export { LanguageToggle, type LanguageToggleProps, LanguageSelect, type LanguageSelectProps } from './utility-controls/LanguageToggle';
