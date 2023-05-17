@@ -4,11 +4,16 @@ import FormInspector from '../utility-controls/FormInspector'
 import { enCA, frCA } from 'date-fns/locale'
 
 import './Localization.scss'
-import { LanguageToggle } from '../utility-controls/LanguageToggle'
+import { LanguageSelect } from '../utility-controls/LanguageToggle'
 
 const ALL_LANGUAGES = ['en', 'fr'] as const
 
 type Language = typeof ALL_LANGUAGES[number]
+
+const LanguageNames: Record<Language, string> = {
+	en: 'English', 
+	fr: 'Français'
+}
 
 const locales: LocaleLookup<Language> = {
 	en: enCA, 
@@ -105,7 +110,7 @@ export function Localization() {
 
 	return (
 		<>
-			<LanguageToggle languages={ALL_LANGUAGES.slice()} onLanguageChange={lang => rf.setLanguage(lang)} currentLanguage={rf.formState.language!} />
+			<LanguageSelect languages={ALL_LANGUAGES.slice()} onLanguageChange={lang => rf.setLanguage(lang)} currentLanguage={rf.formState.language!} languageNames={LanguageNames} />
 			<FormInspector formBuilder={rf}>
 				<div className='forms page'>
 					<h1>{rf.localize({ en: 'Locationlization Tests', fr: 'Tests de Localization' })}</h1>
