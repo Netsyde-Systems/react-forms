@@ -14,7 +14,7 @@ export function NumberSelect(props: SelectProps<number>) {
 		return <ReadonlyField {...selProps} />
 	}
 
-	let { id, value, onChange, label, errorMessage, required, hidden, placeholder, selectOptions, disabled } = props
+	let { id, value, onChange, label, errorMessage, required, hidden, placeholder, selectOptions, disabled, disallowBlank } = props
 
 	let textValue: string | undefined = value?.toString()
 	let textOnChange = (textValue?: string) => {
@@ -26,7 +26,7 @@ export function NumberSelect(props: SelectProps<number>) {
 	let textSelectOptions: Array<SelectOption<string>> = selectOptions.map(({ text, value }) => { return { text, value: value.toString() } })
 
 	let textProps: SelectProps<string> = {
-		id, value: textValue, onChange: textOnChange, label, errorMessage, required, hidden, placeholder, selectOptions: textSelectOptions, disabled
+		id, value: textValue, onChange: textOnChange, label, errorMessage, required, hidden, placeholder, selectOptions: textSelectOptions, disabled, disallowBlank
 	}
 
 	return <TextSelect {...textProps} />

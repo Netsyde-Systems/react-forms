@@ -34,7 +34,7 @@ export function TextSelect(props: SelectProps<string>) {
 		)
 	})
 
-	options.unshift(<option key='' value={NULL_STRING_VALUE}>{props.placeholder || ''}</option>)
+	if (!props.disallowBlank) options.unshift(<option key='' value={NULL_STRING_VALUE}>{props.placeholder || ''}</option>)
 
 	return (
 		<div className={className}>

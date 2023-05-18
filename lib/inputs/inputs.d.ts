@@ -14,6 +14,7 @@ export interface InputProps<T> extends Activatable {
     placeholder?: string;
     locale?: Locale;
     readOnly?: boolean;
+    disallowBlank?: boolean;
 }
 export interface SelectOption<T extends string | number> {
     value: T;
