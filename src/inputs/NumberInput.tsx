@@ -20,12 +20,12 @@ export function NumberInput(props: InputProps<number>) {
 
 	const className = getInputEnvelopeClass(props, 'text', 'input')
 
-	const { id, disabled, placeholder, required } = props
+	const { id, disabled, placeholder, required, controlProps } = props
 
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
-			<input type='number' value={props.value ?? ''} onChange={handleChange} {...{ id, disabled, required, placeholder }} />
+			<input {...controlProps} type='number' value={props.value ?? ''} onChange={handleChange} {...{ id, disabled, required, placeholder }} />
 			<ErrorMessage {...props} />
 		</div>
 	)

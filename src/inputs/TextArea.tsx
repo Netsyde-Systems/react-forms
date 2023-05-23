@@ -1,4 +1,4 @@
-import { ChangeEventHandler } from 'react'
+import { ChangeEventHandler, TextareaHTMLAttributes } from 'react'
 
 import { InputProps, getInputEnvelopeClass } from './inputs'
 import { InputLabel } from './InputLabel'
@@ -7,10 +7,7 @@ import { ReadonlyField } from './ReadonlyField'
 
 import './Inputs.scss'
 
-export interface TextAreaProps extends InputProps<string> {
-	rows?: number
-	cols?: number
-}
+export interface TextAreaProps extends InputProps<string, TextareaHTMLAttributes<any>> { }
 
 export function TextArea(props: TextAreaProps) {
 	if (props.readOnly) return <ReadonlyField {...props} />
@@ -20,12 +17,12 @@ export function TextArea(props: TextAreaProps) {
 
 	const className = getInputEnvelopeClass(props, 'text', 'area')
 
-	const { id, disabled, required, placeholder, rows, cols } = props
+	const { id, disabled, required, placeholder, controlProps } = props
 
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
-			<textarea value={props.value ?? ''} onChange={handleChange} {...{ id, disabled, required, placeholder, rows, cols }} />
+			<textarea {...controlProps} value={props.value ?? ''} onChange={handleChange} {...{ id, disabled, required, placeholder }} />
 			<ErrorMessage {...props} />
 		</div>
 	)

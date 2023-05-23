@@ -5,7 +5,7 @@ import './Inputs.scss'
 import './Radio.scss'
 
 export function NumberRadio(props: SelectProps<number>) {
-	let { id, value, onChange, label, errorMessage, required, hidden, selectOptions, disabled, readOnly } = props
+	let { value, onChange, selectOptions } = props
 
 	let textValue: string | undefined = value?.toString()
 	let textOnChange = (textValue?: string) => {
@@ -16,9 +16,7 @@ export function NumberRadio(props: SelectProps<number>) {
 
 	let textSelectOptions: Array<SelectOption<string>> = selectOptions.map(({ text, value }) => { return { text, value: value.toString() } })
 
-	let textProps: SelectProps<string> = {
-		id, value: textValue, onChange: textOnChange, label, errorMessage, required, hidden, selectOptions: textSelectOptions, disabled, readOnly
-	}
+	let textProps: SelectProps<string> = { ...props, value: textValue, onChange: textOnChange, selectOptions: textSelectOptions }
 
 	return <TextRadio {...textProps} />
 }

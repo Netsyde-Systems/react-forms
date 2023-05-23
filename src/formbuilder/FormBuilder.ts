@@ -1,4 +1,4 @@
-import { ReactElement } from "react"
+import { InputHTMLAttributes, ReactElement, SelectHTMLAttributes, TextareaHTMLAttributes } from "react"
 
 import TextInput from "../inputs/TextInput"
 import NumberInput from "../inputs/NumberInput"
@@ -138,7 +138,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 	}
 
 	// We've factored out what needs to be done for every control type here
-	private linkStandardControl<FieldT>(fieldName: OnlyKeysOfType<FormT, FieldT>, InputControl: ReactFormsInputControl<FieldT>) {
+	private linkStandardControl<FieldT>(fieldName: OnlyKeysOfType<FormT, FieldT>, InputControl: ReactFormsInputControl<FieldT>, controlProps?: InputHTMLAttributes<any>) {
 		let newFormState = Object.assign({}, this.formState)
 		let newFormData = Object.assign({}, this.formData)
 
@@ -148,12 +148,12 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 			this.setData(formData, newFormState, fieldName)
 		}
 
-		const inputControl = createStandardInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, InputControl, this.subFormName, this.subFormIndex, this.rootFormData)
+		const inputControl = createStandardInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, InputControl, this.subFormName, this.subFormIndex, this.rootFormData, controlProps)
 
 		return inputControl
 	}
 
-	private linkOptionControl<FieldT extends string | number>(fieldName: OnlyKeysOfType<FormT, FieldT>, OptionControl: ReactFormsOptionControl<FieldT>) {
+	private linkOptionControl<FieldT extends string | number>(fieldName: OnlyKeysOfType<FormT, FieldT>, OptionControl: ReactFormsOptionControl<FieldT>, controlProps?: InputHTMLAttributes<any>) {
 		let newFormState = Object.assign({}, this.formState)
 		let newFormData = Object.assign({}, this.formData)
 
@@ -163,39 +163,41 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 			this.setData(formData, newFormState, fieldName)
 		}
 
-		const inputControl = createOptionInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, OptionControl, this.subFormName, this.subFormIndex, this.rootFormData)
+		const inputControl = createOptionInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, OptionControl, this.subFormName, this.subFormIndex, this.rootFormData, controlProps)
 
 		return inputControl
 	}
 
-	public textInput = (fieldName: OnlyKeysOfType<FormT, string>) => this.linkStandardControl(fieldName, TextInput)
+	public textInput = (fieldName: OnlyKeysOfType<FormT, string>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl(fieldName, TextInput, controlProps)
 
-	public textArea = (fieldName: OnlyKeysOfType<FormT, string>) => this.linkStandardControl(fieldName, TextArea)
+	public textArea = (fieldName: OnlyKeysOfType<FormT, string>, controlProps?: TextareaHTMLAttributes<HTMLTextAreaElement>) => this.linkStandardControl(fieldName, TextArea, controlProps)
 
-	public numberInput = (fieldName: OnlyKeysOfType<FormT, number>) => this.linkStandardControl<number>(fieldName, NumberInput)
+	public numberInput = (fieldName: OnlyKeysOfType<FormT, number>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl<number>(fieldName, NumberInput, controlProps)
 	
-	public dateInput = (fieldName: OnlyKeysOfType<FormT, Date>) => this.linkStandardControl(fieldName, DateInput)
+	public dateInput = (fieldName: OnlyKeysOfType<FormT, Date>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl(fieldName, DateInput, controlProps)
 
+	// Note: Localized Date Input does not support standard controlProps like the other inputs do (at this time)
 	public localizedDateInput = (fieldName: OnlyKeysOfType<FormT, Date>) => this.linkStandardControl(fieldName, LocalizedDateInput)
 
-	public postalCode = (fieldName: OnlyKeysOfType<FormT, string>) => this.linkStandardControl(fieldName, PostalCode)
+	public postalCode = (fieldName: OnlyKeysOfType<FormT, string>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl(fieldName, PostalCode, controlProps)
 
-	public phoneNumber = (fieldName: OnlyKeysOfType<FormT, number>) => this.linkStandardControl(fieldName, PhoneNumber)
+	public phoneNumber = (fieldName: OnlyKeysOfType<FormT, number>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl(fieldName, PhoneNumber, controlProps)
 
-	public emailAddress = (fieldName: OnlyKeysOfType<FormT, string>) => this.linkStandardControl(fieldName, EmailAddress)
+	public emailAddress = (fieldName: OnlyKeysOfType<FormT, string>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl(fieldName, EmailAddress, controlProps)
 
-	public currency = (fieldName: OnlyKeysOfType<FormT, number>) => this.linkStandardControl(fieldName, Currency)
+	public currency = (fieldName: OnlyKeysOfType<FormT, number>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl(fieldName, Currency, controlProps)
 
-	public textSelect = (fieldName: OnlyKeysOfType<FormT, string>) => this.linkOptionControl<string>(fieldName, TextSelect)
+	public textSelect = (fieldName: OnlyKeysOfType<FormT, string>, controlProps?: SelectHTMLAttributes<HTMLSelectElement>) => this.linkOptionControl<string>(fieldName, TextSelect, controlProps)
 
-	public numberSelect = (fieldName: OnlyKeysOfType<FormT, number>) => this.linkOptionControl<number>(fieldName, NumberSelect)
+	public numberSelect = (fieldName: OnlyKeysOfType<FormT, number>, controlProps?: SelectHTMLAttributes<HTMLSelectElement>) => this.linkOptionControl<number>(fieldName, NumberSelect, controlProps)
 
-	public textRadio = (fieldName: OnlyKeysOfType<FormT, string>) => this.linkOptionControl<string>(fieldName, TextRadio)
+	public textRadio = (fieldName: OnlyKeysOfType<FormT, string>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkOptionControl<string>(fieldName, TextRadio, controlProps)
 
-	public numberRadio = (fieldName: OnlyKeysOfType<FormT, number>) => this.linkOptionControl<number>(fieldName, NumberRadio)
+	public numberRadio = (fieldName: OnlyKeysOfType<FormT, number>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkOptionControl<number>(fieldName, NumberRadio, controlProps)
 
-	public checkbox = (fieldName: OnlyKeysOfType<FormT, boolean>) => this.linkStandardControl(fieldName, CheckBox)
+	public checkbox = (fieldName: OnlyKeysOfType<FormT, boolean>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl(fieldName, CheckBox, controlProps)
 
+	// Note: File Input does not support standard controlProps like the other inputs do (at this time)
 	public files = (fieldName: OnlyKeysOfType<FormT, Array<File>>) => this.linkStandardControl(fieldName, FileInput)
 
 	public validate() {

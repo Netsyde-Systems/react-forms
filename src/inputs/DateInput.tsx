@@ -24,12 +24,12 @@ export function DateInput(props: InputProps<Date>) {
 
 	const className = getInputEnvelopeClass(props, 'date', 'input')
 
-	const { id, disabled } = props
+	const { id, disabled, controlProps } = props
 
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
-			<input type='date' value={value} onChange={handleChange} {...{ id, disabled }} />
+			<input {...controlProps} type='date' value={value} onChange={handleChange} {...{ id, disabled }} />
 			<ErrorMessage {...props} />
 		</div>
 	)

@@ -8,6 +8,7 @@ import './Inputs.scss'
 import './Radio.scss'
 
 export function TextRadio(props: SelectProps<string>) {
+	const { controlProps } = props
 
 	const handleOptionChange: ChangeEventHandler<HTMLInputElement> = (e) => !props.readOnly && props.onChange(e.target.value) 
 
@@ -17,7 +18,7 @@ export function TextRadio(props: SelectProps<string>) {
 		const radioId = props.id + optionIndex
 		return (
 			<div key={optionIndex}>
-				<input id={radioId} name={props.id} type='radio' value={option.value} checked={props.value === option.value} onChange={handleOptionChange} disabled={props.disabled} readOnly={props.readOnly} />
+				<input {...controlProps} id={radioId} name={props.id} type='radio' value={option.value} checked={props.value === option.value} onChange={handleOptionChange} disabled={props.disabled} readOnly={props.readOnly} />
 				<label htmlFor={props.id + optionIndex}>{option.text}</label>
 			</div>
 		)

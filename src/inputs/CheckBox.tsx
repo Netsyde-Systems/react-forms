@@ -14,11 +14,11 @@ export function CheckBox(props: InputProps<boolean>) {
 
 	const className = getInputEnvelopeClass(props, 'checkbox', 'input')
 
-	const { id, disabled, required, readOnly } = props
+	const { id, disabled, required, readOnly, controlProps } = props
 
 	return (
 		<div className={className}>
-			<input type="checkbox" checked={!!props.value} onChange={handleChange} {...{ id, disabled, required, readOnly }} />
+			<input {...controlProps} type="checkbox" checked={!!props.value} onChange={handleChange} {...{ id, disabled, required, readOnly }} />
 			<InputLabel {...props} /><br />
 			<ErrorMessage {...props} />
 		</div>

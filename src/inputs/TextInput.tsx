@@ -15,12 +15,12 @@ export function TextInput(props: InputProps<string>) {
 
 	const className = getInputEnvelopeClass(props, 'text', 'input')
 
-	const { id, disabled, required, placeholder } = props
+	const { id, disabled, required, placeholder, controlProps } = props
 
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
-			<input value={props.value ?? ''} onChange={handleChange} {...{ id, disabled, required, placeholder }} />
+			<input {...controlProps} value={props.value ?? ''} onChange={handleChange} {...{ id, disabled, required, placeholder }} />
 			<ErrorMessage {...props} />
 		</div>
 	)

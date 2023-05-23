@@ -35,6 +35,7 @@ export interface FileInputProps extends InputProps<Array<File>> {
 	textResources?: Partial<typeof DefaultFileInputTextResources>
 }
 
+// Note: File Input does not support standard controlProps like the other inputs do (at this time)
 export function FileInput(props: FileInputProps) {
 	let fileInputField = React.useRef<HTMLInputElement>(null)
 	let fileLookup = arrayToObject(props.value || [], (file) => file.name)

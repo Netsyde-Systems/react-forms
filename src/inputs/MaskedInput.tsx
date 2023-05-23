@@ -37,12 +37,12 @@ export function MaskedInput(props: MaskedInputProps) {
 
 	const className = getInputEnvelopeClass(props, 'text', 'input')
 
-	const { id, disabled, placeholder, required } = props
+	const { id, disabled, placeholder, required, controlProps } = props
 
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
-			<IMaskInput value={mask.value} unmask={true} mask={mask} onAccept={handleAccept}  {...{ id, disabled, required, placeholder }} />
+			<IMaskInput {...controlProps} value={mask.value} unmask={true} mask={mask} onAccept={handleAccept}  {...{ id, disabled, required, placeholder }} />
 			<ErrorMessage {...props} />
 		</div>
 	)

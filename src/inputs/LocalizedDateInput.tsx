@@ -9,6 +9,7 @@ import { ReadonlyField } from './ReadonlyField'
 import './Inputs.scss'
 import 'react-datepicker/dist/react-datepicker.css'
 
+// Note: Localized Date Input does not support standard controlProps like the other inputs do (at this time)
 export function LocalizedDateInput(props: InputProps<Date>) {
 	const value = dateToIsoGmtShortDateString(props.value)
 

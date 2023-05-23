@@ -7,6 +7,7 @@ import { NumberSelect } from '../inputs/NumberSelect'
 import { TextSelect } from '../inputs/TextSelect'
 import { getMaxLengthValidator, getMaxValidator, getMinLengthValidator, getMinValidator, requiredFieldValidator } from '../validation/validation'
 import { getUnique } from '../utilities'
+import { InputHTMLAttributes } from 'react'
 
 export interface ReactFormsInputControl<FieldType> {
 	(inputProps: InputProps<FieldType>): JSX.Element
@@ -25,10 +26,12 @@ export function createStandardInput<FormT, FieldType, LanguageT extends string |
 	InputControl: ReactFormsInputControl<FieldType>, 
 	subFormName: string | undefined,
 	subFormIndex: number | undefined, 
-	rootFormData: FormData<any> | undefined
+	rootFormData: FormData<any> | undefined, 
+	controlProps?: InputHTMLAttributes<any>
 ): JSX.Element { 
 
 	let props = getInputProps<FormT, FieldType, LanguageT>(fieldDefinitions, formData, formState, fieldName, onChange, subFormName, subFormIndex, rootFormData)
+	props.controlProps = controlProps
 
 	return InputControl(props)
 }
@@ -42,10 +45,12 @@ export function createOptionInput<FormT, FieldType extends string | number, Lang
 	OptionControl: ReactFormsOptionControl<FieldType>, 
 	subFormName: string | undefined,
 	subFormIndex: number | undefined, 
-	rootFormData: FormData<any> | undefined
+	rootFormData: FormData<any> | undefined, 
+	controlProps?: InputHTMLAttributes<any>
 ): JSX.Element { 
 
 	const props = getInputProps<FormT, FieldType, LanguageT>(formDefinition, formData, formState, fieldName, onChange, subFormName, subFormIndex, rootFormData)
+	props.controlProps = controlProps
 
 	const selectOptions = getSelectOptions<FormT, FieldType, LanguageT>(formDefinition, formData, fieldName, formState.language)
 
@@ -247,7 +252,7 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 		disabled, 
 		readOnly, 
 		required, 
-		locale 
+		locale
 	}
 
 	formState.fieldErrorConditions ??= {}

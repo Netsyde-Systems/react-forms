@@ -26,7 +26,7 @@ export function TextSelect(props: SelectProps<string>) {
 
 	const className = getInputEnvelopeClass(props, 'select', 'input')
 
-	const { id, disabled, required } = props
+	const { id, disabled, required, controlProps } = props
 
 	const options = props.selectOptions.map((option, optionIndex) => {
 		return (
@@ -39,7 +39,7 @@ export function TextSelect(props: SelectProps<string>) {
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
-			<select value={props.value ?? ''} onChange={handleChange} {...{ id, disabled, required }} >
+			<select {...controlProps} value={props.value ?? ''} onChange={handleChange} {...{ id, disabled, required }} >
 				{options}
 			</select>
 			<ErrorMessage {...props} />

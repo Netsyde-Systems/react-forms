@@ -95,12 +95,13 @@ function Controls() {
 		{ type: getToggleButtonType(controlsAreRequired), text: buttonText.required, onClick: () => makeControlsRequired(!controlsAreRequired) }, 
 	]
 
-	const sharedProperties: Pick<InputProps<any>, 'errorMessage' | 'disabled' | 'required' | 'readOnly' | 'hidden' > = {
+	const sharedProperties: Pick<InputProps<any>, 'errorMessage' | 'disabled' | 'required' | 'readOnly' | 'hidden' | 'controlProps' > = {
 		errorMessage: controlsHaveErrors ? 'There is an Error of some sort' : undefined, 
 		disabled: controlsAreDisabled, 
 		required: controlsAreRequired, 
 		readOnly: controlsAreReadOnly,
-		hidden: controlsAreHidden
+		hidden: controlsAreHidden, 
+		controlProps: { title: 'Control Props Title Test' }
 	}
 
 	const textSelectOptions: Array<SelectOption<string>> = [
@@ -137,7 +138,7 @@ function Controls() {
 
 					<div className='control-row'>
 						<div className='control-cell'>
-							<TextSelect id='selTextInput' label='Text Select' value={selectTextValue} onChange={setSelectTextValue} placeholder="Select Text Placeholder" selectOptions={textSelectOptions} {...sharedProperties} />
+						<TextSelect id='selTextInput' label='Text Select' value={selectTextValue} onChange={setSelectTextValue} placeholder="Select Text Placeholder" selectOptions={textSelectOptions} {...sharedProperties} />
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(selectTextValue)}
@@ -167,7 +168,7 @@ function Controls() {
 
 					<div className='control-row'>
 						<div className='control-cell'>
-							<TextArea id='txtAreaInput' label='Text Area' value={textAreaValue} onChange={setTextAreaValue} placeholder="Text Area Placeholder" rows={5} {...sharedProperties} />
+							<TextArea id='txtAreaInput' label='Text Area' value={textAreaValue} onChange={setTextAreaValue} placeholder="Text Area Placeholder" {...sharedProperties} controlProps={{rows: 5, title: 'text area title check'}} />
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(textAreaValue)}
@@ -191,7 +192,7 @@ function Controls() {
 							{nullableValueMessage(textMaskedValue)}
 						</div>
 						<div className='control-cell'>
-							<CheckBox id='chkInput' label='Checkbox Input' value={checkboxValue} onChange={setCheckboxValue} {...sharedProperties}  />
+							<CheckBox id='chkInput' label='Checkbox Input' value={checkboxValue} onChange={setCheckboxValue} {...sharedProperties} />
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(checkboxValue)}
@@ -244,7 +245,7 @@ function Controls() {
 					</div>
 				</div>
 
-				{buttonDefs.map(bd => <button onClick={bd.onClick}>{bd.text}</button>)}
+				{buttonDefs.map((bd, ix) => <button key={ix} onClick={bd.onClick}>{bd.text}</button>)}
 		</div>
 	)
 }

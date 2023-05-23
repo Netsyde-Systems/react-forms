@@ -1,14 +1,15 @@
 import classNames from 'classnames'
 import { Locale } from 'date-fns'
+import { HTMLAttributes, InputHTMLAttributes, SelectHTMLAttributes } from 'react'
 
 export interface Activatable {
 	disabled?: boolean
 }
 
-export interface InputProps<T> extends Activatable {
+export interface InputProps<ValueT, ControlAttributesT extends HTMLAttributes<ValueT> = InputHTMLAttributes<any>> extends Activatable {
 	id: string
-	value: T | undefined
-	onChange: (val?: T) => void
+	value: ValueT | undefined
+	onChange: (val?: ValueT) => void
 	// a label or errorMessage of false indicates we should collapse it
 	// useful for tabular displays
 	label?: string | false
@@ -22,6 +23,8 @@ export interface InputProps<T> extends Activatable {
 	locale?: Locale
 	readOnly?: boolean
 	disallowBlank?: boolean
+	className?: string
+	controlProps?: Omit<ControlAttributesT, keyof InputProps<ValueT>>
 }
 
 export interface SelectOption<T extends string | number> {
@@ -29,12 +32,12 @@ export interface SelectOption<T extends string | number> {
 	text: string
 }
 
-export interface SelectProps<T extends string | number> extends InputProps<T> {
+export interface SelectProps<T extends string | number> extends InputProps<T, SelectHTMLAttributes<any>> {
 	selectOptions: Array<SelectOption<T>>
 }
 
-export function getInputEnvelopeClass(props: InputProps<any>, ...args: Array<string>) {
-	const { hidden, disabled } = props
+export function getInputEnvelopeClass(props: InputProps<any, any>, ...args: Array<string>) {
+	const { hidden, disabled, className } = props
 
-	return classNames(...args, { 'has-errors': props.hasError || (typeof props.errorMessage === 'string') }, { hidden, disabled })
+	return classNames(className, ...args, { 'has-errors': props.hasError || (typeof props.errorMessage === 'string') }, { hidden, disabled })
 }

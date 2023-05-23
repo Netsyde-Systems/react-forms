@@ -4,7 +4,7 @@ import { ErrorMessage } from './ErrorMessage'
 
 import './Inputs.scss'
 
-export interface ReadonlyFieldProps extends InputProps<string> { }
+export interface ReadonlyFieldProps extends InputProps<string, any> { }
 
 export function ReadonlyField(props: ReadonlyFieldProps) {
 	const className = getInputEnvelopeClass(props, 'readonly', 'field')
