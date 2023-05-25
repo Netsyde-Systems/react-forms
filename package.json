@@ -28,7 +28,7 @@
     "copystyles": "copyfiles -u 1 src/**/*.scss lib/",
     "compile": "npm run cleanlib && npm run copystyles && tsc --project tsconfig.lib.json", 
     "precommit": "npm run compile", 
-    "postcommit": "npm run publish && npm run deploy"
+    "postcommit": "npm publish && npm run deploy"
   },
   "dependencies": {
     "classnames": "^2.3.1",
