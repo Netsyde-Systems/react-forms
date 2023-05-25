@@ -50,6 +50,7 @@ export declare class FormBuilder<FormT, LanguageT extends string | undefined = u
     textRadio: (fieldName: OnlyKeysOfType<FormT, string>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => JSX.Element;
     numberRadio: (fieldName: OnlyKeysOfType<FormT, number>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => JSX.Element;
     checkbox: (fieldName: OnlyKeysOfType<FormT, boolean>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => JSX.Element;
+    readonlyField: (label: string, text: string) => JSX.Element;
     files: (fieldName: OnlyKeysOfType<FormT, Array<File>>) => JSX.Element;
     validate(): void;
     subFormLoop<SubFormT>(fieldName: OnlyKeysOfType<FormT, Array<SubFormT>>, subFormConstructor: SubFormLoopConstructor<SubFormT, LanguageT>): Array<ReactElement>;

@@ -157,6 +157,9 @@ export function Forms() {
 						<div className='control-cell'>
 							{rf.currency('currency', { title: 'Currency Function' })}
 						</div>
+						<div className='control-cell'>
+							{rf.readonlyField('Calculated', `number + phone = ${(rf.formData.numberProperty || 0) + (rf.formData.phoneNumber || 0)}`)}
+						</div>
 					</div>
 
 					<div className='control-row'>
@@ -172,6 +175,9 @@ export function Forms() {
 						<div className='control-cell'>
 							<RF.Currency field='currency' title='Currency Element' />
 							Note, cents input not yet working with form builder (but is when using control itself).  <br/>TODO: investigate
+						</div>
+						<div className='control-cell'>
+							Calculated field not yet implemented with element builder.  May require redesign
 						</div>
 					</div>
 

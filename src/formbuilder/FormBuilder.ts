@@ -19,6 +19,7 @@ import Currency from "../inputs/Currency"
 import { createOptionInput, createStandardInput, getInputProps, ReactFormsInputControl, ReactFormsOptionControl } from "./FormBuilderInputs"
 import { ExtractLanguage, FieldSpecifierArgument, FormData, FormDefinition, FormFieldMap, FormState, LocalizedString, OnlyKeysOfType, SubFormDefinition } from "./FormBuilderTypes"
 import { ElementBuilder } from "./ElementBuilder"
+import { ReadonlyField } from "../inputs/ReadonlyField"
 
 export type FieldNameProps<FormT, FieldT> = {
 	field: OnlyKeysOfType<FormT, FieldT>
@@ -196,6 +197,8 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 	public numberRadio = (fieldName: OnlyKeysOfType<FormT, number>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkOptionControl<number>(fieldName, NumberRadio, controlProps)
 
 	public checkbox = (fieldName: OnlyKeysOfType<FormT, boolean>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl(fieldName, CheckBox, controlProps)
+
+	public readonlyField = (label: string, text: string) => ReadonlyField({ label, value: text, onChange: () => '', id: 'test' })
 
 	// Note: File Input does not support standard controlProps like the other inputs do (at this time)
 	public files = (fieldName: OnlyKeysOfType<FormT, Array<File>>) => this.linkStandardControl(fieldName, FileInput)
