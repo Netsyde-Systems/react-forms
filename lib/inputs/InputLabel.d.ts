@@ -1,5 +1,5 @@
 /// <reference types="react" />
 import './InputLabel.scss';
-import { InputProps } from './inputs';
-export declare function InputLabel(props: InputProps<any>): JSX.Element;
+import { ReadonlyProps } from './inputs';
+export declare function InputLabel(props: ReadonlyProps<any>): JSX.Element;
 export default InputLabel;

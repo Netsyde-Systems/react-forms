@@ -2,9 +2,9 @@ import React from 'react'
 import classNames from 'classnames'
 
 import './InputLabel.scss'
-import { InputProps } from './inputs'
+import { ReadonlyProps } from './inputs'
 
-export function InputLabel(props: InputProps<any>) {
+export function InputLabel(props: ReadonlyProps<any>) {
 	const { id, label, required } = props
 
 	const className = classNames('input-label', { required: required && !!label })

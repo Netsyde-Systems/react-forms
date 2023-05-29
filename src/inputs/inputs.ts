@@ -6,10 +6,9 @@ export interface Activatable {
 	disabled?: boolean
 }
 
-export interface InputProps<ValueT, ControlAttributesT extends HTMLAttributes<ValueT> = InputHTMLAttributes<any>> extends Activatable {
+export interface ReadonlyProps<ValueT, ControlAttributesT extends HTMLAttributes<ValueT> = InputHTMLAttributes<any>> extends Activatable {
 	id: string
 	value: ValueT | undefined
-	onChange: (val?: ValueT) => void
 	// a label or errorMessage of false indicates we should collapse it
 	// useful for tabular displays
 	label?: string | false
@@ -27,7 +26,11 @@ export interface InputProps<ValueT, ControlAttributesT extends HTMLAttributes<Va
 	controlProps?: Omit<ControlAttributesT, keyof InputProps<ValueT>>
 }
 
-export interface SelectOption<T extends string | number> {
+export interface InputProps<ValueT, ControlAttributesT extends HTMLAttributes<ValueT> = InputHTMLAttributes<any>> extends ReadonlyProps<ValueT, ControlAttributesT> {
+	onChange: (val?: ValueT) => void
+}
+
+export interface SelectOption<T> {
 	value: T
 	text: string
 }
@@ -36,7 +39,7 @@ export interface SelectProps<T extends string | number> extends InputProps<T, Se
 	selectOptions: Array<SelectOption<T>>
 }
 
-export function getInputEnvelopeClass(props: InputProps<any, any>, ...args: Array<string>) {
+export function getInputEnvelopeClass(props: ReadonlyProps<any, any>, ...args: Array<string>) {
 	const { hidden, disabled, className } = props
 
 	return classNames(className, ...args, { 'has-errors': props.hasError || (typeof props.errorMessage === 'string') }, { hidden, disabled })

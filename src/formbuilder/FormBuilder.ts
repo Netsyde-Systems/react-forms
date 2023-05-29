@@ -198,7 +198,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 
 	public checkbox = (fieldName: OnlyKeysOfType<FormT, boolean>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl(fieldName, CheckBox, controlProps)
 
-	public readonlyField = (label: string, text: string) => ReadonlyField({ label, value: text, onChange: () => '', id: 'test' })
+	public readonlyField = (label: string, text: string) => ReadonlyField({ label, value: text, id: 'test' })
 
 	// Note: File Input does not support standard controlProps like the other inputs do (at this time)
 	public files = (fieldName: OnlyKeysOfType<FormT, Array<File>>) => this.linkStandardControl(fieldName, FileInput)

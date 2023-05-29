@@ -1,7 +1,7 @@
 /// <reference types="react" />
-import { InputProps } from './inputs';
+import { InputProps, ReadonlyProps } from './inputs';
 import './Inputs.scss';
-export interface ReadonlyFieldProps extends InputProps<string, any> {
+export interface ReadonlyFieldProps extends Omit<InputProps<string, any>, 'onChange'> {
 }
-export declare function ReadonlyField(props: ReadonlyFieldProps): JSX.Element;
+export declare function ReadonlyField(props: ReadonlyProps<string>): JSX.Element;
 export default ReadonlyField;
