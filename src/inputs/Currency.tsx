@@ -2,17 +2,19 @@ import React from 'react'
 
 import { AnyMaskedOptions } from 'imask'
 import { InputProps } from './inputs'
-import { MaskedInput } from './MaskedInput'
-
-import './Inputs.scss'
+import { MaskedInput, MaskedInputDetailedChangeEventHandler } from './MaskedInput'
 
 export function Currency(props: InputProps<number>) {
 
 	const handleChange = (textValue?: string) => {
-		console.log(`currency textValue: ${textValue}`)
+		console.log(`currency change textValue: ${textValue}`)
 		const numVal = Number(textValue)
 		if (textValue === '' || isNaN(numVal)) props.onChange(undefined)
 		else props.onChange(numVal)
+	}
+
+	const handleChangeDetailed: MaskedInputDetailedChangeEventHandler  = (e) => {
+		console.log('currency detailed change event: ' + JSON.stringify(e, null, 2))
 	}
 
 	const dollarMask: AnyMaskedOptions = {
@@ -27,7 +29,7 @@ export function Currency(props: InputProps<number>) {
 	}
 
 	return (
-		<MaskedInput {...props} value={props.value?.toString() || ''} placeholder='$' onChange={handleChange} mask={dollarMask} />
+		<MaskedInput {...props} value={props.value?.toString() || ''} placeholder='$' onChange={handleChange} onChangeDetailed={handleChangeDetailed} mask={dollarMask} />
 	)
 }
 

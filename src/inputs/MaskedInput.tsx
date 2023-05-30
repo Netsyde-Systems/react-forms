@@ -13,8 +13,18 @@ export interface MaskTestFunction {
 	(val: string): boolean
 }
 
+export interface MaskedInputDetailedChangedEvent {
+	value?: string
+	typedValue?: string
+}
+
+export interface MaskedInputDetailedChangeEventHandler {
+	(e: MaskedInputDetailedChangedEvent): void
+}
+
 export interface MaskedInputProps extends InputProps<string> {
 	mask: string | AnyMaskedOptions
+	onChangeDetailed?: MaskedInputDetailedChangeEventHandler
 }
 
 export function MaskedInput(props: MaskedInputProps) {
@@ -31,8 +41,16 @@ export function MaskedInput(props: MaskedInputProps) {
 		return <ReadonlyField {...Object.assign({}, props, { value: mask.value })} />
 	}
 
-	const handleAccept = (value: unknown, mask: InputMask<AnyMaskedOptions>, e: any) => { 
-		props.onChange(value as string)
+	const handleAccept = (value: string, mask: InputMask<AnyMaskedOptions>, e: any) => { 
+		// console.table(mask)
+		console.log(`onAccept => value: ${value} mask.value: ${mask.value} mask.unmaskedValue: ${mask.unmaskedValue} mask.typedValue ${mask.typedValue} mask.masked: ${mask.masked}`)
+		props.onChange(value)
+		props.onChangeDetailed?.({ value, typedValue: mask.typedValue as string | undefined })
+	}
+
+	// not sure why we need to specify a change handler now that imask.js has been updated
+	const dummyChangeHandler = (e: any) => {
+		console.log(`onChange called`)
 	}
 
 	const className = getInputEnvelopeClass(props, 'text', 'input')
@@ -42,7 +60,7 @@ export function MaskedInput(props: MaskedInputProps) {
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
-			<IMaskInput {...controlProps} value={mask.value} unmask={true} mask={mask} onAccept={handleAccept}  {...{ id, disabled, required, placeholder }} />
+			<IMaskInput {...controlProps} value={mask.value} unmask={true} mask={mask} onAccept={handleAccept} onChange={dummyChangeHandler}  {...{ id, disabled, required, placeholder }} />
 			<ErrorMessage {...props} />
 		</div>
 	)
