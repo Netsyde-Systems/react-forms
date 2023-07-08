@@ -1,7 +1,5 @@
-import React from 'react'
 import classNames from 'classnames'
 
-import './ErrorMessage.scss'
 import { ReadonlyProps } from './inputs'
 
 export function ErrorMessage(props: ReadonlyProps<any>) {

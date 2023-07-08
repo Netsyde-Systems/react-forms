@@ -5,8 +5,6 @@ import { InputLabel } from './InputLabel'
 import { ErrorMessage } from './ErrorMessage'
 import { ReadonlyField } from './ReadonlyField'
 
-import './Inputs.scss'
-
 export interface TextAreaProps extends InputProps<string, TextareaHTMLAttributes<any>> { }
 
 export function TextArea(props: TextAreaProps) {

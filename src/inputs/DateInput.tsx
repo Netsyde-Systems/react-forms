@@ -5,10 +5,7 @@ import { InputLabel} from './InputLabel'
 import { ErrorMessage } from './ErrorMessage'
 import { ReadonlyField } from './ReadonlyField'
 
-import './Inputs.scss'
-
 import { dateToIsoGmtShortDateString, shortDateStringToDate } from '../utilities'
-
 
 export function DateInput(props: InputProps<Date>) {
 	const value = dateToIsoGmtShortDateString(props.value)

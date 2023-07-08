@@ -2,7 +2,7 @@
 
 // Based on widget described here: https://dev.to/chandrapantachhetri/responsive-react-file-upload-component-with-drag-and-drop-4ef8
 
-.file.input {
+.rf-ctrl.file.input {
 
 	&.hidden {
 		visibility: hidden;
@@ -10,7 +10,7 @@
 
 	section.upload {
 		position: relative;
-		margin: 10px 0 0;
+		// margin: 10px 0 0;
 		border: 2px dotted lightgray;
 		padding: 35px 20px;
 		border-radius: 6px;
@@ -68,7 +68,7 @@
 				cursor: not-allowed;
 			}
 
-			i {
+			i.folder {
 				&:before {
 					content: '📁'
 				}
@@ -184,7 +184,7 @@
 						display: flex;
 						justify-content: space-between;
 
-						i {
+						i.trash {
 							&:after {
 								content: '🗑';
 							}

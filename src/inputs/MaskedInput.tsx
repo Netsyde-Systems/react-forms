@@ -7,8 +7,6 @@ import { InputLabel} from './InputLabel'
 import { ErrorMessage } from './ErrorMessage'
 import { ReadonlyField } from './ReadonlyField'
 
-import './Inputs.scss'
-
 export interface MaskTestFunction {
 	(val: string): boolean
 }

@@ -1,7 +1,4 @@
-import React from 'react'
 import classNames from 'classnames'
-
-import './InputLabel.scss'
 import { ReadonlyProps } from './inputs'
 
 export function InputLabel(props: ReadonlyProps<any>) {

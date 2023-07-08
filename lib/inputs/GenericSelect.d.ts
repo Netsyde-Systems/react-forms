@@ -1,6 +1,5 @@
 /// <reference types="react" />
 import { InputProps, SelectOption } from './inputs';
-import './Inputs.scss';
 export interface GenericSelectProps<T> extends InputProps<T> {
     selectOptions: Array<SelectOption<T>>;
     valueToString: (val?: T) => string;

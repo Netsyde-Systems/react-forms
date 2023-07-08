@@ -1,12 +1,6 @@
 @use '../constants';
 
-.text.area,
-.text.input,
-.select.input,
-.checkbox.input,
-.radio.input,
-.date.input,
-.readonly.field {
+.rf-ctrl {
 
 	&.hidden {
 		visibility: hidden;

@@ -1,8 +1,4 @@
-import React from 'react'
-
 import { InputProps } from './inputs'
-
-import './Inputs.scss'
 import { MaskedInput } from './MaskedInput'
 
 export function PostalCode(props: InputProps<string>) {

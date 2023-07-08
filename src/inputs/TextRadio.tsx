@@ -4,9 +4,6 @@ import { SelectProps, getInputEnvelopeClass } from './inputs'
 import { InputLabel } from './InputLabel'
 import { ErrorMessage } from './ErrorMessage'
 
-import './Inputs.scss'
-import './Radio.scss'
-
 export function TextRadio(props: SelectProps<string>) {
 	const { controlProps } = props
 

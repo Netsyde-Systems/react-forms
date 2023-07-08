@@ -42,5 +42,5 @@ export interface SelectProps<T extends string | number> extends InputProps<T, Se
 export function getInputEnvelopeClass(props: ReadonlyProps<any, any>, ...args: Array<string>) {
 	const { hidden, disabled, className } = props
 
-	return classNames(className, ...args, { 'has-errors': props.hasError || (typeof props.errorMessage === 'string') }, { hidden, disabled })
+	return classNames('rf-ctrl', className, ...args, { 'has-errors': props.hasError || (typeof props.errorMessage === 'string') }, { hidden, disabled })
 }

@@ -6,8 +6,6 @@ import { getInputEnvelopeClass, InputProps } from './inputs'
 import { ErrorMessage } from './ErrorMessage'
 import { InputLabel } from './InputLabel'
 
-import './FileInput.scss'
-
 const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 5 * BYTES_PER_KILOBYTE ** 2 // 5 MB
 
 const objectToArray = (obj: any) =>
@@ -23,16 +21,9 @@ function arrayToObject<T>(arr: Array<T>, keySelector: (obj: T) => string) {
 	return dic
 }
 
-const DefaultFileInputTextResources = {
-	dragAndDropOr: 'Drag and drop or',
-	uploadAFile: 'Upload a File',
-	uploadFiles: 'Upload Files',
-}
-
 export interface FileInputProps extends InputProps<Array<File>> {
 	multiple?: boolean
 	maxFileSizeInBytes?: number
-	textResources?: Partial<typeof DefaultFileInputTextResources>
 }
 
 // Note: File Input does not support standard controlProps like the other inputs do (at this time)
@@ -42,11 +33,9 @@ export function FileInput(props: FileInputProps) {
 
 	const className = getInputEnvelopeClass(props, 'file', 'input')
 
-	const { id, disabled, readOnly, required, multiple, textResources,
-		maxFileSizeInBytes = DEFAULT_MAX_FILE_SIZE_IN_BYTES,
+	const { id, disabled, readOnly, required, multiple, 
+		maxFileSizeInBytes = DEFAULT_MAX_FILE_SIZE_IN_BYTES, placeholder
 	} = props
-
-	const filledTextResources = Object.assign({}, DefaultFileInputTextResources, textResources)
 
 	const handleUploadBtnClick = () => {
 		fileInputField.current?.click()
@@ -87,10 +76,9 @@ export function FileInput(props: FileInputProps) {
 
 	const uploadSection = readOnly ? null : (
 		<section className={uploadClassName}>
-			<p>{filledTextResources.dragAndDropOr}</p>
 			<button type="button" onClick={handleUploadBtnClick} disabled={disabled || readOnly} >
-				<i className="fas fa-file-upload" />
-				<span>{multiple ? filledTextResources.uploadFiles : filledTextResources.uploadAFile}</span>
+				<i className="folder" />
+				<span>{placeholder ?? '🡅'}</span>
 			</button>
 			<div className={className}>
 				<input ref={fileInputField} type='file' title='' value='' onChange={handleNewFileUpload} multiple={multiple} {...{ id, disabled, readOnly, required }} />
@@ -108,7 +96,7 @@ export function FileInput(props: FileInputProps) {
 						const file = fileLookup[fileName]
 						const isImageFile = file.type.split("/")[0] === "image"
 						const deleteIcon = disabled || readOnly ? null :
-							<i className="fas fa-trash-alt" onClick={() => removeFile(fileName)} /> 
+							<i className="trash" onClick={() => removeFile(fileName)} /> 
 
 						return (
 							<section key={fileName} className='file'>

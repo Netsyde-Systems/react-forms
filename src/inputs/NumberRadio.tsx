@@ -1,9 +1,6 @@
 import { SelectProps, SelectOption } from './inputs'
 import { TextRadio } from './TextRadio'
 
-import './Inputs.scss'
-import './Radio.scss'
-
 export function NumberRadio(props: SelectProps<number>) {
 	let { value, onChange, selectOptions } = props
 

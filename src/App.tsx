@@ -8,9 +8,15 @@ import Forms from './pages/Forms'
 import Validation from './pages/Validation'
 import Localization from './pages/Localization'
 import SubForms from './pages/SubForms'
+import { Config } from './utilities'
 
 import './App.scss'
-import { Config } from './utilities'
+
+import './styles/inputs.scss'
+import './styles/ticks.scss'
+import './styles/error-message.scss'
+import './styles/file-input.scss'
+import './styles/input-label.scss'
 
 function App() {
 

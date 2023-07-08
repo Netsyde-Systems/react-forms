@@ -2,8 +2,6 @@ import { InputProps, ReadonlyProps, getInputEnvelopeClass } from './inputs'
 import { InputLabel} from './InputLabel'
 import { ErrorMessage } from './ErrorMessage'
 
-import './Inputs.scss'
-
 export interface ReadonlyFieldProps extends Omit<InputProps<string, any>, 'onChange'> { }
 
 export function ReadonlyField(props: ReadonlyProps<string>) {

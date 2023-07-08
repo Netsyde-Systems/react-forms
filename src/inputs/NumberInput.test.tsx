@@ -1,4 +1,3 @@
-import React from 'react'
 import { render, cleanup, screen, fireEvent } from '@testing-library/react'
 import NumberInput from './NumberInput'
 

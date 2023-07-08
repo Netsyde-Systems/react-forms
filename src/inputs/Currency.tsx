@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { AnyMaskedOptions } from 'imask'
 import { InputProps } from './inputs'
 import { MaskedInput, MaskedInputDetailedChangeEventHandler } from './MaskedInput'

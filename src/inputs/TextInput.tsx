@@ -5,8 +5,6 @@ import { InputLabel} from './InputLabel'
 import { ErrorMessage } from './ErrorMessage'
 import { ReadonlyField } from './ReadonlyField'
 
-import './Inputs.scss'
-
 export function TextInput(props: InputProps<string>) {
 	if (props.readOnly) return <ReadonlyField {...props} />
 

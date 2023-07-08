@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { TextInput } from './TextInput'
 import { InputProps } from './inputs'
 import { isValidEmail } from '../validation/validation'

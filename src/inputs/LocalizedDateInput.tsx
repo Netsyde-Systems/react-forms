@@ -6,7 +6,6 @@ import { InputLabel} from './InputLabel'
 import { ErrorMessage } from './ErrorMessage'
 import { ReadonlyField } from './ReadonlyField'
 
-import './Inputs.scss'
 import 'react-datepicker/dist/react-datepicker.css'
 
 // Note: Localized Date Input does not support standard controlProps like the other inputs do (at this time)

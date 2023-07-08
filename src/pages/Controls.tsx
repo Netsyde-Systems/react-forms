@@ -177,7 +177,7 @@ function Controls() {
 
 					<div className='control-row'>
 						<div className='control-cell'>
-							<FileInput id='fileInput' label='File Input' value={fileValue} onChange={setFileValue} {...sharedProperties} />
+							<FileInput id='fileInput' label='File Input' value={fileValue} onChange={setFileValue} placeholder='Upload File' multiple {...sharedProperties} />
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(fileValue)}

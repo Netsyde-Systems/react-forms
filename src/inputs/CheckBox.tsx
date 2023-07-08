@@ -4,9 +4,6 @@ import { InputProps, getInputEnvelopeClass } from './inputs'
 import { InputLabel } from './InputLabel'
 import { ErrorMessage } from './ErrorMessage'
 
-import './Inputs.scss'
-import './CheckBox.scss'
-
 export function CheckBox(props: InputProps<boolean>) {
 
 	const handleChange: ChangeEventHandler<HTMLInputElement> =

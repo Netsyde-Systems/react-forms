@@ -1,7 +1,6 @@
 /// <reference types="react" />
 import { AnyMaskedOptions } from 'imask';
 import { InputProps } from './inputs';
-import './Inputs.scss';
 export interface MaskTestFunction {
     (val: string): boolean;
 }
