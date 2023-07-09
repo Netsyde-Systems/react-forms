@@ -42,6 +42,10 @@
 			background-color: constants.$disabled-color;
 			opacity: 1.0;
 		}
+
+		&::placeholder {
+			color: lightgrey;
+		}
 	}
 
 	&.has-errors {
