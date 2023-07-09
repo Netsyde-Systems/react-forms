@@ -1,4 +1,3 @@
-import React from 'react'
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom'
 
 import Header from './header/Header'
@@ -11,12 +10,7 @@ import SubForms from './pages/SubForms'
 import { Config } from './utilities'
 
 import './App.scss'
-
-import './styles/inputs.scss'
-import './styles/ticks.scss'
-import './styles/error-message.scss'
-import './styles/file-input.scss'
-import './styles/input-label.scss'
+import './styles/react-forms.scss'
 
 function App() {
 
