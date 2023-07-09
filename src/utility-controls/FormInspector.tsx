@@ -1,5 +1,4 @@
 import React from 'react'
-import classNames from 'classnames'
 import { FormBuilder } from '../indexExports'
 import { DataInspector } from './DataInspector'
 
@@ -12,8 +11,6 @@ export interface FormInspectorProps extends React.PropsWithChildren {
 export const FormInspector: React.FC<FormInspectorProps> = ({formBuilder, children}) => {
 	const [inspectorIsOpen, setInspectorIsOpen] = React.useState<boolean>()
 
-	const className = classNames('form-inspector', { open: inspectorIsOpen })
-
 	const buttonText = inspectorIsOpen ? 
 		'> Close' : 
 		'< Inspect' 
@@ -23,14 +20,12 @@ export const FormInspector: React.FC<FormInspectorProps> = ({formBuilder, childr
 		null
 
 	return (
-		<div className={className}>
-			<div className='form'>
-				{children}
-			</div>
-			<div className='data-inspector'>
-				<button className='inspect' onClick={() => setInspectorIsOpen(!inspectorIsOpen)}>{buttonText}</button>
+		<div className='form-inspector'>
+			<button className='inspect' onClick={() => setInspectorIsOpen(!inspectorIsOpen)}>{buttonText}</button>
+			<div className='inspection-results'>
 				{dataInspector}
 			</div>
+			{children}
 		</div>
 	)
 }

@@ -1,16 +1,16 @@
 .form-inspector {
-	display: flex;
+	position: relative;
 
-	justify-content: flex-end;
-
-	.form {
-		flex-grow: 10;
-	}
-
-	&.open {
-	}
 
 	button.inspect {
-		font-size: xx-small;
+		float: right;
 	} 
+
+	.inspection-results {
+		position: absolute;
+		top: 30px;
+		right: 0;
+		max-width: 50%;
+		overflow: auto;
+	}
 }

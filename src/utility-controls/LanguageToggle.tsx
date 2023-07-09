@@ -34,5 +34,5 @@ export function LanguageSelect<LanguageT extends string>(props: LanguageSelectPr
 		return langOption
 	})
 
-	return <TextSelect id='lang-select' value={currentLanguage} onChange={val => onLanguageChange(val as LanguageT)} selectOptions={languageOptions} disallowBlank />
+	return <TextSelect id='lang-select' value={currentLanguage} onChange={val => onLanguageChange(val as LanguageT)} selectOptions={languageOptions} disallowBlank errorMessage={false} label={false} />
 }
