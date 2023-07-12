@@ -1,0 +1,30 @@
+.demo.control-panel {
+	position: relative;
+
+	button.panel.key {
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
+	div.panel.controls {
+		background-color: lightblue;
+		display: flex;
+		padding: 10px 100px;
+	}
+
+	&.closed {
+		button.panel.key::after {
+			content: 'V';
+		}
+		div.panel.controls {
+			display: none;
+		}
+	}
+
+	&.open {
+		button.panel.key::after {
+			content: '^';
+		}
+	}
+}

@@ -16,6 +16,7 @@ import { PhoneNumber } from '../inputs/PhoneNumber'
 import { PostalCode } from '../inputs/PostalCode'
 import { EmailAddress } from '../inputs/EmailAddress'
 import { FileInput } from '../inputs/FileInput'
+import { DemoControlPanel } from '../utility-controls/DemoControlPanel'
 
 import './Controls.scss'
 
@@ -245,7 +246,10 @@ function Controls() {
 					</div>
 				</div>
 
-				{buttonDefs.map((bd, ix) => <button key={ix} onClick={bd.onClick}>{bd.text}</button>)}
+				<DemoControlPanel>
+					{buttonDefs.map((bd, ix) => <button key={ix} onClick={bd.onClick}>{bd.text}</button>)}
+				</DemoControlPanel>
+
 		</div>
 	)
 }

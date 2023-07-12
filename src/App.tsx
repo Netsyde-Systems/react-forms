@@ -7,7 +7,11 @@ import Forms from './pages/Forms'
 import Validation from './pages/Validation'
 import Localization from './pages/Localization'
 import SubForms from './pages/SubForms'
-import { Config } from './utilities'
+
+// This was causing issues when importing into other projects
+// import { Config } from './utilities'
+
+// <BrowserRouter basename={Config.DeploymentDirectory}></BrowserRouter>
 
 import './App.scss'
 import './styles/react-forms.scss'
@@ -15,7 +19,8 @@ import './styles/react-forms.scss'
 function App() {
 
 	return (
-		<BrowserRouter basename={Config.DeploymentDirectory}>
+		// <BrowserRouter basename={Config.DeploymentDirectory}></BrowserRouter>
+		<BrowserRouter>
 
 			<div className="app">
 				<Header />

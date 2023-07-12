@@ -8,8 +8,5 @@ export declare const shortDateStringToDate: (date?: string | null) => Date | und
 export declare function iterateObject<T>(obj: T, iteratorFunction: (fieldName: keyof T, fieldValue: T[keyof T], obj: T) => void): void;
 export declare const getTypeMap: (obj: any) => any;
 export declare function getUnique<T>(items: Array<T>): Array<T>;
-export declare const Config: {
-    DeploymentDirectory: string;
-};
 export declare const BYTES_PER_KILOBYTE = 1024;
 export declare const convertBytesToKB: (bytes: number) => number;

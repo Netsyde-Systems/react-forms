@@ -38,4 +38,5 @@ export { isValidEmail, isValueProvided, requiredFieldValidator, emailValidator }
 
 export { FormInspector } from './utility-controls/FormInspector'
 export { DataInspector } from './utility-controls/DataInspector'
+export { DemoControlPanel } from './utility-controls/DemoControlPanel'
 export { LanguageToggle, type LanguageToggleProps, LanguageSelect, type LanguageSelectProps } from './utility-controls/LanguageToggle'
