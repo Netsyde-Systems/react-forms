@@ -9,7 +9,7 @@ export declare function iterateObject<T>(obj: T, iteratorFunction: (fieldName: k
 export declare const getTypeMap: (obj: any) => any;
 export declare function getUnique<T>(items: Array<T>): Array<T>;
 export declare const Config: {
-    DeploymentDirectory: string | undefined;
+    DeploymentDirectory: string;
 };
 export declare const BYTES_PER_KILOBYTE = 1024;
 export declare const convertBytesToKB: (bytes: number) => number;
