@@ -31,6 +31,10 @@ export const DataInspector: React.FC<DataInspectorProps> = ({ formBuilder }) => 
 					{JSON.stringify(getTypeMap(formBuilder.formData), null, 2)}
 				</pre>
 			</div>
+			<div className='changes'>
+				<strong>Changes</strong>
+				<p>Form has Changes: {(formBuilder.hasChanges).toString()}</p>
+			</div>
 			<div className='error-conditions'>
 				<strong>Error Conditions</strong>
 				<p>Form is Valid: {(!!formBuilder.isValid).toString()}</p>

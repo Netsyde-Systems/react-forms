@@ -1,4 +1,5 @@
 import { InputHTMLAttributes, ReactElement, SelectHTMLAttributes, TextareaHTMLAttributes } from "react"
+import deepEqual from 'deep-equal'
 
 import TextInput from "../inputs/TextInput"
 import NumberInput from "../inputs/NumberInput"
@@ -55,9 +56,12 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		private onFormStateUpdate?: (formState: FormState<FormT, LanguageT>) => void, 
 		private subFormName?: string,
 		private subFormIndex?: number, 
-		private rootFormData?: FormData<any>
+		private rootFormData?: FormData<any>, 
+		private originalFormData?: FormData<FormT>,
 	) {
 		this.ElementBuilder = new ElementBuilder(this)
+
+		if (!this.originalFormData) this.originalFormData = structuredClone(formData)
 
 		// do an initial round of getting form props so that any error conditions are found immediately to hydrate validation state
 		formDefinition.fields && Object.entries(formDefinition.fields).forEach(([fieldName, fieldDef]) => {
@@ -285,6 +289,10 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		this.validateSubForms()
 		const isValid = !(Object.values(this.formState.fieldErrorConditions) as Array<string>).some(Boolean)
 		return isValid
+	}
+
+	public get hasChanges(): boolean {
+		return !deepEqual(this.formData, this.originalFormData)
 	}
 
 	public localize<LT extends ExtractLanguage<LanguageT>>(localizedString: LocalizedString<LT>, defaultLocalization?: string): string {
