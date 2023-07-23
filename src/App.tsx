@@ -1,47 +1,26 @@
-import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom'
+import { useQueryParam } from './hooks/useQueryString'
+import { DemoPageType, DemoPageButton, DemoPage } from './pages/DemoPage'
 
 import Header from './header/Header'
-import Home from './pages/Home'
-import Controls from './pages/Controls'
-import Forms from './pages/Forms'
-import Validation from './pages/Validation'
-import Localization from './pages/Localization'
-import SubForms from './pages/SubForms'
-
-// This was causing issues when importing into other projects
-// import { Config } from './utilities'
-
-// <BrowserRouter basename={Config.DeploymentDirectory}></BrowserRouter>
 
 import './App.scss'
 import './styles/react-forms.scss'
 
 function App() {
+	const [demoPageType, setDemoPageType] = useQueryParam<DemoPageType>('page', 'controls')
 
 	return (
-		// <BrowserRouter basename={Config.DeploymentDirectory}></BrowserRouter>
-		<BrowserRouter>
-
-			<div className="app">
-				<Header />
-				<nav>
-					<NavLink to='/'>Home</NavLink>
-					<NavLink to='controls'>Controls</NavLink>
-					<NavLink to='forms'>Forms</NavLink>
-					<NavLink to='validation'>Validation</NavLink>
-					<NavLink to='localization'>Localization</NavLink>
-					<NavLink to='subforms'>SubForms</NavLink>
-				</nav>
-				<Routes>
-					<Route path='/' element={<Home />} />
-					<Route path='controls' element={<Controls />} />
-					<Route path='forms' element={<Forms />} />
-					<Route path='validation' element={<Validation />} />
-					<Route path='localization' element={<Localization />} />
-					<Route path='subforms' element={<SubForms />} />
-				</Routes>
-			</div>
-		</BrowserRouter>
+		<div className="app">
+			<Header />
+			<nav>
+				<DemoPageButton page='controls' selectedPage={demoPageType} setPage={setDemoPageType} />
+				<DemoPageButton page='forms' selectedPage={demoPageType} setPage={setDemoPageType} />
+				<DemoPageButton page='validation' selectedPage={demoPageType} setPage={setDemoPageType} />
+				<DemoPageButton page='localization' selectedPage={demoPageType} setPage={setDemoPageType} />
+				<DemoPageButton page='subforms' selectedPage={demoPageType} setPage={setDemoPageType} />
+			</nav>
+			<DemoPage pageType={demoPageType} />
+		</div>
 	)
 }
 

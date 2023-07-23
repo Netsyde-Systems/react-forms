@@ -10,3 +10,4 @@ export declare const getTypeMap: (obj: any) => any;
 export declare function getUnique<T>(items: Array<T>): Array<T>;
 export declare const BYTES_PER_KILOBYTE = 1024;
 export declare const convertBytesToKB: (bytes: number) => number;
+export declare const assertNever: (x: never) => never;

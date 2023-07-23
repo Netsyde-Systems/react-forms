@@ -1,6 +1,8 @@
 export { FormBuilder } from './formbuilder/FormBuilder'
 export { useReactForms as useFormBuilder } from './hooks/useReactForms'
 
+export { assertNever } from './utilities'
+
 export type { 
 	OnlyKeysOfType, 
 	FieldSpecifierFunction, 

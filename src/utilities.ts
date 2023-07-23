@@ -68,3 +68,7 @@ export const BYTES_PER_KILOBYTE = 1024
 
 export const convertBytesToKB = (bytes: number) =>
 	Math.round(bytes / BYTES_PER_KILOBYTE)
+
+export const assertNever = (x: never): never => {
+	throw new Error('Unexpected object: ' + x)
+}

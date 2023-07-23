@@ -1,5 +1,6 @@
 export { FormBuilder } from './formbuilder/FormBuilder';
 export { useReactForms as useFormBuilder } from './hooks/useReactForms';
+export { assertNever } from './utilities';
 export type { OnlyKeysOfType, FieldSpecifierFunction, SelectOptionsSpecifier, FormData, FieldDefinition, FormDefinition, SubFormDefinition, LocalizedString, LocalizedOption, LocaleLookup, LangSpec, } from './formbuilder/FormBuilderTypes';
 export { type SelectOption } from './inputs/inputs';
 export { CheckBox } from './inputs/CheckBox';
