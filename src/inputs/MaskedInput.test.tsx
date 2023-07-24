@@ -1,3 +1,4 @@
+import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { render, cleanup, screen, fireEvent } from '@testing-library/react'
 import MaskedInput from './MaskedInput'
@@ -16,7 +17,7 @@ it('has correct id', () => {
 
 it('calls onChange function', async () => {
 	const user = userEvent.setup();
-	const handleChange = jest.fn()
+	const handleChange = vi.fn()
 
 	const maskedInput = render(<MaskedInput id='txtMaskedInput' onChange={handleChange} value={undefined} mask={'a00'} />)
 	const input = maskedInput.getByDisplayValue('')
@@ -31,7 +32,7 @@ it('calls onChange function', async () => {
 
 it('prevents onChange calls out of mask domain', async () => {
 	const user = userEvent.setup();
-	const handleChange = jest.fn()
+	const handleChange = vi.fn()
 
 	const maskedInput = render(<MaskedInput id='txtMaskedInput' onChange={handleChange} value={undefined} mask={'a00'} />)
 	const input = maskedInput.getByDisplayValue('')
@@ -102,5 +103,3 @@ it('displays error message when specified', () => {
 	errorMessage = control.container.querySelector('.error-message')
 	expect(errorMessage?.textContent).toMatch('Error!!')
 })
-
-

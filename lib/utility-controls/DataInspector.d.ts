@@ -1,5 +1,5 @@
 import React from "react";
-import { FormBuilder } from "../indexExports";
+import { FormBuilder } from "..";
 import './DataInspector.scss';
 export interface DataInspectorProps {
     formBuilder: FormBuilder<any, any>;

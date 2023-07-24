@@ -1,5 +1,5 @@
 import { FC } from "react";
-export declare type DemoPageType = 'controls' | 'forms' | 'validation' | 'localization' | 'subforms';
+export type DemoPageType = 'controls' | 'forms' | 'validation' | 'localization' | 'subforms';
 export interface DemoPageButtonProps {
     page: DemoPageType;
     selectedPage: DemoPageType;

@@ -1,3 +1,4 @@
+import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { render, cleanup, screen, fireEvent } from '@testing-library/react'
 import PostalCode from './PostalCode'
@@ -16,7 +17,7 @@ it('has correct id', () => {
 
 it('calls onChange function', async () => {
 	const user = userEvent.setup()
-	const handleChange = jest.fn()
+	const handleChange = vi.fn()
 
 	const postalCode = render(<PostalCode id='txtPostalCode' value={undefined} onChange={handleChange} />)
 	const input = postalCode.getByDisplayValue('')
@@ -33,7 +34,7 @@ it('calls onChange function', async () => {
 
 it('prevents calls out of postal code domain', async () => {
 	const user = userEvent.setup()
-	const handleChange = jest.fn()
+	const handleChange = vi.fn()
 
 	const postalCode = render(<PostalCode id='txtPostalCode' value={undefined} onChange={handleChange} />)
 	const input = postalCode.getByDisplayValue('')

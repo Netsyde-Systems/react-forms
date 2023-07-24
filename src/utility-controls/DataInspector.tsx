@@ -1,5 +1,5 @@
 import React from "react"
-import { FormBuilder } from "../indexExports"
+import { FormBuilder } from ".."
 import { getTypeMap, convertBytesToKB } from "../utilities"
 
 import './DataInspector.scss'

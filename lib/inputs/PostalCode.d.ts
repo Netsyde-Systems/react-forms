@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { InputProps } from './inputs';
-export declare function PostalCode(props: InputProps<string>): JSX.Element;
+export declare function PostalCode(props: InputProps<string>): import("react/jsx-runtime").JSX.Element;
 export default PostalCode;
