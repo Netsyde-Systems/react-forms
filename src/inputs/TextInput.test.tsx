@@ -1,5 +1,5 @@
 import { vi } from 'vitest'
-import { render, cleanup, screen, fireEvent } from '@testing-library/react'
+import { render, cleanup /*, screen */, fireEvent } from '@testing-library/react'
 import TextInput from './TextInput'
 
 it('displays supplied value', () => {

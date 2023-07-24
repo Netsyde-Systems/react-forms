@@ -1,6 +1,6 @@
 import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { render, cleanup, screen, fireEvent } from '@testing-library/react'
+import { render, cleanup /*, screen, fireEvent */ } from '@testing-library/react'
 import PhoneNumber from './PhoneNumber'
 
 it('displays supplied value', () => {

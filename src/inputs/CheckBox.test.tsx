@@ -1,5 +1,5 @@
 import { vi } from 'vitest'
-import { render, cleanup, screen, fireEvent } from '@testing-library/react'
+import { render, cleanup, /* screen, */ fireEvent } from '@testing-library/react'
 import CheckBox from './CheckBox'
 
 it('displays supplied value', () => {
