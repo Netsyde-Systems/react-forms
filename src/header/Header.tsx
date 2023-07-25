@@ -1,3 +1,5 @@
+import React from 'react'
+
 import './Header.scss'
 import logo from '../images/react-forms-logo.png'
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormBuilder } from '..';
+import { FormBuilder } from '../indexExports';
 import './FormInspector.scss';
 export interface FormInspectorProps extends React.PropsWithChildren {
     formBuilder: FormBuilder<any, any>;

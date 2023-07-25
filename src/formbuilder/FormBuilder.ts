@@ -64,7 +64,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		if (!this.originalFormData) this.originalFormData = structuredClone(formData)
 
 		// do an initial round of getting form props so that any error conditions are found immediately to hydrate validation state
-		formDefinition.fields && Object.entries(formDefinition.fields).forEach(([fieldName, _]) => {
+		formDefinition.fields && Object.entries(formDefinition.fields).forEach(([fieldName, fieldDef]) => {
 			getInputProps(formDefinition.fields!, formData, formState, fieldName as any, () => null, undefined, undefined, undefined)
 		})
 
