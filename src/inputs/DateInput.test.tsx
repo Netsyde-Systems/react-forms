@@ -1,4 +1,4 @@
-import { render, cleanup /*, screen, fireEvent */ } from '@testing-library/react'
+import { render, cleanup, screen, fireEvent } from '@testing-library/react'
 import DateInput from './DateInput'
 
 it('displays supplied value', () => {

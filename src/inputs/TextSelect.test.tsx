@@ -1,5 +1,5 @@
 import { vi } from 'vitest'
-import { render, cleanup /*, fireEvent */ } from '@testing-library/react'
+import { render, cleanup, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import TextSelect from './TextSelect'
 import { SelectOption } from './inputs'
