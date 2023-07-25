@@ -1,4 +1,3 @@
-import { vi } from 'vitest'
 import { render, cleanup, screen, fireEvent } from '@testing-library/react'
 import TextRadio from './TextRadio'
 import { SelectOption } from './inputs'
@@ -34,7 +33,7 @@ it('calls onChange as expected', () => {
 		{ value: 'Value Three', text: 'Option Three' }, 
 	]
 
-	let handleChange = vi.fn()
+	let handleChange = jest.fn()
 	let control = render(<TextRadio id='rdInput' value={undefined} onChange={handleChange} selectOptions={textSelectOptions} />)
 	let input = control.getByDisplayValue('Value Two')
 

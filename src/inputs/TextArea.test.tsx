@@ -1,4 +1,3 @@
-import { vi } from 'vitest'
 import { render, cleanup, screen, fireEvent } from '@testing-library/react'
 import TextArea from './TextArea'
 
@@ -15,7 +14,7 @@ it('has correct id', () => {
 })
 
 it('calls onChange function', () => {
-	const handleChange = vi.fn()
+	const handleChange = jest.fn()
 
 	const textArea = render(<TextArea id='txtAreaInput' value='Expected Text' onChange={handleChange} />)
 	const input = textArea.getByDisplayValue('Expected Text')

@@ -1,7 +1,6 @@
 {
   "name": "@netsyde/react-forms",
   "description": "A Small, Simple, Strongly Typed Forms Library",
-  "author": "Miro Koprnicky", 
   "keywords": [
     "React",
     "Forms",
@@ -9,8 +8,7 @@
   ],
   "homepage": "https://netsyde-systems.github.io/react-forms/",
   "license": "MIT",
-  "version": "0.6.20",
-  "type": "module",
+  "version": "0.6.19",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Netsyde-Systems/react-forms.git"
@@ -19,15 +17,13 @@
     "url": "https://github.com/Netsyde-Systems/react-forms/issues"
   },
   "scripts": {
-    "start": "npm run dev",
-    "dev": "vite --open",
-    "test": "vitest --environment=jsdom",
-    "coverage": "vitest run --coverage",
-    "build": "tsc && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
+    "start": "react-scripts start",
+    "build": "react-scripts build && npm run create404",
+    "create404": "shx cp build/index.html build/404.html",
+    "test": "react-scripts test",
+    "coverage": "react-scripts test --coverage --watchAll=false",
+    "eject": "react-scripts eject",
     "deploy": "npm run build && gh-pages -d build",
-    "resetdeps": "rimraf package-lock.json && rimraf node_modules/ && npm install",
     "cleanlib": "rimraf lib/",
     "copystyles": "copyfiles -u 1 src/**/*.scss lib/",
     "compile": "npm run cleanlib && npm run copystyles && tsc --project tsconfig.lib.json",
@@ -39,33 +35,52 @@
     "date-fns": "^2.29.3",
     "deep-equal": "^2.2.2",
     "email-validator": "^2.0.4",
-    "react": "^18.2.0",
+    "react": "^18.1.0",
     "react-datepicker": "^4.8.0",
-    "react-dom": "^18.2.0",
+    "react-dom": "^18.1.0",
     "react-imask": "^6.6.1",
     "sass": "^1.52.3"
   },
-  "main": "lib/index",
+  "main": "lib/indexExports",
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^14.0.0",
-    "@testing-library/user-event": "^14.4.3",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^14.3.0",
     "@types/deep-equal": "^1.0.1",
-    "@types/react": "^18.2.15",
-    "@types/react-datepicker": "^4.11.2",
-    "@types/react-dom": "^18.2.7",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "@vitejs/plugin-react": "^4.0.3",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.11.39",
+    "@types/react": "^18.0.12",
+    "@types/react-datepicker": "^4.8.0",
+    "@types/react-dom": "^18.0.5",
     "copyfiles": "^2.4.1",
-    "eslint": "^8.45.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.3",
-    "gh-pages": "^5.0.0",
-    "jsdom": "^22.1.0",
-    "rimraf": "^5.0.1",
-    "typescript": "^5.0.2",
-    "vite": "^4.4.5",
-    "vitest": "^0.33.0"
-  }
+    "gh-pages": "^4.0.0",
+    "react-scripts": "5.0.1",
+    "rimraf": "^3.0.2",
+    "shx": "^0.3.4",
+    "typescript": "^4.7.3",
+    "web-vitals": "^2.1.4"
+  },
+  "types": "./lib/indexExports.d.ts",
+  "directories": {
+    "lib": "lib"
+  },
+  "author": "Miro Koprnicky"
 }

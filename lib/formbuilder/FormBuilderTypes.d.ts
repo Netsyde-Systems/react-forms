@@ -1,9 +1,9 @@
 import { SelectOption } from '../inputs/inputs';
 import { ValidatorFunction, ValidatorSpecification } from '../validation/validation';
-export type OnlyKeysOfType<T, V> = {
+export declare type OnlyKeysOfType<T, V> = {
     [K in keyof T]: Exclude<T[K], undefined> extends V ? K : never;
 }[keyof T];
-export type FormData<T> = {
+export declare type FormData<T> = {
     [K in keyof T]?: T[K] extends Array<infer A> ? Array<FormData<A>> : T[K];
 };
 export interface FieldSpecifierArgument<FormT, PropT extends keyof FormT, LanguageT extends string | undefined = undefined> {
@@ -18,25 +18,25 @@ export interface FieldSpecifierArgument<FormT, PropT extends keyof FormT, Langua
 export interface FieldSpecifierFunction<FormT, OutputT, LanguageT extends string | undefined = undefined> {
     (arg: FieldSpecifierArgument<FormT, keyof FormT, LanguageT>): OutputT;
 }
-export type LocalizedOption<ValueT extends string | number, LanguageT extends string | undefined = undefined> = {
+export declare type LocalizedOption<ValueT extends string | number, LanguageT extends string | undefined = undefined> = {
     value: ValueT;
     text: LangSpec<LanguageT>;
 };
 export declare function convertToSelectOption<ValueT extends string | number, LanguageT extends string | undefined = undefined>(localizedOption: LocalizedOption<ValueT, LanguageT>, language?: LanguageT): SelectOption<ValueT>;
-export type SelectOptionsSpecifier<FormT, FieldT extends string | number, LanguageT extends string | undefined = undefined> = Array<LocalizedOption<FieldT, LanguageT>> | FieldSpecifierFunction<FormT, Array<LocalizedOption<FieldT, LanguageT>>, LanguageT>;
+export declare type SelectOptionsSpecifier<FormT, FieldT extends string | number, LanguageT extends string | undefined = undefined> = Array<LocalizedOption<FieldT, LanguageT>> | FieldSpecifierFunction<FormT, Array<LocalizedOption<FieldT, LanguageT>>, LanguageT>;
 export interface MaxLengthDisallowSpecification {
     maxLength: number;
 }
-export type DisallowSpecification<FieldT> = FieldT extends string | number ? MaxLengthDisallowSpecification : never;
-export type LocalizedString<LanguageT extends string> = {
+export declare type DisallowSpecification<FieldT> = FieldT extends string | number ? MaxLengthDisallowSpecification : never;
+export declare type LocalizedString<LanguageT extends string> = {
     [lang in LanguageT]: string;
 };
-export type LocaleLookup<LanguageT extends string> = {
+export declare type LocaleLookup<LanguageT extends string> = {
     [lang in LanguageT]: Locale;
 };
 export declare function isLocaleLookup<LanguageT extends string>(locales?: LocaleLookup<LanguageT>): locales is LocaleLookup<LanguageT>;
-export type ExtractLanguage<LanguageT extends string | undefined> = LanguageT extends string ? LanguageT : never;
-export type LangSpec<LanguageT extends string | undefined> = LanguageT extends string ? LocalizedString<LanguageT> : string;
+export declare type ExtractLanguage<LanguageT extends string | undefined> = LanguageT extends string ? LanguageT : never;
+export declare type LangSpec<LanguageT extends string | undefined> = LanguageT extends string ? LocalizedString<LanguageT> : string;
 export declare function isLocalizedString<LanguageT extends string>(langSpec: any): langSpec is LocalizedString<LanguageT>;
 export declare function getString<LanguageT extends string | undefined>(langSpec: LangSpec<LanguageT>, language?: LanguageT): string | undefined;
 export interface FieldDefinition<FormT, FieldT, LanguageT extends string | undefined> {
@@ -61,17 +61,17 @@ export interface SubFormDefinition<FormT, SubFormT, LanguageT extends string | u
     formDefinition: FormDefinition<SubFormT, LanguageT>;
     newSubForm?: FieldSpecifierFunction<FormT, FormData<SubFormT>, LanguageT>;
 }
-export type FieldDefinitions<FormT, LanguageT extends string | undefined = undefined> = {
+export declare type FieldDefinitions<FormT, LanguageT extends string | undefined = undefined> = {
     [Property in keyof FormT]?: FormT[Property] extends Array<File> ? FieldDefinition<FormT, FormT[Property], LanguageT> : FormT[Property] extends Array<any> ? never : FieldDefinition<FormT, FormT[Property], LanguageT>;
 };
-export type SubFormDefinitions<FormT, LanguageT extends string | undefined = undefined> = {
+export declare type SubFormDefinitions<FormT, LanguageT extends string | undefined = undefined> = {
     [Property in keyof FormT]?: FormT[Property] extends Array<File> ? never : FormT[Property] extends Array<infer SubFormT> ? SubFormDefinition<FormT, SubFormT, LanguageT> : never;
 };
-export type FormDefinition<FormT, LanguageT extends string | undefined = undefined> = {
+export declare type FormDefinition<FormT, LanguageT extends string | undefined = undefined> = {
     fields?: FieldDefinitions<FormT, LanguageT>;
     subForms?: SubFormDefinitions<FormT, LanguageT>;
 };
-export type FormFieldMap<FormT, DataT> = {
+export declare type FormFieldMap<FormT, DataT> = {
     [key in keyof FormT]?: DataT;
 };
 export interface FormState<FormT, LanguageT extends string | undefined = undefined> {

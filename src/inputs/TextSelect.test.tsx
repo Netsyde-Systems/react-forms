@@ -1,4 +1,3 @@
-import { vi } from 'vitest'
 import { render, cleanup, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import TextSelect from './TextSelect'
@@ -136,7 +135,7 @@ it('calls onChange function', async () => {
 	]
 
 	const user = userEvent.setup()
-	const handleChange = vi.fn()
+	const handleChange = jest.fn()
 
 	const rendered = render(<TextSelect id='ctlId' label='Control Label' value='Value Three' onChange={handleChange} selectOptions={options} />)
 	const input = rendered.getByLabelText('Control Label')

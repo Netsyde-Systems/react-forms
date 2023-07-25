@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import { ReadonlyProps } from './inputs';
-export declare function InputLabel(props: ReadonlyProps<any>): import("react/jsx-runtime").JSX.Element;
+export declare function InputLabel(props: ReadonlyProps<any>): JSX.Element;
 export default InputLabel;

@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import { AnyMaskedOptions } from 'imask';
 import { InputProps } from './inputs';
 export interface MaskTestFunction {
@@ -14,5 +15,5 @@ export interface MaskedInputProps extends InputProps<string> {
     mask: string | AnyMaskedOptions;
     onChangeDetailed?: MaskedInputDetailedChangeEventHandler;
 }
-export declare function MaskedInput(props: MaskedInputProps): import("react/jsx-runtime").JSX.Element;
+export declare function MaskedInput(props: MaskedInputProps): JSX.Element;
 export default MaskedInput;
