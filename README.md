@@ -1,34 +1,3 @@
-# Getting Started with React Forms
-
-Visit the [demo site](https://netsyde-systems.github.io/react-forms/).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in interactive watch mode.\
-See the section about [Vitest](https://vitest.dev/) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and filenames include build specific hashes.\
-Your app is ready to be deployed!
-
-This project was bootstrapped with [Vite](https://vitejs.dev/). See below for its automatically included README info.
-
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
