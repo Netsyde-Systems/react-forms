@@ -1,4 +1,5 @@
-import { render, cleanup, screen, fireEvent } from '@testing-library/react'
+import { vi } from 'vitest'
+import { render, cleanup /*, screen */, fireEvent } from '@testing-library/react'
 import TextInput from './TextInput'
 
 it('displays supplied value', () => {
@@ -14,7 +15,7 @@ it('has correct id', () => {
 })
 
 it('calls onChange function', () => {
-	const handleChange = jest.fn()
+	const handleChange = vi.fn()
 
 	const textInput = render(<TextInput id='txtInput' value='Expected Text' onChange={handleChange} />)
 	const input = textInput.getByDisplayValue('Expected Text')

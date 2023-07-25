@@ -39,7 +39,7 @@ export function MaskedInput(props: MaskedInputProps) {
 		return <ReadonlyField {...Object.assign({}, props, { value: mask.value })} />
 	}
 
-	const handleAccept = (value: string, mask: InputMask<AnyMaskedOptions>, e: any) => { 
+	const handleAccept = (value: string, mask: InputMask<AnyMaskedOptions>, _: any) => { 
 		// console.table(mask)
 		console.log(`onAccept => value: ${value} mask.value: ${mask.value} mask.unmaskedValue: ${mask.unmaskedValue} mask.typedValue ${mask.typedValue} mask.masked: ${mask.masked}`)
 		props.onChange(value)
@@ -48,7 +48,7 @@ export function MaskedInput(props: MaskedInputProps) {
 
 	// not sure why we need to specify a change handler now that imask.js has been updated
 	const dummyChangeHandler = (e: any) => {
-		console.log(`onChange called`)
+		console.log(`onChange called: ${e}`)
 	}
 
 	const className = getInputEnvelopeClass(props, 'text', 'input')

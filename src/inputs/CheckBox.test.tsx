@@ -1,4 +1,5 @@
-import { render, cleanup, screen, fireEvent } from '@testing-library/react'
+import { vi } from 'vitest'
+import { render, cleanup, /* screen, */ fireEvent } from '@testing-library/react'
 import CheckBox from './CheckBox'
 
 it('displays supplied value', () => {
@@ -16,7 +17,7 @@ it('has correct id', () => {
 
 it('calls onChange as expected', () => {
 	// initialize with undefined
-	let handleChange = jest.fn()
+	let handleChange = vi.fn()
 	let control = render(<CheckBox id='chkInput' value={undefined} onChange={handleChange} />)
 	let input = control.getByRole('checkbox')
 
@@ -27,7 +28,7 @@ it('calls onChange as expected', () => {
 	cleanup()
 
 	// initialize with false 
-	handleChange = jest.fn()
+	handleChange = vi.fn()
 	control = render(<CheckBox id='chkInput' label='Checkbox Label' value={false} onChange={handleChange} />)
 	input = control.getByRole('checkbox')
 
@@ -38,7 +39,7 @@ it('calls onChange as expected', () => {
 	cleanup()
 
 	// initialize with true
-	handleChange = jest.fn()
+	handleChange = vi.fn()
 	control = render(<CheckBox id='chkInput' label='Checkbox Label' value={true} onChange={handleChange} />)
 	input = control.getByRole('checkbox')
 

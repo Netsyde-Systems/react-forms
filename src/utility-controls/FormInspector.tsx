@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormBuilder } from '../indexExports'
+import { FormBuilder } from '..'
 import { DataInspector } from './DataInspector'
 
 import './FormInspector.scss'

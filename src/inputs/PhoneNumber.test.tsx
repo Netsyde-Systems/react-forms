@@ -1,5 +1,6 @@
+import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { render, cleanup, screen, fireEvent } from '@testing-library/react'
+import { render, cleanup /*, screen, fireEvent */ } from '@testing-library/react'
 import PhoneNumber from './PhoneNumber'
 
 it('displays supplied value', () => {
@@ -16,7 +17,7 @@ it('has correct id', () => {
 
 it('calls onchange function', async () => {
 	const user = userEvent.setup()
-	const handlechange = jest.fn()
+	const handlechange = vi.fn()
 
 	const phonenumber = render(<PhoneNumber id='txtphonenumber' value={undefined} onChange={handlechange} />)
 	const input = phonenumber.getByDisplayValue('')
@@ -33,7 +34,7 @@ it('calls onchange function', async () => {
 
 it('prevents onChange calls out of phone domain', async () => {
 	const user = userEvent.setup()
-	const handlechange = jest.fn()
+	const handlechange = vi.fn()
 
 	const phonenumber = render(<PhoneNumber id='txtphonenumber' value={undefined} onChange={handlechange} />)
 	const input = phonenumber.getByDisplayValue('')

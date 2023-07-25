@@ -131,6 +131,10 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 	rootFormData: FormData<any> | undefined, 
 ): InputProps<FieldT> { 
 
+	// TODO: refactor so that we don't have to hack this var use
+	let test = subFormName?.length ?? 0
+	test++
+
 	const fieldDef = fieldDefinitions[fieldName]
 	const fieldValue = formData[fieldName]
 	const { language } = formState

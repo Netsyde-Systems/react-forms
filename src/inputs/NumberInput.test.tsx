@@ -1,4 +1,4 @@
-import { render, cleanup, screen, fireEvent } from '@testing-library/react'
+import { render, cleanup /*, screen, fireEvent */ } from '@testing-library/react'
 import NumberInput from './NumberInput'
 
 it('displays supplied value', () => {

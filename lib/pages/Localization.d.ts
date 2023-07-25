@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import './Localization.scss';
-export declare function Localization(): JSX.Element;
+export declare function Localization(): import("react/jsx-runtime").JSX.Element;
 export default Localization;

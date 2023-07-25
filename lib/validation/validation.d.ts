@@ -1,10 +1,10 @@
 import { FieldSpecifierFunction } from '../formbuilder/FormBuilderTypes';
-export declare type ValidatorFunction<FormT, LanguageT extends string | undefined = undefined> = FieldSpecifierFunction<FormT, Array<string>, LanguageT>;
+export type ValidatorFunction<FormT, LanguageT extends string | undefined = undefined> = FieldSpecifierFunction<FormT, Array<string>, LanguageT>;
 export interface MinMaxValidatorSpecification {
     min?: number;
     max?: number;
 }
-export declare type ValidatorSpecification<FieldT> = FieldT extends string | number | Date | Array<any> ? MinMaxValidatorSpecification : never;
+export type ValidatorSpecification<FieldT> = FieldT extends string | number | Date | Array<any> ? MinMaxValidatorSpecification : never;
 export declare const isValidEmail: (fieldValue?: string) => boolean;
 export declare const isValueProvided: (fieldValue?: any) => boolean;
 export declare const requiredFieldValidator: ValidatorFunction<any, any>;

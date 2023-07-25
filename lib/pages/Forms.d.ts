@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import './Forms.scss';
-export declare function Forms(): JSX.Element;
+export declare function Forms(): import("react/jsx-runtime").JSX.Element;
 export default Forms;
