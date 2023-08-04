@@ -8,7 +8,7 @@
   ],
   "homepage": "https://netsyde-systems.github.io/react-forms/",
   "license": "MIT",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Netsyde-Systems/react-forms.git"
@@ -38,7 +38,7 @@
     "react": "^18.1.0",
     "react-datepicker": "^4.8.0",
     "react-dom": "^18.1.0",
-    "react-imask": "^6.6.1",
+    "react-imask": "6.6.1",
     "sass": "^1.52.3"
   },
   "main": "lib/indexExports",

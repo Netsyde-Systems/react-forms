@@ -20,13 +20,11 @@ export const isValueProvided = function (fieldValue?: any) {
 		// case 'boolean': return true // booleans are present whether true of false
 		case 'boolean': return fieldValue // required booleans now must be true
 		case 'number': return true // numbers are present whether 0 (falsy) or numeric (truthy)
-		case 'string': return !!fieldValue // strings are not present when empty
+		case 'string': return !!fieldValue.trim() // strings are not present when empty or whitespace
 		case 'object': return true // objects such as dates and possibly files are present
 		default: return false
 	}
 }
-
-
 
 export const requiredFieldValidator: ValidatorFunction<any, any> = function ({ fieldValue, fieldName, formData, formDefinition, language }) {
 	const label = getLabel(formDefinition, formData, fieldName.toString(), language)
