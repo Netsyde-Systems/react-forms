@@ -21,6 +21,7 @@ export type FormData<T> = {
 
 export interface FieldSpecifierArgument<FormT, PropT extends keyof FormT, LanguageT extends string | undefined = undefined> {
 	fieldValue: FormData<FormT>[PropT]
+	rawValue?: string
 	fieldName: PropT
 	formData: FormData<FormT>
 	formDefinition: FormDefinition<FormT, LanguageT>

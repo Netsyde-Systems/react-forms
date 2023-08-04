@@ -27,7 +27,7 @@ export interface ReadonlyProps<ValueT, ControlAttributesT extends HTMLAttributes
 }
 
 export interface InputProps<ValueT, ControlAttributesT extends HTMLAttributes<ValueT> = InputHTMLAttributes<any>> extends ReadonlyProps<ValueT, ControlAttributesT> {
-	onChange: (val?: ValueT) => void
+	onChange: (val?: ValueT, rawValue?: string) => void
 }
 
 export interface SelectOption<T> {

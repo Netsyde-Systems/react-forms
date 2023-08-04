@@ -14,7 +14,7 @@ export function NumberInput(props: InputProps<number>) {
 	}
 
 	const handleChange: ChangeEventHandler<HTMLInputElement> = 
-		(e) => props.onChange(e.target.value === '' ? undefined : Number(e.target.value))
+		(e) => props.onChange(e.target.value === '' ? undefined : Number(e.target.value), e.target.value)
 
 	const className = getInputEnvelopeClass(props, 'number', 'input')
 

@@ -219,7 +219,7 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 		hasError = false
 	}
 
-	const onChange = (newFieldValue?: FieldT) => {
+	const onChange = (newFieldValue?: FieldT, rawValue?: string) => {
 		// some type hacks here... TODO: look into how to do this properly
 		const coercedFieldValue = newFieldValue as any
 
@@ -227,14 +227,14 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 		if (typeof fieldDef?.disallowChange === 'object' && coercedFieldValue?.toString().length > fieldDef.disallowChange.maxLength) {
 			return // don't perform change because we've exceeded max length
 		}
-		else if (typeof fieldDef?.disallowChange === 'function' && fieldDef.disallowChange({ fieldValue: coercedFieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData })) {
+		else if (typeof fieldDef?.disallowChange === 'function' && fieldDef.disallowChange({ fieldValue: coercedFieldValue, rawValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData })) {
 			return // don't perform change because custom disallow function has told us to
 		}
 		else {
 			formData[fieldName] = coercedFieldValue
 
 			if (fieldDef?.onChange) {
-				formData = fieldDef.onChange({ fieldValue: formData[fieldName], fieldName, formData, formDefinition, language, subFormIndex, rootFormData })
+				formData = fieldDef.onChange({ fieldValue: formData[fieldName], rawValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData })
 			}
 
 			onFormChange(formData)

@@ -30,11 +30,18 @@ const dateLocales: { [K in LanguageCode]: Locale } = {
 	'fr-CA': frCA
 }
 
+interface RawNumber {
+	value?: number
+	rawValue?: string
+}
+
+const blankRawNumber: RawNumber = {}
+
 function Controls() {
 
 	const [locale, setLocale] = React.useState<LanguageCode>('en-CA')
 	const [textInputValue, setTextInputValue] = React.useState<string>()
-	const [numberInputValue, setNumberInputValue] = React.useState<number>()
+	const [numberInputValue, setNumberInputValue] = React.useState(blankRawNumber)
 	const [dateInputValue, setDateInputValue] = React.useState<Date>()
 	const [localizedDateInputValue, setLocalizedDateInputValue] = React.useState<Date>()
 	const [selectTextValue, setSelectTextValue] = React.useState<string>()
@@ -45,7 +52,7 @@ function Controls() {
 	const [textAreaValue, setTextAreaValue] = React.useState<string>()
 	const [textMaskedValue, setMaskedValue] = React.useState<string>()
 	const [phoneValue, setPhoneValue] = React.useState<number>()
-	const [dollarValue, setDollarValue] = React.useState<number>()
+	const [dollarValue, setDollarValue] = React.useState(blankRawNumber)
 	const [postalCodeValue, setPostalCodeValue] = React.useState<string>()
 	const [emailValue, setEmailValue] = React.useState<string>()
 	const [fileValue, setFileValue] = React.useState<Array<File>>()
@@ -58,7 +65,7 @@ function Controls() {
 
 	const clearInputs = () => { 
 		setTextInputValue(undefined)
-		setNumberInputValue(undefined)
+		setNumberInputValue(blankRawNumber)
 		setSelectTextValue(undefined)
 		setSelectNumberValue(undefined)
 		setDateInputValue(undefined)
@@ -69,7 +76,7 @@ function Controls() {
 		setTextAreaValue(undefined)
 		setMaskedValue(undefined)
 		setPhoneValue(undefined)
-		setDollarValue(undefined)
+		setDollarValue(blankRawNumber)
 		setPostalCodeValue(undefined)
 		setFileValue(undefined)
 	}
@@ -130,10 +137,10 @@ function Controls() {
 							{nullableValueMessage(textInputValue)}
 						</div>
 						<div className='control-cell'>
-							<NumberInput id='numInput' label='Number Input' value={numberInputValue} onChange={setNumberInputValue} placeholder="Number Input Placeholder" {...sharedProperties}  />
+							<NumberInput id='numInput' label='Number Input' value={numberInputValue.value} onChange={(value, rawValue) => setNumberInputValue({value, rawValue})} placeholder="Number Input Placeholder" {...sharedProperties}  />
 						</div>
 						<div className='control-cell'>
-							{nullableValueMessage(numberInputValue)}
+							{nullableRawValueMessage(numberInputValue)}
 						</div>
 					</div>
 
@@ -238,10 +245,10 @@ function Controls() {
 							{nullableValueMessage(phoneValue)}
 						</div>
 						<div className='control-cell'>
-							<Currency id='txtCurrency' label='Currency' value={dollarValue} onChange={setDollarValue} {...sharedProperties} />
+							<Currency id='txtCurrency' label='Currency' value={dollarValue.value} onChange={(value, rawValue) => setDollarValue({value, rawValue})} {...sharedProperties} />
 						</div>
 						<div className='control-cell'>
-							{nullableValueMessage(dollarValue)}
+							{nullableRawValueMessage(dollarValue)}
 						</div>
 					</div>
 				</div>
@@ -256,6 +263,16 @@ function Controls() {
 
 function nullableValueMessage(val: any) {
 	let output = `Value: '${val}' is of type: '${typeof val}.' `
+
+	if (val === null) output += ' Value is null'
+
+	return output
+}
+
+function nullableRawValueMessage(val: RawNumber) {
+	let output = `Value: '${val.value}' is of type: '${typeof val.value}.' `
+
+	output += `Raw Value: '${val.rawValue}' is of type: '${typeof val.rawValue}.' `
 
 	if (val === null) output += ' Value is null'
 

@@ -73,6 +73,7 @@ interface ForcedValidationShape {
 	customString: string
 	// figured out why string/number dichotomy exists here
 	//prevMaxNumber: number
+	customNumber: number
 }
 
 const forcedDefinition: FormDefinition<ForcedValidationShape> = {
@@ -82,10 +83,18 @@ const forcedDefinition: FormDefinition<ForcedValidationShape> = {
 		// figured out why string/number dichotomy exists.  Try commenting out prevMaxNumber above
 		customString: {
 			label: 'Cannot contain "sheep"', disallowChange: ({ fieldValue }) => {
-				if (fieldValue && fieldValue?.indexOf('sheep') >= 0) return true
+				// TODO: figure how to enable function to know it's type
+				if (fieldValue && (fieldValue as string)?.indexOf('sheep') >= 0) return true
 			}
 		},
 		// prevMaxNumber: { label: 'Force number max 5', disallowChange: { maxLength: 5 } },
+		customNumber: {
+			label: 'Int max length 9', disallowChange: ({ fieldValue, rawValue }) => {
+				const invalid = !!rawValue && (rawValue?.indexOf('.') >= 0 || rawValue.length > 9)
+				return invalid
+			}
+		}
+
 	},
 }
 
@@ -178,6 +187,9 @@ export function Validation() {
 							</div>
 							<div className='control-cell'>
 								{rfForced.textInput('customString')}
+							</div>
+							<div className='control-cell'>
+								{rfForced.numberInput('customNumber')}
 							</div>
 						</div>
 					</div>
