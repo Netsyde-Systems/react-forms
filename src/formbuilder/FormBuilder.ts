@@ -131,6 +131,29 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		this.onFormStateUpdate?.(this.formState)
 	}
 
+	public setExternalErrors(fieldName: keyof FormT, fieldValue: FormT[typeof fieldName], errorMessages: string[]) {
+		// let newFormState = Object.assign({}, this.formState)
+		let newFormState = this.formState
+		newFormState.externalErrorConditions ??= {}
+		newFormState.externalErrorConditions[fieldName] ??= new Map()
+
+		if (!newFormState.externalErrorConditions[fieldName]!.has(fieldValue)) {
+			newFormState.externalErrorConditions[fieldName]!.set(fieldValue, new Set<string>())
+		}
+
+		newFormState.externalErrorConditions![fieldName]!.set(fieldValue, new Set<string>(errorMessages))
+
+		// this.onFormStateUpdate?.(newFormState)
+	}
+
+	public addExternalErrors(fieldName: keyof FormT, fieldValue: FormT[typeof fieldName], errorMessages: string[]) {
+		const existingErrors = this.formState.externalErrorConditions?.[fieldName]?.get(fieldValue) ?? new Set<string>()
+
+		errorMessages.forEach(errorMessage => existingErrors.add(errorMessage))
+
+		this.setExternalErrors(fieldName, fieldValue, Array.from(existingErrors))
+	}
+
 	public setField = (fieldName: keyof FormT, fieldValue: FormData<FormT>[typeof fieldName]) => {
 		let newFormData = Object.assign({}, this.formData)
 		let newFormState = Object.assign({}, this.formState)

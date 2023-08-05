@@ -170,7 +170,11 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 	}
 
 	// let's check for validation messsages
-	let errors: Array<string> = []
+	let externalErrorMap = formState.externalErrorConditions?.[fieldName]
+	let externalErrorSet = externalErrorMap?.get(fieldValue as any)
+	let externalErrors = !!externalErrorSet ? Array.from(externalErrorSet) : []
+
+	let errors: Array<string> = externalErrors
 	let errorCondition: string | undefined = undefined
 
 	if (required) {

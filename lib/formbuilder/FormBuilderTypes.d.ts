@@ -75,9 +75,13 @@ export declare type FormDefinition<FormT, LanguageT extends string | undefined =
 export declare type FormFieldMap<FormT, DataT> = {
     [key in keyof FormT]?: DataT;
 };
+export declare type FormFieldErrors<FormT> = {
+    [key in keyof FormT]?: Map<FormT[key], Set<string>>;
+};
 export interface FormState<FormT, LanguageT extends string | undefined = undefined> {
     fieldsTouched?: FormFieldMap<FormT, boolean>;
     fieldErrorConditions?: FormFieldMap<FormT, string>;
+    externalErrorConditions?: FormFieldErrors<FormT>;
     hasBeenValidated?: boolean;
     language?: LanguageT;
     isDisabled?: boolean;

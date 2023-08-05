@@ -1,5 +1,7 @@
+import { useEffect, useState } from 'react'
 import { FormDefinition, FieldDefinitions } from '../formbuilder/FormBuilderTypes'
 import useReactForms from '../hooks/useReactForms'
+import { DemoControlPanel, TextArea, TextInput } from '../indexExports'
 import FormInspector from '../utility-controls/FormInspector'
 
 import './Validation.scss'
@@ -12,6 +14,7 @@ interface ValidationShape {
 	customString: string
 	multiFnString: string
 	reqDate: Date
+	externalErrors: string
 }
 
 // this form definition is validated only after the validate button is pressed
@@ -47,6 +50,7 @@ const deferredDefinition: FormDefinition<ValidationShape> = {
 				},
 			]
 		},
+		externalErrors: { label: 'External Errors' }
 	}
 }
 
@@ -105,8 +109,24 @@ export function Validation() {
 	const rfImmediate = useReactForms(immediateDefinition)
 	const rfForced = useReactForms(forcedDefinition)
 
+	const [externalErrorValue, setExternalErrorValue] = useState<string>()
+	const [externalErrorMessages, setExternalErrorMessages] = useState<string>()
+
+	useEffect(() => {
+		if (externalErrorValue && externalErrorMessages) {
+			const splitMessages = externalErrorMessages.split(',').map(e => e.trim())
+			rfDeferred.setExternalErrors('externalErrors', externalErrorValue as string, splitMessages)
+			rfImmediate.setExternalErrors('externalErrors', externalErrorValue as string, splitMessages)
+		}
+	}, [externalErrorValue, externalErrorMessages, rfDeferred, rfImmediate])
+
 	return (
 		<div className='validation page'>
+			<DemoControlPanel>
+				<TextInput id='txtValue' label='External Value' value={externalErrorValue} onChange={setExternalErrorValue} />
+				<TextArea id='txtErrors' label='External Errors (CSV)' value={externalErrorMessages} onChange={setExternalErrorMessages} />
+			</DemoControlPanel>
+
 			<h1>Validation Tests</h1>
 
 			<FormInspector formBuilder={rfDeferred}>
@@ -138,6 +158,9 @@ export function Validation() {
 						<div className='control-row'>
 							<div className='control-cell'>
 								{rfDeferred.dateInput('reqDate')}
+							</div>
+							<div className='control-cell'>
+								{rfDeferred.textInput('externalErrors')}
 							</div>
 						</div>
 					</div>
@@ -174,6 +197,11 @@ export function Validation() {
 						<div className='control-row'>
 							<div className='control-cell'>
 								{rfImmediate.dateInput('reqDate')}
+							</div>
+							<div className='control-cell'>
+								External error immediate validation not yet working correctly. 
+								TODO: investigate
+								{rfDeferred.textInput('externalErrors')}
 							</div>
 						</div>
 					</div>

@@ -34,6 +34,8 @@ export declare class FormBuilder<FormT, LanguageT extends string | undefined = u
     setReadOnly: (isReadOnly?: boolean) => void;
     setDisabled: (isDisabled?: boolean) => void;
     setData: (formData: FormData<FormT>, formState?: FormState<FormT, LanguageT>, fieldName?: keyof FormT) => void;
+    setExternalErrors(fieldName: keyof FormT, fieldValue: FormT[typeof fieldName], errorMessages: string[]): void;
+    addExternalErrors(fieldName: keyof FormT, fieldValue: FormT[typeof fieldName], errorMessages: string[]): void;
     setField: (fieldName: keyof FormT, fieldValue: FormData<FormT>[keyof FormT]) => void;
     private linkStandardControl;
     private linkOptionControl;
