@@ -6,6 +6,7 @@ export declare class ElementBuilder<FormT, LanguageT extends string | undefined 
     TextInput: (props: FieldNameProps<FormT, string> & InputHTMLAttributes<any>) => JSX.Element;
     TextArea: (props: FieldNameProps<FormT, string> & TextareaHTMLAttributes<any>) => JSX.Element;
     NumberInput: (props: FieldNameProps<FormT, number> & InputHTMLAttributes<any>) => JSX.Element;
+    IntegerInput: (props: FieldNameProps<FormT, number> & InputHTMLAttributes<any>) => JSX.Element;
     DateInput: (props: FieldNameProps<FormT, Date> & InputHTMLAttributes<any>) => JSX.Element;
     LocalizedDateInput: (props: FieldNameProps<FormT, Date>) => JSX.Element;
     PostalCode: (props: FieldNameProps<FormT, string> & InputHTMLAttributes<any>) => JSX.Element;

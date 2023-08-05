@@ -178,6 +178,23 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 	public textArea = (fieldName: OnlyKeysOfType<FormT, string>, controlProps?: TextareaHTMLAttributes<HTMLTextAreaElement>) => this.linkStandardControl(fieldName, TextArea, controlProps)
 
 	public numberInput = (fieldName: OnlyKeysOfType<FormT, number>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl<number>(fieldName, NumberInput, controlProps)
+
+	public integerInput = (fieldName: OnlyKeysOfType<FormT, number>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => {
+		const nonIntegerNumericChars = ['.', 'e', 'E', '+', '-']
+
+		const newControlProps = Object.assign({}, controlProps)
+
+		newControlProps.onKeyDown ??= (e: React.KeyboardEvent<HTMLInputElement>) => {
+			if (nonIntegerNumericChars.includes(e.key)) e.preventDefault()
+		}
+
+		newControlProps.onPaste ??= (e: React.ClipboardEvent<HTMLInputElement>) => {
+			const clipBoardText = e.clipboardData.getData('text')
+			if (nonIntegerNumericChars.some(ninc => clipBoardText.includes(ninc))) e.preventDefault()
+		}
+
+		return this.linkStandardControl<number>(fieldName, NumberInput, newControlProps)
+	}
 	
 	public dateInput = (fieldName: OnlyKeysOfType<FormT, Date>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl(fieldName, DateInput, controlProps)
 

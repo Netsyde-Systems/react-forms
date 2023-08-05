@@ -7,6 +7,7 @@ import './Forms.scss'
 interface TestFormShape {
 	stringProperty: string
 	numberProperty: number
+	integerProperty: number
 	selectStringProperty: string
 	selectNumberProperty: number
 	radioStringProperty: string
@@ -77,6 +78,9 @@ export function Forms() {
 							{rf.numberInput('numberProperty', { title: 'Number Function' })}
 						</div>
 						<div className='control-cell'>
+							{rf.integerInput('integerProperty')}
+						</div>
+						<div className='control-cell'>
 							{rf.dateInput('dateProperty', { title: 'Date Function' })}
 						</div>
 					</div>
@@ -87,6 +91,9 @@ export function Forms() {
 						</div>
 						<div className='control-cell'>
 							<RF.NumberInput field='numberProperty' title='Number Element' />
+						</div>
+						<div className='control-cell'>
+							<RF.IntegerInput field='integerProperty' />
 						</div>
 						<div className='control-cell'>
 							<RF.DateInput field='dateProperty' title='Date Element' />

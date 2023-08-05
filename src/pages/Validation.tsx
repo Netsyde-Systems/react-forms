@@ -76,6 +76,7 @@ interface ForcedValidationShape {
 	customNumber: number
 }
 
+
 const forcedDefinition: FormDefinition<ForcedValidationShape> = {
 	fields: {
 		maxString: { label: 'Force string max 5', disallowChange: { maxLength: 5 } },
@@ -89,7 +90,8 @@ const forcedDefinition: FormDefinition<ForcedValidationShape> = {
 		},
 		// prevMaxNumber: { label: 'Force number max 5', disallowChange: { maxLength: 5 } },
 		customNumber: {
-			label: 'Int max length 9', disallowChange: ({ fieldValue, rawValue }) => {
+			label: 'Int max length 9.  (Custom raw value demo. Broken. Now superceded by int input)', disallowChange: ({ rawValue }) => {
+				// this doesn't work because non-numerics such as '.', 'e', '-', etc. don't trigger onChange
 				const invalid = !!rawValue && (rawValue?.indexOf('.') >= 0 || rawValue.length > 9)
 				return invalid
 			}
