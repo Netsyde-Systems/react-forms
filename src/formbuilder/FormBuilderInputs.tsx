@@ -1,4 +1,4 @@
-import { convertToSelectOption, isLocaleLookup, LocaleLookup, LocalizedOption } from './FormBuilderTypes'
+import { convertToSelectOption, FieldSpecifierArgument, isLocaleLookup, LocaleLookup, LocalizedOption } from './FormBuilderTypes'
 import { SelectOption, SelectProps } from '../inputs/inputs'
 import { FieldDefinitions, FormState, OnlyKeysOfType, FormData, isLocalizedString, getString } from "./FormBuilderTypes"
 
@@ -28,10 +28,11 @@ export function createStandardInput<FormT, FieldType, LanguageT extends string |
 	subFormName: string | undefined,
 	subFormIndex: number | undefined, 
 	rootFormData: FormData<any> | undefined, 
-	controlProps?: InputHTMLAttributes<any>
+	controlProps: InputHTMLAttributes<any>,
+	externalData: any
 ): JSX.Element { 
 
-	let props = getInputProps<FormT, FieldType, LanguageT>(fieldDefinitions, formData, formState, fieldName, onChange, subFormName, subFormIndex, rootFormData)
+	let props = getInputProps<FormT, FieldType, LanguageT>(fieldDefinitions, formData, formState, fieldName, onChange, subFormName, subFormIndex, rootFormData, externalData)
 	props.controlProps = controlProps
 
 	return InputControl(props)
@@ -47,10 +48,11 @@ export function createMaskedInput<FormT, LanguageT extends string | undefined>(
 	subFormIndex: number | undefined, 
 	rootFormData: FormData<any> | undefined, 
 	mask: Mask,
-	controlProps?: InputHTMLAttributes<any>
+	controlProps: InputHTMLAttributes<any>,
+	externalData: any
 ): JSX.Element { 
 
-	let props = getInputProps<FormT, string, LanguageT>(fieldDefinitions, formData, formState, fieldName, onChange, subFormName, subFormIndex, rootFormData)
+	let props = getInputProps<FormT, string, LanguageT>(fieldDefinitions, formData, formState, fieldName, onChange, subFormName, subFormIndex, rootFormData, externalData)
 	props.controlProps = controlProps
 
 	const maskedProps: MaskedInputProps = { ...props, ...{ mask } }
@@ -68,10 +70,11 @@ export function createOptionInput<FormT, FieldType extends string | number, Lang
 	subFormName: string | undefined,
 	subFormIndex: number | undefined, 
 	rootFormData: FormData<any> | undefined, 
-	controlProps?: InputHTMLAttributes<any>
+	controlProps: InputHTMLAttributes<any>, 
+	externalData: any
 ): JSX.Element { 
 
-	const props = getInputProps<FormT, FieldType, LanguageT>(formDefinition, formData, formState, fieldName, onChange, subFormName, subFormIndex, rootFormData)
+	const props = getInputProps<FormT, FieldType, LanguageT>(formDefinition, formData, formState, fieldName, onChange, subFormName, subFormIndex, rootFormData, externalData)
 	props.controlProps = controlProps
 
 	const selectOptions = getSelectOptions<FormT, FieldType, LanguageT>(formDefinition, formData, fieldName, formState.language)
@@ -88,10 +91,11 @@ export function createTextSelect<FormT, LanguageT extends string | undefined>(
 	language: LanguageT, 
 	subFormName: string | undefined,
 	subFormIndex: number | undefined, 
-	rootFormData: FormData<any> | undefined
+	rootFormData: FormData<any> | undefined,
+	externalData: any
 ): JSX.Element { 
 
-	const props = getInputProps<FormT, string, LanguageT>(formDefinition, formData, formState, fieldName, onChange, subFormName, subFormIndex, rootFormData)
+	const props = getInputProps<FormT, string, LanguageT>(formDefinition, formData, formState, fieldName, onChange, subFormName, subFormIndex, rootFormData, externalData)
 
 	const selectOptions = getSelectOptions<FormT, string, LanguageT>(formDefinition, formData, fieldName, language)
 
@@ -107,10 +111,11 @@ export function createNumberSelect<FormT, LanguageT extends string | undefined =
 	language: LanguageT, 
 	subFormName: string | undefined,
 	subFormIndex: number | undefined, 
-	rootFormData: FormData<any> | undefined
+	rootFormData: FormData<any> | undefined,
+	externalData: any
 ): JSX.Element { 
 
-	const props = getInputProps<FormT, number, LanguageT>(formDefinition, formData, formState, fieldName, onChange, subFormName, subFormIndex, rootFormData)
+	const props = getInputProps<FormT, number, LanguageT>(formDefinition, formData, formState, fieldName, onChange, subFormName, subFormIndex, rootFormData, externalData)
 
 	const selectOptions = getSelectOptions<FormT, number, LanguageT>(formDefinition, formData, fieldName, language)
 
@@ -151,6 +156,7 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 	subFormName: string | undefined, 
 	subFormIndex: number | undefined, 
 	rootFormData: FormData<any> | undefined, 
+	externalData: any
 ): InputProps<FieldT> { 
 
 	const fieldDef = fieldDefinitions[fieldName]
@@ -162,27 +168,31 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 	// TODO!!! Figure out why it's permitting us to pass FieldDefinitions in place of a FormDefiniton
 	const formDefinition = fieldDefinitions
 
+	function getFieldSpecArgs(): FieldSpecifierArgument<FormT, keyof FormT, LanguageT> {
+		return { fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData, externalData }
+	}
+
 	// id defaults to fieldname if not provided
 	let id = fieldName.toString()
 	if (typeof fieldDef?.id == 'string') id = fieldDef.id
-	else if (typeof fieldDef?.id == 'function') id = fieldDef.id({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData })
+	else if (typeof fieldDef?.id == 'function') id = fieldDef.id(getFieldSpecArgs())
 
 	// fields aren't required unless they're specified as such with a boolean or a function
 	let required = false
 	if (typeof fieldDef?.isRequired == 'boolean') required = fieldDef.isRequired
-	else if (typeof fieldDef?.isRequired == 'function') required = fieldDef.isRequired({fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData})
+	else if (typeof fieldDef?.isRequired == 'function') required = fieldDef.isRequired(getFieldSpecArgs())
 
 	// fields aren't disabled unless they're specified as such with a boolean or a function
 	let disabled = false
 	if (formState.isDisabled) disabled = true
 	else if (typeof fieldDef?.isDisabled == 'boolean') disabled = fieldDef.isDisabled
-	else if (typeof fieldDef?.isDisabled == 'function') disabled = fieldDef?.isDisabled?.({fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData})
+	else if (typeof fieldDef?.isDisabled == 'function') disabled = fieldDef?.isDisabled?.(getFieldSpecArgs())
 
 	// fields aren't readOnly unless they're specified as such with a boolean or a function
 	let readOnly = false
 	if (formState.isReadonly) readOnly = true
 	else if (typeof fieldDef?.isReadOnly == 'boolean') readOnly = fieldDef.isReadOnly
-	else if (typeof fieldDef?.isReadOnly == 'function') readOnly = fieldDef?.isReadOnly?.({fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData})
+	else if (typeof fieldDef?.isReadOnly == 'function') readOnly = fieldDef?.isReadOnly?.(getFieldSpecArgs())
 
 	let locale: Locale | undefined = undefined
 	if (language && isLocaleLookup(fieldDef?.locales)) {
@@ -200,28 +210,28 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 	let errorCondition: string | undefined = undefined
 
 	if (required) {
-		errors.push(...requiredFieldValidator({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData }))
+		errors.push(...requiredFieldValidator(getFieldSpecArgs()))
 	}
 
 	if (fieldDef?.validators) {
 		// validators can be a single function
 		if (typeof fieldDef.validators === 'function') {
-			errors.push(...fieldDef.validators?.({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData }))
+			errors.push(...fieldDef.validators?.(getFieldSpecArgs()))
 		}
 		// or an array of functions
 		else if (Array.isArray(fieldDef.validators)) {
-			errors.push(...fieldDef.validators.flatMap(err => err({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData })))
+			errors.push(...fieldDef.validators.flatMap(err => err(getFieldSpecArgs())))
 		}
 		// or a simple object specifier (for min/max and possible other things)
 		else {
 			switch (typeof fieldValue) {
 				case 'string': 
-					if (fieldDef.validators.max) errors.push(...getMaxLengthValidator(fieldDef.validators.max, label || ' ')({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData }))
-					if (fieldDef.validators.min) errors.push(...getMinLengthValidator(fieldDef.validators.min, label || ' ')({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData }))
+					if (fieldDef.validators.max) errors.push(...getMaxLengthValidator(fieldDef.validators.max, label || ' ')(getFieldSpecArgs()))
+					if (fieldDef.validators.min) errors.push(...getMinLengthValidator(fieldDef.validators.min, label || ' ')(getFieldSpecArgs()))
 					break
 				case 'number': 
-					if (fieldDef.validators.max) errors.push(...getMaxValidator(fieldDef.validators.max, label || ' ')({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData }))
-					if (fieldDef.validators.min) errors.push(...getMinValidator(fieldDef.validators.min, label || ' ')({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData }))
+					if (fieldDef.validators.max) errors.push(...getMaxValidator(fieldDef.validators.max, label || ' ')(getFieldSpecArgs()))
+					if (fieldDef.validators.min) errors.push(...getMinValidator(fieldDef.validators.min, label || ' ')(getFieldSpecArgs()))
 					break
 				case undefined: 
 					// put in this dummy case to resolve the typing issue with isHidden, below
@@ -232,7 +242,7 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 
 	if (errors.length > 0) errorCondition = getUnique(errors).join(" | ")
 
-	const hidden = fieldDef?.isHidden?.({ fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData })
+	const hidden = fieldDef?.isHidden?.(getFieldSpecArgs())
 
 	// error message is only shown if 
 	// 1. We want it to be shown immediately and the field has been touched (we give user immediate input as they're typing)
@@ -253,14 +263,14 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 		if (typeof fieldDef?.disallowChange === 'object' && coercedFieldValue?.toString().length > fieldDef.disallowChange.maxLength) {
 			return // don't perform change because we've exceeded max length
 		}
-		else if (typeof fieldDef?.disallowChange === 'function' && fieldDef.disallowChange({ fieldValue: coercedFieldValue, rawValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData })) {
+		else if (typeof fieldDef?.disallowChange === 'function' && fieldDef.disallowChange({ fieldValue: coercedFieldValue, rawValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData, externalData })) {
 			return // don't perform change because custom disallow function has told us to
 		}
 		else {
 			formData[fieldName] = coercedFieldValue
 
 			if (fieldDef?.onChange) {
-				formData = fieldDef.onChange({ fieldValue: formData[fieldName], rawValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData })
+				formData = fieldDef.onChange({ fieldValue: formData[fieldName], rawValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData, externalData })
 			}
 
 			onFormChange(formData)

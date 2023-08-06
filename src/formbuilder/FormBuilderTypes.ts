@@ -28,6 +28,7 @@ export interface FieldSpecifierArgument<FormT, PropT extends keyof FormT, Langua
 	language?: LanguageT
 	subFormIndex?: number
 	rootFormData?: FormData<any>
+	externalData?: any
 }
 
 // Field specifier functions take as arguments the form data, the field value and name, and return a value

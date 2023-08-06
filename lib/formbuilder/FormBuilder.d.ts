@@ -28,13 +28,15 @@ export declare class FormBuilder<FormT, LanguageT extends string | undefined = u
     private subFormIndex?;
     private rootFormData?;
     private originalFormData?;
+    externalData?: any;
     ElementBuilder: ElementBuilder<FormT, LanguageT>;
-    constructor(formDefinition: FormDefinition<FormT, LanguageT>, formData: FormData<FormT>, formState: FormState<FormT, LanguageT>, onFormDataUpdate?: ((formData: FormData<FormT>) => void) | undefined, onFormStateUpdate?: ((formState: FormState<FormT, LanguageT>) => void) | undefined, subFormName?: string | undefined, subFormIndex?: number | undefined, rootFormData?: FormData<any> | undefined, originalFormData?: FormData<FormT> | undefined);
+    constructor(formDefinition: FormDefinition<FormT, LanguageT>, formData: FormData<FormT>, formState: FormState<FormT, LanguageT>, onFormDataUpdate?: ((formData: FormData<FormT>) => void) | undefined, onFormStateUpdate?: ((formState: FormState<FormT, LanguageT>) => void) | undefined, subFormName?: string | undefined, subFormIndex?: number | undefined, rootFormData?: FormData<any> | undefined, originalFormData?: FormData<FormT> | undefined, externalData?: any);
     private validateSubForms;
     setLanguage: (language?: LanguageT) => void;
     setReadOnly: (isReadOnly?: boolean) => void;
     setDisabled: (isDisabled?: boolean) => void;
     setData: (formData: FormData<FormT>, formState?: FormState<FormT, LanguageT>, fieldName?: keyof FormT) => void;
+    setExternalData: (data: any) => void;
     setExternalErrors(fieldName: keyof FormT, fieldValue: FormT[typeof fieldName], errorMessages: string[]): void;
     addExternalErrors(fieldName: keyof FormT, fieldValue: FormT[typeof fieldName], errorMessages: string[]): void;
     setField: (fieldName: keyof FormT, fieldValue: FormData<FormT>[keyof FormT]) => void;

@@ -15,6 +15,7 @@ export interface FieldSpecifierArgument<FormT, PropT extends keyof FormT, Langua
     language?: LanguageT;
     subFormIndex?: number;
     rootFormData?: FormData<any>;
+    externalData?: any;
 }
 export interface FieldSpecifierFunction<FormT, OutputT, LanguageT extends string | undefined = undefined> {
     (arg: FieldSpecifierArgument<FormT, keyof FormT, LanguageT>): OutputT;

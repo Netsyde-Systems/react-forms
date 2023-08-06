@@ -59,6 +59,10 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		private subFormIndex?: number, 
 		private rootFormData?: FormData<any>, 
 		private originalFormData?: FormData<FormT>,
+
+		// quick hack job to support external data.
+		// TODO: make this typed in the form definition, and extract type from there
+		public externalData?: any
 	) {
 		this.ElementBuilder = new ElementBuilder(this)
 
@@ -66,7 +70,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 
 		// do an initial round of getting form props so that any error conditions are found immediately to hydrate validation state
 		formDefinition.fields && Object.entries(formDefinition.fields).forEach(([fieldName, fieldDef]) => {
-			getInputProps(formDefinition.fields!, formData, formState, fieldName as any, () => null, undefined, undefined, undefined)
+			getInputProps(formDefinition.fields!, formData, formState, fieldName as any, () => null, undefined, undefined, undefined, externalData)
 		})
 
 		// TODO: this is ugly; we need to refactor this so that formbuilder is truly recursive
@@ -132,6 +136,12 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		this.onFormStateUpdate?.(this.formState)
 	}
 
+	// quick hack job to support external data.
+	// TODO: make this typed in the form definition, and extract type from there
+	public setExternalData = (data: any) => {
+		this.externalData = data
+	}
+
 	public setExternalErrors(fieldName: keyof FormT, fieldValue: FormT[typeof fieldName], errorMessages: string[]) {
 		// let newFormState = Object.assign({}, this.formState)
 		let newFormState = this.formState
@@ -177,7 +187,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 			this.setData(formData, newFormState, fieldName)
 		}
 
-		const inputControl = createStandardInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, InputControl, this.subFormName, this.subFormIndex, this.rootFormData, controlProps)
+		const inputControl = createStandardInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, InputControl, this.subFormName, this.subFormIndex, this.rootFormData, controlProps ?? {}, this.externalData)
 
 		return inputControl
 	}
@@ -192,7 +202,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 			this.setData(formData, newFormState, fieldName)
 		}
 
-		const inputControl = createOptionInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, OptionControl, this.subFormName, this.subFormIndex, this.rootFormData, controlProps)
+		const inputControl = createOptionInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, OptionControl, this.subFormName, this.subFormIndex, this.rootFormData, controlProps ?? {}, this.externalData)
 
 		return inputControl
 	}
@@ -234,7 +244,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 			this.setData(formData, newFormState, fieldName)
 		}
 
-		const inputControl = createMaskedInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, this.subFormName, this.subFormIndex, this.rootFormData, mask, controlProps)
+		const inputControl = createMaskedInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, this.subFormName, this.subFormIndex, this.rootFormData, mask, controlProps ?? {}, this.externalData)
 
 		return inputControl
 	}
