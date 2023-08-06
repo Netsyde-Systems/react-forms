@@ -14,6 +14,7 @@ interface TestFormShape {
 	radioNumberProperty: number
 
 	checkboxProperty: boolean
+	maskedProperty: string
 	dateProperty: Date
 
 	longStringProperty: string
@@ -111,6 +112,9 @@ export function Forms() {
 						<div className='control-cell'>
 							{rf.checkbox('checkboxProperty', { title: 'Checkbox Function' })}
 						</div>
+						<div className='control-cell'>
+							{rf.maskedInput('maskedProperty', '00-0000000')}
+						</div>
 					</div>
 
 					<div className='control-row'>
@@ -122,6 +126,9 @@ export function Forms() {
 						</div>
 						<div className='control-cell'>
 							<RF.CheckBox field='checkboxProperty' title='Checkbox Element' />
+						</div>
+						<div className='control-cell'>
+							<RF.MaskedInput field='maskedProperty' mask='0000000-00'  />
 						</div>
 					</div>
 

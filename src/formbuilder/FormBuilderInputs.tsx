@@ -5,6 +5,7 @@ import { FieldDefinitions, FormState, OnlyKeysOfType, FormData, isLocalizedStrin
 import { InputProps } from '../inputs/inputs'
 import { NumberSelect } from '../inputs/NumberSelect'
 import { TextSelect } from '../inputs/TextSelect'
+import { MaskedInput, MaskedInputProps, Mask } from '../inputs/MaskedInput'
 import { getMaxLengthValidator, getMaxValidator, getMinLengthValidator, getMinValidator, requiredFieldValidator } from '../validation/validation'
 import { getUnique } from '../utilities'
 import { InputHTMLAttributes } from 'react'
@@ -34,6 +35,27 @@ export function createStandardInput<FormT, FieldType, LanguageT extends string |
 	props.controlProps = controlProps
 
 	return InputControl(props)
+}
+
+export function createMaskedInput<FormT, LanguageT extends string | undefined>(
+	fieldDefinitions: FieldDefinitions<FormT, LanguageT>,
+	formData: FormData<FormT>,
+	formState: FormState<FormT, LanguageT>,
+	fieldName: OnlyKeysOfType<FormT, string>,
+	onChange: (data: FormData<FormT>) => void, 
+	subFormName: string | undefined,
+	subFormIndex: number | undefined, 
+	rootFormData: FormData<any> | undefined, 
+	mask: Mask,
+	controlProps?: InputHTMLAttributes<any>
+): JSX.Element { 
+
+	let props = getInputProps<FormT, string, LanguageT>(fieldDefinitions, formData, formState, fieldName, onChange, subFormName, subFormIndex, rootFormData)
+	props.controlProps = controlProps
+
+	const maskedProps: MaskedInputProps = { ...props, ...{ mask } }
+
+	return MaskedInput(maskedProps)
 }
 
 export function createOptionInput<FormT, FieldType extends string | number, LanguageT extends string | undefined>(

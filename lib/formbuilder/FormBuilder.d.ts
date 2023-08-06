@@ -1,4 +1,5 @@
 import { InputHTMLAttributes, ReactElement, SelectHTMLAttributes, TextareaHTMLAttributes } from "react";
+import { AnyMaskedOptions } from 'imask';
 import { ExtractLanguage, FormData, FormDefinition, FormState, LocalizedString, OnlyKeysOfType } from "./FormBuilderTypes";
 import { ElementBuilder } from "./ElementBuilder";
 export declare type FieldNameProps<FormT, FieldT> = {
@@ -43,6 +44,7 @@ export declare class FormBuilder<FormT, LanguageT extends string | undefined = u
     textArea: (fieldName: OnlyKeysOfType<FormT, string>, controlProps?: TextareaHTMLAttributes<HTMLTextAreaElement>) => JSX.Element;
     numberInput: (fieldName: OnlyKeysOfType<FormT, number>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => JSX.Element;
     integerInput: (fieldName: OnlyKeysOfType<FormT, number>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => JSX.Element;
+    maskedInput: (fieldName: OnlyKeysOfType<FormT, string>, mask: string | AnyMaskedOptions, controlProps?: InputHTMLAttributes<HTMLInputElement>) => JSX.Element;
     dateInput: (fieldName: OnlyKeysOfType<FormT, Date>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => JSX.Element;
     localizedDateInput: (fieldName: OnlyKeysOfType<FormT, Date>) => JSX.Element;
     postalCode: (fieldName: OnlyKeysOfType<FormT, string>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => JSX.Element;

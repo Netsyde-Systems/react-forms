@@ -1,4 +1,5 @@
 import { InputHTMLAttributes, SelectHTMLAttributes, TextareaHTMLAttributes } from "react";
+import { Mask } from '../inputs/MaskedInput';
 import FormBuilder, { FieldNameProps } from "./FormBuilder";
 export declare class ElementBuilder<FormT, LanguageT extends string | undefined = undefined> {
     private formBuilder;
@@ -7,6 +8,9 @@ export declare class ElementBuilder<FormT, LanguageT extends string | undefined 
     TextArea: (props: FieldNameProps<FormT, string> & TextareaHTMLAttributes<any>) => JSX.Element;
     NumberInput: (props: FieldNameProps<FormT, number> & InputHTMLAttributes<any>) => JSX.Element;
     IntegerInput: (props: FieldNameProps<FormT, number> & InputHTMLAttributes<any>) => JSX.Element;
+    MaskedInput: (props: FieldNameProps<FormT, string> & InputHTMLAttributes<any> & {
+        mask: Mask;
+    }) => JSX.Element;
     DateInput: (props: FieldNameProps<FormT, Date> & InputHTMLAttributes<any>) => JSX.Element;
     LocalizedDateInput: (props: FieldNameProps<FormT, Date>) => JSX.Element;
     PostalCode: (props: FieldNameProps<FormT, string> & InputHTMLAttributes<any>) => JSX.Element;

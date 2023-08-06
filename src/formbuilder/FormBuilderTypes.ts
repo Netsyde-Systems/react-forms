@@ -156,6 +156,8 @@ export type SubFormDefinitions<FormT, LanguageT extends string | undefined = und
 		never
 }
 
+// TODO: add external data type to form definition
+// make all form builder structs get formbuilder types from form definition
 export type FormDefinition<FormT, LanguageT extends string | undefined = undefined> = {
 	fields?: FieldDefinitions<FormT, LanguageT>
 	subForms?: SubFormDefinitions<FormT, LanguageT>

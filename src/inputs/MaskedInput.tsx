@@ -7,8 +7,10 @@ import { InputLabel} from './InputLabel'
 import { ErrorMessage } from './ErrorMessage'
 import { ReadonlyField } from './ReadonlyField'
 
+export type Mask = string | AnyMaskedOptions
+
 export interface MaskedInputProps extends InputProps<string> {
-	mask: string | AnyMaskedOptions
+	mask: Mask
 }
 
 export function MaskedInput(props: MaskedInputProps) {

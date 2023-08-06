@@ -1,5 +1,6 @@
 import { InputHTMLAttributes, ReactElement, SelectHTMLAttributes, TextareaHTMLAttributes } from "react"
 import deepEqual from 'deep-equal'
+import { AnyMaskedOptions } from 'imask'
 
 import TextInput from "../inputs/TextInput"
 import NumberInput from "../inputs/NumberInput"
@@ -17,7 +18,7 @@ import EmailAddress from "../inputs/EmailAddress"
 import FileInput from "../inputs/FileInput"
 import Currency from "../inputs/Currency"
 
-import { createOptionInput, createStandardInput, getInputProps, ReactFormsInputControl, ReactFormsOptionControl } from "./FormBuilderInputs"
+import { createMaskedInput, createOptionInput, createStandardInput, getInputProps, ReactFormsInputControl, ReactFormsOptionControl } from "./FormBuilderInputs"
 import { ExtractLanguage, FieldSpecifierArgument, FormData, FormDefinition, FormFieldMap, FormState, LocalizedString, OnlyKeysOfType, SubFormDefinition } from "./FormBuilderTypes"
 import { ElementBuilder } from "./ElementBuilder"
 import { ReadonlyField } from "../inputs/ReadonlyField"
@@ -207,16 +208,35 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 
 		const newControlProps = Object.assign({}, controlProps)
 
+		const { onKeyDown, onPaste } = newControlProps
+
 		newControlProps.onKeyDown ??= (e: React.KeyboardEvent<HTMLInputElement>) => {
 			if (nonIntegerNumericChars.includes(e.key)) e.preventDefault()
+			onKeyDown?.(e)
 		}
 
 		newControlProps.onPaste ??= (e: React.ClipboardEvent<HTMLInputElement>) => {
 			const clipBoardText = e.clipboardData.getData('text')
 			if (nonIntegerNumericChars.some(ninc => clipBoardText.includes(ninc))) e.preventDefault()
+			onPaste?.(e)
 		}
 
 		return this.linkStandardControl<number>(fieldName, NumberInput, newControlProps)
+	}
+
+	public maskedInput = (fieldName: OnlyKeysOfType<FormT, string>, mask: string | AnyMaskedOptions, controlProps?: InputHTMLAttributes<HTMLInputElement>) => {
+		let newFormState = Object.assign({}, this.formState)
+		let newFormData = Object.assign({}, this.formData)
+
+		const handleChange = (formData: FormData<FormT>) => {
+			// can't use setfield, because formData may have been altered by a changehandler
+			// this.setField(fieldName, formData[fieldName])
+			this.setData(formData, newFormState, fieldName)
+		}
+
+		const inputControl = createMaskedInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, this.subFormName, this.subFormIndex, this.rootFormData, mask, controlProps)
+
+		return inputControl
 	}
 	
 	public dateInput = (fieldName: OnlyKeysOfType<FormT, Date>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl(fieldName, DateInput, controlProps)

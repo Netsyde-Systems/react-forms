@@ -8,7 +8,7 @@ export { CheckBox } from './inputs/CheckBox';
 export { DateInput } from './inputs/DateInput';
 export { LocalizedDateInput } from './inputs/LocalizedDateInput';
 export { EmailAddress } from './inputs/EmailAddress';
-export { MaskedInput, type MaskedInputProps } from './inputs/MaskedInput';
+export { MaskedInput, type MaskedInputProps, type Mask } from './inputs/MaskedInput';
 export { NumberInput } from './inputs/NumberInput';
 export { NumberRadio } from './inputs/NumberRadio';
 export { NumberSelect } from './inputs/NumberSelect';

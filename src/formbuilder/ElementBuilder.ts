@@ -1,4 +1,5 @@
 import { InputHTMLAttributes, SelectHTMLAttributes, TextareaHTMLAttributes } from "react"
+import { Mask } from '../inputs/MaskedInput'
 import FormBuilder, { FieldNameProps } from "./FormBuilder"
 
 export class ElementBuilder<FormT, LanguageT extends string | undefined = undefined> {
@@ -8,6 +9,7 @@ export class ElementBuilder<FormT, LanguageT extends string | undefined = undefi
 	public TextArea = (props: FieldNameProps<FormT, string> & TextareaHTMLAttributes<any>) => this.formBuilder.textArea(props.field, props)
 	public NumberInput = (props:FieldNameProps<FormT, number> & InputHTMLAttributes<any>) => this.formBuilder.numberInput(props.field, props)
 	public IntegerInput = (props:FieldNameProps<FormT, number> & InputHTMLAttributes<any>) => this.formBuilder.integerInput(props.field, props)
+	public MaskedInput = (props: FieldNameProps<FormT, string> & InputHTMLAttributes<any> & { mask: Mask }) => this.formBuilder.maskedInput(props.field, props.mask, props)
 	public DateInput = (props:FieldNameProps<FormT, Date> & InputHTMLAttributes<any>) => this.formBuilder.dateInput(props.field, props)
 	// Note: Localized Date Input does not support standard controlProps like the other inputs do (at this time)
 	public LocalizedDateInput = (props:FieldNameProps<FormT, Date>) => this.formBuilder.localizedDateInput(props.field)
