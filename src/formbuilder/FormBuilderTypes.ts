@@ -168,8 +168,8 @@ export type FormFieldMap<FormT, DataT> = {
 	[key in keyof FormT]?: DataT
 } 
 
-export type FormFieldErrors<FormT> = {
-	[key in keyof FormT]?: Map<FormT[key], Set<string>>
+export type FormFieldErrors<FormT, LanguageT extends string | undefined = undefined> = {
+	[key in keyof FormT]?: Map<FormT[key], LangSpec<LanguageT>>
 } 
 
 // FormState is used by the form builder to determine state of the form overall
@@ -178,8 +178,9 @@ export interface FormState<FormT, LanguageT extends string | undefined = undefin
 	// TODO: make fieldsTouched & fieldsValid required, and allow assigning by partial in formbuilder
 	// will make code much cleaner and avoid repetitive existence checks
 	fieldsTouched?: FormFieldMap<FormT, boolean>
+	// todo: make match external form field errors I think
 	fieldErrorConditions?: FormFieldMap<FormT, string>
-	externalErrorConditions?: FormFieldErrors<FormT>
+	externalErrorConditions?: FormFieldErrors<FormT, LanguageT>
 	hasBeenValidated?: boolean
 	language?: LanguageT
 	isDisabled?: boolean

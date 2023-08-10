@@ -1,6 +1,6 @@
 import { InputHTMLAttributes, ReactElement, SelectHTMLAttributes, TextareaHTMLAttributes } from "react";
 import { AnyMaskedOptions } from 'imask';
-import { ExtractLanguage, FormData, FormDefinition, FormState, LocalizedString, OnlyKeysOfType } from "./FormBuilderTypes";
+import { ExtractLanguage, FormData, FormDefinition, FormFieldErrors, FormState, LangSpec, LocalizedString, OnlyKeysOfType } from "./FormBuilderTypes";
 import { ElementBuilder } from "./ElementBuilder";
 export declare type FieldNameProps<FormT, FieldT> = {
     field: OnlyKeysOfType<FormT, FieldT>;
@@ -37,8 +37,9 @@ export declare class FormBuilder<FormT, LanguageT extends string | undefined = u
     setDisabled: (isDisabled?: boolean) => void;
     setData: (formData: FormData<FormT>, formState?: FormState<FormT, LanguageT>, fieldName?: keyof FormT) => void;
     setExternalData: (data: any) => void;
-    setExternalErrors(fieldName: keyof FormT, fieldValue: FormT[typeof fieldName], errorMessages: string[]): void;
-    addExternalErrors(fieldName: keyof FormT, fieldValue: FormT[typeof fieldName], errorMessages: string[]): void;
+    clearExternalErrors: () => void;
+    setExternalErrors: (errors: FormFieldErrors<FormT, LanguageT>) => void;
+    addExternalError(fieldName: keyof FormT, fieldValue: FormT[typeof fieldName], errorMessage: LangSpec<LanguageT>): void;
     setField: (fieldName: keyof FormT, fieldValue: FormData<FormT>[keyof FormT]) => void;
     private linkStandardControl;
     private linkOptionControl;

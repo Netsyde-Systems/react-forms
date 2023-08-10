@@ -110,21 +110,23 @@ export function Validation() {
 	const rfForced = useReactForms(forcedDefinition)
 
 	const [externalErrorValue, setExternalErrorValue] = useState<string>()
-	const [externalErrorMessages, setExternalErrorMessages] = useState<string>()
+	const [externalErrorMessage, setExternalErrorMessage] = useState<string>()
 
 	useEffect(() => {
-		if (externalErrorValue && externalErrorMessages) {
-			const splitMessages = externalErrorMessages.split(',').map(e => e.trim())
-			rfDeferred.setExternalErrors('externalErrors', externalErrorValue as string, splitMessages)
-			rfImmediate.setExternalErrors('externalErrors', externalErrorValue as string, splitMessages)
+		rfDeferred.clearExternalErrors()
+		rfImmediate.clearExternalErrors()
+
+		if (externalErrorValue && externalErrorMessage) {
+			rfDeferred.addExternalError('externalErrors', externalErrorValue, externalErrorMessage)
+			rfImmediate.addExternalError('externalErrors', externalErrorValue, externalErrorMessage)
 		}
-	}, [externalErrorValue, externalErrorMessages, rfDeferred, rfImmediate])
+	}, [externalErrorValue, externalErrorMessage, rfDeferred, rfImmediate])
 
 	return (
 		<div className='validation page'>
 			<DemoControlPanel>
 				<TextInput id='txtValue' label='External Value' value={externalErrorValue} onChange={setExternalErrorValue} />
-				<TextArea id='txtErrors' label='External Errors (CSV)' value={externalErrorMessages} onChange={setExternalErrorMessages} />
+				<TextArea id='txtErrors' label='External Errors (CSV)' value={externalErrorMessage} onChange={setExternalErrorMessage} />
 			</DemoControlPanel>
 
 			<h1>Validation Tests</h1>

@@ -19,7 +19,7 @@ import FileInput from "../inputs/FileInput"
 import Currency from "../inputs/Currency"
 
 import { createMaskedInput, createOptionInput, createStandardInput, getInputProps, ReactFormsInputControl, ReactFormsOptionControl } from "./FormBuilderInputs"
-import { ExtractLanguage, FieldSpecifierArgument, FormData, FormDefinition, FormFieldMap, FormState, LocalizedString, OnlyKeysOfType, SubFormDefinition } from "./FormBuilderTypes"
+import { ExtractLanguage, FieldSpecifierArgument, FormData, FormDefinition, FormFieldErrors, FormFieldMap, FormState, LangSpec, LocalizedString, OnlyKeysOfType, SubFormDefinition } from "./FormBuilderTypes"
 import { ElementBuilder } from "./ElementBuilder"
 import { ReadonlyField } from "../inputs/ReadonlyField"
 
@@ -142,27 +142,27 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		this.externalData = data
 	}
 
-	public setExternalErrors(fieldName: keyof FormT, fieldValue: FormT[typeof fieldName], errorMessages: string[]) {
-		// let newFormState = Object.assign({}, this.formState)
-		let newFormState = this.formState
+	public clearExternalErrors = () => {
+		this.setExternalErrors({})
+	}
+
+	public setExternalErrors = (errors: FormFieldErrors<FormT, LanguageT>) => {
+		let newFormState = Object.assign({}, this.formState)
+		newFormState.externalErrorConditions = errors
+		this.formState = newFormState
+		this.onFormStateUpdate?.(newFormState)
+	}
+
+	public addExternalError(fieldName: keyof FormT, fieldValue: FormT[typeof fieldName], errorMessage: LangSpec<LanguageT>) {
+		let newFormState = Object.assign({}, this.formState)
+
 		newFormState.externalErrorConditions ??= {}
 		newFormState.externalErrorConditions[fieldName] ??= new Map()
 
-		if (!newFormState.externalErrorConditions[fieldName]!.has(fieldValue)) {
-			newFormState.externalErrorConditions[fieldName]!.set(fieldValue, new Set<string>())
-		}
+		newFormState.externalErrorConditions[fieldName]!.set(fieldValue, errorMessage)
 
-		newFormState.externalErrorConditions![fieldName]!.set(fieldValue, new Set<string>(errorMessages))
-
-		// this.onFormStateUpdate?.(newFormState)
-	}
-
-	public addExternalErrors(fieldName: keyof FormT, fieldValue: FormT[typeof fieldName], errorMessages: string[]) {
-		const existingErrors = this.formState.externalErrorConditions?.[fieldName]?.get(fieldValue) ?? new Set<string>()
-
-		errorMessages.forEach(errorMessage => existingErrors.add(errorMessage))
-
-		this.setExternalErrors(fieldName, fieldValue, Array.from(existingErrors))
+		this.formState = newFormState
+		this.onFormStateUpdate?.(newFormState)
 	}
 
 	public setField = (fieldName: keyof FormT, fieldValue: FormData<FormT>[typeof fieldName]) => {

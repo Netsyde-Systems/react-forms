@@ -85,7 +85,7 @@ export function createOptionInput<FormT, FieldType extends string | number, Lang
 export function createTextSelect<FormT, LanguageT extends string | undefined>(
 	formDefinition: FieldDefinitions<FormT, LanguageT>,
 	formData: FormData<FormT>,
-	formState: FormState<FormT>,
+	formState: FormState<FormT, LanguageT>,
 	fieldName: OnlyKeysOfType<FormT, string>,
 	onChange: (formData: FormData<FormT>) => void,
 	language: LanguageT, 
@@ -105,7 +105,7 @@ export function createTextSelect<FormT, LanguageT extends string | undefined>(
 export function createNumberSelect<FormT, LanguageT extends string | undefined = undefined>(
 	formDefinition: FieldDefinitions<FormT, LanguageT>,
 	formData: FormData<FormT>,
-	formState: FormState<FormT>,
+	formState: FormState<FormT, LanguageT>,
 	fieldName: OnlyKeysOfType<FormT, number>,
 	onChange: (formData: FormData<FormT>) => void, 
 	language: LanguageT, 
@@ -203,10 +203,10 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 
 	// let's check for validation messsages
 	let externalErrorMap = formState.externalErrorConditions?.[fieldName]
-	let externalErrorSet = externalErrorMap?.get(fieldValue as any)
-	let externalErrors = !!externalErrorSet ? Array.from(externalErrorSet) : []
+	let externalLocalizedError = externalErrorMap?.get(fieldValue as any)
+	let externalError = externalLocalizedError && getString(externalLocalizedError, language)
 
-	let errors: Array<string> = externalErrors
+	let errors: Array<string> = externalError ? [externalError] : []
 	let errorCondition: string | undefined = undefined
 
 	if (required) {

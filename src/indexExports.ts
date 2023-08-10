@@ -16,6 +16,7 @@ export type {
 	LocalizedOption, 
 	LocaleLookup, 
 	LangSpec,
+	FormFieldErrors
 } from './formbuilder/FormBuilderTypes'
 
 export { type SelectOption } from './inputs/inputs'
