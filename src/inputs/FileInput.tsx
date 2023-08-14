@@ -24,6 +24,7 @@ function arrayToObject<T>(arr: Array<T>, keySelector: (obj: T) => string) {
 export interface FileInputProps extends InputProps<Array<File>> {
 	multiple?: boolean
 	maxFileSizeInBytes?: number
+	showFileList?: boolean
 }
 
 // Note: File Input does not support standard controlProps like the other inputs do (at this time)
@@ -33,7 +34,7 @@ export function FileInput(props: FileInputProps) {
 
 	const className = getInputEnvelopeClass(props, 'file', 'input')
 
-	const { id, disabled, readOnly, required, multiple, 
+	const { id, disabled, readOnly, required, multiple, showFileList, 
 		maxFileSizeInBytes = DEFAULT_MAX_FILE_SIZE_IN_BYTES, placeholder
 	} = props
 
@@ -86,40 +87,44 @@ export function FileInput(props: FileInputProps) {
 		</section>
 	)
 
+	const fileList = !showFileList ? null : (
+		<article className='preview'>
+			<section className='file-list'>
+				{Object.keys(fileLookup).map((fileName, index) => {
+					const file = fileLookup[fileName]
+					const isImageFile = file.type.split("/")[0] === "image"
+					const deleteIcon = disabled || readOnly ? null :
+						<i className="trash" onClick={() => removeFile(fileName)} /> 
+
+					return (
+						<section key={fileName} className='file'>
+							<div>
+								{isImageFile && (
+									<img
+										src={URL.createObjectURL(file)}
+										alt={`file preview ${index}`}
+									/>
+								)}
+								<div data-isimagefile={isImageFile} className='meta-data'>
+									<span className='filename'>{file.name}</span>
+									<aside>
+										<span>{convertBytesToKB(file.size)} kB</span>
+										{deleteIcon}
+									</aside>
+								</div>
+							</div>
+						</section>
+					)
+				})}
+			</section>
+		</article>
+	)
+
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
 			{uploadSection}
-			<article className='preview'>
-				<section className='file-list'>
-					{Object.keys(fileLookup).map((fileName, index) => {
-						const file = fileLookup[fileName]
-						const isImageFile = file.type.split("/")[0] === "image"
-						const deleteIcon = disabled || readOnly ? null :
-							<i className="trash" onClick={() => removeFile(fileName)} /> 
-
-						return (
-							<section key={fileName} className='file'>
-								<div>
-									{isImageFile && (
-										<img
-											src={URL.createObjectURL(file)}
-											alt={`file preview ${index}`}
-										/>
-									)}
-									<div data-isimagefile={isImageFile} className='meta-data'>
-										<span className='filename'>{file.name}</span>
-										<aside>
-											<span>{convertBytesToKB(file.size)} kB</span>
-											{deleteIcon}
-										</aside>
-									</div>
-								</div>
-							</section>
-						)
-					})}
-				</section>
-			</article>
+			{fileList}
 			<ErrorMessage {...props} />
 		</div>
 	)
