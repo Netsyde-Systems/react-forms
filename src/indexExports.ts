@@ -22,7 +22,7 @@ export type {
 export { type SelectOption } from './inputs/inputs'
 
 export { CheckBox } from './inputs/CheckBox'
-export { DateInput } from './inputs/DateInput'
+export { DateInput, type DateInputProps } from './inputs/DateInput'
 export { LocalizedDateInput } from './inputs/LocalizedDateInput'
 export { EmailAddress } from './inputs/EmailAddress'
 export { MaskedInput, type MaskedInputProps, type Mask } from './inputs/MaskedInput'

@@ -5,7 +5,7 @@ export { assertNever } from './utilities';
 export type { OnlyKeysOfType, FieldSpecifierFunction, SelectOptionsSpecifier, FormData, FieldDefinition, FormDefinition, SubFormDefinition, LocalizedString, LocalizedOption, LocaleLookup, LangSpec, FormFieldErrors } from './formbuilder/FormBuilderTypes';
 export { type SelectOption } from './inputs/inputs';
 export { CheckBox } from './inputs/CheckBox';
-export { DateInput } from './inputs/DateInput';
+export { DateInput, type DateInputProps } from './inputs/DateInput';
 export { LocalizedDateInput } from './inputs/LocalizedDateInput';
 export { EmailAddress } from './inputs/EmailAddress';
 export { MaskedInput, type MaskedInputProps, type Mask } from './inputs/MaskedInput';

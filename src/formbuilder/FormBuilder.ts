@@ -22,6 +22,7 @@ import { createMaskedInput, createOptionInput, createStandardInput, getInputProp
 import { ExtractLanguage, FieldSpecifierArgument, FormData, FormDefinition, FormFieldErrors, FormFieldMap, FormState, LangSpec, LocalizedString, OnlyKeysOfType, SubFormDefinition } from "./FormBuilderTypes"
 import { ElementBuilder } from "./ElementBuilder"
 import { ReadonlyField } from "../inputs/ReadonlyField"
+import { MinMaxValidatorSpecification } from "../validation/validation"
 
 export type FieldNameProps<FormT, FieldT> = {
 	field: OnlyKeysOfType<FormT, FieldT>
@@ -177,7 +178,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 	}
 
 	// We've factored out what needs to be done for every control type here
-	private linkStandardControl<FieldT>(fieldName: OnlyKeysOfType<FormT, FieldT>, InputControl: ReactFormsInputControl<FieldT>, controlProps?: InputHTMLAttributes<any>) {
+	private linkStandardControl<FieldT>(fieldName: OnlyKeysOfType<FormT, FieldT>, InputControl: ReactFormsInputControl<FieldT>, customInputProps: any, controlProps: InputHTMLAttributes<any>) {
 		let newFormState = Object.assign({}, this.formState)
 		let newFormData = Object.assign({}, this.formData)
 
@@ -187,7 +188,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 			this.setData(formData, newFormState, fieldName)
 		}
 
-		const inputControl = createStandardInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, InputControl, this.subFormName, this.subFormIndex, this.rootFormData, controlProps ?? {}, this.externalData)
+		const inputControl = createStandardInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, InputControl, customInputProps, this.subFormName, this.subFormIndex, this.rootFormData, controlProps ?? {}, this.externalData)
 
 		return inputControl
 	}
@@ -207,11 +208,11 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		return inputControl
 	}
 
-	public textInput = (fieldName: OnlyKeysOfType<FormT, string>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl(fieldName, TextInput, controlProps)
+	public textInput = (fieldName: OnlyKeysOfType<FormT, string>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl(fieldName, TextInput, {}, controlProps ?? {})
 
-	public textArea = (fieldName: OnlyKeysOfType<FormT, string>, controlProps?: TextareaHTMLAttributes<HTMLTextAreaElement>) => this.linkStandardControl(fieldName, TextArea, controlProps)
+	public textArea = (fieldName: OnlyKeysOfType<FormT, string>, controlProps?: TextareaHTMLAttributes<HTMLTextAreaElement>) => this.linkStandardControl(fieldName, TextArea, {}, controlProps ?? {})
 
-	public numberInput = (fieldName: OnlyKeysOfType<FormT, number>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl<number>(fieldName, NumberInput, controlProps)
+	public numberInput = (fieldName: OnlyKeysOfType<FormT, number>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl<number>(fieldName, NumberInput, {}, controlProps ?? {})
 
 	public integerInput = (fieldName: OnlyKeysOfType<FormT, number>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => {
 		const nonIntegerNumericChars = ['.', 'e', 'E', '+', '-']
@@ -231,7 +232,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 			onPaste?.(e)
 		}
 
-		return this.linkStandardControl<number>(fieldName, NumberInput, newControlProps)
+		return this.linkStandardControl<number>(fieldName, NumberInput, {}, newControlProps)
 	}
 
 	public maskedInput = (fieldName: OnlyKeysOfType<FormT, string>, mask: string | AnyMaskedOptions, controlProps?: InputHTMLAttributes<HTMLInputElement>) => {
@@ -249,18 +250,20 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		return inputControl
 	}
 	
-	public dateInput = (fieldName: OnlyKeysOfType<FormT, Date>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl(fieldName, DateInput, controlProps)
+	public dateInput = (fieldName: OnlyKeysOfType<FormT, Date>, minMax?: MinMaxValidatorSpecification<Date>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => {
+		return this.linkStandardControl(fieldName, DateInput, minMax, controlProps ?? {})
+	}
 
 	// Note: Localized Date Input does not support standard controlProps like the other inputs do (at this time)
-	public localizedDateInput = (fieldName: OnlyKeysOfType<FormT, Date>) => this.linkStandardControl(fieldName, LocalizedDateInput)
+	public localizedDateInput = (fieldName: OnlyKeysOfType<FormT, Date>) => this.linkStandardControl(fieldName, LocalizedDateInput, {}, {})
 
-	public postalCode = (fieldName: OnlyKeysOfType<FormT, string>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl(fieldName, PostalCode, controlProps)
+	public postalCode = (fieldName: OnlyKeysOfType<FormT, string>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl(fieldName, PostalCode, {}, controlProps ?? {})
 
-	public phoneNumber = (fieldName: OnlyKeysOfType<FormT, number>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl(fieldName, PhoneNumber, controlProps)
+	public phoneNumber = (fieldName: OnlyKeysOfType<FormT, number>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl(fieldName, PhoneNumber, {}, controlProps ?? {})
 
-	public emailAddress = (fieldName: OnlyKeysOfType<FormT, string>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl(fieldName, EmailAddress, controlProps)
+	public emailAddress = (fieldName: OnlyKeysOfType<FormT, string>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl(fieldName, EmailAddress, {}, controlProps ?? {})
 
-	public currency = (fieldName: OnlyKeysOfType<FormT, number>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl(fieldName, Currency, controlProps)
+	public currency = (fieldName: OnlyKeysOfType<FormT, number>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl(fieldName, Currency, {}, controlProps ?? {})
 
 	public textSelect = (fieldName: OnlyKeysOfType<FormT, string>, controlProps?: SelectHTMLAttributes<HTMLSelectElement>) => this.linkOptionControl<string>(fieldName, TextSelect, controlProps)
 
@@ -270,12 +273,12 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 
 	public numberRadio = (fieldName: OnlyKeysOfType<FormT, number>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkOptionControl<number>(fieldName, NumberRadio, controlProps)
 
-	public checkbox = (fieldName: OnlyKeysOfType<FormT, boolean>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl(fieldName, CheckBox, controlProps)
+	public checkbox = (fieldName: OnlyKeysOfType<FormT, boolean>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl(fieldName, CheckBox, {}, controlProps ?? {})
 
 	public readonlyField = (label: string, text: string) => ReadonlyField({ label, value: text, id: 'test' })
 
 	// Note: File Input does not support standard controlProps like the other inputs do (at this time)
-	public files = (fieldName: OnlyKeysOfType<FormT, Array<File>>) => this.linkStandardControl(fieldName, FileInput)
+	public files = (fieldName: OnlyKeysOfType<FormT, Array<File>>) => this.linkStandardControl(fieldName, FileInput, {}, {})
 
 	public validate() {
 		if (!this.formState.hasBeenValidated) {

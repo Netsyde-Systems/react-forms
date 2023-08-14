@@ -2,6 +2,7 @@ import { InputHTMLAttributes, ReactElement, SelectHTMLAttributes, TextareaHTMLAt
 import { AnyMaskedOptions } from 'imask';
 import { ExtractLanguage, FormData, FormDefinition, FormFieldErrors, FormState, LangSpec, LocalizedString, OnlyKeysOfType } from "./FormBuilderTypes";
 import { ElementBuilder } from "./ElementBuilder";
+import { MinMaxValidatorSpecification } from "../validation/validation";
 export declare type FieldNameProps<FormT, FieldT> = {
     field: OnlyKeysOfType<FormT, FieldT>;
 };
@@ -48,7 +49,7 @@ export declare class FormBuilder<FormT, LanguageT extends string | undefined = u
     numberInput: (fieldName: OnlyKeysOfType<FormT, number>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => JSX.Element;
     integerInput: (fieldName: OnlyKeysOfType<FormT, number>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => JSX.Element;
     maskedInput: (fieldName: OnlyKeysOfType<FormT, string>, mask: string | AnyMaskedOptions, controlProps?: InputHTMLAttributes<HTMLInputElement>) => JSX.Element;
-    dateInput: (fieldName: OnlyKeysOfType<FormT, Date>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => JSX.Element;
+    dateInput: (fieldName: OnlyKeysOfType<FormT, Date>, minMax?: MinMaxValidatorSpecification<Date>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => JSX.Element;
     localizedDateInput: (fieldName: OnlyKeysOfType<FormT, Date>) => JSX.Element;
     postalCode: (fieldName: OnlyKeysOfType<FormT, string>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => JSX.Element;
     phoneNumber: (fieldName: OnlyKeysOfType<FormT, number>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => JSX.Element;

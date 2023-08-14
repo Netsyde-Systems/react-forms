@@ -6,8 +6,11 @@ import { ErrorMessage } from './ErrorMessage'
 import { ReadonlyField } from './ReadonlyField'
 
 import { dateToIsoGmtShortDateString, shortDateStringToDate } from '../utilities'
+import { MinMaxValidatorSpecification } from '../validation/validation'
 
-export function DateInput(props: InputProps<Date>) {
+export interface DateInputProps extends MinMaxValidatorSpecification<Date>, InputProps<Date> { }
+
+export function DateInput(props: DateInputProps) {
 	const value = dateToIsoGmtShortDateString(props.value)
 
 	if (props.readOnly) {
@@ -23,10 +26,15 @@ export function DateInput(props: InputProps<Date>) {
 
 	const { id, disabled, controlProps } = props
 
+	const minMax = {
+		min: props.min ? dateToIsoGmtShortDateString(props.min) : undefined,
+		max: props.max ? dateToIsoGmtShortDateString(props.max) : undefined
+	}
+
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
-			<input {...controlProps} type='date' value={value} onChange={handleChange} {...{ id, disabled }} />
+			<input {...controlProps} type='date' value={value} onChange={handleChange} {...minMax} {...{ id, disabled }} />
 			<ErrorMessage {...props} />
 		</div>
 	)

@@ -39,6 +39,11 @@ const blankRawNumber: RawNumber = {}
 
 function Controls() {
 
+	const now = new Date()
+
+	const minDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7)
+	const maxDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7)
+
 	const [locale, setLocale] = React.useState<LanguageCode>('en-CA')
 	const [textInputValue, setTextInputValue] = React.useState<string>()
 	const [numberInputValue, setNumberInputValue] = React.useState(blankRawNumber)
@@ -209,14 +214,14 @@ function Controls() {
 
 					<div className='control-row'>
 						<div className='control-cell'>
-							<DateInput id='datInput' label='Date' value={dateInputValue} onChange={setDateInputValue} {...sharedProperties}  />
+							<DateInput id='datInput' label='Date' value={dateInputValue} onChange={setDateInputValue} min={minDate} max={maxDate} {...sharedProperties}  />
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(dateInputValue)}<br/>
 							ISO GMT DATE: {dateToIsoGmtShortDateString(dateInputValue)}
 						</div>
 						<div className='control-cell'>
-							<LocalizedDateInput locale={dateLocales[locale]} id='locDatInput' label='Localized Date' value={localizedDateInputValue} onChange={setLocalizedDateInputValue} {...sharedProperties} />
+						<LocalizedDateInput locale={dateLocales[locale]} id='locDatInput' label='Localized Date' value={localizedDateInputValue} onChange={setLocalizedDateInputValue} min={minDate} max={maxDate} {...sharedProperties} />
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(localizedDateInputValue)}<br/>

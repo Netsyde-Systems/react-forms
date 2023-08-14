@@ -25,15 +25,16 @@ export function createStandardInput<FormT, FieldType, LanguageT extends string |
 	fieldName: OnlyKeysOfType<FormT, FieldType>,
 	onChange: (data: FormData<FormT>) => void, 
 	InputControl: ReactFormsInputControl<FieldType>, 
+	customInputProps: any,
 	subFormName: string | undefined,
 	subFormIndex: number | undefined, 
 	rootFormData: FormData<any> | undefined, 
 	controlProps: InputHTMLAttributes<any>,
-	externalData: any
+	externalData: any,
 ): JSX.Element { 
 
 	let props = getInputProps<FormT, FieldType, LanguageT>(fieldDefinitions, formData, formState, fieldName, onChange, subFormName, subFormIndex, rootFormData, externalData)
-	props.controlProps = controlProps
+	props.controlProps = Object.assign({}, controlProps, customInputProps)
 
 	return InputControl(props)
 }

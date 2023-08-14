@@ -4,12 +4,12 @@ import { FieldSpecifierFunction } from '../formbuilder/FormBuilderTypes'
 
 export type ValidatorFunction<FormT, LanguageT extends string | undefined = undefined> = FieldSpecifierFunction<FormT, Array<string>, LanguageT>
 
-export interface MinMaxValidatorSpecification {
-	min?: number
-	max?: number
+export interface MinMaxValidatorSpecification<T> {
+	min?: T
+	max?: T
 }
 
-export type ValidatorSpecification<FieldT> = FieldT extends string | number | Date | Array<any> ? MinMaxValidatorSpecification : never // | AddOtherSpecifierHere
+export type ValidatorSpecification<FieldT> = FieldT extends string | number | Array<any> ? MinMaxValidatorSpecification<number> : never // | AddOtherSpecifierHere
 
 export const isValidEmail = function (fieldValue?: string) {
 	return !!fieldValue && EmailValidator.validate(fieldValue)

@@ -82,7 +82,7 @@ export function Forms() {
 							{rf.integerInput('integerProperty')}
 						</div>
 						<div className='control-cell'>
-							{rf.dateInput('dateProperty', { title: 'Date Function' })}
+							{rf.dateInput('dateProperty')}
 						</div>
 					</div>
 

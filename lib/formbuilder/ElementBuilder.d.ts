@@ -1,6 +1,7 @@
 import { InputHTMLAttributes, SelectHTMLAttributes, TextareaHTMLAttributes } from "react";
 import { Mask } from '../inputs/MaskedInput';
 import FormBuilder, { FieldNameProps } from "./FormBuilder";
+import { MinMaxValidatorSpecification } from "../validation/validation";
 export declare class ElementBuilder<FormT, LanguageT extends string | undefined = undefined> {
     private formBuilder;
     constructor(formBuilder: FormBuilder<FormT, LanguageT>);
@@ -11,8 +12,8 @@ export declare class ElementBuilder<FormT, LanguageT extends string | undefined 
     MaskedInput: (props: FieldNameProps<FormT, string> & InputHTMLAttributes<any> & {
         mask: Mask;
     }) => JSX.Element;
-    DateInput: (props: FieldNameProps<FormT, Date> & InputHTMLAttributes<any>) => JSX.Element;
-    LocalizedDateInput: (props: FieldNameProps<FormT, Date>) => JSX.Element;
+    DateInput: (props: FieldNameProps<FormT, Date> & MinMaxValidatorSpecification<Date> & InputHTMLAttributes<any>) => JSX.Element;
+    LocalizedDateInput: (props: FieldNameProps<FormT, Date> & MinMaxValidatorSpecification<Date>) => JSX.Element;
     PostalCode: (props: FieldNameProps<FormT, string> & InputHTMLAttributes<any>) => JSX.Element;
     PhoneNumber: (props: FieldNameProps<FormT, number> & InputHTMLAttributes<any>) => JSX.Element;
     EmailAddress: (props: FieldNameProps<FormT, string> & InputHTMLAttributes<any>) => JSX.Element;
