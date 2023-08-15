@@ -33,6 +33,7 @@ export declare class FormBuilder<FormT, LanguageT extends string | undefined = u
     ElementBuilder: ElementBuilder<FormT, LanguageT>;
     constructor(formDefinition: FormDefinition<FormT, LanguageT>, formData: FormData<FormT>, formState: FormState<FormT, LanguageT>, onFormDataUpdate?: ((formData: FormData<FormT>) => void) | undefined, onFormStateUpdate?: ((formState: FormState<FormT, LanguageT>) => void) | undefined, subFormName?: string | undefined, subFormIndex?: number | undefined, rootFormData?: FormData<any> | undefined, originalFormData?: FormData<FormT> | undefined, externalData?: any);
     private validateSubForms;
+    setFormDefinition: (formDefinition: FormDefinition<FormT, LanguageT>) => void;
     setLanguage: (language?: LanguageT) => void;
     setReadOnly: (isReadOnly?: boolean) => void;
     setDisabled: (isDisabled?: boolean) => void;

@@ -103,6 +103,11 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		})
 	}
 
+	// almost never used.  Useful for demos where we want to show variations on a form
+	public setFormDefinition = (formDefinition: FormDefinition<FormT, LanguageT>) => {
+		this.formDefinition = formDefinition
+	}
+
 	public setLanguage = (language?: LanguageT) => {
 		if (language !== this.formState.language) {
 			this.formState = Object.assign({}, this.formState, { language })
