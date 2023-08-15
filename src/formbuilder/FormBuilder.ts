@@ -260,7 +260,9 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 	}
 
 	// Note: Localized Date Input does not support standard controlProps like the other inputs do (at this time)
-	public localizedDateInput = (fieldName: OnlyKeysOfType<FormT, Date>) => this.linkStandardControl(fieldName, LocalizedDateInput, {}, {})
+	public localizedDateInput = (fieldName: OnlyKeysOfType<FormT, Date>, minMax?: MinMaxValidatorSpecification<Date>) => {
+		return this.linkStandardControl(fieldName, LocalizedDateInput, minMax, {})
+	}
 
 	public postalCode = (fieldName: OnlyKeysOfType<FormT, string>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => this.linkStandardControl(fieldName, PostalCode, {}, controlProps ?? {})
 

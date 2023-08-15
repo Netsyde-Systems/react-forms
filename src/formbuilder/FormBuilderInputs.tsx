@@ -34,7 +34,8 @@ export function createStandardInput<FormT, FieldType, LanguageT extends string |
 ): JSX.Element { 
 
 	let props = getInputProps<FormT, FieldType, LanguageT>(fieldDefinitions, formData, formState, fieldName, onChange, subFormName, subFormIndex, rootFormData, externalData)
-	props.controlProps = Object.assign({}, controlProps, customInputProps)
+	props = Object.assign({}, props, customInputProps)
+	props.controlProps = Object.assign({}, controlProps)
 
 	return InputControl(props)
 }

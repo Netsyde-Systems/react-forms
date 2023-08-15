@@ -40,7 +40,6 @@ const blankRawNumber: RawNumber = {}
 function Controls() {
 
 	const now = new Date()
-
 	const minDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7)
 	const maxDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7)
 

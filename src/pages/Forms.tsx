@@ -58,6 +58,10 @@ const testFormDefinition: FormDefinition<TestFormShape> = {
 	}, 
 }
 
+const now = new Date()
+const minDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7)
+const maxDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7)
+
 export function Forms() {
 	const rf = useReactForms(testFormDefinition)
 	const { ElementBuilder: RF } = rf
@@ -82,7 +86,10 @@ export function Forms() {
 							{rf.integerInput('integerProperty')}
 						</div>
 						<div className='control-cell'>
-							{rf.dateInput('dateProperty')}
+							{rf.dateInput('dateProperty', {min: minDate, max: maxDate})}
+						</div>
+						<div className='control-cell'>
+							{rf.localizedDateInput('dateProperty', {min: minDate, max: maxDate})}
 						</div>
 					</div>
 
@@ -97,7 +104,11 @@ export function Forms() {
 							<RF.IntegerInput field='integerProperty' />
 						</div>
 						<div className='control-cell'>
-							<RF.DateInput field='dateProperty' title='Date Element' />
+							Note: Fix min/max type colision
+							<RF.DateInput field='dateProperty' title='Date Element' min={minDate as number & Date} max={maxDate as number & Date} />
+						</div>
+						<div className='control-cell'>
+							<RF.LocalizedDateInput field='dateProperty' min={minDate} max={maxDate} />
 						</div>
 					</div>
 
