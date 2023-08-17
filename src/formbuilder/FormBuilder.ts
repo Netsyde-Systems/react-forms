@@ -116,7 +116,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 	}
 
 	public setReadOnly = (isReadOnly = true) => {
-		if (isReadOnly !== this.formState.isReadonly) {
+		if (isReadOnly !== this.formState.isReadOnly) {
 			this.formState = Object.assign({}, this.formState, { isReadOnly })
 			this.onFormStateUpdate?.(this.formState)
 		}
@@ -304,14 +304,14 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 			const fieldsTouched = (this.formState.fieldsTouched?.[fieldName] ?? []) as Array<FormFieldMap<SubFormT, boolean>>
 			// const fieldErrorConditions = (this.formState.fieldErrorConditions?.[fieldName] ?? []) as Array<FormFieldMap<SubFormT, string>>
 
-			const { hasBeenValidated, language, isDisabled, isReadonly } = this.formState
+			const { hasBeenValidated, language, isDisabled, isReadOnly } = this.formState
 
 			const subFormState: FormState<SubFormT, LanguageT> = {
 				fieldsTouched: fieldsTouched[rowIndex] ?? {}, 
 				// fieldErrorConditions: fieldErrorConditions[rowIndex ?? {}],  
 				hasBeenValidated,
 				isDisabled, 
-				isReadonly,
+				isReadOnly,
 				language, 
 			}
 

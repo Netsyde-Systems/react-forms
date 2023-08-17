@@ -1,5 +1,8 @@
-import { FormDefinition } from '../formbuilder/FormBuilderTypes'
+import { useState, useEffect } from 'react'
 import useReactForms from '../hooks/useReactForms'
+import { FormDefinition } from '../formbuilder/FormBuilderTypes'
+import { FormView, FormViewSelect, getFormViewState } from '../utility-controls/FormViewSelect'
+import { DemoControlPanel } from '../utility-controls/DemoControlPanel'
 import FormInspector from '../utility-controls/FormInspector'
 
 import './Forms.scss'
@@ -65,10 +68,19 @@ const maxDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7)
 export function Forms() {
 	const rf = useReactForms(testFormDefinition)
 	const { ElementBuilder: RF } = rf
+	const [formView, setFormView] = useState<FormView>('Edit')
+
+	useEffect(() => {
+		const viewState = getFormViewState(formView)
+		rf.setDisabled(viewState.isDisabled)
+		rf.setReadOnly(viewState.isReadOnly)
+	}, [formView])
 
 	return (
-
 		<FormInspector formBuilder={rf}>
+			<DemoControlPanel>
+				<FormViewSelect currentFormView={formView} onFormViewChange={setFormView} />
+			</DemoControlPanel>
 
 			<div className='forms page'>
 				<h1>Form Tests</h1>

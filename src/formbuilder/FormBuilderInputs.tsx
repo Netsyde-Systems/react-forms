@@ -192,7 +192,7 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 
 	// fields aren't readOnly unless they're specified as such with a boolean or a function
 	let readOnly = false
-	if (formState.isReadonly) readOnly = true
+	if (formState.isReadOnly) readOnly = true
 	else if (typeof fieldDef?.isReadOnly == 'boolean') readOnly = fieldDef.isReadOnly
 	else if (typeof fieldDef?.isReadOnly == 'function') readOnly = fieldDef?.isReadOnly?.(getFieldSpecArgs())
 

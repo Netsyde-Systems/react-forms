@@ -86,5 +86,5 @@ export interface FormState<FormT, LanguageT extends string | undefined = undefin
     hasBeenValidated?: boolean;
     language?: LanguageT;
     isDisabled?: boolean;
-    isReadonly?: boolean;
+    isReadOnly?: boolean;
 }
