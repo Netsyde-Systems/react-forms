@@ -10,7 +10,7 @@ export function ReadonlyField(props: ReadonlyProps<string>) {
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
-			<div className='value'>{props.value || ' '}</div>
+			<div id={props.id} className='value'>{props.value || ' '}</div>
 			<ErrorMessage {...props} />
 		</div>
 	)
