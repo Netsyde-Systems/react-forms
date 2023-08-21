@@ -67,6 +67,7 @@ export declare class FormBuilder<FormT, LanguageT extends string | undefined = u
     subFormLoop<SubFormT>(fieldName: OnlyKeysOfType<FormT, Array<SubFormT>>, subFormConstructor: SubFormLoopConstructor<SubFormT, LanguageT>): Array<ReactElement>;
     subFormPanel<SubFormT>(fieldName: OnlyKeysOfType<FormT, Array<SubFormT>>, subFormPanelConstructor: SubFormPanelConstructor): ReactElement;
     get isValid(): boolean;
+    get hasExternalErrors(): boolean;
     get hasChanges(): boolean;
     localize<LT extends ExtractLanguage<LanguageT>>(localizedString: LocalizedString<LT>, defaultLocalization?: string): string;
 }

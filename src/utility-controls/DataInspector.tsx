@@ -17,6 +17,21 @@ function stringifyValueReplacer(key: any, value: any): string | void {
 
 export const DataInspector: React.FC<DataInspectorProps> = ({ formBuilder }) => {
 
+	const printableExternalErrors = Object.entries(formBuilder.formState.externalErrorConditions ?? {}).reduce((obj, keyValPair) => {
+		const field = keyValPair[0]
+		const map = keyValPair[1]
+		const fieldObj = {} as any
+
+		map?.forEach((fieldErr, fieldVal) => {
+			fieldObj[fieldVal] = fieldErr
+		})
+
+		obj[field] = fieldObj
+
+		return obj
+	}, {} as any)
+
+
 	return (
 		<div className='data-inspector'>
 			<div className='values'>
@@ -38,8 +53,15 @@ export const DataInspector: React.FC<DataInspectorProps> = ({ formBuilder }) => 
 			<div className='error-conditions'>
 				<strong>Error Conditions</strong>
 				<p>Form is Valid: {(!!formBuilder.isValid).toString()}</p>
+				Field Error Conditions:
 				<pre>
 					{JSON.stringify(formBuilder.formState.fieldErrorConditions, null, 2)}
+				</pre>
+
+				<p>Form has External Errors: {(!!formBuilder.hasExternalErrors).toString()}</p>
+				External Errors:
+				<pre>
+					{JSON.stringify(printableExternalErrors, null, 2)}
 				</pre>
 			</div>
 		</div>

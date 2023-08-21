@@ -371,6 +371,23 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 		return isValid
 	}
 
+	public get hasExternalErrors() { 
+		this.formState.fieldErrorConditions ??= {}
+
+		this.validateSubForms()
+		const hasExternalErrors = 
+			Object.entries(this.formState.externalErrorConditions ?? {})
+			.some(([fieldString, errorMapUnknown]) => {
+				// TODO: so much type hacking here
+				const field = fieldString as keyof FormT
+				const errorMap = errorMapUnknown as Map<FormT[typeof field], LangSpec<LanguageT>>
+				const errorMessage = errorMap.get(this.formData[field] as FormT[typeof field])
+
+				return !!errorMessage
+			})
+		return hasExternalErrors
+	}
+
 	public get hasChanges(): boolean {
 		return !deepEqual(this.formData, this.originalFormData)
 	}
