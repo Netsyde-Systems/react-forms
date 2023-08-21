@@ -113,7 +113,7 @@ export function Localization() {
 			<LanguageSelect languages={ALL_LANGUAGES.slice()} onLanguageChange={lang => rf.setLanguage(lang)} currentLanguage={rf.formState.language!} languageNames={LanguageNames} />
 			<FormInspector formBuilder={rf}>
 				<div className='forms page'>
-					<h1>{rf.localize({ en: 'Locationlization Tests', fr: 'Tests de Localization' })}</h1>
+					<h1>{rf.localize({ en: 'Localization Tests', fr: 'Tests de Localization' })}</h1>
 
 					<div className='control-grid'>
 

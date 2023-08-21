@@ -364,17 +364,19 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 	}
 
 	public get isValid() { 
-		this.formState.fieldErrorConditions ??= {}
-
-		this.validateSubForms()
-		const isValid = !(Object.values(this.formState.fieldErrorConditions) as Array<string>).some(Boolean)
+		const isValid = !this.hasInternalErrors && !this.hasExternalErrors
 		return isValid
 	}
 
-	public get hasExternalErrors() { 
+	public get hasInternalErrors() { 
 		this.formState.fieldErrorConditions ??= {}
-
 		this.validateSubForms()
+		const hasInternalErrors = (Object.values(this.formState.fieldErrorConditions) as Array<string>).some(Boolean)
+
+		return hasInternalErrors
+	}
+
+	public get hasExternalErrors() { 
 		const hasExternalErrors = 
 			Object.entries(this.formState.externalErrorConditions ?? {})
 			.some(([fieldString, errorMapUnknown]) => {
