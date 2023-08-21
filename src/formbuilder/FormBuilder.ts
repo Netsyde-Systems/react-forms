@@ -322,7 +322,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 				this.validateSubForms()
 			}
 
-			const subFormBuilder = new FormBuilder<SubFormT, LanguageT>(subFormDef.formDefinition, subFormDatum, subFormState, handleFormDataUpdate, undefined, fieldName?.toString(), rowIndex, this.formData)
+			const subFormBuilder = new FormBuilder<SubFormT, LanguageT>(subFormDef.formDefinition, subFormDatum, subFormState, handleFormDataUpdate, undefined, fieldName?.toString(), rowIndex, this.formData, this.originalFormData?.[fieldName!] as FormData<SubFormT>, this.externalData)
 
 			const subFormController: SubFormLoopController = {
 				subFormIndex: rowIndex, 
