@@ -16,6 +16,9 @@ export const isValidEmail = function (fieldValue?: string) {
 }
 
 export const isValueProvided = function (fieldValue?: any) {
+	// special edge case for null, which is typeof 'object'
+	if (fieldValue === null) return false
+
 	switch (typeof fieldValue) {
 		// case 'boolean': return true // booleans are present whether true of false
 		case 'boolean': return fieldValue // required booleans now must be true
