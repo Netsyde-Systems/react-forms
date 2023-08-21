@@ -251,7 +251,9 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 	// 2. Form has been validated (give user feedback only after submit attempt)
 	let errorMessage = errorCondition
 	let hasError = !!errorCondition
-	if ((fieldDef?.validateImmediately && formState.fieldsTouched?.[fieldName]) || formState.hasBeenValidated) { /* errorMessage already initiated */ }
+	if ((fieldDef?.validateImmediately && formState.fieldsTouched?.[fieldName]) || formState.hasBeenValidated || externalError) { 
+		/* errorMessage already initiated at this point */ 
+	}
 	else {
 		errorMessage = undefined
 		hasError = false
