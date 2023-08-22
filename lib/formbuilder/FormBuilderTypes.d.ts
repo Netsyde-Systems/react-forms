@@ -47,7 +47,7 @@ export interface FieldDefinition<FormT, FieldT, LanguageT extends string | undef
     isRequired?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT>;
     isDisabled?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT>;
     isReadOnly?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT>;
-    onChange?: Awaited<FieldSpecifierFunction<FormT, FormData<FormT>, LanguageT>>;
+    onChange?: FieldSpecifierFunction<FormT, FormData<FormT> | Promise<FormData<FormT>>, LanguageT>;
     isHidden?: FieldSpecifierFunction<FormT, boolean, LanguageT>;
     disallowChange?: FieldSpecifierFunction<FormT, boolean | undefined, LanguageT> | DisallowSpecification<FieldT>;
     validators?: ValidatorFunction<FormT, LanguageT> | Array<ValidatorFunction<FormT, LanguageT>> | ValidatorSpecification<FieldT>;

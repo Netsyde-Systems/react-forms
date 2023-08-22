@@ -100,7 +100,7 @@ export interface FieldDefinition<FormT, FieldT, LanguageT extends string | undef
 
 	// having onChange, errorMessage, or disabled state as static would make no sense... 
 	// onChange & isHidden always depend on current form state as accessible via specifier functions
-	onChange?: Awaited<FieldSpecifierFunction<FormT, FormData<FormT>, LanguageT>>
+	onChange?: FieldSpecifierFunction<FormT, FormData<FormT> | Promise<FormData<FormT>>, LanguageT>
 	isHidden?: FieldSpecifierFunction<FormT, boolean, LanguageT>
 
 	disallowChange?: FieldSpecifierFunction<FormT, boolean | undefined, LanguageT> | DisallowSpecification<FieldT>
