@@ -259,7 +259,7 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 		hasError = false
 	}
 
-	const onChange = (newFieldValue?: FieldT, rawValue?: string) => {
+	const onChange = async (newFieldValue?: FieldT, rawValue?: string) => {
 		// some type hacks here... TODO: look into how to do this properly
 		const coercedFieldValue = newFieldValue as any
 
@@ -274,7 +274,7 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 			formData[fieldName] = coercedFieldValue
 
 			if (fieldDef?.onChange) {
-				formData = fieldDef.onChange({ fieldValue: formData[fieldName], rawValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData, externalData })
+				formData = await fieldDef.onChange({ fieldValue: formData[fieldName], rawValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData, externalData })
 			}
 
 			onFormChange(formData)
