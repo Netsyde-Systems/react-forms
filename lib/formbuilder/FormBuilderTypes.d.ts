@@ -11,6 +11,7 @@ export interface FieldSpecifierArgument<FormT, PropT extends keyof FormT, Langua
     rawValue?: string;
     fieldName: PropT;
     formData: FormData<FormT>;
+    formState: FormState<FormT, LanguageT>;
     formDefinition: FormDefinition<FormT, LanguageT>;
     language?: LanguageT;
     subFormIndex?: number;

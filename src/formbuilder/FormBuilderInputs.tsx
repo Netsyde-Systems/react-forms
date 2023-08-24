@@ -79,7 +79,7 @@ export function createOptionInput<FormT, FieldType extends string | number, Lang
 	const props = getInputProps<FormT, FieldType, LanguageT>(formDefinition, formData, formState, fieldName, onChange, subFormName, subFormIndex, rootFormData, externalData)
 	props.controlProps = controlProps
 
-	const selectOptions = getSelectOptions<FormT, FieldType, LanguageT>(formDefinition, formData, fieldName, formState.language as LanguageT, externalData)
+	const selectOptions = getSelectOptions<FormT, FieldType, LanguageT>(formDefinition, formData, formState, fieldName, formState.language as LanguageT, externalData)
 
 	return <OptionControl {...props} selectOptions={selectOptions} />
 }
@@ -99,7 +99,7 @@ export function createTextSelect<FormT, LanguageT extends string | undefined>(
 
 	const props = getInputProps<FormT, string, LanguageT>(formDefinition, formData, formState, fieldName, onChange, subFormName, subFormIndex, rootFormData, externalData)
 
-	const selectOptions = getSelectOptions<FormT, string, LanguageT>(formDefinition, formData, fieldName, language, externalData)
+	const selectOptions = getSelectOptions<FormT, string, LanguageT>(formDefinition, formData, formState, fieldName, language, externalData)
 
 	return <TextSelect {...props} selectOptions={selectOptions} />
 }
@@ -119,7 +119,7 @@ export function createNumberSelect<FormT, LanguageT extends string | undefined =
 
 	const props = getInputProps<FormT, number, LanguageT>(formDefinition, formData, formState, fieldName, onChange, subFormName, subFormIndex, rootFormData, externalData)
 
-	const selectOptions = getSelectOptions<FormT, number, LanguageT>(formDefinition, formData, fieldName, language, externalData)
+	const selectOptions = getSelectOptions<FormT, number, LanguageT>(formDefinition, formData, formState, fieldName, language, externalData)
 
 	return <NumberSelect {...props} selectOptions={selectOptions} />
 }
@@ -127,6 +127,7 @@ export function createNumberSelect<FormT, LanguageT extends string | undefined =
 export function getLabel<FormT, FieldT, LanguageT extends string | undefined>(
 	formDefinition: FieldDefinitions<FormT, LanguageT>,
 	formData: FormData<FormT>,
+	formState: FormState<FormT, LanguageT>,
 	fieldName: OnlyKeysOfType<FormT, FieldT>,
 	language?: LanguageT
 ): string { 
@@ -141,7 +142,7 @@ export function getLabel<FormT, FieldT, LanguageT extends string | undefined>(
 		if (typeof fieldDef.label == 'string') label = fieldDef.label
 		else if (typeof language === 'string' && isLocalizedString(fieldDef.label)) label = fieldDef.label[language]
 		else if (typeof fieldDef?.label == 'function') {
-			const langSpec = fieldDef.label({ fieldValue, fieldName, formData, formDefinition })
+			const langSpec = fieldDef.label({ fieldValue, fieldName, formData, formState, formDefinition })
 			label = getString(langSpec, language) ?? label
 		}
 	}
@@ -165,13 +166,13 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 	const fieldValue = formData[fieldName]
 	const { language } = formState
 
-	let label = getLabel(fieldDefinitions, formData, fieldName, language)
+	let label = getLabel(fieldDefinitions, formData, formState, fieldName, language)
 
 	// TODO!!! Figure out why it's permitting us to pass FieldDefinitions in place of a FormDefiniton
 	const formDefinition = fieldDefinitions
 
 	function getFieldSpecArgs(): FieldSpecifierArgument<FormT, keyof FormT, LanguageT> {
-		return { fieldValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData, externalData }
+		return { fieldValue, fieldName, formData, formState, formDefinition, language, subFormIndex, rootFormData, externalData }
 	}
 
 	// id defaults to fieldname if not provided
@@ -267,14 +268,14 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 		if (typeof fieldDef?.disallowChange === 'object' && coercedFieldValue?.toString().length > fieldDef.disallowChange.maxLength) {
 			return // don't perform change because we've exceeded max length
 		}
-		else if (typeof fieldDef?.disallowChange === 'function' && fieldDef.disallowChange({ fieldValue: coercedFieldValue, rawValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData, externalData })) {
+		else if (typeof fieldDef?.disallowChange === 'function' && fieldDef.disallowChange({ fieldValue: coercedFieldValue, rawValue, fieldName, formData, formState, formDefinition, language, subFormIndex, rootFormData, externalData })) {
 			return // don't perform change because custom disallow function has told us to
 		}
 		else {
 			formData[fieldName] = coercedFieldValue
 
 			if (fieldDef?.onChange) {
-				formData = await fieldDef.onChange({ fieldValue: formData[fieldName], rawValue, fieldName, formData, formDefinition, language, subFormIndex, rootFormData, externalData })
+				formData = await fieldDef.onChange({ fieldValue: formData[fieldName], rawValue, fieldName, formData, formState, formDefinition, language, subFormIndex, rootFormData, externalData })
 			}
 
 			onFormChange(formData)
@@ -315,6 +316,7 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 function getSelectOptions<FormT, FieldT extends string | number, LanguageT extends string | undefined = undefined>(
 	formDefinition: FieldDefinitions<FormT, LanguageT>,
 	formData: FormData<FormT>,
+	formState: FormState<FormT, LanguageT>,
 	fieldName: OnlyKeysOfType<FormT, FieldT>,
 	language: LanguageT, 
 	externalData: any
@@ -332,7 +334,7 @@ function getSelectOptions<FormT, FieldT extends string | number, LanguageT exten
 		}
 		else if (typeof fieldDef.selectOptions == 'function') {
 			// Type HACK.  TODO: investigate
-			localizedOptions = fieldDef.selectOptions({ fieldValue, fieldName, formData, formDefinition, externalData }) as any as Array<LocalizedOption<FieldT, LanguageT>>
+			localizedOptions = fieldDef.selectOptions({ fieldValue, fieldName, formData, formState, formDefinition, externalData }) as any as Array<LocalizedOption<FieldT, LanguageT>>
 		}
 	}
 

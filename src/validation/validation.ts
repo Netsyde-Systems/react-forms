@@ -29,8 +29,8 @@ export const isValueProvided = function (fieldValue?: any) {
 	}
 }
 
-export const requiredFieldValidator: ValidatorFunction<any, any> = function ({ fieldValue, fieldName, formData, formDefinition, language }) {
-	const label = getLabel(formDefinition, formData, fieldName.toString(), language)
+export const requiredFieldValidator: ValidatorFunction<any, any> = function ({ fieldValue, fieldName, formData, formState, formDefinition, language }) {
+	const label = getLabel(formDefinition, formData, formState, fieldName.toString(), language)
 	return isValueProvided(fieldValue) ? 
 		[] : 
 		[`${label} is required`]
