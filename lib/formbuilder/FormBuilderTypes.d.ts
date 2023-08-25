@@ -45,7 +45,7 @@ export declare function getString<LanguageT extends string | undefined>(langSpec
 export interface FieldDefinition<FormT, FieldT, LanguageT extends string | undefined> {
     id?: string | FieldSpecifierFunction<FormT, string, LanguageT>;
     label?: LangSpec<LanguageT> | FieldSpecifierFunction<FormT, LangSpec<LanguageT>, LanguageT>;
-    isRequired?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT>;
+    isRequired?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT> | ValidatorFunction<FormT, LanguageT>;
     isDisabled?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT>;
     isReadOnly?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT>;
     onChange?: FieldSpecifierFunction<FormT, FormData<FormT> | Promise<FormData<FormT>>, LanguageT>;

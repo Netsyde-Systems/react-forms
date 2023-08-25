@@ -93,7 +93,7 @@ export interface FieldDefinition<FormT, FieldT, LanguageT extends string | undef
 	// ids, labels and required/disabled states can be defined as static, or can depend on form and field values
 	id?: string | FieldSpecifierFunction<FormT, string, LanguageT>
 	label?: LangSpec<LanguageT> | FieldSpecifierFunction<FormT, LangSpec<LanguageT>, LanguageT>
-	isRequired?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT>
+	isRequired?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT> | ValidatorFunction<FormT, LanguageT>
 	isDisabled?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT>
 	isReadOnly?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT>
 	// TODO: add placeholder support in form builder

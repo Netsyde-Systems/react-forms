@@ -8,6 +8,7 @@ import './Validation.scss'
 
 interface ValidationShape {
 	reqString: string
+	customReqString: string
 	minString: string
 	maxString: string
 	allString: string
@@ -21,6 +22,10 @@ interface ValidationShape {
 const deferredDefinition: FormDefinition<ValidationShape> = {
 	fields: {
 		reqString: { label: 'Required String', isRequired: true },
+		customReqString: { 
+			label: 'Required String (Custom Error)', 
+			isRequired: ({ formData }) => formData.customReqString?.trim() ? [] : ['Custom Required Error Here']	 
+		},
 		reqDate: { label: 'Required Date', isRequired: true },
 		minString: { label: 'Min String (2)', validators: { min: 2 } },
 		maxString: { label: 'Max String (5)', validators: { max: 5 } },
@@ -159,6 +164,9 @@ export function Validation() {
 						</div>
 						<div className='control-row'>
 							<div className='control-cell'>
+								{rfDeferred.textInput('customReqString')}
+							</div>
+							<div className='control-cell'>
 								{rfDeferred.dateInput('reqDate')}
 							</div>
 							<div className='control-cell'>
@@ -197,6 +205,9 @@ export function Validation() {
 							</div>
 						</div>
 						<div className='control-row'>
+							<div className='control-cell'>
+								{rfImmediate.textInput('customReqString')}
+							</div>
 							<div className='control-cell'>
 								{rfImmediate.dateInput('reqDate')}
 							</div>

@@ -182,8 +182,17 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 
 	// fields aren't required unless they're specified as such with a boolean or a function
 	let required = false
+	let requiredResult: boolean | string[]
+	let requiredMessages: Array<string> = []
 	if (typeof fieldDef?.isRequired == 'boolean') required = fieldDef.isRequired
-	else if (typeof fieldDef?.isRequired == 'function') required = fieldDef.isRequired(getFieldSpecArgs())
+	else if (typeof fieldDef?.isRequired == 'function') {
+		requiredResult = fieldDef.isRequired(getFieldSpecArgs())
+		if (typeof requiredResult == 'boolean') required = requiredResult
+		else if (requiredResult.length > 0) {
+			required = true
+			requiredMessages = requiredResult
+		}
+	}
 
 	// fields aren't disabled unless they're specified as such with a boolean or a function
 	let disabled = false
@@ -213,7 +222,8 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 	let errorCondition: string | undefined = undefined
 
 	if (required) {
-		errors.push(...requiredFieldValidator(getFieldSpecArgs()))
+		if (requiredMessages.length > 0) errors.push(...requiredMessages)
+		else errors.push(...requiredFieldValidator(getFieldSpecArgs()))
 	}
 
 	if (fieldDef?.validators) {
