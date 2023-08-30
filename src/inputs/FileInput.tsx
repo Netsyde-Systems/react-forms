@@ -6,7 +6,7 @@ import { getInputEnvelopeClass, InputProps } from './inputs'
 import { ErrorMessage } from './ErrorMessage'
 import { InputLabel } from './InputLabel'
 
-const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 5 * BYTES_PER_KILOBYTE ** 2 // 5 MB
+const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 25 * BYTES_PER_KILOBYTE ** 2 // 25 MB
 
 const objectToArray = (obj: any) =>
 	Object.keys(obj).map(key => obj[key])

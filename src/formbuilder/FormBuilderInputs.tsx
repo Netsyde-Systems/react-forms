@@ -206,6 +206,14 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 	else if (typeof fieldDef?.isReadOnly == 'boolean') readOnly = fieldDef.isReadOnly
 	else if (typeof fieldDef?.isReadOnly == 'function') readOnly = fieldDef?.isReadOnly?.(getFieldSpecArgs())
 
+	let placeholder: string | undefined 
+	if (typeof fieldDef?.placeholder == 'string') placeholder = fieldDef.placeholder
+	else if (typeof language === 'string' && isLocalizedString(fieldDef?.placeholder)) placeholder = fieldDef?.placeholder[language]
+	else if (typeof fieldDef?.placeholder == 'function') {
+		const langSpec = fieldDef.placeholder(getFieldSpecArgs())
+		placeholder = getString(langSpec, language) ?? placeholder
+	}
+
 	let locale: Locale | undefined = undefined
 	if (language && isLocaleLookup(fieldDef?.locales)) {
 		// type hack; only seems to be necessary for babel runtime.  
@@ -296,6 +304,7 @@ export function getInputProps<FormT, FieldT, LanguageT extends string | undefine
 		id, 
 		value: formData[fieldName] as any as FieldT, 
 		label: fieldDef?.collapseLabels ? false : label, 
+		placeholder,
 		errorMessage: fieldDef?.collapseLabels ? false : errorMessage, 
 		hasError, 
 		onChange, 

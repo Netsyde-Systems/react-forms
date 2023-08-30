@@ -57,6 +57,7 @@ const testFormDefinition: FormDefinition<TestFormShape> = {
 		}, 
 		filesProperty: {
 			label: 'File Input Name is now configurable', 
+			placeholder: 'As is the "placeholder"',
 			onChange: async ({formData}) => {
 				console.log('Files changed as expected')
 				return formData

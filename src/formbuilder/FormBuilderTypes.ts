@@ -96,8 +96,7 @@ export interface FieldDefinition<FormT, FieldT, LanguageT extends string | undef
 	isRequired?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT> | ValidatorFunction<FormT, LanguageT>
 	isDisabled?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT>
 	isReadOnly?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT>
-	// TODO: add placeholder support in form builder
-	// placeholder?: string | FieldSpecifierFunction<FormT, string>
+	placeholder?: LangSpec<LanguageT> | FieldSpecifierFunction<FormT, LangSpec<LanguageT>, LanguageT>
 
 	// having onChange, errorMessage, or disabled state as static would make no sense... 
 	// onChange & isHidden always depend on current form state as accessible via specifier functions
