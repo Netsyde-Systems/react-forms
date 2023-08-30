@@ -2,6 +2,7 @@ import { InputHTMLAttributes, SelectHTMLAttributes, TextareaHTMLAttributes } fro
 import { Mask } from '../inputs/MaskedInput'
 import FormBuilder, { FieldNameProps } from "./FormBuilder"
 import { MinMaxValidatorSpecification } from "../validation/validation"
+import { FileInputConfig } from '../inputs/FileInput'
 
 export class ElementBuilder<FormT, LanguageT extends string | undefined = undefined> {
 	constructor(private formBuilder: FormBuilder<FormT, LanguageT>) { }
@@ -24,5 +25,5 @@ export class ElementBuilder<FormT, LanguageT extends string | undefined = undefi
 	public NumberRadio = (props:FieldNameProps<FormT, number> & InputHTMLAttributes<any>) => this.formBuilder.numberRadio(props.field, props)
 	public CheckBox = (props:FieldNameProps<FormT, boolean> & InputHTMLAttributes<any>) => this.formBuilder.checkbox(props.field, props)
 	// Note: File Input does not support standard controlProps like the other inputs do (at this time)
-	public Files = (props:FieldNameProps<FormT, Array<File>>) => this.formBuilder.files(props.field)
+	public Files = (props: FieldNameProps<FormT, Array<File>> & FileInputConfig) => this.formBuilder.files(props.field, props)
 }

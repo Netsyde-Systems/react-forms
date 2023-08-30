@@ -222,12 +222,11 @@ export function Forms() {
 						</div>
 					</div>
 
-
 					<div>
-						{rf.files('filesProperty')}
+						{rf.files('filesProperty', { multiple: true, showFileList: true, maxFileSizeInBytes: { criteria: 25 * 1024 ** 2, onRejected: file => alert(`File ${file.name} is larger than 25MB`) } })}
 					</div>
 					<div>
-						<RF.Files field='filesProperty' />
+						<RF.Files field='filesProperty' multiple showFileList maxFileSizeInBytes={{criteria: 25 * 1024 ** 2, onRejected: file => alert(`File ${file.name} is larger than 25MB`)}} />
 					</div>
 
 				</div>

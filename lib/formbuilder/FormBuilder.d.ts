@@ -1,5 +1,6 @@
 import { InputHTMLAttributes, ReactElement, SelectHTMLAttributes, TextareaHTMLAttributes } from "react";
 import { AnyMaskedOptions } from 'imask';
+import { FileInputConfig } from "../inputs/FileInput";
 import { ExtractLanguage, FormData, FormDefinition, FormFieldErrors, FormState, LangSpec, LocalizedString, OnlyKeysOfType } from "./FormBuilderTypes";
 import { ElementBuilder } from "./ElementBuilder";
 import { MinMaxValidatorSpecification } from "../validation/validation";
@@ -62,7 +63,7 @@ export declare class FormBuilder<FormT, LanguageT extends string | undefined = u
     numberRadio: (fieldName: OnlyKeysOfType<FormT, number>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => JSX.Element;
     checkbox: (fieldName: OnlyKeysOfType<FormT, boolean>, controlProps?: InputHTMLAttributes<HTMLInputElement>) => JSX.Element;
     readonlyField: (label: string, text: string) => JSX.Element;
-    files: (fieldName: OnlyKeysOfType<FormT, Array<File>>) => JSX.Element;
+    files: (fieldName: OnlyKeysOfType<FormT, Array<File>>, fileInputConfig?: FileInputConfig) => JSX.Element;
     validate(): void;
     subFormLoop<SubFormT>(fieldName: OnlyKeysOfType<FormT, Array<SubFormT>>, subFormConstructor: SubFormLoopConstructor<SubFormT, LanguageT>): Array<ReactElement>;
     subFormPanel<SubFormT>(fieldName: OnlyKeysOfType<FormT, Array<SubFormT>>, subFormPanelConstructor: SubFormPanelConstructor): ReactElement;

@@ -2,6 +2,7 @@ import { InputHTMLAttributes, SelectHTMLAttributes, TextareaHTMLAttributes } fro
 import { Mask } from '../inputs/MaskedInput';
 import FormBuilder, { FieldNameProps } from "./FormBuilder";
 import { MinMaxValidatorSpecification } from "../validation/validation";
+import { FileInputConfig } from '../inputs/FileInput';
 export declare class ElementBuilder<FormT, LanguageT extends string | undefined = undefined> {
     private formBuilder;
     constructor(formBuilder: FormBuilder<FormT, LanguageT>);
@@ -23,5 +24,5 @@ export declare class ElementBuilder<FormT, LanguageT extends string | undefined 
     TextRadio: (props: FieldNameProps<FormT, string> & InputHTMLAttributes<any>) => JSX.Element;
     NumberRadio: (props: FieldNameProps<FormT, number> & InputHTMLAttributes<any>) => JSX.Element;
     CheckBox: (props: FieldNameProps<FormT, boolean> & InputHTMLAttributes<any>) => JSX.Element;
-    Files: (props: FieldNameProps<FormT, Array<File>>) => JSX.Element;
+    Files: (props: FieldNameProps<FormT, Array<File>> & FileInputConfig) => JSX.Element;
 }

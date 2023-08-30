@@ -6,6 +6,7 @@ import { InputProps } from '../inputs/inputs'
 import { NumberSelect } from '../inputs/NumberSelect'
 import { TextSelect } from '../inputs/TextSelect'
 import { MaskedInput, MaskedInputProps, Mask } from '../inputs/MaskedInput'
+import { FileInput, FileInputConfig, FileInputProps } from '../inputs/FileInput'
 import { getMaxLengthValidator, getMaxValidator, getMinLengthValidator, getMinValidator, requiredFieldValidator } from '../validation/validation'
 import { getUnique } from '../utilities'
 import { InputHTMLAttributes } from 'react'
@@ -60,6 +61,26 @@ export function createMaskedInput<FormT, LanguageT extends string | undefined>(
 	const maskedProps: MaskedInputProps = { ...props, ...{ mask } }
 
 	return MaskedInput(maskedProps)
+}
+
+export function createFileInput<FormT, LanguageT extends string | undefined>(
+	fieldDefinitions: FieldDefinitions<FormT, LanguageT>,
+	formData: FormData<FormT>,
+	formState: FormState<FormT, LanguageT>,
+	fieldName: OnlyKeysOfType<FormT, File[]>,
+	onChange: (data: FormData<FormT>) => void, 
+	subFormName: string | undefined,
+	subFormIndex: number | undefined, 
+	rootFormData: FormData<any> | undefined, 
+	fileInputConfig: FileInputConfig,
+	externalData: any,
+): JSX.Element { 
+
+	let props = getInputProps<FormT, File[], LanguageT>(fieldDefinitions, formData, formState, fieldName, onChange, subFormName, subFormIndex, rootFormData, externalData)
+
+	const fileProps: FileInputProps = { ...props, ...fileInputConfig }
+
+	return FileInput(fileProps)
 }
 
 export function createOptionInput<FormT, FieldType extends string | number, LanguageT extends string | undefined>(

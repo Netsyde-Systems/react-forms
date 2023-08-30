@@ -7,6 +7,7 @@ import { ErrorMessage } from './ErrorMessage'
 import { InputLabel } from './InputLabel'
 
 const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 25 * BYTES_PER_KILOBYTE ** 2 // 25 MB
+const DEFAULT_EXCLUDED_FILE_EXTENSIONS = ['exe', 'bat']
 
 const objectToArray = (obj: any) =>
 	Object.keys(obj).map(key => obj[key])
@@ -21,10 +22,20 @@ function arrayToObject<T>(arr: Array<T>, keySelector: (obj: T) => string) {
 	return dic
 }
 
-export interface FileInputProps extends InputProps<Array<File>> {
+export interface FileFilter<T> {
+	criteria: T
+	onRejected?: (file: File) => void
+}
+
+export interface FileInputConfig {
 	multiple?: boolean
-	maxFileSizeInBytes?: number
 	showFileList?: boolean
+	maxFileSizeInBytes?: FileFilter<number>
+	excludedFileExtensions?: FileFilter<Array<string>>
+	acceptedFileExtensions?: FileFilter<Array<string>>
+}
+
+export interface FileInputProps extends InputProps<Array<File>>, FileInputConfig {
 }
 
 // Note: File Input does not support standard controlProps like the other inputs do (at this time)
@@ -34,9 +45,19 @@ export function FileInput(props: FileInputProps) {
 
 	const className = getInputEnvelopeClass(props, 'file', 'input')
 
-	const { id, disabled, readOnly, required, multiple, showFileList, 
-		maxFileSizeInBytes = DEFAULT_MAX_FILE_SIZE_IN_BYTES, placeholder
+	const { id, disabled, readOnly, required, multiple, showFileList, placeholder,
+		maxFileSizeInBytes, excludedFileExtensions, acceptedFileExtensions
 	} = props
+
+	const filledMaxFileSizeInBytes: FileFilter<number> = Object.assign({},
+		maxFileSizeInBytes,
+		{ criteria: maxFileSizeInBytes?.criteria ?? DEFAULT_MAX_FILE_SIZE_IN_BYTES }
+	)
+
+	const filledExcludedFileExtensions: FileFilter<Array<string>> = Object.assign({},
+		excludedFileExtensions,
+		{ criteria: excludedFileExtensions?.criteria ?? DEFAULT_EXCLUDED_FILE_EXTENSIONS }
+	)
 
 	const handleUploadBtnClick = () => {
 		fileInputField.current?.click()
@@ -44,12 +65,26 @@ export function FileInput(props: FileInputProps) {
 
 	const addNewFiles = (newFiles: Array<File>) => {
 		for (let file of newFiles) {
-			if (file.size < maxFileSizeInBytes) {
-				if (!multiple) {
-					return { file }
-				}
-				fileLookup[file.name] = file
+
+			if (file.size > filledMaxFileSizeInBytes.criteria) {
+				filledMaxFileSizeInBytes.onRejected?.(file)
+				continue
 			}
+
+			if (filledExcludedFileExtensions.criteria.some(ext => file.name.toLowerCase().endsWith(ext))) {
+				filledExcludedFileExtensions.onRejected?.(file)
+				continue
+			}
+
+			if (acceptedFileExtensions?.criteria?.length && !acceptedFileExtensions.criteria.some(ext => file.name.toLowerCase().endsWith(ext))) {
+				acceptedFileExtensions.onRejected?.(file)
+				continue
+			}
+
+			if (!multiple) {
+				return { file }
+			}
+			fileLookup[file.name] = file
 		}
 		return { ...fileLookup }
 	}
@@ -94,7 +129,7 @@ export function FileInput(props: FileInputProps) {
 					const file = fileLookup[fileName]
 					const isImageFile = file.type.split("/")[0] === "image"
 					const deleteIcon = disabled || readOnly ? null :
-						<i className="trash" onClick={() => removeFile(fileName)} /> 
+						<i className="trash" onClick={() => removeFile(fileName)} />
 
 					return (
 						<section key={fileName} className='file'>

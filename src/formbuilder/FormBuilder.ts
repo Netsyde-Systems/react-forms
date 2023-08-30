@@ -15,10 +15,10 @@ import NumberRadio from "../inputs/NumberRadio"
 import PostalCode from "../inputs/PostalCode"
 import PhoneNumber from "../inputs/PhoneNumber"
 import EmailAddress from "../inputs/EmailAddress"
-import FileInput from "../inputs/FileInput"
+import { FileInputConfig } from "../inputs/FileInput"
 import Currency from "../inputs/Currency"
 
-import { createMaskedInput, createOptionInput, createStandardInput, getInputProps, ReactFormsInputControl, ReactFormsOptionControl } from "./FormBuilderInputs"
+import { createFileInput, createMaskedInput, createOptionInput, createStandardInput, getInputProps, ReactFormsInputControl, ReactFormsOptionControl } from "./FormBuilderInputs"
 import { ExtractLanguage, FieldSpecifierArgument, FormData, FormDefinition, FormFieldErrors, FormFieldMap, FormState, LangSpec, LocalizedString, OnlyKeysOfType, SubFormDefinition } from "./FormBuilderTypes"
 import { ElementBuilder } from "./ElementBuilder"
 import { ReadonlyField } from "../inputs/ReadonlyField"
@@ -286,7 +286,20 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 	public readonlyField = (label: string, text: string) => ReadonlyField({ label, value: text, id: 'test' })
 
 	// Note: File Input does not support standard controlProps like the other inputs do (at this time)
-	public files = (fieldName: OnlyKeysOfType<FormT, Array<File>>) => this.linkStandardControl(fieldName, FileInput, {}, {})
+	public files = (fieldName: OnlyKeysOfType<FormT, Array<File>>, fileInputConfig?: FileInputConfig) => {
+		let newFormState = Object.assign({}, this.formState)
+		let newFormData = Object.assign({}, this.formData)
+
+		const handleChange = (formData: FormData<FormT>) => {
+			// can't use setfield, because formData may have been altered by a changehandler
+			// this.setField(fieldName, formData[fieldName])
+			this.setData(formData, newFormState, fieldName)
+		}
+
+		const inputControl = createFileInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, this.subFormName, this.subFormIndex, this.rootFormData, fileInputConfig ?? {}, this.externalData)
+
+		return inputControl
+	}
 
 	public validate() {
 		if (!this.formState.hasBeenValidated) {

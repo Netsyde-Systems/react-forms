@@ -36,7 +36,7 @@ export { TextArea, type TextAreaProps } from './inputs/TextArea'
 export { TextInput } from './inputs/TextInput'
 export { TextRadio } from './inputs/TextRadio'
 export { TextSelect } from './inputs/TextSelect'
-export { FileInput, type FileInputProps } from './inputs/FileInput'
+export { FileInput, type FileInputProps, type FileFilter, type FileInputConfig } from './inputs/FileInput'
 
 export { isValidEmail, isValueProvided, requiredFieldValidator, emailValidator } from './validation/validation'
 
