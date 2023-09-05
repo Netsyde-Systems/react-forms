@@ -13,7 +13,7 @@ export { NumberInput } from './inputs/NumberInput';
 export { NumberRadio } from './inputs/NumberRadio';
 export { NumberSelect } from './inputs/NumberSelect';
 export { PhoneNumber } from './inputs/PhoneNumber';
-export { Currency } from './inputs/Currency';
+export { Currency } from './inputs/Currency.new';
 export { PostalCode } from './inputs/PostalCode';
 export { TextArea, type TextAreaProps } from './inputs/TextArea';
 export { TextInput } from './inputs/TextInput';

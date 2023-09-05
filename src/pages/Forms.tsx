@@ -215,7 +215,6 @@ export function Forms() {
 						</div>
 						<div className='control-cell'>
 							<RF.Currency field='currency' title='Currency Element' />
-							Note, cents input not yet working with form builder (but is when using control itself).  <br/>TODO: investigate
 						</div>
 						<div className='control-cell'>
 							Calculated field not yet implemented with element builder.  May require redesign
