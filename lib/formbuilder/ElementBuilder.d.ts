@@ -19,6 +19,7 @@ export declare class ElementBuilder<FormT, LanguageT extends string | undefined 
     PhoneNumber: (props: FieldNameProps<FormT, number> & InputHTMLAttributes<any>) => JSX.Element;
     EmailAddress: (props: FieldNameProps<FormT, string> & InputHTMLAttributes<any>) => JSX.Element;
     Currency: (props: FieldNameProps<FormT, number> & InputHTMLAttributes<any>) => JSX.Element;
+    CurrencyString: (props: FieldNameProps<FormT, string> & InputHTMLAttributes<any>) => JSX.Element;
     TextSelect: (props: FieldNameProps<FormT, string> & SelectHTMLAttributes<any>) => JSX.Element;
     NumberSelect: (props: FieldNameProps<FormT, number> & SelectHTMLAttributes<any>) => JSX.Element;
     TextRadio: (props: FieldNameProps<FormT, string> & InputHTMLAttributes<any>) => JSX.Element;

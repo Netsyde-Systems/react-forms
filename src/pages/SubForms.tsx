@@ -1,5 +1,6 @@
 import { FormDefinition, FormData, LocalizedString } from '../formbuilder/FormBuilderTypes'
 import useReactForms from '../hooks/useReactForms'
+import { getCurrency } from '../indexExports'
 import FormInspector from '../utility-controls/FormInspector'
 
 import './SubForms.scss'
@@ -17,6 +18,7 @@ interface FormShape {
 interface SubFormShape {
 	date: Date
 	cost: number
+	costString: string
 	exclude: boolean
 }
 
@@ -64,9 +66,14 @@ const formDefinition: FormDefinition<FormShape, Language> = {
 						},
 						collapseLabels: true
 					},
-					cost: {
+					costString: {
 						collapseLabels: true,
-						isRequired: true
+						isRequired: true, 
+						onChange: ({ formData }) => {
+							const curr = getCurrency(formData.costString || '')
+							formData.cost = curr.numberValue
+							return formData
+						}
 					}
 				}
 			}
@@ -115,6 +122,7 @@ const sumCosts = (subForms?: Array<FormData<SubFormShape>>) => {
 const subFormHeaders: Record<keyof SubFormShape, LocalizedString<Language>> = {
 	date: { en: 'Date', fr: 'Date' },
 	cost: { en: 'Cost', fr: 'Coût' },
+	costString: { en: 'Cost', fr: 'Coût' },
 	exclude: { en: 'Exclude', fr: 'Exclure' },
 }
 
@@ -167,7 +175,7 @@ export function Localization() {
 						<thead>
 							<tr>
 								<th>{rf.localize(subFormHeaders.date)}</th>
-								<th>{rf.localize(subFormHeaders.cost)}</th>
+								<th>{rf.localize(subFormHeaders.costString)}</th>
 								<th>{rf.localize(subFormHeaders.exclude)}</th>
 								<th></th>
 							</tr>
@@ -180,7 +188,7 @@ export function Localization() {
 											{srf.dateInput('date')}
 										</td>
 										<td>
-											{srf.currency('cost')}
+											{srf.currencyString('costString')}
 										</td>
 										<td>
 											{srf.checkbox('exclude')}
@@ -226,7 +234,7 @@ export function Localization() {
 											{srf.dateInput('date')}
 										</td>
 										<td>
-											{srf.currency('cost')}
+											{srf.currencyString('costString')}
 										</td>
 										<td>
 											{srf.checkbox('exclude')}

@@ -19,6 +19,7 @@ export class ElementBuilder<FormT, LanguageT extends string | undefined = undefi
 	public PhoneNumber = (props:FieldNameProps<FormT, number> & InputHTMLAttributes<any>) => this.formBuilder.phoneNumber(props.field, props)
 	public EmailAddress = (props:FieldNameProps<FormT, string> & InputHTMLAttributes<any>) => this.formBuilder.emailAddress(props.field, props)
 	public Currency = (props:FieldNameProps<FormT, number> & InputHTMLAttributes<any>) => this.formBuilder.currency(props.field, props)
+	public CurrencyString = (props:FieldNameProps<FormT, string> & InputHTMLAttributes<any>) => this.formBuilder.currencyString(props.field, props)
 	public TextSelect = (props:FieldNameProps<FormT, string> & SelectHTMLAttributes<any>) => this.formBuilder.textSelect(props.field, props)
 	public NumberSelect = (props:FieldNameProps<FormT, number> & SelectHTMLAttributes<any>) => this.formBuilder.numberSelect(props.field, props)
 	public TextRadio = (props:FieldNameProps<FormT, string> & InputHTMLAttributes<any>) => this.formBuilder.textRadio(props.field, props)

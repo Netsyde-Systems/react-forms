@@ -17,6 +17,7 @@ import { PostalCode } from '../inputs/PostalCode'
 import { EmailAddress } from '../inputs/EmailAddress'
 import { FileInput } from '../inputs/FileInput'
 import { Currency } from '../inputs/Currency.new'
+import { CurrencyString } from '../inputs/CurrencyString'
 import { DemoControlPanel } from '../utility-controls/DemoControlPanel'
 
 import './Controls.scss'
@@ -57,6 +58,7 @@ function Controls() {
 	const [textMaskedValue, setMaskedValue] = React.useState<string>()
 	const [phoneValue, setPhoneValue] = React.useState<number>()
 	const [dollarValue, setDollarValue] = React.useState<number>()
+	const [dollarStringValue, setDollarStringValue] = React.useState<string>()
 	const [postalCodeValue, setPostalCodeValue] = React.useState<string>()
 	const [emailValue, setEmailValue] = React.useState<string>()
 	const [fileValue, setFileValue] = React.useState<Array<File>>()
@@ -249,10 +251,22 @@ function Controls() {
 							{nullableValueMessage(phoneValue)}
 						</div>
 						<div className='control-cell'>
-							<Currency id='txtCurrency2' label='Currency' value={dollarValue} onChange={setDollarValue} {...sharedProperties} />
+							<Currency id='txtCurrency' label='Currency' value={dollarValue} onChange={setDollarValue} {...sharedProperties} />
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(dollarValue)}
+						</div>
+					</div>
+					<div className='control-row'>
+						<div className='control-cell'>
+						</div>
+						<div className='control-cell'>
+						</div>
+						<div className='control-cell'>
+							<CurrencyString id='txtCurrencyString' label='Currency' value={dollarStringValue} onChange={setDollarStringValue} {...sharedProperties} />
+						</div>
+						<div className='control-cell'>
+							{nullableValueMessage(dollarStringValue)}
 						</div>
 					</div>
 				</div>

@@ -2,6 +2,8 @@ import { AnyMaskedOptions } from 'imask'
 import { InputProps } from './inputs'
 import { MaskedInput } from './MaskedInput'
 
+// Doesn't allow inputting decimals due to model being a number that can't track radix status
+
 export function Currency(props: InputProps<number>) {
 
 	const handleChange = (textValue?: string, rawValue?: string) => {
