@@ -24,7 +24,7 @@ const deferredDefinition: FormDefinition<ValidationShape> = {
 		reqString: { label: 'Required String', isRequired: true },
 		customReqString: { 
 			label: 'Required String (Custom Error)', 
-			isRequired: ({ formData }) => formData.customReqString?.trim() ? [] : ['Custom Required Error Here']	 
+			defaultValidators: { requiredFieldValidator: ({ formData }) => formData.customReqString?.trim() ? [] : ['Custom Required Error Here'] }
 		},
 		reqDate: { label: 'Required Date', isRequired: true },
 		minString: { label: 'Min String (2)', validators: { min: 2 } },

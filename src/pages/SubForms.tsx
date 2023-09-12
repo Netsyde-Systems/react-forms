@@ -80,9 +80,9 @@ const formDefinition: FormDefinition<FormShape, Language> = {
 
 		},
 		req2SubFormsProperty: {
-			validators: ({ formData, language }) => {
+			validators: ({ formData }) => {
 				if (!formData.req2SubFormsProperty || formData.req2SubFormsProperty.length < 2) {
-					return [(language && min2SubForms[language]) || min2SubForms.en]
+					return [min2SubForms]
 				}
 				return []
 			},

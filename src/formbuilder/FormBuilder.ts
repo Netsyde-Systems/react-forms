@@ -72,7 +72,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 
 		// do an initial round of getting form props so that any error conditions are found immediately to hydrate validation state
 		formDefinition.fields && Object.entries(formDefinition.fields).forEach(([fieldName, fieldDef]) => {
-			getInputProps(formDefinition.fields!, formData, formState, fieldName as any, () => null, undefined, undefined, undefined, externalData)
+			getInputProps(formDefinition, formData, formState, fieldName as any, () => null, undefined, undefined, undefined, externalData)
 		})
 
 		// TODO: this is ugly; we need to refactor this so that formbuilder is truly recursive
@@ -195,7 +195,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 			this.setData(formData, newFormState, fieldName)
 		}
 
-		const inputControl = createStandardInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, InputControl, customInputProps, this.subFormName, this.subFormIndex, this.rootFormData, controlProps ?? {}, this.externalData)
+		const inputControl = createStandardInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange, InputControl, customInputProps, this.subFormName, this.subFormIndex, this.rootFormData, controlProps ?? {}, this.externalData)
 
 		return inputControl
 	}
@@ -210,7 +210,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 			this.setData(formData, newFormState, fieldName)
 		}
 
-		const inputControl = createOptionInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, OptionControl, this.subFormName, this.subFormIndex, this.rootFormData, controlProps ?? {}, this.externalData)
+		const inputControl = createOptionInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange, OptionControl, this.subFormName, this.subFormIndex, this.rootFormData, controlProps ?? {}, this.externalData)
 
 		return inputControl
 	}
@@ -252,7 +252,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 			this.setData(formData, newFormState, fieldName)
 		}
 
-		const inputControl = createMaskedInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, this.subFormName, this.subFormIndex, this.rootFormData, mask, controlProps ?? {}, this.externalData)
+		const inputControl = createMaskedInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange, this.subFormName, this.subFormIndex, this.rootFormData, mask, controlProps ?? {}, this.externalData)
 
 		return inputControl
 	}
@@ -299,7 +299,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 			this.setData(formData, newFormState, fieldName)
 		}
 
-		const inputControl = createFileInput(this.formDefinition.fields || {}, newFormData, newFormState, fieldName, handleChange, this.subFormName, this.subFormIndex, this.rootFormData, fileInputConfig ?? {}, this.externalData)
+		const inputControl = createFileInput(this.formDefinition, newFormData, newFormState, fieldName, handleChange, this.subFormName, this.subFormIndex, this.rootFormData, fileInputConfig ?? {}, this.externalData)
 
 		return inputControl
 	}
@@ -339,7 +339,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 				this.validateSubForms()
 			}
 
-			const subFormBuilder = new FormBuilder<SubFormT, LanguageT>(subFormDef.formDefinition, subFormDatum, subFormState, handleFormDataUpdate, undefined, fieldName?.toString(), rowIndex, this.formData, this.originalFormData?.[fieldName!] as FormData<SubFormT>, this.externalData)
+			const subFormBuilder = new FormBuilder<SubFormT, LanguageT>(subFormDef.formDefinition as FormDefinition<SubFormT, LanguageT>, subFormDatum, subFormState, handleFormDataUpdate, undefined, fieldName?.toString(), rowIndex, this.formData, this.originalFormData?.[fieldName!] as FormData<SubFormT>, this.externalData)
 
 			const subFormController: SubFormLoopController = {
 				subFormIndex: rowIndex, 
