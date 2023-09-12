@@ -19,6 +19,8 @@ export type {
 	FormFieldErrors
 } from './formbuilder/FormBuilderTypes'
 
+export { getLabel } from './formbuilder/FormBuilderInputs'
+
 export { type SelectOption } from './inputs/inputs'
 
 export { CheckBox } from './inputs/CheckBox'

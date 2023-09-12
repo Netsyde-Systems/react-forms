@@ -3,6 +3,7 @@ export { ElementBuilder } from './formbuilder/ElementBuilder';
 export { useReactForms as useFormBuilder } from './hooks/useReactForms';
 export { assertNever } from './utilities';
 export type { OnlyKeysOfType, FieldSpecifierFunction, SelectOptionsSpecifier, FormData, FieldDefinition, FormDefinition, SubFormDefinition, LocalizedString, LocalizedOption, LocaleLookup, LangSpec, FormFieldErrors } from './formbuilder/FormBuilderTypes';
+export { getLabel } from './formbuilder/FormBuilderInputs';
 export { type SelectOption } from './inputs/inputs';
 export { CheckBox } from './inputs/CheckBox';
 export { DateInput, type DateInputProps } from './inputs/DateInput';
