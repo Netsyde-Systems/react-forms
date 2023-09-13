@@ -1,5 +1,6 @@
-import { FieldSpecifierFunction } from '../formbuilder/FormBuilderTypes';
-export declare type ValidatorFunction<FormT, LanguageT extends string | undefined = undefined> = FieldSpecifierFunction<FormT, Array<string>, LanguageT>;
+import { FieldSpecifierFunction, LangSpec } from '../formbuilder/FormBuilderTypes';
+export declare type ValidatorFunction<FormT, LanguageT extends string | undefined = undefined> = FieldSpecifierFunction<FormT, Array<LangSpec<LanguageT>>, LanguageT>;
+export declare type GetValidatorFunction<FormT, LanguageT extends string | undefined = undefined> = (value: any, errorLabel: string) => FieldSpecifierFunction<FormT, Array<LangSpec<LanguageT>>, LanguageT>;
 export interface MinMaxValidatorSpecification<T> {
     min?: T;
     max?: T;
@@ -7,9 +8,25 @@ export interface MinMaxValidatorSpecification<T> {
 export declare type ValidatorSpecification<FieldT> = FieldT extends string | number | Array<any> ? MinMaxValidatorSpecification<number> : never;
 export declare const isValidEmail: (fieldValue?: string) => boolean;
 export declare const isValueProvided: (fieldValue?: any) => boolean;
-export declare const requiredFieldValidator: ValidatorFunction<any, any>;
-export declare const emailValidator: ValidatorFunction<any>;
-export declare function getMinValidator<T>(minValue: T, errorLabel: string): ValidatorFunction<any, any>;
-export declare function getMaxValidator<T>(maxValue: T, errorLabel: string): ValidatorFunction<any, any>;
-export declare function getMinLengthValidator(minLength: number, errorLabel: string): ValidatorFunction<any, any>;
-export declare function getMaxLengthValidator(maxLength: number, errorLabel: string): ValidatorFunction<any, any>;
+export declare const defaultRequiredFieldValidator: ValidatorFunction<any, any>;
+export declare const defaultEmailValidator: ValidatorFunction<any, any>;
+export declare function getDefaultMinValidator(minValue: any, errorLabel: string): ValidatorFunction<any, any>;
+export declare function getDefaultMaxValidator(maxValue: any, errorLabel: string): ValidatorFunction<any, any>;
+export declare function getDefaultMinLengthValidator(minLength: number, errorLabel: string): ValidatorFunction<any, any>;
+export declare function getDefaultMaxLengthValidator(maxLength: number, errorLabel: string): ValidatorFunction<any, any>;
+export interface DefaultValidators<FormT, LanguageT extends string | undefined> {
+    requiredFieldValidator?: ValidatorFunction<FormT, LanguageT>;
+    emailValidator?: ValidatorFunction<FormT, LanguageT>;
+    getMinValidator?: {
+        (minValue: Date | number, errorLabel: string): ValidatorFunction<FormT, LanguageT>;
+    };
+    getMaxValidator?: {
+        (minValue: Date | number, errorLabel: string): ValidatorFunction<FormT, LanguageT>;
+    };
+    getMinLengthValidator?: {
+        (minLength: number, errorLabel: string): ValidatorFunction<FormT, LanguageT>;
+    };
+    getMaxLengthValidator?: {
+        (maxLength: number, errorLabel: string): ValidatorFunction<FormT, LanguageT>;
+    };
+}

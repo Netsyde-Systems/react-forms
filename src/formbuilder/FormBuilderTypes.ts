@@ -1,5 +1,5 @@
 import { SelectOption } from '../inputs/inputs'
-import { ValidatorFunction, ValidatorSpecification } from '../validation/validation'
+import { DefaultValidators, ValidatorFunction, ValidatorSpecification } from '../validation/validation'
 
 // From https://stackoverflow.com/questions/63447660/typescript-remove-all-properties-with-particular-type
 /*
@@ -93,7 +93,7 @@ export interface FieldDefinition<FormT, FieldT, LanguageT extends string | undef
 	// ids, labels and required/disabled states can be defined as static, or can depend on form and field values
 	id?: string | FieldSpecifierFunction<FormT, string, LanguageT>
 	label?: LangSpec<LanguageT> | FieldSpecifierFunction<FormT, LangSpec<LanguageT>, LanguageT>
-	isRequired?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT> | ValidatorFunction<FormT, LanguageT>
+	isRequired?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT> 
 	isDisabled?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT>
 	isReadOnly?: boolean | FieldSpecifierFunction<FormT, boolean, LanguageT>
 	placeholder?: LangSpec<LanguageT> | FieldSpecifierFunction<FormT, LangSpec<LanguageT>, LanguageT>
@@ -107,6 +107,7 @@ export interface FieldDefinition<FormT, FieldT, LanguageT extends string | undef
 
 	// Can have one, or multiple custom validator functions, or a specifier for straightforward cases (min/max/etc)
 	validators?: ValidatorFunction<FormT, LanguageT> | Array<ValidatorFunction<FormT, LanguageT>> | ValidatorSpecification<FieldT>
+	defaultValidators?: DefaultValidators<FormT, LanguageT>
 
 	// can specify that field should show errors as soon as a user begins typing
 	validateImmediately?: boolean
@@ -160,8 +161,9 @@ export type SubFormDefinitions<FormT, LanguageT extends string | undefined = und
 // TODO: add external data type to form definition
 // make all form builder structs get formbuilder types from form definition
 export type FormDefinition<FormT, LanguageT extends string | undefined = undefined> = {
-	fields?: FieldDefinitions<FormT, LanguageT>
+	fields: FieldDefinitions<FormT, LanguageT>
 	subForms?: SubFormDefinitions<FormT, LanguageT>
+	defaultValidators?: DefaultValidators<FormT, LanguageT>
 }
 
 export type FormFieldMap<FormT, DataT> = {
