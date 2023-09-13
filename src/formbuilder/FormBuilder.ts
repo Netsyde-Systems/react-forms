@@ -20,7 +20,7 @@ import CurrencyString from "../inputs/CurrencyString"
 import { FileInputConfig } from "../inputs/FileInput"
 
 import { createFileInput, createMaskedInput, createOptionInput, createStandardInput, getInputProps, ReactFormsInputControl, ReactFormsOptionControl } from "./FormBuilderInputs"
-import { ExtractLanguage, FieldSpecifierArgument, FormData, FormDefinition, FormFieldErrors, FormFieldMap, FormState, LangSpec, LocalizedString, OnlyKeysOfType, SubFormDefinition } from "./FormBuilderTypes"
+import { ExtractLanguage, FieldSpecifierArgument, FormData, FormDefinition, FormFieldErrors, FormFieldMap, FormState, getString, LangSpec, LocalizedString, OnlyKeysOfType, SubFormDefinition } from "./FormBuilderTypes"
 import { ElementBuilder } from "./ElementBuilder"
 import { ReadonlyField } from "../inputs/ReadonlyField"
 import { MinMaxValidatorSpecification } from "../validation/validation"
@@ -98,7 +98,7 @@ export class FormBuilder<FormT, LanguageT extends string | undefined = undefined
 
 			if (typedSubFormDefinition.validators) {
 				const errorConditions = typedSubFormDefinition.validators(fieldSpecArg)
-				const errorMessage = errorConditions.join(' | ')
+				const errorMessage = errorConditions.map(ec => getString(ec, this.formState.language!)).filter(Boolean).join(' | ')
 				this.formState.fieldErrorConditions ??= {}
 				this.formState.fieldErrorConditions[typedSubFormName] = errorMessage
 			}

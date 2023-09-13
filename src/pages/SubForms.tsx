@@ -133,7 +133,7 @@ const SumLabel: LocalizedString<Language> = {
 
 const min2SubForms: LocalizedString<Language> = {
 	en: 'Minimum two subforms required',
-	fr: 'FR: Un minimum de deux subforms sont necessaire [sp]'
+	fr: 'Un minimum de deux subforms sont necessaire [sp]'
 }
 
 let testFormData: FormData<FormShape> = { language: 'en', subFormsProperty: [{}] }
