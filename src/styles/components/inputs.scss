@@ -19,7 +19,6 @@
 	select,  
 	div.value
 	{
-		white-space: pre;
 		// box sizing is necessary to have the input respect the parent's padding 
 		box-sizing: border-box;
 		width: 100%;
@@ -31,6 +30,7 @@
 
 		// make input behave like div and fill its parent
 		display: block;
+		word-wrap: break-word;
 
 		&:focus {
 			border: constants.$input-border-focus;
