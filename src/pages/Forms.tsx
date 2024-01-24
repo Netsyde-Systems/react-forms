@@ -31,6 +31,12 @@ interface TestFormShape {
 
 const testFormDefinition: FormDefinition<TestFormShape> = {
 	fields: {
+		stringProperty: {
+			onChange: async ({formData}) => {
+				console.log('String changed as expected, cursor should be where expected if changing input in middle')
+				return formData
+			}
+		}, 
 		selectStringProperty: {
 			selectOptions: [
 				{ value: 'First', text: 'First Option' },
@@ -79,7 +85,7 @@ export function Forms() {
 		const viewState = getFormViewState(formView)
 		rf.setDisabled(viewState.isDisabled)
 		rf.setReadOnly(viewState.isReadOnly)
-	}, [formView])
+	}, [formView, rf])
 
 	return (
 		<FormInspector formBuilder={rf}>
