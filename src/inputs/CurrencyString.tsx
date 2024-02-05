@@ -1,5 +1,5 @@
 import { InputProps } from './inputs'
-import { TextInput } from './TextInput'
+import { TextInputUncontrolled } from './TextInputUncontrolled'
 import { getCurrency } from './Currency.new'
 
 // Added temporarily as a hack to fix for the currency decimal input issue.
@@ -14,7 +14,7 @@ export function CurrencyString(props: InputProps<string>) {
 	}
 
 	return (
-		<TextInput {...props} value={props.value || ''} placeholder='$' onChange={handleChange} />
+		<TextInputUncontrolled {...props} value={props.value || ''} placeholder='$' onChange={handleChange} />
 	)
 }
 

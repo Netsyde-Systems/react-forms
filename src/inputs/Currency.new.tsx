@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import IMask, { AnyMaskedOptions } from 'imask'
 import { InputProps } from './inputs'
-import { TextInput } from './TextInput'
+import { TextInputUncontrolled } from './TextInputUncontrolled'
 
 
 // Added temporarily as a fix for the currency decimal input issue.
@@ -24,7 +24,7 @@ export function Currency(props: InputProps<number>) {
 	}
 
 	return (
-		<TextInput {...props} value={textValue || ''} placeholder='$' onChange={handleChange} />
+		<TextInputUncontrolled {...props} value={textValue || ''} placeholder='$' onChange={handleChange} />
 	)
 }
 
