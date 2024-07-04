@@ -39,7 +39,7 @@ export declare type LocaleLookup<LanguageT extends string> = {
 };
 export declare function isLocaleLookup<LanguageT extends string>(locales?: LocaleLookup<LanguageT>): locales is LocaleLookup<LanguageT>;
 export declare type ExtractLanguage<LanguageT extends string | undefined> = LanguageT extends string ? LanguageT : never;
-export declare type LangSpec<LanguageT extends string | undefined> = LanguageT extends string ? LocalizedString<LanguageT> : string;
+export declare type LangSpec<LanguageT extends string | undefined = undefined> = ExtractLanguage<LanguageT> extends string ? LocalizedString<ExtractLanguage<LanguageT>> : string;
 export declare function isLocalizedString<LanguageT extends string>(langSpec: any): langSpec is LocalizedString<LanguageT>;
 export declare function getString<LanguageT extends string | undefined>(langSpec: LangSpec<LanguageT>, language?: LanguageT): string | undefined;
 export interface FieldDefinition<FormT, FieldT, LanguageT extends string | undefined> {

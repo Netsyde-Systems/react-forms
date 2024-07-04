@@ -75,7 +75,7 @@ export function isLocaleLookup<LanguageT extends string>(locales?: LocaleLookup<
 
 export type ExtractLanguage<LanguageT extends string | undefined> = LanguageT extends string ? LanguageT : never
 
-export type LangSpec<LanguageT extends string | undefined> = LanguageT extends string ? LocalizedString<LanguageT> : string
+export type LangSpec<LanguageT extends string | undefined = undefined> = ExtractLanguage<LanguageT> extends string ? LocalizedString<ExtractLanguage<LanguageT>> : string
 
 // TODO: make this more specific so that only LangSpec can be input?
 export function isLocalizedString<LanguageT extends string>(langSpec: any): langSpec is LocalizedString<LanguageT> {
