@@ -375,7 +375,7 @@ function getSelectOptions<FormT, FieldT extends string | number, LanguageT exten
 		}
 		else if (typeof fieldDef.selectOptions == 'function') {
 			// Type HACK.  TODO: investigate
-			localizedOptions = fieldDef.selectOptions({ fieldValue, fieldName, formData, formState, formDefinition, externalData }) as any as Array<LocalizedOption<FieldT, LanguageT>>
+			localizedOptions = fieldDef.selectOptions({ fieldValue, fieldName, formData, formState, formDefinition, externalData, language }) as any as Array<LocalizedOption<FieldT, LanguageT>>
 		}
 	}
 
