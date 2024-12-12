@@ -8,6 +8,7 @@ export interface FileInputConfig {
     multiple?: boolean;
     showFileList?: boolean;
     maxFileSizeInBytes?: FileFilter<number>;
+    maxTotalFileSizeInBytes?: FileFilter<number>;
     excludedFileExtensions?: FileFilter<Array<string>>;
     acceptedFileExtensions?: FileFilter<Array<string>>;
 }

@@ -9,17 +9,21 @@ import { InputLabel } from './InputLabel'
 const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 25 * BYTES_PER_KILOBYTE ** 2 // 25 MB
 const DEFAULT_EXCLUDED_FILE_EXTENSIONS = ['exe', 'bat']
 
-const objectToArray = (obj: any) =>
-	Object.keys(obj).map(key => obj[key])
+interface FileLookup {
+	[key: string]: File
+}
 
-function arrayToObject<T>(arr: Array<T>, keySelector: (obj: T) => string) {
-	const dic = arr.reduce((obj, item) => {
+const fileLookupToArray = (lookup: FileLookup) =>
+	Object.keys(lookup).map(key => lookup[key])
+
+function arrayToFileLookup(arr: Array<File>, keySelector: (file: File) => string): FileLookup {
+	const lookup = arr.reduce((dic, item) => {
 		const key = keySelector(item)
-		obj[key] = item
-		return obj
-	}, {} as any)
+		dic[key] = item
+		return dic
+	}, {} as FileLookup)
 
-	return dic
+	return lookup
 }
 
 export interface FileFilter<T> {
@@ -31,6 +35,7 @@ export interface FileInputConfig {
 	multiple?: boolean
 	showFileList?: boolean
 	maxFileSizeInBytes?: FileFilter<number>
+	maxTotalFileSizeInBytes?: FileFilter<number>
 	excludedFileExtensions?: FileFilter<Array<string>>
 	acceptedFileExtensions?: FileFilter<Array<string>>
 }
@@ -41,17 +46,22 @@ export interface FileInputProps extends InputProps<Array<File>>, FileInputConfig
 // Note: File Input does not support standard controlProps like the other inputs do (at this time)
 export function FileInput(props: FileInputProps) {
 	let fileInputField = React.useRef<HTMLInputElement>(null)
-	let fileLookup = arrayToObject(props.value || [], (file) => file.name)
+	let fileLookup = arrayToFileLookup(props.value || [], (file) => file.name)
 
 	const className = getInputEnvelopeClass(props, 'file', 'input')
 
 	const { id, disabled, readOnly, required, multiple, showFileList, placeholder,
-		maxFileSizeInBytes, excludedFileExtensions, acceptedFileExtensions
+		maxFileSizeInBytes, maxTotalFileSizeInBytes, excludedFileExtensions, acceptedFileExtensions
 	} = props
 
 	const filledMaxFileSizeInBytes: FileFilter<number> = Object.assign({},
 		maxFileSizeInBytes,
 		{ criteria: maxFileSizeInBytes?.criteria ?? DEFAULT_MAX_FILE_SIZE_IN_BYTES }
+	)
+
+	const filledMaxTotalFileSizeInBytes: FileFilter<number> = Object.assign({},
+		maxTotalFileSizeInBytes,
+		{ criteria: maxTotalFileSizeInBytes?.criteria ?? DEFAULT_MAX_FILE_SIZE_IN_BYTES }
 	)
 
 	const filledExcludedFileExtensions: FileFilter<Array<string>> = Object.assign({},
@@ -64,10 +74,17 @@ export function FileInput(props: FileInputProps) {
 	}
 
 	const addNewFiles = (newFiles: Array<File>) => {
+		let totalFileSize = fileLookupToArray(fileLookup).reduce((acc, file) => acc + file.size, 0)
+
 		for (let file of newFiles) {
 
 			if (file.size > filledMaxFileSizeInBytes.criteria) {
 				filledMaxFileSizeInBytes.onRejected?.(file)
+				continue
+			}
+
+			if (totalFileSize + file.size > filledMaxTotalFileSizeInBytes.criteria) {
+				filledMaxTotalFileSizeInBytes.onRejected?.(file)
 				continue
 			}
 
@@ -90,7 +107,7 @@ export function FileInput(props: FileInputProps) {
 	}
 
 	const handleFileUpdate = (files: any) => {
-		const filesAsArray = objectToArray(files)
+		const filesAsArray = fileLookupToArray(files)
 		props.onChange(filesAsArray)
 	}
 

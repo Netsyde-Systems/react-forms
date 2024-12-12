@@ -191,7 +191,9 @@ function Controls() {
 
 					<div className='control-row'>
 						<div className='control-cell'>
-							<FileInput id='fileInput' label='File Input' value={fileValue} onChange={setFileValue} placeholder='Upload File' multiple showFileList {...sharedProperties} maxFileSizeInBytes={{criteria: 25 * 1024 ** 2, onRejected: file => alert('file greater than 25MB')}} />
+							<FileInput id='fileInput' label='File Input' value={fileValue} onChange={setFileValue} placeholder='Upload File' multiple showFileList {...sharedProperties} 
+							maxFileSizeInBytes={{criteria: 1 * 1024 ** 2, onRejected: file => alert('file greater than 1MB')}} 
+							maxTotalFileSizeInBytes={{criteria: 5 * 1024 ** 2, onRejected: file => alert('total file size greater than 5MB')}} />
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(fileValue)}
