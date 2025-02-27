@@ -224,7 +224,7 @@ function Controls() {
 							ISO GMT DATE: {dateToIsoGmtShortDateString(dateInputValue)}
 						</div>
 						<div className='control-cell'>
-						<LocalizedDateInput locale={dateLocales[locale]} id='locDatInput' label='Localized Date' value={localizedDateInputValue} onChange={setLocalizedDateInputValue} min={minDate} max={maxDate} {...sharedProperties} />
+						<LocalizedDateInput locale={dateLocales[locale]} id='locDatInput' label='Localized Date' value={localizedDateInputValue} onChange={setLocalizedDateInputValue} {...sharedProperties} />
 						</div>
 						<div className='control-cell'>
 							{nullableValueMessage(localizedDateInputValue)}<br/>

@@ -28,7 +28,7 @@ export function LocalizedDateInput(props: DateInputProps) {
 	return (
 		<div className={className}>
 			<InputLabel {...props} />
-			<DatePicker onChange={handleChange} value={value} locale={props.locale} minDate={min} maxDate={max} {...{ id, disabled }} />
+			<DatePicker onChange={handleChange} value={value} locale={props.locale} minDate={min} maxDate={max} showMonthDropdown showYearDropdown {...{ id, disabled }} />
 			<ErrorMessage {...props} />
 		</div>
 	)

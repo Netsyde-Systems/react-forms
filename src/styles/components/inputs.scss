@@ -6,6 +6,27 @@
 		visibility: hidden;
 	}
 
+	&.date.input {
+		.react-datepicker__current-month {
+			// hide standard month/year display
+			visibility: hidden;
+		}
+
+		.react-datepicker__header__dropdown {
+			// move year/date dropdowns up to replace month/year display
+			position: relative;
+			top: -14px;
+			font-size: larger;
+		}
+
+		// hide dropdown chevrons which are distracting
+		.react-datepicker__year-read-view--down-arrow, 
+		.react-datepicker__month-read-view--down-arrow {
+			display: none;
+		}
+
+	}
+
 	input,
 	textarea,
 	select  {
