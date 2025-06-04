@@ -125,3 +125,20 @@ it('displays error message when specified', () => {
 	errorMessage = control.container.querySelector('.error-message')
 	expect(errorMessage?.textContent).toMatch('Error!!')
 })
+
+
+it('renders option as disabled', () => {
+	const selectOptions: Array<SelectOption<string>> = [
+		{ value: '1', text: 'Option One' }, 
+		{ value: '2', text: 'Option Two', disabled: true }, 
+		{ value: '3', text: 'Option Three' }, 
+	]
+
+	const numberRadio = render(<TextRadio id='selTxtRadioInput' onChange={() => null} label='Expected Text Radio' value={undefined} selectOptions={selectOptions} />)
+
+	const input = numberRadio.getByDisplayValue('1')
+	expect(input).toBeEnabled()
+
+	const disabledInput = numberRadio.getByDisplayValue('2')
+	expect(disabledInput).toBeDisabled()
+})

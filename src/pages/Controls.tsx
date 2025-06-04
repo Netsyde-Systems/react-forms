@@ -120,13 +120,13 @@ function Controls() {
 
 	const textSelectOptions: Array<SelectOption<string>> = [
 		{ value: 'Value One', text: 'Option One' }, 
-		{ value: 'Value Two', text: 'Option Two' }, 
+		{ value: 'Value Two', text: 'Option Two (Disabled)', disabled: true }, 
 		{ value: 'Value Three', text: 'Option Three' }, 
 	]
 
 	const numberSelectOptions: Array<SelectOption<number>> = [
 		{ value: 1, text: 'Option One' }, 
-		{ value: 2, text: 'Option Two' }, 
+		{ value: 2, text: 'Option Two (Disabled)', disabled: true }, 
 		{ value: 3, text: 'Option Three' }, 
 	]
 

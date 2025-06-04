@@ -24,6 +24,7 @@ export interface InputProps<ValueT, ControlAttributesT extends HTMLAttributes<Va
 export interface SelectOption<T> {
     value: T;
     text: string;
+    disabled?: boolean;
 }
 export interface SelectProps<T extends string | number> extends InputProps<T, SelectHTMLAttributes<any>> {
     selectOptions: Array<SelectOption<T>>;

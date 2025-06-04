@@ -145,3 +145,19 @@ it('calls onChange function', async () => {
 
 	expect(handleChange).toHaveBeenCalledWith('Value Two')
 })
+
+it('renders disabled option', () => {
+	const options: Array<SelectOption<string>> = [
+		{ value: 'Value One', text: 'Option One' }, 
+		{ value: 'Value Two', text: 'Option Two', disabled: true }, 
+		{ value: 'Value Three', text: 'Option Three' }, 
+	]
+
+	const rendered = render(<TextSelect id='ctlId' label='Control Label' value='Value One' onChange={() => null} selectOptions={options} />)
+
+	const option = rendered.getByText('Option One')
+	expect(option).toBeEnabled()
+
+	const disabledOption = rendered.getByText('Option Two')
+	expect(disabledOption).toBeDisabled()
+})

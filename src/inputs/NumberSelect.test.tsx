@@ -126,3 +126,19 @@ it('displays error message when specified', () => {
 	errorMessage = control.container.querySelector('.error-message')
 	expect(errorMessage?.textContent).toMatch('Error!!')
 })
+
+it('renders disabled option', () => {
+	const numberSelectOptions: Array<SelectOption<number>> = [
+		{ value: 1, text: 'Option One' }, 
+		{ value: 2, text: 'Option Two', disabled: true }, 
+		{ value: 3, text: 'Option Three' }, 
+	]
+
+	const rendered = render(<NumberSelect id='ctlId' label='Control Label' value={1} onChange={() => null} selectOptions={numberSelectOptions} />)
+
+	const option = rendered.getByText('Option One')
+	expect(option).toBeEnabled()
+
+	const disabledOption = rendered.getByText('Option Two')
+	expect(disabledOption).toBeDisabled()
+})

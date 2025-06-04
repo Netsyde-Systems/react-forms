@@ -29,7 +29,7 @@ export function GenericSelect<T>(props: GenericSelectProps<T>) {
 
 	const options = props.selectOptions.map((option, optionIndex) => {
 		return (
-			<option key={optionIndex} value={props.valueToString(option.value)}>{option.text}</option>
+			<option key={optionIndex} value={props.valueToString(option.value)} disabled={option.disabled}>{option.text}</option>
 		)
 	})
 

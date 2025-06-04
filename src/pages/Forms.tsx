@@ -40,25 +40,29 @@ const testFormDefinition: FormDefinition<TestFormShape> = {
 		selectStringProperty: {
 			selectOptions: [
 				{ value: 'First', text: 'First Option' },
-				{ value: 'Second', text: 'Second Option' },
+				{ value: 'Second', text: 'Second Option (Disabled)', disabled: true },
+				{ value: 'Third', text: 'Third Option' },
 			]
 		},
 		selectNumberProperty: {
 			selectOptions: [
 				{ value: 1, text: 'First Option' },
-				{ value: 2, text: 'Second Option' },
+				{ value: 2, text: 'Second Option (Disabled)', disabled: true },
+				{ value: 3, text: 'Third Option' },
 			]
 		},
 		radioStringProperty: {
 			selectOptions: [
 				{ value: 'First', text: 'First Option' },
-				{ value: 'Second', text: 'Second Option' },
+				{ value: 'Second', text: 'Second Option (Disabled)', disabled: true },
+				{ value: 'Third', text: 'Third Option' },
 			]
 		},
 		radioNumberProperty: {
 			selectOptions: [
 				{ value: 1, text: 'First Option' },
-				{ value: 2, text: 'Second Option' },
+				{ value: 2, text: 'Second Option (Disabled)', disabled: true },
+				{ value: 3, text: 'Third Option' },
 			]
 		}, 
 		filesProperty: {

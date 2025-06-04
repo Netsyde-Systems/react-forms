@@ -40,14 +40,15 @@ export interface FieldSpecifierFunction<FormT, OutputT, LanguageT extends string
 export type LocalizedOption<ValueT extends string | number, LanguageT extends string | undefined = undefined> = {
 	value: ValueT
 	text: LangSpec<LanguageT>
+	disabled?: boolean
 }
 
 export function convertToSelectOption<ValueT extends string | number, LanguageT extends string | undefined = undefined>(localizedOption: LocalizedOption<ValueT, LanguageT>, language?: LanguageT): SelectOption<ValueT> {
-	let { text: localizedText, value } = localizedOption
+	let { text: localizedText, value, disabled } = localizedOption
 
 	const text = getString(localizedText, language) ?? ''
 
-	return { value, text }
+	return { value, text, disabled }
 }
 
 // Select Options Specifier can be static list of select options, or can depend on state of form

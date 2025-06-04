@@ -11,7 +11,7 @@ export function NumberRadio(props: SelectProps<number>) {
 			else onChange(numVal)
 	}
 
-	let textSelectOptions: Array<SelectOption<string>> = selectOptions.map(({ text, value }) => { return { text, value: value.toString() } })
+	let textSelectOptions: Array<SelectOption<string>> = selectOptions.map(({ text, value, disabled }) => { return { text, value: value.toString(), disabled } })
 
 	let textProps: SelectProps<string> = { ...props, value: textValue, onChange: textOnChange, selectOptions: textSelectOptions }
 
