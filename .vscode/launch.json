@@ -10,6 +10,20 @@
 			"name": "Launch Chrome against localhost",
 			"url": "http://localhost:46417",
 			"webRoot": "${workspaceFolder}"
+		},
+		{
+			"type": "firefox",
+			"request": "launch",
+			"name": "Launch Firefox against localhost",
+			"url": "http://localhost:46417",
+			"webRoot": "${workspaceFolder}", 
+			"reAttach": true,
+			"pathMappings": [
+				{
+					"url": "webpack:///",
+					"path": "${workspaceFolder}/"
+				}
+			]
 		}
 	]
 }
